@@ -1,0 +1,21 @@
+id	name	structure	formula	mass	exactmass
+PhenylalanineResidue	Phenylalanine residue	CN[C@@H](CC1=CC=CC=C1)C(=O)NC	C11H16N2O	192.262	192.1262631
+TyrosineResidue	Tyrosine residue	CN[C@@H](CC1=CC=C(O)C=C1)C(=O)NC	C11H16N2O2	208.261	208.1211778
+TryptophanResidue	Tryptophan residue	CN[C@@H](CC1=CNC2=C1C=CC=C2)C(=O)NC	C13H17N3O	231.299	231.1371622
+AlanineResidue	Alanine residue	CNC(C)C(=O)NC	C5H12N2O	116.164	116.094963
+ArginineResidue	Arginine residue	CNC(CCCNC(N)=N)C(=O)NC	C8H19N5O	201.274	201.1589603
+AsparagineResidue	Asparagine residue	CN[C@@H](CC(N)=O)C(=O)NC	C6H13N3O2	156.189	159.1007767
+AspartateResidue	Aspartate residue	CN[C@@H](CC(O)=O)C(=O)NC	C6H12N2O3	160.173	160.0847923
+CysteineResidue	Cysteine residue	CNC(CS)C(=O)NC	C5H12N2OS	148.22	148.0670342
+GlutamineResidue	Glutamine residue	CN[C@@H](CCC(N)=O)C(=O)NC	C7H15N3O2	173.216	173.1164267
+GlutamateResidue	Glutamate residue	CNC(CCC(O)=O)C(=O)NC	C7H14N2O3	174.2	174.1004423
+GlycineResidue	Glycine residue	CNCC(=O)NC	C4H10N2O	102.137	102.079313
+HistidineResidue	Histidine residue	CN[C@@H](CC1=CN=CN1)C(=O)NC	C8H14N4O	182.227	182.1167611
+IsoleucineResidue	Isoleucine residue	CC[C@H](C)[C@H](NC)C(=O)NC	C8H18N2O	158.245	158.1419132
+LeucineResidue	Leucine residue	CNC(CC(C)C)C(=O)NC	C8H18N2O	158.245	158.1419132
+LysineResidue	Lysine residue	CNC(CCCCN)C(=O)NC	C8H19N3O	173.26	173.1528122
+MethionineResidue	Methionine residue	CN[C@@H](CCSC)C(=O)NC	C7H16N2OS	176.28	176.0983343
+ProlineResidue	Proline residue	CNC(=O)C1CCCN1C	C7H14N2O	142.202	142.1106131
+SerineResidue	Serine residue	CN[C@@H](CO)C(=O)NC	C5H12N2O2	132.163	132.0898776
+ThreonineResidue	Threonine residue	CN[C@@H]([C@@H](C)O)C(=O)NC	C6H14N2O2	146.19	146.1055277
+ValineResidue	Valine residue	CN[C@@H](C(C)C)C(=O)NC	C7H16N2O	144.218	144.1262631
