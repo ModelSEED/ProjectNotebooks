@@ -28,8 +28,8 @@ class MSCommFitting():
         # define data sources
         self.parameters, self.variables, self.constraints, self.dataframes = {}, {}, {}, {}
         
-    def load_data(self,phenotypes_csv_path: dict = {},  # the dictionary of indicies for each paths to signal CSV data that will be fitted
-                  signal_tsv_paths: dict = {},       # the dictionary of indicies for each paths to signal TSV data that will be fitted
+    def load_data(self,phenotypes_csv_path: dict = {},  # the dictionary of index names for each paths to signal CSV data that will be fitted
+                  signal_tsv_paths: dict = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
                   ):
         self.num_species = len(signal_tsv_paths)-1 #!!! is this a good estimation for the number of species?
         for path, content in phenotypes_csv_path.items():
