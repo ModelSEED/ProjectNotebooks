@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
-from numpy import array
+from optlang.symbolics import Zero
+# from numpy import array
 # from cplex import Cplex
 import os
 
@@ -68,116 +69,118 @@ class MSCommFitting():
         strain_independent = True
         for strain in self.phenotypes_df:
             for name, df in self.dataframes.items(): 
+                last_column = False
+                
                 # define biomass measurement conversion variables 
                 self.variables[name+'__conversion'] = Variable(name+'__conversion', type='continuous', lb=0, ub=1000)
                 if strain_independent:
+                    # define metabolite variable/constraint
+                    for met, col in self.phenotypes_df.to_dict().items():
+                        for index in df.index:
+                            # define biomass measurement conversion variables 
+                            self.variables["c_"+met][index][col] = Variable(
+                                _variable_name("c_", met, col, index), lb=0, ub=1000)                            
+                            variables.append(self.variables["c_"+met][index][col])
+                    
                     # define biomass measurement conversion variables 
                     self.variables[name+'__conversion'] = Variable(name+'__conversion', type='continuous', lb=0, ub=1000)
-                    signal_bool = self.species_phenotypes_bool_df[name]
+                    variables.append(self.variables[name+'__conversion'])
                     for index in df.index:
                         self.variables[name+'__bio'][index], self.variables[name+'__diff'][index] = {}, {}
                         self.variables[name+'__diff'][index], self.constraints[name+'__bioc'][index] = {}, {}
                         for col in df:
                             total_biomass = [self.variables["b_"+strain][col][index] for strain in self.phenotypes_df] 
-                            # measured biomass abundance
+                            # define variables
                             self.variables[name+'__bio'][index][col] = Variable(      
                                 _variable_name(name, '__bio', col, index), lb=0, ub=1000)
-                            
-                            # biomass growth 
-                            # self.variables[name+'__growth'][index][col] = Variable(     
-                            #     _variable_name(name, '__growth', col, index), lb=-100, ub=100)
-                            
-                            # differential between measured and predicted biomass abundace 
                             self.variables[name+'__diff'][index][col] = Variable(       
                                 _variable_name(name, '__diff', col, index), lb=-100, ub=100)
-                            variables.extend([self.variables[name+'__bio'][index][col], self.variables[name+'__diff'][index][col]])
                             
                             # {name}__conversion*datum = {name}__bio
                             self.constraints[name+'__bioc'][index][col] = Constraint(
-                                 self.variables[name+'__conversion']*experimental_signal - self.variables[name+'__bio'][index][col], 
+                                 self.variables[name+'__conversion']*df.at[index, col] - self.variables[name+'__bio'][index][col], 
                                  name=_constraint_name(name, '__bioc', col, index), 
                                  lb=0, ub=0)
+                            
+                            # add variables, constraints, and objective coefficients
+                            obj_coef[self.variables[name+'__diff'][index][col]] = 1
+                            variables.extend([self.variables[name+'__bio'][index][col], self.variables[name+'__diff'][index][col]])
                             constraints.extend(self.constraints[name+'__bioc'][index][col])
                     strain_independent = False
                 for index in df.index: 
                     self.variables['b_'+strain][index], self.constraints['g_'+strain][index] = {}, {}
                     self.variables['cvt_'+strain][index], self.constraints['cvf_'+strain][index] = {}, {}
                     for col in df:
+                        next_col = str(int(col)+1)
+                        if next_col == len(df.columns):
+                            last_column = True
                         # define variables
                         self.variables['v_'+strain][index][col] = Variable(    # predicted kinetic coefficient
                             _variable_name("v_", strain, col, index), lb=0, ub=1000)                          
                         self.variables['b_'+strain][index][col] = Variable(    # predicted biomass abundance
                             _variable_name("b_", strain, col, index), lb=0, ub=1000)   
+                        self.variables['b+1_'+strain][index][next_col] = Variable(    # predicted biomass abundance
+                            _variable_name("b+1_", strain, next_col, index), lb=0, ub=1000)   
                         self.variables['g_'+strain][index][col] = Variable(    # biomass growth
                             _variable_name("g_", strain, col, index), lb=0, ub=1000)    
                         self.variables['cvt_'+strain][index][col] = Variable(  # conversion rate to the stationary phase
                             _variable_name("cvt_", strain, col, index), lb=0, ub=100)   
                         self.variables['cvf_'+strain][index][col] = Variable(  # conversion from to the stationary phase
                             _variable_name("cvf_", strain, col, index), lb=0, ub=100)
-                        variables.extend([
-                            self.variables['g_'+strain][index][col], self.variables['b_'+strain][index][col],
-                            self.variables['cvt_'+strain][index][col], self.variables['cvf_'+strain][index][col]])
-                            
-                        # !!! t+1 constraints that are still under development
-                        # self.constraints["dbc"][index][col] = Constraint(
-                        #     _constraint_name("dbc_", strain, col, index), lb=0, ub=0)
+                        
+                        # g_{strain} - b_{strain}*v = 0
                         self.constraints['gc_'+strain][index][col] = Constraint(
                             self.variables['g_'+strain][index][col] 
-                            - self.parameters['v']*self.variables['b_'+strain][index][col],   # !!! The v kinetic coefficient may need to be an Optlang variable to be optimized
+                            - self.parameters['v']*self.variables['b_'+strain][index][col],  
                             _constraint_name("gc_", strain, col, index), lb=0, ub=0)
+                        
+                        # 0 <= -cvt + bcv*b_{strain} + cvmin
                         self.constraints["cvc_"+strain][index][col] = Constraint(
-                            self.parameters['bcv']*self.variables['b_'+strain][index][col] - self.parameters['cvmin'] 
-                            - self.variables['cvt_'+strain][index][col],
+                            -self.variables['cvt_'+strain][index][col] 
+                            + self.parameters['bcv']*self.variables['b_'+strain][index][col] 
+                            + self.parameters['cvmin'],
                             _constraint_name("cvc_", strain, col, index), lb=0, ub=None)
-                        # {name}__bio - sum_k^K(signal_bool*{name}__conversion*datum) = {name}__diff
-                        signal_sum = [self.variables["b_"+strain][col][index]*self.species_phenotypes_bool_df.loc[name, strain] for strain in self.phenotypes_df] 
+                        
+                        # {name}__bio - sum_k^K(signal_bool*{name}__conversion*datum) - {name}__diff = 0
+                        signal_sum = 0 if 'OD' in name else sum([
+                            self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][col][index] for strain in self.phenotypes_df]) 
                         self.constraints[name+'__diffc'][index][col] = Constraint(   
                              (self.variables[name+'__bio'][index][col]-signal_sum)/total_biomass
                              - self.variables[name+'__diff'][index][col], 
                              name=_constraint_name(name, '__diffc', col, index), lb=0, ub=0)
-                        if "stationary" in strain:  # not done coding this constraint
-                            b1 = _constraint_name("b1_", strain, col, index)
-                            col2 = int(col)+1
-                            b2 = _constraint_name("b_", strain, col, index)  # need to do something about the variables that are out of time range
-                            c = _constraint_name("cvt_", strain, col, index)
-                            f = _constraint_name("cvf_", strain, col, index)
-                            const = Constraint(
-                                self.variables["b"][b2]-self.variables["b"][b1],
+                        if "stationary" in strain:  
+                            # b_{strain} - sum_k^K(pheno_bool*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{strain} = 0
+                            from_sum = sum([self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvf_'+strain][index][col] for strain in self.phenotypes_df])
+                            to_sum = sum([self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvt_'+strain][index][col] for strain in self.phenotypes_df])
+                            self.constraints['dbc_'+strain][index][col] = Constraint(
+                                self.variables['b_'+strain][index][col] - from_sum + to_sum - self.variables['b+1_'+strain][index][next_col],
                                 ub=0, lb=0, name=_constraint_name("dbc_", strain, col, index))
-                        else:  # !!! The non-stationary constraint still must be developed
-                            pass
+                        else:
+                            # -b_{strain} + dt*g_{strain} + cvf - cvt - b+1_{strain} = 0
+                            self.constraints['dbc_'+strain][index][col] = Constraint(
+                                -self.variables['b_'+strain][index][col]
+                                + self.parameters['timestep_s']*self.variables['g_'+strain][index][col]
+                                + self.variables['cvf_'+strain][index][col] - self.variables['cvt_'+strain][index][col]
+                                - self.variables['b+1_'+strain][index][next_col],
+                                ub=0, lb=0, name=_constraint_name("dbc_", strain, col, index))
                             
-                        constraints.extend([
-                            self.constraints["gc"][index][col], self.constraints["cvc"][index][col],
-                            self.constraints['gc_'+strain][index][col], self.constraints["cvc"][index][col],
-                            self.constraints[name+'__diffc'][index][col]])
-                    
-        # define metabolite variable/constraint
-        for met, col in self.phenotypes_df.to_dict().items():
-            for index in df.index:
-                # define biomass measurement conversion variables 
-                self.variables[name+'__conversion'] = Variable(name+'__conversion', type='continuous', lb=0, ub=1000)
-                self.variables["c_"+met][index][col] = Variable(
-                    _variable_name("c_", met, col, index), lb=0, ub=1000)
-                variables.extend([self.variables[name+'__conversion'], self.variables["c_"+met][index][col]])
-                # growth_stoich = sum([self.phenotypes_df.loc[met, col]*self.variables['g_'+strain][index][col] for strain in self.phenotypes_df])
-                # self.constraints["dcc"][index][col] = Constraint(   # !!! t+1 constraints that are still under development
-                #     self.variables["c_"+met][index][col] - self.parameters['timestep_s']*growth_stoich,
-                #     _constraint_name('dcc_', met, col, index),
-                #     ub=0, lb=0)
-            
-        # construct the objective function
-        for name, df in self.dataframes.items():
-            coef[_variable_name(name, '__diff', col, index)] = _variable_name(name, '__diff', col, index)
-            if "OD" in name:
-                for strain in self.phenotypes_df:
-                    coef.update({
-                        sum(items for items in self.parameters["cvct"] * "cvt_"+strain+ "_"+col+"_"+index): -1,
-                        sum(items for items in self.parameters["cvcf"] * "cvf_"+strain+ "_"+col+"_"+index): -1})
-                    
+                        # assemble variables, constraints, and objective coefficients
+                        variables.extend([
+                            self.variables['g_'+strain][index][col], self.variables['b_'+strain][index][col],
+                            self.variables['cvt_'+strain][index][col], self.variables['cvf_'+strain][index][col]])
+                        obj_coef[self.variables['cvt_'+strain][index][col]*self.parameters['cvct']] = -1
+                        obj_coef[self.variables['cvf_'+strain][index][col]*self.parameters['cvcf']] = -1
+                        constraints.extend([self.constraints['cvc_'+strain][index][col], self.constraints['gc_'+strain][index][col],
+                                            self.constraints[name+'__diffc'][index][col]], self.constraints['dbc_'+strain][index][col])
+                        if last_column:
+                            break
+                    if last_column:
+                        break
+                   
         # construct the problem
         self.problem.add(constraints+variables)
-        self.problem.objective = Objective(obj_coef, direction="min")
+        self.problem.objective = Objective(Zero, direction="min")
+        self.problem.objective.set_linear_coefficients(obj_coef)
                 
     def _export(self, filename):
         with open(filename, 'w') as out:
