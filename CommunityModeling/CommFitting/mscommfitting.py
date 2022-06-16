@@ -36,7 +36,7 @@ class MSCommFitting():
             signal = os.path.splitext(path)[0].split("_")[0]
             # define the signal dataframe
             self.signal_species[signal] = name
-            self.dataframes[signal] = read_table(path)
+            self.dataframes[signal] = read_table(path).iloc[1::2]  # !!! is this the proper slice of data, or should the other set of values at each well/time be used?
             self.dataframes[signal].index = self.dataframes[signal]['Well']
             for col in ['Plate', 'Cycle', 'Well']:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
@@ -68,8 +68,10 @@ class MSCommFitting():
         
         # define all biomass and growth variables
         for strain in self.phenotypes_df:
+            self.variables['b_'+strain], self.variables['g_'+strain] = {}, {}
             for name, df in self.dataframes.items():
                 for index in df.index:
+                    self.variables['b_'+strain][index], self.variables['g_'+strain][index] = {}, {}
                     for col in df.columns:
                         self.variables['b_'+strain][index][col] = Variable(    # predicted biomass abundance
                             _variable_name("b_", strain, col, index), lb=0, ub=1000)  
@@ -80,19 +82,18 @@ class MSCommFitting():
         # define predicted variables for each strain, time, and trial
         strain_independent = True
         for strain in self.phenotypes_df:
-            self.variables['b_'+strain], self.variables['b+1_'+strain], self.variables['cvt_'+strain] = {}, {}, {}
-            self.variables['v_'+strain], self.variables['cvt_'+strain], self.variables['v_'+strain] = {}, {}, {}
-            self.constraints['gc_'+strain], self.constraints['cvc_'+strain], self.constraints['cvf_'+strain] = {}, {}, {}
+            self.variables['b+1_'+strain], self.variables['cvt_'+strain]  = {}, {}
+            self.variables['cvf_'+strain], self.variables['v_'+strain] = {}, {}
+            self.constraints['gc_'+strain], self.constraints['cvc_'+strain] = {}, {}
+            self.constraints['dbc_'+strain] = {}
             for name, df in self.dataframes.items():
-                self.variables[name+'__bio'], self.variables[name+'__diff'] = {}, {}
-                self.constraints[name+'__bioc'], self.constraints[name+'__diffc'] = {}, {}
                 last_column = False
-                
                 for index in df.index: 
-                    self.variables['b_'+strain][index], self.constraints['g_'+strain][index] = {}, {}
-                    self.variables['cvt_'+strain][index], self.constraints['cvf_'+strain][index] = {}, {}
-                    self.variables[name+'__bio'][index], self.variables[name+'__diff'][index] = {}, {}
-                    self.constraints[name+'__bioc'][index], self.constraints[name+'__diffc'][index] = {}, {}
+                    self.variables['cvt_'+strain][index], self.variables['cvf_'+strain][index] = {}, {}
+                    self.variables['v_'+strain][index], self.variables['b+1_'+strain][index] = {}, {}
+                    self.constraints['gc_'+strain][index], self.constraints['cvc_'+strain][index] = {}, {}
+                    self.constraints['dbc_'+strain][index] = {}
+                    
                     for col in df:
                         next_col = str(int(col)+1)
                         if next_col == len(df.columns):
@@ -100,7 +101,7 @@ class MSCommFitting():
                         # define variables
                         self.variables['v_'+strain][index][col] = Variable(    # predicted kinetic coefficient
                             _variable_name("v_", strain, col, index), lb=0, ub=1000)                          
-                        self.variables['b+1_'+strain][index][col] = Variable(  # predicted biomass abundance
+                        self.variables['b+1_'+strain][index][next_col] = Variable(  # predicted biomass abundance
                             _variable_name("b+1_", strain, next_col, index), lb=0, ub=1000)      
                         self.variables['cvt_'+strain][index][col] = Variable(  # conversion rate to the stationary phase
                             _variable_name("cvt_", strain, col, index), lb=0, ub=100)   
@@ -121,8 +122,10 @@ class MSCommFitting():
                             _constraint_name("cvc_", strain, col, index), lb=0, ub=None)
                         
                         if strain_independent:
+                            self.variables[name+'__bio'], self.variables[name+'__diff'] = {}, {}
+                            self.constraints[name+'__bioc'], self.constraints[name+'__diffc'] = {}, {}
                             self.variables[name+'__bio'][index], self.variables[name+'__diff'][index] = {}, {}
-                            self.constraints[name+'__bioc'][index], self.variables[name+'__diffc'][index] = {}, {}
+                            self.constraints[name+'__bioc'][index], self.constraints[name+'__diffc'][index] = {}, {}
                             
                             # define variables
                             self.variables[name+'__conversion'] = Variable(name+'__conversion', lb=0, ub=1000)
@@ -133,8 +136,11 @@ class MSCommFitting():
    
                             # define metabolite variable/constraint
                             for met, row in self.phenotypes_df.iterrows():
+                                self.variables["c_"+met], self.variables["c+1_"+met] = {}, {}
+                                self.variables["c_"+met][index], self.variables["c+1_"+met][index] = {}, {}
+                                self.constraints['dcc_'+met], self.constraints['dcc_'+met][index] = {}, {}
                                 growth_sum = sum(growth_stoich*self.variables['g_'+strain][index][col] 
-                                    for growth_stoich in row.values() for strain in self.phenotypes_df)
+                                    for growth_stoich in row.values for strain in self.phenotypes_df)
                             
                                 # define biomass measurement conversion variables 
                                 self.variables["c_"+met][index][col] = Variable(
@@ -149,7 +155,7 @@ class MSCommFitting():
                                     - self.variables["c+1_"+met][index][col],
                                     ub=0, lb=0, name=_constraint_name("dcc_", met, index, col))
                                 
-                                variables.extend([self.variables["c_"+met][name][col], self.variables["c+1_"+met][index][col]])
+                                variables.extend([self.variables["c_"+met][index][col], self.variables["c+1_"+met][index][col]])
                                 constraints.append(self.constraints['dcc_'+met][index][col])
                             
                             # {name}__conversion*datum = {name}__bio
@@ -162,14 +168,14 @@ class MSCommFitting():
                             variables.extend([
                                 self.variables[name+'__bio'][index][col], self.variables[name+'__diff'][index][col],
                                 self.variables[name+'__conversion']])
-                            constraints.extend(self.constraints[name+'__bioc'][index][col])
+                            constraints.extend([self.constraints['dcc_'+met][index][col], self.constraints[name+'__bioc'][index][col]])
                         
                         # {name}__bio - sum_k^K(signal_bool*{name}__conversion*datum) - {name}__diff = 0
-                        total_biomass = [self.variables["b_"+strain][col][index] for strain in self.phenotypes_df] 
+                        total_biomass = sum(self.variables["b_"+strain][index][col] for strain in self.phenotypes_df)
                         signal_sum = 0 if 'OD' in name else sum(   # the OD strain has a different constraint, hence it is strain-dependent
-                            self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][col][index] for strain in self.phenotypes_df) 
+                            self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][index][col] for strain in self.phenotypes_df) 
                         self.constraints[name+'__diffc'][index][col] = Constraint(   
-                             (self.variables[name+'__bio'][index][col]-signal_sum)/total_biomass
+                             self.variables[name+'__bio'][index][col]-signal_sum
                              - self.variables[name+'__diff'][index][col], 
                              name=_constraint_name(name, '__diffc', col, index), lb=0, ub=0)
                         
@@ -194,7 +200,7 @@ class MSCommFitting():
                         obj_coef[self.variables['cvt_'+strain][index][col]*self.parameters['cvct']] = -1
                         obj_coef[self.variables['cvf_'+strain][index][col]*self.parameters['cvcf']] = -1
                         constraints.extend([self.constraints['cvc_'+strain][index][col], self.constraints['gc_'+strain][index][col],
-                                            self.constraints[name+'__diffc'][index][col]], self.constraints['dbc_'+strain][index][col])
+                                            self.constraints[name+'__diffc'][index][col], self.constraints['dbc_'+strain][index][col]])
                         if last_column:
                             break
                     if last_column:
@@ -206,9 +212,13 @@ class MSCommFitting():
         self.problem.objective = Objective(Zero, direction="min")
         self.problem.objective.set_linear_coefficients(obj_coef)
                 
-    def _export(self, filename):
-        with open(filename, 'w') as out:
-            out.writelines(
-                ['|'.join(['parameter', param, content+": "+str(self.parameters[param][content])]) for param, content in self.parameters.items()]
-                + ['|'.join(['variable', var, content+": "+str(self.parameters[var][content])]) for var, content in self.variables.items()]
-                + ['|'.join(['constant', const, content+": "+str(self.parameters[const][content])]) for const, content in self.constants.items()])
+    def _export(self, filename=None, print_lp=True):
+        if filename:
+            with open(filename, 'w') as out:
+                out.writelines(
+                    ['|'.join(['parameter', param, content+": "+str(self.parameters[param][content])]) for param, content in self.parameters.items()]
+                    + ['|'.join(['variable', var, content+": "+str(self.parameters[var][content])]) for var, content in self.variables.items()]
+                    + ['|'.join(['constant', const, content+": "+str(self.parameters[const][content])]) for const, content in self.constants.items()])
+        if print_lp:
+            with open('mscommfitting.lp', 'w') as lp:
+                lp.write(self.problem.solver)
