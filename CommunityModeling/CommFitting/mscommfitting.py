@@ -1,163 +1,224 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Jun  6 18:45:54 2022
-
-@author: Andrew Freiburger
-"""
-
 from pandas import read_table, read_csv, DataFrame
-from optlang import Model, Variable, Constraint
-from optlang.cplex_interface import Model
-from configparser import ConfigParser
-from cplex import Cplex
-import sys, os
+from optlang import Variable, Constraint, Objective, Model
+from optlang.symbolics import Zero
+# from pprint import pprint
+# from numpy import array
+# from cplex import Cplex
+import os
+
+def _variable_name(name, suffix, col, index):
+    return '-'.join([name+suffix, col, index])
+
+def _constraint_name(name, suffix, col, index):
+    return '_'.join([name+suffix, col, index])
+
+def _variance():
+    pass
 
 class MSCommFitting():
     def __init__(self):
-        cplex_problem = Cplex()
-        cplex_problem.read("baseproblem.lp")
-        self.model = Model(problem=cplex_problem)
-                
-        config = ConfigParser()
-        os.chdir('/Users/ffoflonker/Documents/Command_line/Notebooks/Synbio/ecoli_staph_coculture')
-        config.read("config.cfg")
-        paths = config.get("script", "syspaths").split(";")
-        for path in paths:
-            sys.path.append(path)
-            
-        # define data sources
         self.parameters, self.variables, self.constraints, self.dataframes = {}, {}, {}, {}
         
-    def load_data(self,phenotypes_csv_path: dict = {},  # the dictionary of indicies for each paths to signal CSV data that will be fitted
-                  signal_tsv_paths: dict = {},       # the dictionary of indicies for each paths to signal TSV data that will be fitted
+    def load_data(self, media_name: str = None,      # the name of the media that defines the experimental conditions
+                  phenotypes_csv_path=None,        # the dictionary of index names for each paths to signal CSV data that will be fitted
+                  signal_tsv_paths: list = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
                   ):
-        self.num_species = len(signal_tsv_paths)-1 #!!! is this a good estimation for the number of species?
-        for path, content in phenotypes_csv_path.items():
-            with open(path, 'w') as data:
-                self.phenotypes_df = read_csv(data)
-                self.phenotypes_df.index = content['index']
-                for col in content['drops']:
-                    self.phenotypes_df.drop(col, axis=1, inplace=True)
-        for path, content in signal_tsv_paths.items():
-            with open(path, 'w') as data:
-                self.dataframes[os.path.splitext(path)[0]] = read_table(data, delimiter ='\t')
-                self.dataframes[os.path.splitext(path)[0]].index = content['index']
-                for col in content['drops']:
-                    self.dataframes[os.path.splitext(path)[0]].drop(col, axis=1, inplace=True)
+        self.num_species = len(signal_tsv_paths)-1  # !!! is this a good estimation for the number of species?
+        self.phenotypes_df = read_csv(phenotypes_csv_path)
+        self.phenotypes_df.index = self.phenotypes_df['rxn']
+        for col in ['rxn name', 'rxn']:
+            self.phenotypes_df.drop(col, axis=1, inplace=True)
                 
-    def define_conditions(self, 
-                        conversion_rates = {'cvt':{}, 'cvf':{}},
-                        constraints = {'cvc': {}},
-                        ):
-        species_phenotypes_bool_df = DataFrame(index = [signal for signal in self.dataframes if "OD" not in signal], columns = self.phenotypes_df.columns)
-        species_phenotypes_bool_df.fillna(0)
-        variables, constraints, parameters = {}, {}, {}
-        variables['b'], variables['g'], variables['c'] = {}, {}, {}
-        constraints['dbc'], constraints['gc'], constraints['dcc'], constraints['dbc'] = {}, {}, {}, {}
-        parameters.update({
-            "dt":{"dt":600},       # Size of time step used in simulation in seconds
-            "cvct":{"cvct":1},     # Coefficient for the minimization of phenotype conversion to the stationary phase. 
-            "cvcf":{"cvcf":1},     # Coefficient for the minimization of phenotype conversion from the stationary phase. 
-            "bcv":{"bcv":1},       # This is the highest fraction of biomass for a given strain that can change phenotypes in a single time step
-            "cvmin":{"cvmin":0.1}, # This is the lowest value the limit on phenotype conversion goes, 
-            "y":{},                # Stoichiometry for interaction of strain k with metabolite i
-            "v":{}
+        self.signal_species = {}
+        self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_df.columns)
+        for path, name in signal_tsv_paths.items():
+            signal = os.path.splitext(path)[0].split("_")[0]
+            # define the signal dataframe
+            self.signal_species[signal] = name
+            self.dataframes[signal] = read_table(path).iloc[1::2]  # !!! is this the proper slice of data, or should the other set of values at each well/time be used?
+            self.dataframes[signal].index = self.dataframes[signal]['Well']
+            for col in ['Plate', 'Cycle', 'Well']:
+                self.dataframes[signal].drop(col, axis=1, inplace=True)
+        
+            # differentiate the phenotypes for each species
+            self.parameters[signal] = {}
+            self.variables[signal+'__coef'], self.variables[signal+'__bio'], self.variables[signal+'__diff'] = {}, {}, {}
+            self.constraints[signal+'__bioc'], self.constraints[signal+'__diffc'] = {}, {}
+            if "OD" not in signal:
+                self.species_phenotypes_bool_df.loc[signal] = [
+                    1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_df.columns]  # !!! This must still be applied
+                
+    def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, constraints={'cvc': {}}):  # !!! the arguments are never used
+        self.variables['bio_abundance'], self.variables['growth_rate'], self.variables['conc_met'], obj_coef = {}, {}, {}, {}
+        self.constraints['dbc'], self.constraints['gc'], self.constraints['dcc'] = {}, {}, {}
+        constraints, variables = [], []
+        self.problem = Model()
+        
+        self.parameters.update({
+            "timestep_s": 600,      # Size of time step used in simulation in seconds
+            "cvct": 1,      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
+            "cvcf": 1,      # Coefficient for the minimization of phenotype conversion from the stationary phase. 
+            "bcv": 1,       # This is the highest fraction of biomass for a given strain that can change phenotypes in a single time step
+            "cvmin": 0.1,     # This is the lowest value the limit on phenotype conversion goes, 
+            "y": 1,         # Stoichiometry for interaction of strain k with metabolite i
+            "v": 1,
         })
-        for signal in self.dataframes:
-            parameters[signal] = {}
-            variables[signal+'__c'], variables[signal+'__b'], variables[signal+'__e'] = {}, {}, {}
-            constraints[signal+'__bc'], constraints[signal+'__ec'] = {}, {}
-            if not "OD" in signal:
-                for pheno in self.phenotypes_df.columns:
-                    species_phenotypes_bool_df.loc[signal,pheno] = 1   #!!! This must still be applied in a later calculation
-        self.variables.update(variables)
-        self.constraints.update(constraints)
-        self.parameters.update(parameters)
-
-    def _constraints(self,):
-        for var in self.varables:
-            if '__c' in var:
-                self.varables[var]['C_'+var] = Variable('C_'+var, lb=0,ub=1000)
+        self.parameters.update(conversion_rates)
         
-        for name, df in self.dataframes.items():
-            for index in df.index:
-                for col in df:
-                    x='-'.join([name+'__b', col, index])
-                    y='-'.join([name+'__e', col, index])
-                    a='-'.join([name+'__bc', col, index])
-                    b='-'.join([name+'__ec', col, index])
-                    
-                    self.variables[name+'__b'][x]=Variable(x, lb=0,ub=1000)
-                    self.variables[name+'__e'][y]=Variable(y, lb=-100,ub=100)
-                    self.constraints[name+'__bc'][a]=a
-                    self.constraints[name+'__ec'][b]=b
-            
-                    if 'OD' in name:              
-                        for strain in self.phenotypes:
-                            z='-'.join(["b_"+strain, col, index])
-                            a='-'.join(["g_"+strain, col, index])
-                            b='-'.join(["cvt_"+strain, col, index])
-                            c='-'.join(["cvf_"+strain, col, index])
-                            d='-'.join(["dbc_"+strain, col, index])
-                            e='-'.join(["gc_"+strain, col, index])
-                            f='-'.join(["cvc_"+strain, col, index])
+        # define all biomass and growth variables
+        for strain in self.phenotypes_df:
+            self.variables['b_'+strain], self.variables['g_'+strain] = {}, {}
+            for name, df in self.dataframes.items():
+                for index in df.index:
+                    self.variables['b_'+strain][index], self.variables['g_'+strain][index] = {}, {}
+                    for col in df.columns:
+                        self.variables['b_'+strain][index][col] = Variable(    # predicted biomass abundance
+                            _variable_name("b_", strain, col, index), lb=0, ub=1000)  
+                        self.variables['g_'+strain][index][col] = Variable(    # biomass growth
+                            _variable_name("g_", strain, col, index), lb=0, ub=1000)   
+                        variables.extend([self.variables['b_'+strain][index][col], self.variables['g_'+strain][index][col]])
                             
-                            self.variables["b"][z]=Variable(z, lb=0,ub=1000)
-                            self.variables["g"][a]=Variable(a, lb=0,ub=1000)
-                            self.variables["cvt"][b]=Variable(b, lb=0,ub=100)
-                            self.variables["cvf"][c]=Variable(c, lb=0,ub=100)
-                            self.constraints["dbc"][d]=d
-                            self.constraints["gc"][e]=e
-                            self.constraints["cvc"][f]=f
-            
-            for met in self.phenotypes_df.index:
-                for col in self.phenotypes_df.columns:
-                    x='-'.join(["c_"+met, col, index])
-                    y='-'.join(["dcc_"+met, col, index])
+        # define predicted variables for each strain, time, and trial
+        strain_independent = True
+        for strain in self.phenotypes_df:
+            self.variables['b+1_'+strain], self.variables['cvt_'+strain]  = {}, {}
+            self.variables['cvf_'+strain], self.variables['v_'+strain] = {}, {}
+            self.constraints['gc_'+strain], self.constraints['cvc_'+strain] = {}, {}
+            self.constraints['dbc_'+strain] = {}
+            for name, df in self.dataframes.items():
+                last_column = False
+                for index in df.index: 
+                    self.variables['cvt_'+strain][index], self.variables['cvf_'+strain][index] = {}, {}
+                    self.variables['v_'+strain][index], self.variables['b+1_'+strain][index] = {}, {}
+                    self.constraints['gc_'+strain][index], self.constraints['cvc_'+strain][index] = {}, {}
+                    self.constraints['dbc_'+strain][index] = {}
                     
-                    self.variables["c"][x]=Variable(x, lb=0, ub=1000)
-                    self.constraints["dcc"][y]=y
-        
-    def _parameterize(self,):
-        #input parameters
-        for name, df in self.dataframes.items():
-            for index in df.index:
-                for col in df:
-                    a='-'.join([name, col, index])                    
-                    self.parameters[name][a]= df.loc[index, col]
+                    for col in df:
+                        next_col = str(int(col)+1)
+                        if next_col == len(df.columns):
+                            last_column = True
+                        # define variables
+                        self.variables['v_'+strain][index][col] = Variable(    # predicted kinetic coefficient
+                            _variable_name("v_", strain, col, index), lb=0, ub=1000)                          
+                        self.variables['b+1_'+strain][index][next_col] = Variable(  # predicted biomass abundance
+                            _variable_name("b+1_", strain, next_col, index), lb=0, ub=1000)      
+                        self.variables['cvt_'+strain][index][col] = Variable(  # conversion rate to the stationary phase
+                            _variable_name("cvt_", strain, col, index), lb=0, ub=100)   
+                        self.variables['cvf_'+strain][index][col] = Variable(  # conversion from to the stationary phase
+                            _variable_name("cvf_", strain, col, index), lb=0, ub=100)
+                        
+                        # g_{strain} - b_{strain}*v = 0
+                        self.constraints['gc_'+strain][index][col] = Constraint(
+                            self.variables['g_'+strain][index][col] 
+                            - self.parameters['v']*self.variables['b_'+strain][index][col],  
+                            _constraint_name("gc_", strain, col, index), lb=0, ub=0)
+                        
+                        # 0 <= -cvt + bcv*b_{strain} + cvmin
+                        self.constraints["cvc_"+strain][index][col] = Constraint(
+                            -self.variables['cvt_'+strain][index][col] 
+                            + self.parameters['bcv']*self.variables['b_'+strain][index][col] 
+                            + self.parameters['cvmin'],
+                            _constraint_name("cvc_", strain, col, index), lb=0, ub=None)
+                        
+                        if strain_independent:
+                            self.variables[name+'__bio'], self.variables[name+'__diff'] = {}, {}
+                            self.constraints[name+'__bioc'], self.constraints[name+'__diffc'] = {}, {}
+                            self.variables[name+'__bio'][index], self.variables[name+'__diff'][index] = {}, {}
+                            self.constraints[name+'__bioc'][index], self.constraints[name+'__diffc'][index] = {}, {}
+                            
+                            # define variables
+                            self.variables[name+'__conversion'] = Variable(name+'__conversion', lb=0, ub=1000)
+                            self.variables[name+'__bio'][index][col] = Variable(      
+                                _variable_name(name, '__bio', col, index), lb=0, ub=1000)
+                            self.variables[name+'__diff'][index][col] = Variable(       
+                                _variable_name(name, '__diff', col, index), lb=-100, ub=100)
+   
+                            # define metabolite variable/constraint
+                            for met, row in self.phenotypes_df.iterrows():
+                                self.variables["c_"+met], self.variables["c+1_"+met] = {}, {}
+                                self.variables["c_"+met][index], self.variables["c+1_"+met][index] = {}, {}
+                                self.constraints['dcc_'+met], self.constraints['dcc_'+met][index] = {}, {}
+                                growth_sum = sum(growth_stoich*self.variables['g_'+strain][index][col] 
+                                    for growth_stoich in row.values for strain in self.phenotypes_df)
+                            
+                                # define biomass measurement conversion variables 
+                                self.variables["c_"+met][index][col] = Variable(
+                                    _variable_name("c_", met, name, col), lb=0, ub=1000)    
+                                self.variables["c+1_"+met][index][col] = Variable(
+                                    _variable_name("c+1_", met, name, col), lb=0, ub=1000)    
+                                
+                                # c_{met} + dt*sum_k^K() - c+1_{met} = 0
+                                self.constraints['dcc_'+met][index][col] = Constraint(
+                                    self.variables["c_"+met][index][col] 
+                                    + self.parameters['timestep_s']*growth_sum
+                                    - self.variables["c+1_"+met][index][col],
+                                    ub=0, lb=0, name=_constraint_name("dcc_", met, index, col))
+                                
+                                variables.extend([self.variables["c_"+met][index][col], self.variables["c+1_"+met][index][col]])
+                                constraints.append(self.constraints['dcc_'+met][index][col])
+                            
+                            # {name}__conversion*datum = {name}__bio
+                            self.constraints[name+'__bioc'][index][col] = Constraint(
+                                 self.variables[name+'__conversion']*df.at[index, col] - self.variables[name+'__bio'][index][col], 
+                                 name=_constraint_name(name, '__bioc', col, index), lb=0, ub=0)
+                            
+                            # add variables, constraints, and objective coefficients
+                            obj_coef[self.variables[name+'__diff'][index][col]] = 1
+                            variables.extend([
+                                self.variables[name+'__bio'][index][col], self.variables[name+'__diff'][index][col],
+                                self.variables[name+'__conversion']])
+                            constraints.extend([self.constraints['dcc_'+met][index][col], self.constraints[name+'__bioc'][index][col]])
+                        
+                        # {name}__bio - sum_k^K(signal_bool*{name}__conversion*datum) - {name}__diff = 0
+                        total_biomass = sum(self.variables["b_"+strain][index][col] for strain in self.phenotypes_df)
+                        signal_sum = 0 if 'OD' in name else sum(   # the OD strain has a different constraint, hence it is strain-dependent
+                            self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][index][col] for strain in self.phenotypes_df) 
+                        self.constraints[name+'__diffc'][index][col] = Constraint(   
+                             self.variables[name+'__bio'][index][col]-signal_sum
+                             - self.variables[name+'__diff'][index][col], 
+                             name=_constraint_name(name, '__diffc', col, index), lb=0, ub=0)
+                        
+                        if "stationary" in strain:  
+                            # b_{strain} - sum_k^K(pheno_bool*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{strain} = 0
+                            from_sum = sum(self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvf_'+strain][index][col] for strain in self.phenotypes_df)
+                            to_sum = sum(self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvt_'+strain][index][col] for strain in self.phenotypes_df)
+                            self.constraints['dbc_'+strain][index][col] = Constraint(
+                                self.variables['b_'+strain][index][col] - from_sum + to_sum - self.variables['b+1_'+strain][index][next_col],
+                                ub=0, lb=0, name=_constraint_name("dbc_", strain, col, index))
+                        else:
+                            # -b_{strain} + dt*g_{strain} + cvf - cvt - b+1_{strain} = 0
+                            self.constraints['dbc_'+strain][index][col] = Constraint(
+                                -self.variables['b_'+strain][index][col]
+                                + self.parameters['timestep_s']*self.variables['g_'+strain][index][col]
+                                + self.variables['cvf_'+strain][index][col] - self.variables['cvt_'+strain][index][col]
+                                - self.variables['b+1_'+strain][index][next_col],
+                                ub=0, lb=0, name=_constraint_name("dbc_", strain, col, index))
+                            
+                        # assemble variables, constraints, and objective coefficients
+                        variables.extend([self.variables['cvt_'+strain][index][col], self.variables['cvf_'+strain][index][col]])
+                        obj_coef[self.variables['cvt_'+strain][index][col]*self.parameters['cvct']] = -1
+                        obj_coef[self.variables['cvf_'+strain][index][col]*self.parameters['cvcf']] = -1
+                        constraints.extend([self.constraints['cvc_'+strain][index][col], self.constraints['gc_'+strain][index][col],
+                                            self.constraints[name+'__diffc'][index][col], self.constraints['dbc_'+strain][index][col]])
+                        if last_column:
+                            break
+                    if last_column:
+                        break
+            strain_independent = False
+              
+        # construct the problem
+        self.problem.add(constraints+variables)
+        self.problem.objective = Objective(Zero, direction="min")
+        self.problem.objective.set_linear_coefficients(obj_coef)
                 
-        for met in self.phenotypes_df.index:
-            for col in self.phenotypes_df:
-                d='-'.join(["PS_", col, met])
-                z='-'.join(["V_", met, col, index])
-                self.parameters["y"][d]= self.phenotypes_df.loc[met,col]
-                self.parameters["v"][z]=z
-                
-    def calculate(self,):
-        const_list=[]
-        for nme, df in self.dataframes.items():
-            for index in df.index:
-                for col in df:
-                    x='-'.join([nme+'__b', col, index])
-                    a='-'.join([nme, col, index])
-                    const = Constraint(
-                            self.variables[nme+'__b'][x]/ self.variables[nme+'__c']["C_"+nme+'__c'],
-                            ub=self.parameters[nme][a],
-                            lb=self.parameters[nme][a],
-                            name=nme+"__bc",
-                        )
-                    const_list.append(const)
-                    
-                    x='-'.join([nme+'__e', col, index])
-                    y='-'.join([nme+'__b', col, index])
-                    to_sum=[]
-                    for strain in self.phenotypes_df:
-                        to_sum.append('-'.join(["b_"+strain, col, index]))
-                    const = Constraint(
-                            (self.variables["rfpb"][y] - self.variables["rfpe"][x])/sum(self.variables["b"][item] for item in to_sum),
-                            ub=3, #does this look right?
-                            lb=3,
-                            name=nme+"__ec",
-                        )
-                    const_list.append(const)
-        self.model.add(const_list)               
+    def _export(self, filename=None, print_lp=True):
+        if filename:
+            with open(filename, 'w') as out:
+                out.writelines(
+                    ['|'.join(['parameter', param, content+": "+str(self.parameters[param][content])]) for param, content in self.parameters.items()]
+                    + ['|'.join(['variable', var, content+": "+str(self.parameters[var][content])]) for var, content in self.variables.items()]
+                    + ['|'.join(['constant', const, content+": "+str(self.parameters[const][content])]) for const, content in self.constants.items()])
+        if print_lp:
+            with open('mscommfitting.lp', 'w') as lp:
+                lp.write(self.problem.solver)
