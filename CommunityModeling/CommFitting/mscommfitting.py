@@ -17,12 +17,13 @@ def _constraint_name(name, suffix, col, index):
 def _variance():
     pass
 
+@cython.cclass
 class MSCommFitting():
     def __init__(self):
         self.parameters: dict = {}; self.variables: dict = {}; self.constraints: dict= {}
         self.dataframes: dict = {}; self.signal_species: dict = {}
         
-    @cython.ccall
+    @cython.ccall # ccall
     def load_data(self, media_name: str = None,      # the name of the media that defines the experimental conditions
                   phenotypes_csv_path: dict =None,   # the dictionary of index names for each paths to signal CSV data that will be fitted
                   signal_tsv_paths: list = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
@@ -101,8 +102,8 @@ class MSCommFitting():
                             _variable_name("c+1_", met, index, col), lb=0, ub=1000)    
                         
                         # c_{met} + dt*sum_k^K() - c+1_{met} = 0
-                        growth_sum = sum(growth_stoich*self.variables['g_'+strain][index][col] 
-                            for growth_stoich in row.values for strain in self.phenotypes_df)
+                        growth_sum: cython.float = sum(growth_stoich*self.variables['g_'+strain][index][col] 
+                            for growth_stoich in row.values for strain in self.phenotypes_df.columns)
                         self.constraints['dcc_'+met][index][col] = Constraint(
                             self.variables["c_"+met][index][col] 
                             + self.parameters['timestep_s']*growth_sum

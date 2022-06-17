@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#cython: language_level=3
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
 from optlang.symbolics import Zero
@@ -17,15 +18,16 @@ def _constraint_name(name, suffix, col, index):
 def _variance():
     pass
 
+@cython.cclass
 class MSCommFitting():
     def __init__(self):
         self.parameters: dict = {}; self.variables: dict = {}; self.constraints: dict= {}
         self.dataframes: dict = {}; self.signal_species: dict = {}
         
-    @cython.ccall
+    @cython.ccall # ccall
     def load_data(self, media_name: str = None,      # the name of the media that defines the experimental conditions
                   phenotypes_csv_path: dict =None,   # the dictionary of index names for each paths to signal CSV data that will be fitted
-                  signal_tsv_paths: list = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
+                  signal_tsv_paths: dict = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
                   ):
         self.phenotypes_df = read_csv(phenotypes_csv_path)
         self.phenotypes_df.index = self.phenotypes_df['rxn']
@@ -42,20 +44,21 @@ class MSCommFitting():
             for col in ['Plate', 'Cycle', 'Well']:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
             # convert the dataframe to a numpy array for greater efficiency
-            self.dataframes[signal]: tuple = (self.dataframes[signal].index, self.dataframes[signal].columns, self.dataframes[signal].to_numpy())
+            self.dataframes[signal]: np.ndarray = np.array([
+                self.dataframes[signal].index, self.dataframes[signal].columns, self.dataframes[signal].to_numpy()])
         
             # differentiate the phenotypes for each species
             self.parameters[signal]: dict = {}
             self.variables[signal+'__coef'], self.variables[signal+'__bio'], self.variables[signal+'__diff'] = {}, {}, {}
             self.constraints[signal+'__bioc'], self.constraints[signal+'__diffc'] = {}, {}
             if "OD" not in signal:
-                self.species_phenotypes_bool_df.loc[signal]: cython.int = [
-                    1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_df.columns]  # !!! This must still be applied
+                self.species_phenotypes_bool_df.loc[signal]: np.ndarray[cython.int] = np.array([
+                    1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_df.columns])
     
     # def define_type_dictionaries():
     
-    @cython.ccall
-    def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, constraints={'cvc': {}}):  # !!! the arguments are never used
+    @cython.ccall # ccall
+    def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, constraints={'cvc': {}}): 
         self.variables['bio_abundance'], self.variables['growth_rate'], self.variables['conc_met'], obj_coef = {}, {}, {}, {}
         self.constraints['dbc'], self.constraints['gc'], self.constraints['dcc'] = {}, {}, {}
         constraints: np.ndarray = np.zeros(1); variables: np.ndarray = np.zeros(1)
@@ -73,7 +76,7 @@ class MSCommFitting():
         self.parameters.update(conversion_rates)
         
         # define all biomass and growth variables
-        index: str; col: str; name: str; strain: str; met: str
+        index: str; col: str; name: str; strain: str; met: str; growth_stoich: cython.float = 0
         for strain in self.phenotypes_df:
             self.variables['b_'+strain], self.variables['g_'+strain] = {}, {}
             for name, df in self.dataframes.items():
@@ -101,8 +104,9 @@ class MSCommFitting():
                             _variable_name("c+1_", met, index, col), lb=0, ub=1000)    
                         
                         # c_{met} + dt*sum_k^K() - c+1_{met} = 0
-                        growth_sum = sum(growth_stoich*self.variables['g_'+strain][index][col] 
-                            for growth_stoich in row.values for strain in self.phenotypes_df)
+                        for growth_stoich in row.values:
+                            for strain in self.phenotypes_df.columns:
+                                growth_sum += growth_stoich*self.variables['g_'+strain][index][col]
                         self.constraints['dcc_'+met][index][col] = Constraint(
                             self.variables["c_"+met][index][col] 
                             + self.parameters['timestep_s']*growth_sum
@@ -179,9 +183,13 @@ class MSCommFitting():
                             constraints = np.hstack((constraints, [self.constraints[name+'__bioc'][index][col]]))
                         
                         # {name}__bio - sum_k^K(signal_bool*{name}__conversion*datum) - {name}__diff = 0
-                        total_biomass = sum(self.variables["b_"+strain][index][col] for strain in self.phenotypes_df)
-                        signal_sum = 0 if 'OD' in name else sum(   # the OD strain has a different constraint, hence it is strain-dependent
-                            self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][index][col] for strain in self.phenotypes_df) 
+                        total_biomass = signal_sum = from_sum = to_sum = 0
+                        for strain in self.phenotypes_df:
+                            total_biomass += self.variables["b_"+strain][index][col]
+                            from_sum += self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvf_'+strain][index][col]
+                            to_sum += self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvt_'+strain][index][col]
+                            if 'OD' not in name:  # the OD strain has a different constraint, hence it is strain-dependent
+                                signal_sum += self.species_phenotypes_bool_df.loc[name, strain]*self.variables["b_"+strain][index][col]
                         for name, dic in {name+'__diffc':self.constraints[name+'__diffc'][index], 
                                     name+'__bio':self.variables[name+'__bio'][index], 
                                     name+'__diff':self.variables[name+'__diff'][index]}.items():
@@ -194,8 +202,6 @@ class MSCommFitting():
                         
                         if "stationary" in strain:  
                             # b_{strain} - sum_k^K(pheno_bool*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{strain} = 0
-                            from_sum = sum(self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvf_'+strain][index][col] for strain in self.phenotypes_df)
-                            to_sum = sum(self.species_phenotypes_bool_df.loc[name, strain]*self.variables['cvt_'+strain][index][col] for strain in self.phenotypes_df)
                             self.constraints['dbc_'+strain][index][col] = Constraint(
                                 self.variables['b_'+strain][index][col] - from_sum + to_sum - self.variables['b+1_'+strain][index][next_col],
                                 ub=0, lb=0, name=_constraint_name("dbc_", strain, index, col))
