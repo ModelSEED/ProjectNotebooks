@@ -15,20 +15,22 @@ def _variable_name(name, suffix, col, index):
 def _constraint_name(name, suffix, col, index):
     return '_'.join([name+suffix, col, index])
 
+def _variance():
+    pass
+
 @cython.cclass
-class MSCommFitting():   # explicit typing for cython
+class MSCommFitting():
     parameters: dict = {}; variables: dict = {}; constraints: dict = {}; dataframes: dict = {}; signal_species: dict = {}
-    phenotypes_df: object; problem: object; species_phenotypes_bool_df: object
         
+    @cython.ccall # ccall
     def __init__(self, media_name: str = None,       # the name of the media that defines the experimental conditions
-                  phenotypes_csv_path: str = None,   # the dictionary of index names for each paths to signal CSV data that will be fitted
+                  phenotypes_csv_path: dict = None,  # the dictionary of index names for each paths to signal CSV data that will be fitted
                   signal_tsv_paths: dict = {},       # the dictionary of index names for each paths to signal TSV data that will be fitted
                   ):
         self.phenotypes_df = read_csv(phenotypes_csv_path)
         self.phenotypes_df.index = self.phenotypes_df['rxn']
         for col in ['rxn name', 'rxn']:
             self.phenotypes_df.drop(col, axis=1, inplace=True)
-        self.phenotypes_df.astype(str)
         
         self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_df.columns)
         for path, name in signal_tsv_paths.items():
@@ -51,7 +53,7 @@ class MSCommFitting():   # explicit typing for cython
                 self.species_phenotypes_bool_df.loc[signal]: np.ndarray[cython.int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_df.columns])
     
-    @cython.ccall # cfunc
+    @cython.ccall # ccall
     def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, constraints={'cvc': {}}): 
         self.variables['bio_abundance'], self.variables['growth_rate'], self.variables['conc_met'], obj_coef = {}, {}, {}, {}
         self.constraints['dbc'], self.constraints['gc'], self.constraints['dcc'] = {}, {}, {}
@@ -70,7 +72,7 @@ class MSCommFitting():   # explicit typing for cython
         self.parameters.update(conversion_rates)
         
         # define all biomass and growth variables
-        index: str; col: str; name: str; strain: str; met: str; growth_stoich: cython.float = 0; 
+        index: str; col: str; name: str; strain: str; met: str; growth_stoich: cython.float = 0
         for strain in self.phenotypes_df:
             self.variables['b_'+strain], self.variables['g_'+strain] = {}, {}
             for name, df in self.dataframes.items():
@@ -98,11 +100,9 @@ class MSCommFitting():   # explicit typing for cython
                             _variable_name("c+1_", met, index, col), lb=0, ub=1000)    
                         
                         # c_{met} + dt*sum_k^K() - c+1_{met} = 0
-                        growth_terms: list = []
                         for growth_stoich in row.values:
                             for strain in self.phenotypes_df.columns:
-                                growth_terms.append(growth_stoich*self.variables['g_'+strain][index][col])
-                        growth_sum: object = sum(growth_terms)
+                                growth_sum += growth_stoich*self.variables['g_'+strain][index][col]
                         self.constraints['dcc_'+met][index][col] = Constraint(
                             self.variables["c_"+met][index][col] 
                             + self.parameters['timestep_s']*growth_sum
@@ -134,7 +134,7 @@ class MSCommFitting():   # explicit typing for cython
                     
                     for c_index, col in enumerate(df[1]):
                         next_col = str(int(col)+1)
-                        if next_col == len(df[1]):
+                        if next_col == len(df.columns):
                             last_column = True
                         # define variables
                         self.variables['v_'+strain][index][col] = Variable(    # predicted kinetic coefficient
@@ -237,6 +237,3 @@ class MSCommFitting():   # explicit typing for cython
         if print_lp:
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.solver)
-                
-    def compute(self,):
-        
