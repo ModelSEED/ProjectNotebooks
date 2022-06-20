@@ -152,7 +152,7 @@ class MSCommFitting():   # explicit typing for cython
                         break
                     
         # define non-concentration variables
-        # 6.7E4 total loops
+        # 6.7E4 total loops => 1101 minutes
         time_2 = process_time()
         print(f'Done with predictory loops: {(time_2-time_1)/60} min')
         for r_index, met in enumerate(self.phenotypes_parsed_df[0]):  # 25
@@ -179,7 +179,7 @@ class MSCommFitting():   # explicit typing for cython
                         variables = np.hstack((variables, [self.variables["c_"+met][index][col], self.variables["c+1_"+met][index][col]]))
                         constraints = np.concatenate((constraints, [self.constraints['dcc_'+met][index][col]]))
                     
-        # 5.3E3 loops
+        # 5.3E3 loops => 62 minutes
         time_3 = process_time()
         print(f'Done with metabolites loops: {(time_3-time_2)/60} min')
         for name, parsed_df in self.dataframes.items():  # 3
