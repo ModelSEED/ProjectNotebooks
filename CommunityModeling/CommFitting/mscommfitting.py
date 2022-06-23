@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # cython: language_level=3
+from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
@@ -35,6 +36,7 @@ class MSCommFitting():   # explicit typing for cython
                  ):
         if phenotypes_csv_path:
             # process a predefined exchanges table
+            self.zipped_output.append(phenotypes_csv_path)
             fluxes_df = read_csv(phenotypes_csv_path)
             fluxes_df.index = fluxes_df['rxn']
             to_drop = [col for col in fluxes_df.columns if ' ' in col]
@@ -42,12 +44,31 @@ class MSCommFitting():   # explicit typing for cython
                 fluxes_df.drop(col, axis=1, inplace=True)
             print(f'The {to_drop+["rxn"]} columns were dropped from the phenotypes CSV.')
         elif community_members:
-            import cobrakbase
-            if kbase_token:
-                kbase = cobrakbase.KBaseAPI(kbase_token)
-            else:
-                kbase = cobrakbase.KBaseAPI()
-            fluxes_df = self._assemble_fluxes(community_members, kbase, solver)
+            # import the media for each model
+            models = OrderedDict(); ex_rxns:set = set(); species:dict = {}
+            #Using KBase media to constrain exchange reactions in model
+            for model, content in community_members.items():
+                model.solver = solver
+                ex_rxns.update(model.exchanges)
+                species.update({content['name']: content['strains'].keys()})
+                models[model] = []
+                for media in content['strains'].values():
+                    with model:  # !!! Is this the correct method of parameterizing a media for a model?
+                        pkgmgr = MSPackageManager.get_pkg_mgr(model)
+                        pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
+                        models[model].append(model.optimize())
+                    
+            # construct the parsed table of all exchange fluxes for each strain
+            fluxes_df = DataFrame(data={'bio':[sol.fluxes['bio1'] for solutions in models.values() for sol in solutions]},
+                                  columns=['rxn']+[spec+'-'+strain for spec, strains in species.items() for strain in strains])
+            fluxes_df.index.name = 'rxn'
+            for ex_rxn in ex_rxns:
+                elements = []
+                for model, solutions in models.items():
+                    for sol in solutions:
+                        elements.append(sol.fluxes[ex_rxn] if ex_rxn in sol.fluxes else 0)
+                if any([np.array(elements) != 0]):
+                    fluxes_df.iloc[ex_rxn.id] = elements
             
         fluxes_df.astype(str)
         self.phenotypes_parsed_df = FBAHelper.parse_df(fluxes_df)
@@ -71,53 +92,6 @@ class MSCommFitting():   # explicit typing for cython
             if "OD" not in signal:
                 self.species_phenotypes_bool_df.loc[signal]: np.ndarray[cython.int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
-                
-    def _assemble_fluxes(self, community_members, kbase, solver):
-        # import the media for each model
-        models = OrderedDict(); ex_rxns:set = set(); species:list = []; strains:list = []
-        for model, content in community_members.items():
-            if isinstance(model, str):
-                # load the model
-                if 'json' in model:
-                    from cobra.io import load_json_model as load_model
-                elif 'xml' in model:
-                    from cobra.io import read_sbml_model as load_model
-                elif 'mat' in model:
-                    from cobra.io import load_matlab_model as load_model
-                model = load_model(model)
-            model.medium = kbase.get_from_ws(content['permanent_media_id'])  # how can KBase media be converted into dictionaries?
-            model.solver = solver
-            
-            # execute the model strains
-            model.objective = Objective(
-                model.bio1.flux_expression, direction='max')  # !!! is not maximizing the biomass the default objective? Will the biomass reaction always be bio1?
-            ex_rxns.update(model.exchanges)
-            species.append(content['name'])
-            strains.extend(content['strains'])
-            models[model] = []
-            for rxn_id in content['strains']:
-                with model:
-                    for rxn in model.reactions:
-                        if rxn.id == rxn_id:
-                            rxn.upper_bound = rxn.lower_bound = -1
-                            break
-                    models[model].append(model.optimize())
-                
-        # construct the parsed table of all exchange fluxes for each strain
-        fluxes_df = DataFrame(data={'bio':[sol.fluxes['bio1'] for model, sol in models.items()]}, 
-                              columns=['rxn']+[spec+'-'+strain for spec in species for strain in strains])
-        fluxes_df.index.name = 'rxn'
-        for ex_rxn in ex_rxns:
-            elements = []
-            for model, sol in models.items():
-                flux = 0
-                if ex_rxn in model.reactions:
-                    flux = sol.fluxes[rxn]  # if sol.fluxes[rxn] != 0 else 0
-                elements.append(flux)
-            if any([np.array(elements) != 0]):
-                fluxes_df.iloc[ex_rxn.id] = elements
-                
-        return fluxes_df
                 
     @cython.ccall # cfunc
     def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, 
@@ -199,7 +173,7 @@ class MSCommFitting():   # explicit typing for cython
         # define non-concentration variables
         # 4.3E4 total loops => 6 minutes
         time_2 = process_time()
-        print(f'Done with predictory loops: {(time_2-time_1)/60} min')
+        print(f'Done with biomass loop: {(time_2-time_1)/60} min')
         for parsed_df in self.dataframes.values():  # 1 (with the break)
             for r_index, met in enumerate(self.phenotypes_parsed_df[0]):  # 25
                 self.variables["c_"+met]:dict = {}; self.variables["c+1_"+met]:dict = {}
@@ -229,7 +203,7 @@ class MSCommFitting():   # explicit typing for cython
                     
         # 6.4E4 loops => 2 minutes
         time_3 = process_time()
-        print(f'Done with metabolites loops: {(time_3-time_2)/60} min')
+        print(f'Done with metabolites loop: {(time_3-time_2)/60} min')
         for signal, parsed_df in self.dataframes.items():  # 3
             conversion = Variable(signal+'__conversion', lb=0, ub=1000)
             self.variables[signal+'__bio']:dict = {}; self.variables[signal+'__diffpos']:dict = {}
@@ -295,30 +269,32 @@ class MSCommFitting():   # explicit typing for cython
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
         # construct the problem
-        self.problem.add(set(variables))
+        self.problem.add(variables)
         self.problem.update()
-        self.problem.add(set(constraints))
+        self.problem.add(constraints)
         self.problem.update()
         self.problem.objective = Objective(Zero, direction="min") #, sloppy=True)
+        self.problem.objective.set_linear_coefficients(obj_coef)
         time_5 = process_time()
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
-        self.problem.objective.set_linear_coefficients(obj_coef)
                 
         # print contents
-        zipped_output = []
         if print_conditions:
             DataFrame(self.parameters).to_csv('parameters.csv')
-            zipped_output.append('parameters.csv')
+            self.zipped_output.append('parameters.csv')
         if print_lp:
-            zipped_output.append('mscommfitting.lp')
+            self.zipped_output.append('mscommfitting.lp')
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
         if zip_contents:
             sleep(2)
             with ZipFile('msComFit.zip', 'w', compression=ZIP_LZMA) as zp:
-                for file in zipped_output:
+                for file in self.zipped_output:
                     zp.write(file)
                     os.remove(file)
+                    
+        time_6 = process_time()
+        print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
     def compute(self,):
         solution = self.problem.optimize()
