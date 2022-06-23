@@ -345,6 +345,7 @@ class MSCommFitting():   # explicit typing for cython
                     if labels != []:
                         ax.set_xlabel('Time point')
                         ax.set_ylabel('Variable value')
+                        ax.set_title(f'{graph["content"]} of the {graph["strain"]} {graph["species"]} strain in the {trial} trial')
                         fig_name = f'{"_".join([trial, graph["species"], graph["strain"], graph["content"]])}.png'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
