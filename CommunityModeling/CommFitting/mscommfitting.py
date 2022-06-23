@@ -120,54 +120,54 @@ class MSCommFitting():   # explicit typing for cython
         for signal, parsed_df in self.dataframes.items():  # 3 loops
             for strain in self.phenotypes_parsed_df[1]:  # 6
                 self.constraints['dbc_'+signal+'_'+strain]:dict = {}
-                for trial in parsed_df[0]:  # 66
-                    self.constraints['dbc_'+signal+'_'+strain][trial]:dict = {}
+                for time in parsed_df[1]:  # 27
+                    self.constraints['dbc_'+signal+'_'+strain][time]:dict = {}
                     
         for strain in self.phenotypes_parsed_df[1]:  # 6 
             self.variables['cvt_'+strain]:dict = {}; self.variables['cvf_'+strain]:dict = {}
             self.variables['b_'+strain]:dict = {}; self.variables['g_'+strain]:dict = {}
             self.variables['v_'+strain]:dict = {}; self.variables['b+1_'+strain]:dict = {}
             self.constraints['gc_'+strain]:dict = {}; self.constraints['cvc_'+strain]:dict = {}
-            for trial in parsed_df[0]:  # 66 ; the use of only one parsed_df prevents duplicative variable assignment
-                self.variables['cvt_'+strain][trial]:dict = {}; self.variables['cvf_'+strain][trial]:dict = {}
-                self.variables['b_'+strain][trial]:dict = {}; self.variables['g_'+strain][trial]:dict = {}
-                self.variables['v_'+strain][trial]:dict = {}; self.variables['b+1_'+strain][trial]:dict = {}
-                self.constraints['gc_'+strain][trial]:dict = {}; self.constraints['cvc_'+strain][trial]:dict = {}
+            for time in parsed_df[1]:  # 27
+                self.variables['cvt_'+strain][time]:dict = {}; self.variables['cvf_'+strain][time]:dict = {}
+                self.variables['b_'+strain][time]:dict = {}; self.variables['g_'+strain][time]:dict = {}
+                self.variables['v_'+strain][time]:dict = {}; self.variables['b+1_'+strain][time]:dict = {}
+                self.constraints['gc_'+strain][time]:dict = {}; self.constraints['cvc_'+strain][time]:dict = {}
                 last_column = False
-                for time in parsed_df[1]:  # 27
+                for trial in parsed_df[0]:  # 66 ; the use of only one parsed_df prevents duplicative variable assignment
                     next_time = str(int(time)+1)
                     if next_time == len(parsed_df[1]):
                         last_column = True  
-                    self.variables['b_'+strain][trial][time] = Variable(         # predicted biomass abundance
+                    self.variables['b_'+strain][time][trial] = Variable(         # predicted biomass abundance
                         _variable_name("b_", strain, trial, time), lb=0, ub=1000)  
-                    self.variables['g_'+strain][trial][time] = Variable(         # biomass growth
+                    self.variables['g_'+strain][time][trial] = Variable(         # biomass growth
                         _variable_name("g_", strain, trial, time), lb=0, ub=1000)   
-                    self.variables['cvt_'+strain][trial][time] = Variable(       # conversion rate to the stationary phase
+                    self.variables['cvt_'+strain][time][trial] = Variable(       # conversion rate to the stationary phase
                         _variable_name("cvt_", strain, trial, time), lb=0, ub=100)   
-                    self.variables['cvf_'+strain][trial][time] = Variable(       # conversion from to the stationary phase
+                    self.variables['cvf_'+strain][time][trial] = Variable(       # conversion from to the stationary phase
                         _variable_name("cvf_", strain, trial, time), lb=0, ub=100)                   
-                    self.variables['b+1_'+strain][trial][next_time] = Variable(  # predicted biomass abundance
+                    self.variables['b+1_'+strain][time][next_time] = Variable(  # predicted biomass abundance
                         _variable_name("b+1_", strain, trial, next_time), lb=0, ub=1000) 
                     
                     # g_{strain} - b_{strain}*v = 0
-                    self.constraints['gc_'+strain][trial][time] = Constraint(
-                        self.variables['g_'+strain][trial][time] 
-                        - self.parameters['v']*self.variables['b_'+strain][trial][time],
+                    self.constraints['gc_'+strain][time][trial] = Constraint(
+                        self.variables['g_'+strain][time][trial] 
+                        - self.parameters['v']*self.variables['b_'+strain][time][trial],
                         _constraint_name("gc_", strain, trial, time), lb=0, ub=0)
                     
                     # 0 <= -cvt + bcv*b_{strain} + cvmin
-                    self.constraints['cvc_'+strain][trial][time] = Constraint(
-                        -self.variables['cvt_'+strain][trial][time] 
-                        + self.parameters['bcv']*self.variables['b_'+strain][trial][time] + self.parameters['cvmin'],
+                    self.constraints['cvc_'+strain][time][trial] = Constraint(
+                        -self.variables['cvt_'+strain][time][trial] 
+                        + self.parameters['bcv']*self.variables['b_'+strain][time][trial] + self.parameters['cvmin'],
                         _constraint_name('cvc_', strain, trial, time), lb=0, ub=None)                        
                     
-                    obj_coef.update({self.variables['cvt_'+strain][trial][time]: self.parameters['cvct'], 
-                                     self.variables['cvf_'+strain][trial][time]: self.parameters['cvcf']})
-                    variables.extend([self.variables['b+1_'+strain][trial][next_time],
-                        self.variables['b_'+strain][trial][time], self.variables['g_'+strain][trial][time],
-                        self.variables['cvt_'+strain][trial][time], self.variables['cvf_'+strain][trial][time]])
-                    constraints.extend([self.constraints['gc_'+strain][trial][time], 
-                                        self.constraints['cvc_'+strain][trial][time]])
+                    obj_coef.update({self.variables['cvt_'+strain][time][trial]: self.parameters['cvct'], 
+                                     self.variables['cvf_'+strain][time][trial]: self.parameters['cvcf']})
+                    variables.extend([self.variables['b+1_'+strain][time][next_time],
+                        self.variables['b_'+strain][time][trial], self.variables['g_'+strain][time][trial],
+                        self.variables['cvt_'+strain][time][trial], self.variables['cvf_'+strain][time][trial]])
+                    constraints.extend([self.constraints['gc_'+strain][time][trial], 
+                                        self.constraints['cvc_'+strain][time][trial]])
 
                     if last_column:
                         break
@@ -182,27 +182,27 @@ class MSCommFitting():   # explicit typing for cython
             for r_index, met in enumerate(self.phenotypes_parsed_df[0]):  # 25
                 self.variables["c_"+met]:dict = {}; self.variables["c+1_"+met]:dict = {}
                 self.constraints['dcc_'+met]:dict = {}
-                for trial in parsed_df[0]:  # 66
-                    self.variables["c_"+met][trial]:dict = {}; self.variables["c+1_"+met][trial]:dict = {}
-                    self.constraints['dcc_'+met][trial]:dict = {}
-                    for time in parsed_df[1]:  # 27      
+                for time in parsed_df[1]:  # 27  
+                    self.variables["c_"+met][time]:dict = {}; self.variables["c+1_"+met][time]:dict = {}
+                    self.constraints['dcc_'+met][time]:dict = {}
+                    for trial in parsed_df[0]:  # 66    
                         next_time = str(int(time)+1)
                         # define biomass measurement conversion variables 
-                        self.variables["c_"+met][trial][time] = Variable(
+                        self.variables["c_"+met][time][trial] = Variable(
                             _variable_name("c_", met, trial, time), lb=0, ub=1000)    
-                        self.variables["c+1_"+met][trial][next_time] = Variable(
+                        self.variables["c+1_"+met][time][next_time] = Variable(
                             _variable_name("c+1_", met, trial, next_time), lb=0, ub=1000)    
                             
                         # c_{met} + dt*sum_k^K() - c+1_{met} = 0
-                        self.constraints['dcc_'+met][trial][time] = Constraint(self.variables["c_"+met][trial][time] 
-                                         - self.variables["c+1_"+met][trial][next_time] + np.dot(
+                        self.constraints['dcc_'+met][time][trial] = Constraint(self.variables["c_"+met][time][trial] 
+                                         - self.variables["c+1_"+met][time][next_time] + np.dot(
                                              self.phenotypes_parsed_df[2][r_index]*self.parameters['timestep_s'], np.array([
-                                                 self.variables['g_'+strain][trial][time] for strain in self.phenotypes_parsed_df[1]
+                                                 self.variables['g_'+strain][time][trial] for strain in self.phenotypes_parsed_df[1]
                                                  ])), 
                                          ub=0, lb=0, name=_constraint_name("dcc_", met, trial, time))
                         
-                        variables.extend([self.variables["c_"+met][trial][time], self.variables["c+1_"+met][trial][next_time]])
-                        constraints.append(self.constraints['dcc_'+met][trial][time])
+                        variables.extend([self.variables["c_"+met][time][trial], self.variables["c+1_"+met][time][next_time]])
+                        constraints.append(self.constraints['dcc_'+met][time][trial])
             break   # prevents duplicated construction of variables and constraints
                     
         # 6.4E4 loops => 2 minutes
@@ -215,39 +215,39 @@ class MSCommFitting():   # explicit typing for cython
             self.variables[signal+'__bio']:dict = {}; self.variables[signal+'__diffpos']:dict = {}
             self.variables[signal+'__diffneg']:dict = {}
             self.constraints[signal+'__bioc']:dict = {}; self.constraints[signal+'__diffc']:dict = {}  # diffc is defined latter
-            for r_index, trial in enumerate(parsed_df[0]):  # 66
-                self.variables[signal+'__bio'][trial]:dict = {}; self.variables[signal+'__diffpos'][trial]:dict = {}
-                self.variables[signal+'__diffneg'][trial]:dict = {}
-                self.constraints[signal+'__bioc'][trial]:dict = {}; self.constraints[signal+'__diffc'][trial]:dict = {}
-                for time in parsed_df[1]:  # 27
+            for time in parsed_df[1]:  # 27
+                self.variables[signal+'__bio'][time]:dict = {}; self.variables[signal+'__diffpos'][time]:dict = {}
+                self.variables[signal+'__diffneg'][time]:dict = {}
+                self.constraints[signal+'__bioc'][time]:dict = {}; self.constraints[signal+'__diffc'][time]:dict = {}
+                for r_index, trial in enumerate(parsed_df[0]):  # 66
                     next_time = str(int(time)+1)
                     total_biomass: Add = 0; signal_sum: Add = 0; from_sum: Add = 0; to_sum: Add = 0
                     for strain in self.phenotypes_parsed_df[1]:  # 6
-                        total_biomass += self.variables["b_"+strain][trial][time]
+                        total_biomass += self.variables["b_"+strain][time][trial]
                         if 'OD' not in signal:  # the OD strain has a different constraint
                             val = self.species_phenotypes_bool_df.loc[signal, strain]
-                            signal_sum += val*self.variables["b_"+strain][trial][time]
-                            from_sum += val*self.variables['cvf_'+strain][trial][time]
-                            to_sum += val*self.variables['cvt_'+strain][trial][time]
+                            signal_sum += val*self.variables["b_"+strain][time][trial]
+                            from_sum += val*self.variables['cvf_'+strain][time][trial]
+                            to_sum += val*self.variables['cvt_'+strain][time][trial]
                     for strain in self.phenotypes_parsed_df[1]:  # 6
                         if "stationary" in strain:
                             # b_{strain} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{strain} = 0
-                            self.constraints['dbc_'+signal+'_'+strain][trial][time] = Constraint(
-                                self.variables['b_'+strain][trial][time] - from_sum + to_sum 
-                                - self.variables['b+1_'+strain][trial][next_time],
+                            self.constraints['dbc_'+signal+'_'+strain][time][trial] = Constraint(
+                                self.variables['b_'+strain][time][trial] - from_sum + to_sum 
+                                - self.variables['b+1_'+strain][time][next_time],
                                 ub=0, lb=0, name=_constraint_name("dbc_", signal+'_'+strain, trial, time))
                         else:
                             # -b_{strain} + dt*g_{strain} + cvf - cvt - b+1_{strain} = 0
-                            self.constraints['dbc_'+signal+'_'+strain][trial][time] = Constraint(self.variables['b_'+strain][trial][time]
-                                + self.parameters['timestep_s']*self.variables['g_'+strain][trial][time]
-                                + self.variables['cvf_'+strain][trial][time] - self.variables['cvt_'+strain][trial][time]
-                                - self.variables['b+1_'+strain][trial][next_time],
+                            self.constraints['dbc_'+signal+'_'+strain][time][trial] = Constraint(self.variables['b_'+strain][time][trial]
+                                + self.parameters['timestep_s']*self.variables['g_'+strain][time][trial]
+                                + self.variables['cvf_'+strain][time][trial] - self.variables['cvt_'+strain][time][trial]
+                                - self.variables['b+1_'+strain][time][next_time],
                                 ub=0, lb=0, name=_constraint_name("dbc_", signal+'_'+strain, trial, time))
                             
-                    self.variables[signal+'__bio'][trial][time] = Variable(_variable_name(signal, '__bio', trial, time), lb=0, ub=1000)
-                    self.variables[signal+'__diffpos'][trial][time] = Variable( 
+                    self.variables[signal+'__bio'][time][trial] = Variable(_variable_name(signal, '__bio', trial, time), lb=0, ub=1000)
+                    self.variables[signal+'__diffpos'][time][trial] = Variable( 
                         _variable_name(signal, '__diffpos', trial, time), lb=-100, ub=100) 
-                    self.variables[signal+'__diffneg'][trial][time] = Variable(  
+                    self.variables[signal+'__diffneg'][time][trial] = Variable(  
                         _variable_name(signal, '__diffneg', trial, time), lb=-100, ub=100) 
                         
                     # {signal}__conversion*datum = {signal}__bio
@@ -257,10 +257,10 @@ class MSCommFitting():   # explicit typing for cython
                         name=_constraint_name(signal, '__bioc', trial, time), lb=0, ub=0)
                     
                     # {speces}_bio - sum_k^K(es_k*b_{strain}) - {signal}_diffpos + {signal}_diffpos = 0
-                    self.constraints[signal+'__diffc'][trial][time] = Constraint( 
-                        self.variables[signal+'__bio'][trial][time]-signal_sum 
-                        - self.variables[signal+'__diffpos'][trial][time]
-                        + self.variables[signal+'__diffneg'][trial][time], 
+                    self.constraints[signal+'__diffc'][time][trial] = Constraint( 
+                        self.variables[signal+'__bio'][time][trial]-signal_sum 
+                        - self.variables[signal+'__diffpos'][time][trial]
+                        + self.variables[signal+'__diffneg'][time][trial], 
                         name=_constraint_name(signal, '__diffc', trial, time), lb=0, ub=0)
 
                     obj_coef.update({self.variables[signal+'__diffpos'][trial][time]:1,
