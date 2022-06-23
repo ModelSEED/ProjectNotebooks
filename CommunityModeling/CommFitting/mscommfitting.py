@@ -8,12 +8,13 @@ from collections import OrderedDict
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
 from sympy.core.add import Add
+from matplotlib import pyplot
 # from pprint import pprint
 from time import sleep, process_time
 from warnings import warn
 import numpy as np
 # from cplex import Cplex
-import cython
+# import cython
 import os
 
 def _variable_name(name, suffix, trial, time):
@@ -22,10 +23,10 @@ def _variable_name(name, suffix, trial, time):
 def _constraint_name(name, suffix, trial, time):
     return '_'.join([name+suffix, trial, time])
 
-@cython.cclass
+# @cython.cclass
 class MSCommFitting():   # explicit typing for cython
-    parameters: dict = {}; variables: dict = {}; constraints: dict = {}; dataframes: dict = {}; signal_species: dict = {}; 
-    phenotypes_parsed_df: np.ndarray; problem: object; species_phenotypes_bool_df: object; zipped_output:list
+    parameters: dict = {}; variables: dict = {}; constraints: dict = {}; dataframes: dict = {}; signal_species: dict = {}; values:dict = {}
+    phenotypes_parsed_df: np.ndarray; problem: object; species_phenotypes_bool_df: object; zipped_output:list = []; plots:list = []
         
     def __init__(self, 
                  community_members: dict = {},         # the model of the community that was experimentally investigated and will be examined via fitting, which includes the permanent KBase ID of the media (e.g. 93465/3/1) that describe each respective community model
@@ -33,7 +34,11 @@ class MSCommFitting():   # explicit typing for cython
                  solver:str = 'glpk',                  # the LP solver that will optimize the community model in the given media
                  signal_tsv_paths: dict = {},          # the dictionary of index names for each paths to signal TSV data that will be fitted
                  phenotypes_csv_path: str = None,      # a custom CSV of media phenotypic data
+                 zipped_contents:bool = False          # specifies whether the input contents are in a zipped file
                  ):
+        if zipped_contents:
+            with ZipFile('msComFit.zip', 'r') as zp:
+                zp.extractall()
         if phenotypes_csv_path:
             # process a predefined exchanges table
             self.zipped_output.append(phenotypes_csv_path)
@@ -67,7 +72,7 @@ class MSCommFitting():   # explicit typing for cython
                 for model, solutions in models.items():
                     for sol in solutions:
                         elements.append(sol.fluxes[ex_rxn] if ex_rxn in sol.fluxes else 0)
-                if any([np.array(elements) != 0]):
+                if any(np.array(elements) != 0):
                     fluxes_df.iloc[ex_rxn.id] = elements
             
         fluxes_df.astype(str)
@@ -88,12 +93,11 @@ class MSCommFitting():   # explicit typing for cython
             self.dataframes[signal]: np.ndarray = FBAHelper.parse_df(self.dataframes[signal])
         
             # differentiate the phenotypes for each species
-            self.parameters[signal]: dict = {}
             if "OD" not in signal:
-                self.species_phenotypes_bool_df.loc[signal]: np.ndarray[cython.int] = np.array([
+                self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
                 
-    @cython.ccall # cfunc
+    # @cython.ccall # cfunc
     def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, 
                        constraints={'cvc': {}},
                        print_conditions: bool = True, print_lp: bool = True, zip_contents:bool = True
@@ -205,10 +209,11 @@ class MSCommFitting():   # explicit typing for cython
         time_3 = process_time()
         print(f'Done with metabolites loop: {(time_3-time_2)/60} min')
         for signal, parsed_df in self.dataframes.items():  # 3
-            conversion = Variable(signal+'__conversion', lb=0, ub=1000)
+            self.variables[signal+'__conversion'] = Variable(signal+'__conversion', lb=0, ub=1000)
+            variables.append(self.variables[signal+'__conversion'])
+            
             self.variables[signal+'__bio']:dict = {}; self.variables[signal+'__diffpos']:dict = {}
             self.variables[signal+'__diffneg']:dict = {}
-            self.variables[signal+'__conversion'] = conversion
             self.constraints[signal+'__bioc']:dict = {}; self.constraints[signal+'__diffc']:dict = {}  # diffc is defined latter
             for r_index, trial in enumerate(parsed_df[0]):  # 66
                 self.variables[signal+'__bio'][trial]:dict = {}; self.variables[signal+'__diffpos'][trial]:dict = {}
@@ -247,7 +252,8 @@ class MSCommFitting():   # explicit typing for cython
                         
                     # {signal}__conversion*datum = {signal}__bio
                     self.constraints[signal+'__bioc'][trial][time] = Constraint(
-                        conversion*parsed_df[2][r_index, int(time)-1] - self.variables[signal+'__bio'][trial][time], 
+                        self.variables[signal+'__conversion']*parsed_df[2][r_index, int(time)-1] 
+                        - self.variables[signal+'__bio'][trial][time], 
                         name=_constraint_name(signal, '__bioc', trial, time), lb=0, ub=0)
                     
                     # {speces}_bio - sum_k^K(es_k*b_{strain}) - {signal}_diffpos + {signal}_diffpos = 0
@@ -259,7 +265,7 @@ class MSCommFitting():   # explicit typing for cython
 
                     obj_coef.update({self.variables[signal+'__diffpos'][trial][time]:1,
                                      self.variables[signal+'__diffneg'][trial][time]:-1})                            
-                    variables.extend([conversion, self.variables[signal+'__bio'][trial][time], 
+                    variables.extend([self.variables[signal+'__bio'][trial][time], 
                                       self.variables[signal+'__diffpos'][trial][time],
                                       self.variables[signal+'__diffneg'][trial][time]])
                     constraints.extend([self.constraints[signal+'__bioc'][trial][time], 
@@ -280,7 +286,9 @@ class MSCommFitting():   # explicit typing for cython
                 
         # print contents
         if print_conditions:
-            DataFrame(self.parameters).to_csv('parameters.csv')
+            DataFrame(data=list(self.parameters.values()), 
+                      index=list(self.parameters.keys()), 
+                      columns=['values']).to_csv('parameters.csv')
             self.zipped_output.append('parameters.csv')
         if print_lp:
             self.zipped_output.append('mscommfitting.lp')
@@ -296,11 +304,52 @@ class MSCommFitting():   # explicit typing for cython
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
-    def compute(self,):
+    def compute(self, graphs:list = []):
         solution = self.problem.optimize()
         if "optimal" in  solution:
-            print('The problem optimized optimally.')
+            print('The solution is optimal.')
         else:
-            warn(f'The problem did not optimize optimally, with a {solution} status.')
-             
+            warn(f'The solution is sub-optimal, with a {solution} status.')
         
+        # categorize the primal values by trial and time
+        for variable, value in self.problem.primal_values.items():
+            if 'conversion' not in variable:
+                basename, trial, time = variable.split('-')
+                if not trial in self.values:
+                    self.values[trial]:dict = {}
+                if not basename in self.values[trial]:
+                    self.values[trial][basename]:dict = {}
+                self.values[trial][basename][time] = value
+        
+        # plot the content for desired trials 
+        for graph in graphs:
+            pyplot.rcParams['figure.figsize'] = (11, 7)
+            pyplot.rcParams['figure.dpi'] = 150
+            fig, ax = pyplot.subplots()
+            for trial, basenames in self.values.items():
+                content = graph['content']
+                if graph['content'] == 'biomass':
+                    content = 'b'
+                if graph['content'] == 'growth':
+                    content = 'g'   
+                if trial == graph['trial']:
+                    labels:list = []
+                    for basename in basenames:
+                        if all([x in basename for x in [graph['species'], graph['strain'], content]]):
+                            labels.append(basename)
+                            ax.plot(self.values[trial][basename].keys(), 
+                                    self.values[trial][basename].values(),
+                                    label=basename)
+                            ax.legend(labels)
+                            ax.set_xticks(list(x for x in self.values[trial][basename].keys() if int(x)%20 == 0))
+                    if labels != []:
+                        ax.set_xlabel('Time point')
+                        ax.set_ylabel('Variable value')
+                        fig_name = f'{"_".join([trial, graph["species"], graph["strain"], graph["content"]])}.png'
+                        fig.savefig(fig_name)
+                        self.plots.append(fig_name)
+        
+        # combine the figures with the other cotent
+        with ZipFile('msComFit.zip', 'a') as zp:
+            for plot in self.plots:
+                zp.write(plot)
