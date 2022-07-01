@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # cython: language_level=3
 from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
+from modelseedpy.core.exceptions import SubOptimalError
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
@@ -11,7 +12,6 @@ from sympy.core.add import Add
 from matplotlib import pyplot
 # from pprint import pprint
 from time import sleep, process_time
-from warnings import warn
 import numpy as np
 # from cplex import Cplex
 # import cython
@@ -39,7 +39,7 @@ class MSCommFitting():   # explicit typing for cython
                  ignore_trials:dict = {},              # the trials (row+column coordinates) that will be ignored by the model
                  zipped_contents:bool = False          # specifies whether the input contents are in a zipped file
                  ):
-        self.zip_contents = zipped_contents
+        self.zipped_contents = zipped_contents
         if zipped_contents:
             with ZipFile('msComFit.zip', 'r') as zp:
                 zp.extractall()
@@ -65,17 +65,17 @@ class MSCommFitting():   # explicit typing for cython
             for model, content in community_members.items():
                 model.solver = solver
                 ex_rxns.update(model.exchanges)
-                species.update({content['name']: content['strains'].keys()})
+                species.update({content['name']: content['phenotypes'].keys()})
                 models[model] = []
-                for media in content['strains'].values():
+                for media in content['phenotypes'].values():
                     with model:  # !!! Is this the correct method of parameterizing a media for a model?
                         pkgmgr = MSPackageManager.get_pkg_mgr(model)
                         pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
                         models[model].append(model.optimize())
                     
-            # construct the parsed table of all exchange fluxes for each strain
+            # construct the parsed table of all exchange fluxes for each phenotype
             fluxes_df = DataFrame(data={'bio':[sol.fluxes['bio1'] for solutions in models.values() for sol in solutions]},
-                                  columns=['rxn']+[spec+'-'+strain for spec, strains in species.items() for strain in strains]
+                                  columns=['rxn']+[spec+'-'+phenotype for spec, phenotypes in species.items() for phenotype in phenotypes]
                                   +[spec+'-stationary' for spec in species.keys()])
             fluxes_df.index.name = 'rxn'
             fluxes_df.drop('rxn', axis=1, inplace=True)
@@ -110,7 +110,7 @@ class MSCommFitting():   # explicit typing for cython
             self.zipped_output.append(path)
             signal = os.path.splitext(path)[0].split("_")[0]
             # define the signal dataframe
-            self.signal_species[signal] = name # {name:strains}
+            self.signal_species[signal] = name # {name:phenotypes}
             self.dataframes[signal] = read_table(path).iloc[1::2]  # slices the results and not the time
             self.dataframes[signal].index = self.dataframes[signal]['Well']
             for col in ['Plate', 'Cycle', 'Well']:
@@ -134,22 +134,22 @@ class MSCommFitting():   # explicit typing for cython
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
                 
     # @cython.ccall # cfunc
-    def define_problem(self, conversion_rates={'cvt': 0, 'cvf': 0}, 
-                       constraints={'cvc': {}},
-                       print_conditions: bool = True, print_lp: bool = True
+    def define_problem(self, parameters={}, 
+                       print_conditions: bool = True, print_lp: bool = True, zip_contents:bool = True
                        ):
         self.problem = Model()
         self.parameters.update({
             "timestep_hr": 0.2,     # Size of the timestep in hours 
             "cvct": 1,              # Coefficient for the minimization of phenotype conversion to the stationary phase. 
             "cvcf": 1,              # Coefficient for the minimization of phenotype conversion from the stationary phase. 
-            "bcv": 1,               # This is the highest fraction of biomass for a given strain that can change phenotypes in a single time step
+            "bcv": 1,               # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
             "cvmin": 0.1,           # This is the lowest value the limit on phenotype conversion goes, 
-            "v": 1,                 # the kinetics constant that is externally adjusted 
-            'carbon_sources': ['cpd00029', 'cpd00136', 'cpd00179']  # acetate, 4hb, maltose
+            "v": 10,                # the kinetics constant that is externally adjusted 
+            'carbon_sources': ['cpd00136', 'cpd00179']  # 4hb, maltose
         })
-        self.parameters.update(conversion_rates)
-        trial: str; time: str; name: str; strain: str; met: str
+        self.zip_contents = zip_contents
+        self.parameters.update(parameters)
+        trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         
         time_1 = process_time()
@@ -186,52 +186,52 @@ class MSCommFitting():   # explicit typing for cython
             break   # prevents duplicated variables 
         for signal, parsed_df in self.dataframes.items():
             if 'OD' not in signal:
-                for strain in self.phenotypes_parsed_df[1]:
-                    if self.signal_species[signal] in strain:
-                        self.constraints['dbc_'+strain]:dict = {}
+                for phenotype in self.phenotypes_parsed_df[1]:
+                    if self.signal_species[signal] in phenotype:
+                        self.constraints['dbc_'+phenotype]:dict = {}
                         for time in parsed_df[1]:
-                            self.constraints['dbc_'+strain][time]:dict = {}
+                            self.constraints['dbc_'+phenotype][time]:dict = {}
                     
-        for strain in self.phenotypes_parsed_df[1]:
-            self.variables['cvt_'+strain]:dict = {}; self.variables['cvf_'+strain]:dict = {}
-            self.variables['b_'+strain]:dict = {}; self.variables['g_'+strain]:dict = {}
-            self.variables['v_'+strain]:dict = {} 
-            self.constraints['gc_'+strain]:dict = {}; self.constraints['cvc_'+strain]:dict = {}
+        for phenotype in self.phenotypes_parsed_df[1]:
+            self.variables['cvt_'+phenotype]:dict = {}; self.variables['cvf_'+phenotype]:dict = {}
+            self.variables['b_'+phenotype]:dict = {}; self.variables['g_'+phenotype]:dict = {}
+            self.variables['v_'+phenotype]:dict = {} 
+            self.constraints['gc_'+phenotype]:dict = {}; self.constraints['cvc_'+phenotype]:dict = {}
             for time in parsed_df[1]:
-                self.variables['cvt_'+strain][time]:dict = {}; self.variables['cvf_'+strain][time]:dict = {}
-                self.variables['b_'+strain][time]:dict = {}; self.variables['g_'+strain][time]:dict = {}
-                self.variables['v_'+strain][time]:dict = {}
-                self.constraints['gc_'+strain][time]:dict = {}; self.constraints['cvc_'+strain][time]:dict = {}
+                self.variables['cvt_'+phenotype][time]:dict = {}; self.variables['cvf_'+phenotype][time]:dict = {}
+                self.variables['b_'+phenotype][time]:dict = {}; self.variables['g_'+phenotype][time]:dict = {}
+                self.variables['v_'+phenotype][time]:dict = {}
+                self.constraints['gc_'+phenotype][time]:dict = {}; self.constraints['cvc_'+phenotype][time]:dict = {}
                 for trial in parsed_df[0]:  # the use of only one parsed_df prevents duplicative variable assignment
-                    self.variables['b_'+strain][time][trial] = Variable(         # predicted biomass abundance
-                        _variable_name("b_", strain, time, trial), lb=0, ub=1000)  # !!! initial biomass must be defined from Jeff's experiments
-                    self.variables['g_'+strain][time][trial] = Variable(         # biomass growth
-                        _variable_name("g_", strain, time, trial), lb=0, ub=1000)   
+                    self.variables['b_'+phenotype][time][trial] = Variable(         # predicted biomass abundance
+                        _variable_name("b_", phenotype, time, trial), lb=0, ub=100)
+                    self.variables['g_'+phenotype][time][trial] = Variable(         # biomass growth
+                        _variable_name("g_", phenotype, time, trial), lb=0, ub=1000)   
                     
-                    if 'stationary' not in strain:
-                        self.variables['cvt_'+strain][time][trial] = Variable(       # conversion rate to the stationary phase
-                            _variable_name("cvt_", strain, time, trial), lb=0, ub=100)  
-                        self.variables['cvf_'+strain][time][trial] = Variable(       # conversion from to the stationary phase
-                            _variable_name("cvf_", strain, time, trial), lb=0, ub=100)   
+                    if 'stationary' not in phenotype:
+                        self.variables['cvt_'+phenotype][time][trial] = Variable(       # conversion rate to the stationary phase
+                            _variable_name("cvt_", phenotype, time, trial), lb=0, ub=100)  
+                        self.variables['cvf_'+phenotype][time][trial] = Variable(       # conversion from to the stationary phase
+                            _variable_name("cvf_", phenotype, time, trial), lb=0, ub=100)   
                         
-                        # 0 <= -cvt + bcv*b_{strain} + cvmin
-                        self.constraints['cvc_'+strain][time][trial] = Constraint(
-                            -self.variables['cvt_'+strain][time][trial] 
-                            + self.parameters['bcv']*self.variables['b_'+strain][time][trial] + self.parameters['cvmin'],
-                            lb=0, ub=None, name=_constraint_name('cvc_', strain, time, trial))  
+                        # 0 <= -cvt + bcv*b_{phenotype} + cvmin
+                        self.constraints['cvc_'+phenotype][time][trial] = Constraint(
+                            -self.variables['cvt_'+phenotype][time][trial] 
+                            + self.parameters['bcv']*self.variables['b_'+phenotype][time][trial] + self.parameters['cvmin'],
+                            lb=0, ub=None, name=_constraint_name('cvc_', phenotype, time, trial))  
                         
-                        # g_{strain} - b_{strain}*v = 0
-                        self.constraints['gc_'+strain][time][trial] = Constraint(
-                            self.variables['g_'+strain][time][trial] 
-                            - self.parameters['v']*self.variables['b_'+strain][time][trial],
-                            lb=0, ub=0, name=_constraint_name("gc_", strain, time, trial))
+                        # g_{phenotype} - b_{phenotype}*v = 0
+                        self.constraints['gc_'+phenotype][time][trial] = Constraint(
+                            self.variables['g_'+phenotype][time][trial] 
+                            - self.parameters['v']*self.variables['b_'+phenotype][time][trial],
+                            lb=0, ub=0, name=_constraint_name("gc_", phenotype, time, trial))
                 
-                        obj_coef.update({self.variables['cvf_'+strain][time][trial]: self.parameters['cvcf'],
-                                         self.variables['cvt_'+strain][time][trial]: self.parameters['cvct']})
-                        variables.extend([self.variables['cvf_'+strain][time][trial], self.variables['cvt_'+strain][time][trial]])
-                        constraints.extend([self.constraints['cvc_'+strain][time][trial], self.constraints['gc_'+strain][time][trial]])
+                        obj_coef.update({self.variables['cvf_'+phenotype][time][trial]: self.parameters['cvcf'],
+                                         self.variables['cvt_'+phenotype][time][trial]: self.parameters['cvct']})
+                        variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
+                        constraints.extend([self.constraints['cvc_'+phenotype][time][trial], self.constraints['gc_'+phenotype][time][trial]])
                     
-                    variables.extend([self.variables['b_'+strain][time][trial], self.variables['g_'+strain][time][trial]])
+                    variables.extend([self.variables['b_'+phenotype][time][trial], self.variables['g_'+phenotype][time][trial]])
                     
         # define non-concentration variables
         time_2 = process_time()
@@ -251,7 +251,7 @@ class MSCommFitting():   # explicit typing for cython
                                 - self.variables["c_"+met][next_time][trial] 
                                 + np.dot(
                                     self.phenotypes_parsed_df[2][r_index]*self.parameters['timestep_hr'], np.array([
-                                    self.variables['g_'+strain][time][trial] for strain in self.phenotypes_parsed_df[1]
+                                    self.variables['g_'+phenotype][time][trial] for phenotype in self.phenotypes_parsed_df[1]
                                     ])), 
                                 ub=0, lb=0, name=_constraint_name("dcc_", met, time, trial))
                             
@@ -279,33 +279,33 @@ class MSCommFitting():   # explicit typing for cython
                 self.constraints[signal+'__bioc'][time]:dict = {}; self.constraints[signal+'__diffc'][time]:dict = {}
                 for r_index, trial in enumerate(parsed_df[0]):
                     total_biomass: Add = 0; signal_sum: Add = 0; from_sum: Add = 0; to_sum: Add = 0
-                    for strain in self.phenotypes_parsed_df[1]:
-                        total_biomass += self.variables["b_"+strain][time][trial]
-                        val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, strain]
-                        signal_sum += val*self.variables["b_"+strain][time][trial]
-                        if all(['OD' not in signal, self.signal_species[signal] in strain, 'stationary' not in strain]):
-                            from_sum += val*self.variables['cvf_'+strain][time][trial] 
-                            to_sum += val*self.variables['cvt_'+strain][time][trial]  
-                    for strain in self.phenotypes_parsed_df[1]:
-                        if 'OD' not in signal and self.signal_species[signal] in strain:
-                            if "stationary" in strain:
-                                # b_{strain} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{strain} = 0
-                                self.constraints['dbc_'+strain][time][trial] = Constraint(
-                                    self.variables['b_'+strain][time][trial] 
+                    for phenotype in self.phenotypes_parsed_df[1]:
+                        total_biomass += self.variables["b_"+phenotype][time][trial]
+                        val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, phenotype]
+                        signal_sum += val*self.variables["b_"+phenotype][time][trial]
+                        if all(['OD' not in signal, self.signal_species[signal] in phenotype, 'stationary' not in phenotype]):
+                            from_sum += val*self.variables['cvf_'+phenotype][time][trial] 
+                            to_sum += val*self.variables['cvt_'+phenotype][time][trial]  
+                    for phenotype in self.phenotypes_parsed_df[1]:
+                        if 'OD' not in signal and self.signal_species[signal] in phenotype:
+                            if "stationary" in phenotype:
+                                # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{phenotype} = 0
+                                self.constraints['dbc_'+phenotype][time][trial] = Constraint(
+                                    self.variables['b_'+phenotype][time][trial] 
                                     - from_sum + to_sum 
-                                    - self.variables['b_'+strain][next_time][trial],
-                                    ub=0, lb=0, name=_constraint_name("dbc_", strain, time, trial))
+                                    - self.variables['b_'+phenotype][next_time][trial],
+                                    ub=0, lb=0, name=_constraint_name("dbc_", phenotype, time, trial))
                             else:
-                                # -b_{strain} + dt*g_{strain} + cvf - cvt - b+1_{strain} = 0
-                                self.constraints['dbc_'+strain][time][trial] = Constraint( 
-                                    self.variables['b_'+strain][time][trial]
-                                    + self.parameters['timestep_hr']*self.variables['g_'+strain][time][trial]
-                                    + self.variables['cvf_'+strain][time][trial] 
-                                    - self.variables['cvt_'+strain][time][trial]
-                                    - self.variables['b_'+strain][next_time][trial],
-                                    ub=0, lb=0, name=_constraint_name("dbc_", strain, time, trial))
+                                # -b_{phenotype} + dt*g_{phenotype} + cvf - cvt - b+1_{phenotype} = 0
+                                self.constraints['dbc_'+phenotype][time][trial] = Constraint( 
+                                    self.variables['b_'+phenotype][time][trial]
+                                    + self.parameters['timestep_hr']*self.variables['g_'+phenotype][time][trial]
+                                    + self.variables['cvf_'+phenotype][time][trial] 
+                                    - self.variables['cvt_'+phenotype][time][trial]
+                                    - self.variables['b_'+phenotype][next_time][trial],
+                                    ub=0, lb=0, name=_constraint_name("dbc_", phenotype, time, trial))
                             
-                            constraints.append(self.constraints['dbc_'+strain][time][trial])
+                            constraints.append(self.constraints['dbc_'+phenotype][time][trial])
                             
                     self.variables[signal+'__bio'][time][trial] = Variable(
                         _variable_name(signal, '__bio', time, trial), lb=0, ub=1000)
@@ -320,7 +320,7 @@ class MSCommFitting():   # explicit typing for cython
                         - self.variables[signal+'__bio'][time][trial], 
                         name=_constraint_name(signal, '__bioc', time, trial), lb=0, ub=0)
                     
-                    # {speces}_bio - sum_k^K(es_k*b_{strain}) - {signal}_diffpos + {signal}_diffneg = 0
+                    # {speces}_bio - sum_k^K(es_k*b_{phenotype}) - {signal}_diffpos + {signal}_diffneg = 0
                     self.constraints[signal+'__diffc'][time][trial] = Constraint( 
                         self.variables[signal+'__bio'][time][trial]-signal_sum 
                         - self.variables[signal+'__diffpos'][time][trial]
@@ -374,10 +374,6 @@ class MSCommFitting():   # explicit typing for cython
                 
     def compute(self, graphs:list = []):
         solution = self.problem.optimize()
-        if "optimal" in  solution:
-            print('The solution is optimal.')
-        else:
-            warn(f'The solution is sub-optimal, with a {solution} status.')
         
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
@@ -389,7 +385,16 @@ class MSCommFitting():   # explicit typing for cython
                 if not basename in self.values[trial]:
                     self.values[trial][basename]:dict = {}
                 self.values[trial][basename][time] = value
-        
+                
+        if graphs != []:
+            self.graph(graphs)
+            
+        if "optimal" in  solution:
+            print('The solution is optimal.')
+        else:
+            raise SubOptimalError(f'The solution is sub-optimal, with a {solution} status.')
+                
+    def graph(self, graphs:list = []):
         # plot the content for desired trials 
         for graph in graphs:
             pyplot.rcParams['figure.figsize'] = (11, 7)
@@ -404,23 +409,23 @@ class MSCommFitting():   # explicit typing for cython
                 if trial == graph['trial']:
                     labels:list = []
                     for basename in basenames:
-                        if all([x in basename for x in [graph['species'], graph['strain'], content]]):
+                        if all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
                             labels.append(basename)
                             ax.plot(self.values[trial][basename].keys(),
                                     self.values[trial][basename].values(),
                                     label=basename)
                             ax.legend(labels)
-                            ax.set_xticks(list(x for x in self.values[trial][basename].keys() if int(x)%2 == 0))
+                            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['timestep_hr'])])
                     if labels != []:
                         ax.set_xlabel('Time (hr)')
                         ax.set_ylabel('Variable value')
-                        ax.set_title(f'{graph["content"]} of the {graph["strain"]} {graph["species"]} strain in the {trial} trial')
-                        fig_name = f'{"_".join([trial, graph["species"], graph["strain"], graph["content"]])}.png'
+                        ax.set_title(f'{graph["content"]} of the {graph["phenotype"]} {graph["species"]} phenotype in the {trial} trial')
+                        fig_name = f'{"_".join([trial, graph["species"], graph["phenotype"], graph["content"]])}.png'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
         
         # combine the figures with the other cotent
-        if self.zipped_contents:
+        if self.zip_contents:
             with ZipFile('msComFit.zip', 'a') as zp:
                 for plot in self.plots:
                     zp.write(plot)
