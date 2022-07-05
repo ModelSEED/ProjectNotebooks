@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # cython: language_level=3
 from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
-from modelseedpy.core.exceptions import SubOptimalError
+from modelseedpy.core.exceptions import FeasibilityError
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
@@ -35,14 +35,19 @@ class MSCommFitting():   # explicit typing for cython
                  signal_tsv_paths: dict = {},          # the dictionary of index names for each paths to signal TSV data that will be fitted
                  phenotypes_csv_path: str = None,      # a custom CSV of media phenotypic data
                  media_conc_path:str = None,           # a CSV of the media concentrations
+                 species_abundance_path:str = None,    # a CSV over the series of species abundances for a range of trials
                  carbon_conc_series: dict = None,      # the concentrations of carbon sources in the media
                  ignore_trials:dict = {},              # the trials (row+column coordinates) that will be ignored by the model
-                 zipped_contents:bool = False          # specifies whether the input contents are in a zipped file
+                 ignore_timesteps:list=[],             # tiemsteps that will be ignored 
+                 significant_deviation:float = 2,    # the lowest multiple of a trial mean from its initial value that will permit its inclusion in the model fit
+                 unzip_contents:bool = False           # specifies whether the input contents are in a zipped file
                  ):
-        self.zipped_contents = zipped_contents
-        if zipped_contents:
+        self.zipped_output = []
+        if unzip_contents:
             with ZipFile('msComFit.zip', 'r') as zp:
                 zp.extractall()
+        if species_abundance_path:
+            self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
         if phenotypes_csv_path:
             # process a predefined exchanges table
             self.zipped_output.append(phenotypes_csv_path)
@@ -54,10 +59,7 @@ class MSCommFitting():   # explicit typing for cython
             print(f'The {to_drop+["rxn"]} columns were dropped from the phenotypes CSV.')
             
             # import and process the media concentrations CSV
-            self.media_conc = read_csv(media_conc_path)
-            self.media_conc.index = self.media_conc['media_compound']
-            self.media_conc.drop('media_compound', axis=1, inplace=True)
-            self.media_conc.astype(str)
+            self.media_conc = self._process_csv(media_conc_path, 'media_compound')
         elif community_members:
             # import the media for each model
             models = OrderedDict(); ex_rxns:set = set(); species:dict = {}
@@ -74,9 +76,10 @@ class MSCommFitting():   # explicit typing for cython
                         models[model].append(model.optimize())
                     
             # construct the parsed table of all exchange fluxes for each phenotype
-            fluxes_df = DataFrame(data={'bio':[sol.fluxes['bio1'] for solutions in models.values() for sol in solutions]},
-                                  columns=['rxn']+[spec+'-'+phenotype for spec, phenotypes in species.items() for phenotype in phenotypes]
-                                  +[spec+'-stationary' for spec in species.keys()])
+            fluxes_df = DataFrame(
+                data={'bio':[sol.fluxes['bio1'] for solutions in models.values() for sol in solutions]},
+                columns=['rxn']+[spec+'-'+phenotype for spec, phenotypes in species.items() for phenotype in phenotypes]
+                +[spec+'-stationary' for spec in species.keys()])
             fluxes_df.index.name = 'rxn'
             fluxes_df.drop('rxn', axis=1, inplace=True)
             for ex_rxn in ex_rxns:
@@ -105,7 +108,7 @@ class MSCommFitting():   # explicit typing for cython
             ignore_trials['wells'] = []
         ignore_trials['columns'] = list(map(str, ignore_trials['columns']))
         ignore_trials['rows'] = list(map(str, ignore_trials['rows']))
-        
+        ignore_timesteps = list(map(str, ignore_timesteps))
         for path, name in signal_tsv_paths.items():
             self.zipped_output.append(path)
             signal = os.path.splitext(path)[0].split("_")[0]
@@ -113,25 +116,46 @@ class MSCommFitting():   # explicit typing for cython
             self.signal_species[signal] = name # {name:phenotypes}
             self.dataframes[signal] = read_table(path).iloc[1::2]  # slices the results and not the time
             self.dataframes[signal].index = self.dataframes[signal]['Well']
+            dropped_trials = []
+            for trial in self.dataframes[signal].index:
+                if any([trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'],
+                        trial in ignore_trials['wells']]):
+                    self.dataframes[signal].drop(trial, axis=0, inplace=True)
+                    dropped_trials.append(trial)
+            print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
             for col in ['Plate', 'Cycle', 'Well']:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
+            
+            # filter data contents
+            for col in self.dataframes[signal]:
+                if col in ignore_timesteps:
+                    self.dataframes[signal].drop(col, axis=1, inplace=True)
+
+            if 'OD' not in signal:
+                removed_trials = []
+                for trial, row in self.dataframes[signal].iterrows():
+                    row_array = np.array(row.to_list())
+                    if row_array[-1]/row_array[0] < significant_deviation:
+                        self.dataframes[signal].drop(trial, axis=0, inplace=True)
+                        removed_trials.append(trial)
+                print(f'The {removed_trials} trials were removed from the {name} measurements, with their deviation over time being less than the threshold of {significant_deviation}.')
+            
+            # process the data for subsequent operations and optimal efficiency
             self.dataframes[signal].astype(str)
-            # convert the dataframe to a numpy array for greater efficiency
             self.dataframes[signal]: np.ndarray = FBAHelper.parse_df(self.dataframes[signal])
             
-            # filter trials by ignore_trials
-            new_trials = []
-            for trial in self.dataframes[signal][0]:
-                if all([trial[0] not in ignore_trials['rows'], 
-                        trial[1:] not in ignore_trials['columns'],
-                        trial not in ignore_trials['wells']]):
-                    new_trials.append(trial)
-            self.dataframes[signal][0] = np.array(new_trials)
-        
             # differentiate the phenotypes for each species
             if "OD" not in signal:
                 self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
+                
+    def _process_csv(self, csv_path, index_col):
+        self.zipped_output.append(csv_path)
+        csv = read_csv(csv_path)
+        csv.index = csv[index_col]
+        csv.drop(index_col, axis=1, inplace=True)
+        csv.astype(str)
+        return csv
                 
     # @cython.ccall # cfunc
     def define_problem(self, parameters={}, 
@@ -143,8 +167,8 @@ class MSCommFitting():   # explicit typing for cython
             "cvct": 1,              # Coefficient for the minimization of phenotype conversion to the stationary phase. 
             "cvcf": 1,              # Coefficient for the minimization of phenotype conversion from the stationary phase. 
             "bcv": 1,               # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
-            "cvmin": 0.1,           # This is the lowest value the limit on phenotype conversion goes, 
-            "v": 10,                # the kinetics constant that is externally adjusted 
+            "cvmin": 0,             # This is the lowest value the limit on phenotype conversion goes, 
+            "v": 1000,              # the kinetics constant that is externally adjusted 
             'carbon_sources': ['cpd00136', 'cpd00179']  # 4hb, maltose
         })
         self.zip_contents = zip_contents
@@ -167,7 +191,7 @@ class MSCommFitting():   # explicit typing for cython
                         for trial in parsed_df[0]:
                             # define biomass measurement conversion variables 
                             self.variables["c_"+met][time][trial] = Variable(
-                                _variable_name("c_", met, time, trial), lb=0, ub=1000)
+                                _variable_name("c_", met, time, trial), lb=0, ub=10000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if initial_time:
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
@@ -352,6 +376,7 @@ class MSCommFitting():   # explicit typing for cython
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
                 
         # print contents
+        
         if print_conditions:
             DataFrame(data=list(self.parameters.values()), 
                       index=list(self.parameters.keys()), 
@@ -392,9 +417,18 @@ class MSCommFitting():   # explicit typing for cython
         if "optimal" in  solution:
             print('The solution is optimal.')
         else:
-            raise SubOptimalError(f'The solution is sub-optimal, with a {solution} status.')
+            raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
     def graph(self, graphs:list = []):
+        def add_plot(ax, labels, basename, trial):
+            labels.append(basename)
+            ax.plot(self.values[trial][basename].keys(),
+                    self.values[trial][basename].values(),
+                    label=basename)
+            ax.legend(labels)
+            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['timestep_hr'])])
+            return ax, labels
+            
         # plot the content for desired trials 
         for graph in graphs:
             pyplot.rcParams['figure.figsize'] = (11, 7)
@@ -409,18 +443,18 @@ class MSCommFitting():   # explicit typing for cython
                 if trial == graph['trial']:
                     labels:list = []
                     for basename in basenames:
-                        if all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
-                            labels.append(basename)
-                            ax.plot(self.values[trial][basename].keys(),
-                                    self.values[trial][basename].values(),
-                                    label=basename)
-                            ax.legend(labels)
-                            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['timestep_hr'])])
+                        # parse for non-concentration variables
+                        if any([x in basename for x in [graph['species'], graph['phenotype']]]):
+                            if all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
+                                ax, labels = add_plot(ax, labels, basename, trial)
+                        elif 'EX_' in basename and graph['content'] in basename:
+                            ax, labels = add_plot(ax, labels, basename, trial)
+                                
                     if labels != []:
                         ax.set_xlabel('Time (hr)')
                         ax.set_ylabel('Variable value')
-                        ax.set_title(f'{graph["content"]} of the {graph["phenotype"]} {graph["species"]} phenotype in the {trial} trial')
-                        fig_name = f'{"_".join([trial, graph["species"], graph["phenotype"], graph["content"]])}.png'
+                        ax.set_title(f'{graph["content"]} of the {graph["species"]} {graph["phenotype"]} phenotype in the {trial} trial')
+                        fig_name = f'{"_".join([trial, graph["species"], graph["phenotype"], graph["content"]])}.jpg'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
         
