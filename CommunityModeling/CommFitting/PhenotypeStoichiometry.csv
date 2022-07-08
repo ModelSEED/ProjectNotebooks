@@ -1,5 +1,5 @@
 rxn,rxn name,ecoli_malt,ecoli_acetate,pf_acetate,pf_4HB,ecoli_stationary,pf_stationary
-bio,biomas,0.206365562,0.04574416,0.013228103,0.046298361,0,0
+bio,biomass,0.206365562,0.04574416,0.013228103,0.046298361,0,0
 EX_cpd00001_e0,Exchange for H2O,7.979185611,1.330390268,0,0,0,0
 EX_cpd00007_e0,Exchange for O2,-3.089253373,-0.024796536,-0.049873183,-0.17455614,0,0
 EX_cpd00009_e0,Exchange for Phosphate,-0.19906146,-0.044125091,-0.182178626,-0.637625191,0,0

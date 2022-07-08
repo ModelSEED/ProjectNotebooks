@@ -181,7 +181,7 @@ class MSCommFitting():   # explicit typing for cython
             for met in self.phenotypes_parsed_df[0]:
                 met_id = re.sub('(\_\w\d+)', '', met)
                 met_id = met_id.replace('EX_', '', 1)
-                if all([x not in met for x in ['bio', 'cpd00001']]):
+                if met_id != 'cpd00001':
                     self.variables["c_"+met]:dict = {}; self.constraints['dcc_'+met]:dict = {}
                     initial_time = True; final_time = False
                     for time in parsed_df[1]:
@@ -191,9 +191,9 @@ class MSCommFitting():   # explicit typing for cython
                         for trial in parsed_df[0]:
                             # define biomass measurement conversion variables 
                             self.variables["c_"+met][time][trial] = Variable(
-                                _variable_name("c_", met, time, trial), lb=0, ub=10000)
+                                _variable_name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
-                            if initial_time:
+                            if initial_time and not 'bio' in met_id:
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
@@ -262,7 +262,7 @@ class MSCommFitting():   # explicit typing for cython
         print(f'Done with biomass loop: {(time_2-time_1)/60} min')
         for parsed_df in self.dataframes.values():
             for r_index, met in enumerate(self.phenotypes_parsed_df[0]):
-                if all([x not in met for x in ['bio', 'cpd00001']]):
+                if 'cpd00001' not in met:
                     for trial in parsed_df[0]:
                         last_column = False
                         for time in parsed_df[1]:
