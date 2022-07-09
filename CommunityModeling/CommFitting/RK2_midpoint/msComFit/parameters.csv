@@ -1,0 +1,8 @@
+,values
+timestep_hr,0.2
+cvct,1
+cvcf,1
+bcv,0.5
+cvmin,0.5
+v,100
+carbon_sources,"['cpd00136', 'cpd00179']"
