@@ -5,6 +5,7 @@ from modelseedpy.core.exceptions import FeasibilityError
 from pandas import read_table, read_csv, DataFrame
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
+from scipy.constants import hour
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
@@ -39,12 +40,12 @@ class MSCommFitting():   # explicit typing for cython
                  carbon_conc_series: dict = None,      # the concentrations of carbon sources in the media
                  ignore_trials:dict = {},              # the trials (row+column coordinates) that will be ignored by the model
                  ignore_timesteps:list=[],             # tiemsteps that will be ignored 
-                 significant_deviation:float = 2,    # the lowest multiple of a trial mean from its initial value that will permit its inclusion in the model fit
-                 unzip_contents:bool = False           # specifies whether the input contents are in a zipped file
+                 significant_deviation:float = 2,      # the lowest multiple of a trial mean from its initial value that will permit its inclusion in the model fit
+                 unzip_contents:str = None             # specifies whether the input contents are in a zipped file
                  ):
         self.zipped_output = []
         if unzip_contents:
-            with ZipFile('msComFit.zip', 'r') as zp:
+            with ZipFile(unzip_contents, 'r') as zp:
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
@@ -90,6 +91,14 @@ class MSCommFitting():   # explicit typing for cython
                 if any(np.array(elements) != 0):
                     fluxes_df.iloc[ex_rxn.id] = elements
             
+        # define only species for which data is defined
+        modeled_species = list(x for x in signal_tsv_paths.values() if x != 'OD')
+        removed_phenotypes = []
+        for col in fluxes_df:
+            if not any([species in col for species in modeled_species]):
+                removed_phenotypes.append(col)
+                fluxes_df.drop(col, axis=1, inplace=True)
+        print(f'The {removed_phenotypes} phenotypes were removed since their species is not among those that are defined with data: {modeled_species}.')
         fluxes_df.astype(str)
         self.phenotypes_parsed_df = FBAHelper.parse_df(fluxes_df)
         self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_parsed_df[1])
@@ -100,6 +109,7 @@ class MSCommFitting():   # explicit typing for cython
             ignore_trials['rows'] = {}
         self.carbon_conc = carbon_conc_series
         
+        self.parameters["data_timestep_hr"] = []
         if 'columns' not in ignore_trials:
             ignore_trials['columns'] = []
         if 'rows' not in ignore_trials:
@@ -114,8 +124,11 @@ class MSCommFitting():   # explicit typing for cython
             signal = os.path.splitext(path)[0].split("_")[0]
             # define the signal dataframe
             self.signal_species[signal] = name # {name:phenotypes}
-            self.dataframes[signal] = read_table(path).iloc[1::2]  # slices the results and not the time
+            self.dataframes[signal] = read_table(path)
+            self.parameters["data_timestep_hr"].append(self.dataframes[signal].iloc[0,-1]/int(self.dataframes[signal].columns[-1]))
+            self.dataframes[signal] = self.dataframes[signal].iloc[1::2]  # excludes the times
             self.dataframes[signal].index = self.dataframes[signal]['Well']
+            # filter data contents
             dropped_trials = []
             for trial in self.dataframes[signal].index:
                 if any([trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'],
@@ -125,12 +138,9 @@ class MSCommFitting():   # explicit typing for cython
             print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
             for col in ['Plate', 'Cycle', 'Well']:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
-            
-            # filter data contents
             for col in self.dataframes[signal]:
                 if col in ignore_timesteps:
                     self.dataframes[signal].drop(col, axis=1, inplace=True)
-
             if 'OD' not in signal:
                 removed_trials = []
                 for trial, row in self.dataframes[signal].iterrows():
@@ -138,7 +148,8 @@ class MSCommFitting():   # explicit typing for cython
                     if row_array[-1]/row_array[0] < significant_deviation:
                         self.dataframes[signal].drop(trial, axis=0, inplace=True)
                         removed_trials.append(trial)
-                print(f'The {removed_trials} trials were removed from the {name} measurements, with their deviation over time being less than the threshold of {significant_deviation}.')
+                if removed_trials != []:
+                    print(f'The {removed_trials} trials were removed from the {name} measurements, with their deviation over time being less than the threshold of {significant_deviation}.')
             
             # process the data for subsequent operations and optimal efficiency
             self.dataframes[signal].astype(str)
@@ -148,6 +159,8 @@ class MSCommFitting():   # explicit typing for cython
             if "OD" not in signal:
                 self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
+        
+        self.parameters["data_timestep_hr"] = (sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"]))/hour
                 
     def _process_csv(self, csv_path, index_col):
         self.zipped_output.append(csv_path)
@@ -158,21 +171,22 @@ class MSCommFitting():   # explicit typing for cython
         return csv
                 
     # @cython.ccall # cfunc
-    def define_problem(self, parameters={}, 
+    def define_problem(self, parameters={},        # parameters that will overwrite the default options
+                       zip_name='msComFit.zip',    # the name of the export zip file
                        print_conditions: bool = True, print_lp: bool = True, zip_contents:bool = True
                        ):
-        self.problem = Model()
         self.parameters.update({
-            "timestep_hr": 0.2,     # Size of the timestep in hours 
-            "cvct": 1,              # Coefficient for the minimization of phenotype conversion to the stationary phase. 
-            "cvcf": 1,              # Coefficient for the minimization of phenotype conversion from the stationary phase. 
-            "bcv": 1,               # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
-            "cvmin": 0,             # This is the lowest value the limit on phenotype conversion goes, 
-            "v": 1000,              # the kinetics constant that is externally adjusted 
+            "user_timestep_hr": 200/hour,  # Timestep size of the simulation in hours 
+            "cvct": 1,                     # Coefficient for the minimization of phenotype conversion to the stationary phase. 
+            "cvcf": 1,                     # Coefficient for the minimization of phenotype conversion from the stationary phase. 
+            "bcv": 1,                      # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
+            "cvmin": 0,                    # This is the lowest value the limit on phenotype conversion goes, 
+            "v": 1000,                     # the kinetics constant that is externally adjusted 
             'carbon_sources': ['cpd00136', 'cpd00179']  # 4hb, maltose
         })
-        self.zip_contents = zip_contents
         self.parameters.update(parameters)
+        self.problem = Model()
+        self.zip_contents = zip_contents
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         
@@ -215,7 +229,7 @@ class MSCommFitting():   # explicit typing for cython
                         self.constraints['dbc_'+phenotype]:dict = {}
                         for time in parsed_df[1]:
                             self.constraints['dbc_'+phenotype][time]:dict = {}
-                    
+                  
         for phenotype in self.phenotypes_parsed_df[1]:
             self.variables['cvt_'+phenotype]:dict = {}; self.variables['cvf_'+phenotype]:dict = {}
             self.variables['b_'+phenotype]:dict = {}; self.variables['g_'+phenotype]:dict = {}
@@ -226,7 +240,7 @@ class MSCommFitting():   # explicit typing for cython
                 self.variables['b_'+phenotype][time]:dict = {}; self.variables['g_'+phenotype][time]:dict = {}
                 self.variables['v_'+phenotype][time]:dict = {}
                 self.constraints['gc_'+phenotype][time]:dict = {}; self.constraints['cvc_'+phenotype][time]:dict = {}
-                for trial in parsed_df[0]:  # the use of only one parsed_df prevents duplicative variable assignment
+                for trial in parsed_df[0]:
                     self.variables['b_'+phenotype][time][trial] = Variable(         # predicted biomass abundance
                         _variable_name("b_", phenotype, time, trial), lb=0, ub=100)
                     self.variables['g_'+phenotype][time][trial] = Variable(         # biomass growth
@@ -257,7 +271,8 @@ class MSCommFitting():   # explicit typing for cython
                     
                     variables.extend([self.variables['b_'+phenotype][time][trial], self.variables['g_'+phenotype][time][trial]])
                     
-        # define non-concentration variables
+        # define non-concentration variables  
+        half_dt = self.parameters['data_timestep_hr']/2
         time_2 = process_time()
         print(f'Done with biomass loop: {(time_2-time_1)/60} min')
         for parsed_df in self.dataframes.values():
@@ -271,12 +286,11 @@ class MSCommFitting():   # explicit typing for cython
                                 last_column = True  
                             # c_{met} + dt*sum_k^K() - c+1_{met} = 0
                             self.constraints['dcc_'+met][time][trial] = Constraint(
-                                self.variables["c_"+met][time][trial] 
-                                - self.variables["c_"+met][next_time][trial] 
+                                self.variables["c_"+met][time][trial] - self.variables["c_"+met][next_time][trial] 
                                 + np.dot(
-                                    self.phenotypes_parsed_df[2][r_index]*self.parameters['timestep_hr'], np.array([
-                                    self.variables['g_'+phenotype][time][trial] for phenotype in self.phenotypes_parsed_df[1]
-                                    ])), 
+                                    self.phenotypes_parsed_df[2][r_index]*half_dt, np.array([
+                                        self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial]
+                                        for phenotype in self.phenotypes_parsed_df[1]])),
                                 ub=0, lb=0, name=_constraint_name("dcc_", met, time, trial))
                             
                             constraints.append(self.constraints['dcc_'+met][time][trial])
@@ -322,11 +336,9 @@ class MSCommFitting():   # explicit typing for cython
                             else:
                                 # -b_{phenotype} + dt*g_{phenotype} + cvf - cvt - b+1_{phenotype} = 0
                                 self.constraints['dbc_'+phenotype][time][trial] = Constraint( 
-                                    self.variables['b_'+phenotype][time][trial]
-                                    + self.parameters['timestep_hr']*self.variables['g_'+phenotype][time][trial]
-                                    + self.variables['cvf_'+phenotype][time][trial] 
-                                    - self.variables['cvt_'+phenotype][time][trial]
-                                    - self.variables['b_'+phenotype][next_time][trial],
+                                    self.variables['b_'+phenotype][time][trial] - self.variables['b_'+phenotype][next_time][trial]
+                                    + half_dt*(self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial])
+                                    + self.variables['cvf_'+phenotype][time][trial] - self.variables['cvt_'+phenotype][time][trial],
                                     ub=0, lb=0, name=_constraint_name("dbc_", phenotype, time, trial))
                             
                             constraints.append(self.constraints['dbc_'+phenotype][time][trial])
@@ -389,7 +401,7 @@ class MSCommFitting():   # explicit typing for cython
                 lp.write(self.problem.to_lp())
         if self.zip_contents:
             sleep(2)
-            with ZipFile('msComFit.zip', 'w', compression=ZIP_LZMA) as zp:
+            with ZipFile(zip_name, 'w', compression=ZIP_LZMA) as zp:
                 for file in self.zipped_output:
                     zp.write(file)
                     os.remove(file)
@@ -397,14 +409,16 @@ class MSCommFitting():   # explicit typing for cython
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
-    def compute(self, graphs:list = []):
+    def compute(self, graphs:list = [],     # the graph specifications that will be parsed from the primal values
+                zip_name='msComFit.zip',    # the name of the export zip file
+                ):
         solution = self.problem.optimize()
         
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
             if 'conversion' not in variable:
                 basename, time, trial = variable.split('-')
-                time = int(time)*self.parameters['timestep_hr']
+                time = int(time)*self.parameters['data_timestep_hr']
                 if not trial in self.values:
                     self.values[trial]:dict = {}
                 if not basename in self.values[trial]:
@@ -412,21 +426,23 @@ class MSCommFitting():   # explicit typing for cython
                 self.values[trial][basename][time] = value
                 
         if graphs != []:
-            self.graph(graphs)
+            self.graph(graphs, zip_name)
             
         if "optimal" in  solution:
             print('The solution is optimal.')
         else:
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
-    def graph(self, graphs:list = []):
+    def graph(self, graphs:list = [], 
+              zip_name='msComFit.zip',    # the name of the export zip file
+              ):
         def add_plot(ax, labels, basename, trial):
             labels.append(basename)
             ax.plot(self.values[trial][basename].keys(),
                     self.values[trial][basename].values(),
                     label=basename)
             ax.legend(labels)
-            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['timestep_hr'])])
+            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['data_timestep_hr'])])
             return ax, labels
             
         # plot the content for desired trials 
@@ -460,7 +476,7 @@ class MSCommFitting():   # explicit typing for cython
         
         # combine the figures with the other cotent
         if self.zip_contents:
-            with ZipFile('msComFit.zip', 'a') as zp:
+            with ZipFile(zip_name, 'a') as zp:
                 for plot in self.plots:
                     zp.write(plot)
                     os.remove(plot)
