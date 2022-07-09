@@ -99,7 +99,8 @@ class MSCommFitting():   # explicit typing for cython
             if not any([species in col for species in modeled_species]):
                 removed_phenotypes.append(col)
                 fluxes_df.drop(col, axis=1, inplace=True)
-        print(f'The {removed_phenotypes} phenotypes were removed since their species is not among those that are defined with data: {modeled_species}.')
+        if removed_phenotypes != []:
+            print(f'The {removed_phenotypes} phenotypes were removed since their species is not among those that are defined with data: {modeled_species}.')
         fluxes_df.astype(str)
         self.phenotypes_parsed_df = FBAHelper.parse_df(fluxes_df)
         self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_parsed_df[1])
@@ -137,7 +138,8 @@ class MSCommFitting():   # explicit typing for cython
                         trial in ignore_trials['wells']]):
                     self.dataframes[signal].drop(trial, axis=0, inplace=True)
                     dropped_trials.append(trial)
-            print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
+            if dropped_trials != []:
+                print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
             for col in ['Plate', 'Cycle', 'Well']:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
             for col in self.dataframes[signal]:
@@ -191,7 +193,7 @@ class MSCommFitting():   # explicit typing for cython
         self.zip_contents = zip_contents
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
-        self.simulation_timesteps = list(range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1))
+        self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
         data_timestep = 1
         
         time_1 = process_time()
@@ -313,7 +315,7 @@ class MSCommFitting():   # explicit typing for cython
             self.constraints[signal+'__bioc']:dict = {}; self.constraints[signal+'__diffc']:dict = {}  # diffc is defined latter
             last_column = False
             for time in self.simulation_timesteps:
-                if time*self.parameters['timestep_hr'] >= data_timestep*self.parameters['data_timestep_hr']:
+                if int(time)*self.parameters['timestep_hr'] >= data_timestep*self.parameters['data_timestep_hr']:
                     data_timestep += 1
                     next_time = str(int(time)+1)
                     if next_time == self.simulation_timesteps[-1]:
