@@ -127,7 +127,7 @@ class MSCommFitting():   # explicit typing for cython
             # define the signal dataframe
             self.signal_species[signal] = name # {name:phenotypes}
             self.dataframes[signal] = read_table(path)
-            self.simulation_time = self.dataframes[signal].iloc[0,-1]
+            self.simulation_time = self.dataframes[signal].iloc[0,-1]/hour
             self.parameters["data_timestep_hr"].append(self.simulation_time/int(self.dataframes[signal].columns[-1]))
             self.dataframes[signal] = self.dataframes[signal].iloc[1::2]  # excludes the times
             self.dataframes[signal].index = self.dataframes[signal]['Well']
@@ -164,7 +164,7 @@ class MSCommFitting():   # explicit typing for cython
                 self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
         
-        self.parameters["data_timestep_hr"] = (sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"]))/hour
+        self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
                 
     def _process_csv(self, csv_path, index_col):
         self.zipped_output.append(csv_path)
@@ -194,7 +194,6 @@ class MSCommFitting():   # explicit typing for cython
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
-        data_timestep = 1
         
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
@@ -306,6 +305,7 @@ class MSCommFitting():   # explicit typing for cython
                     
         time_3 = process_time()
         print(f'Done with metabolites loop: {(time_3-time_2)/60} min')
+        data_timestep = 1
         for signal, parsed_df in self.dataframes.items():
             self.variables[signal+'__conversion'] = Variable(signal+'__conversion', lb=0, ub=1000)
             variables.append(self.variables[signal+'__conversion'])
