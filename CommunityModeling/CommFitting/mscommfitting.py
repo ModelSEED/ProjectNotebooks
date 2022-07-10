@@ -28,7 +28,7 @@ def _constraint_name(name, suffix, time, trial):
 class MSCommFitting():   # explicit typing for cython
     parameters: dict = {}; variables: dict = {}; constraints: dict = {}; dataframes: dict = {}; signal_species: dict = {}; values:dict = {}
     phenotypes_parsed_df: np.ndarray; problem: object; species_phenotypes_bool_df: object; zipped_output:list = []; plots:list = []; 
-    simulation_time: float
+    simulation_time: float; data_timesteps: float
         
     def __init__(self, 
                  community_members: dict = {},         # the model of the community that was experimentally investigated and will be examined via fitting, which includes the permanent KBase ID of the media (e.g. 93465/3/1) that describe each respective community model
@@ -165,6 +165,7 @@ class MSCommFitting():   # explicit typing for cython
                     1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
         
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
+        self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
                 
     def _process_csv(self, csv_path, index_col):
         self.zipped_output.append(csv_path)
@@ -194,7 +195,6 @@ class MSCommFitting():   # explicit typing for cython
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
-        
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
             for met in self.phenotypes_parsed_df[0]:
@@ -313,13 +313,12 @@ class MSCommFitting():   # explicit typing for cython
             self.variables[signal+'__bio']:dict = {}; self.variables[signal+'__diffpos']:dict = {}
             self.variables[signal+'__diffneg']:dict = {}
             self.constraints[signal+'__bioc']:dict = {}; self.constraints[signal+'__diffc']:dict = {}  # diffc is defined latter
-            last_column = False
             for time in self.simulation_timesteps:
-                if int(time)*self.parameters['timestep_hr'] >= data_timestep*self.parameters['data_timestep_hr']:
+                if int(time)*self.parameters['timestep_hr'] >= data_timestep*self.parameters['data_timestep_hr']:  # synchronizes user timesteps with data timesteps
                     data_timestep += 1
                     next_time = str(int(time)+1)
-                    if next_time == self.simulation_timesteps[-1]:
-                        last_column = True  
+                    if int(data_timestep) > self.data_timesteps:
+                        break
                     self.variables[signal+'__bio'][time]:dict = {}; self.variables[signal+'__diffpos'][time]:dict = {}
                     self.variables[signal+'__diffneg'][time]:dict = {}
                     self.constraints[signal+'__bioc'][time]:dict = {}; self.constraints[signal+'__diffc'][time]:dict = {}
@@ -378,10 +377,6 @@ class MSCommFitting():   # explicit typing for cython
                                           self.variables[signal+'__diffneg'][time][trial]])
                         constraints.extend([self.constraints[signal+'__bioc'][time][trial],
                                            self.constraints[signal+'__diffc'][time][trial]])
-                        if last_column:
-                            break
-                if last_column:
-                    break
                 
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
