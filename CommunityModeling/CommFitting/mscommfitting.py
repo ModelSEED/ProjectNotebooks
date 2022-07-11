@@ -42,11 +42,11 @@ class MSCommFitting():   # explicit typing for cython
                  ignore_trials:dict = {},              # the trials (row+column coordinates) that will be ignored by the model
                  ignore_timesteps:list=[],             # tiemsteps that will be ignored 
                  significant_deviation:float = 2,      # the lowest multiple of a trial mean from its initial value that will permit its inclusion in the model fit
-                 unzip_contents:str = None             # specifies whether the input contents are in a zipped file
+                 zip_path:str = None             # specifies whether the input contents are in a zipped file
                  ):
         self.zipped_output = []
-        if unzip_contents:
-            with ZipFile(unzip_contents, 'r') as zp:
+        if zip_path:
+            with ZipFile(zip_path, 'r') as zp:
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
@@ -359,7 +359,7 @@ class MSCommFitting():   # explicit typing for cython
                             
                         # {signal}__conversion*datum = {signal}__bio
                         self.constraints[signal+'__bioc'][time][trial] = Constraint(
-                            self.variables[signal+'__conversion']*parsed_df[2][r_index, int(time)-1] 
+                            self.variables[signal+'__conversion']*parsed_df[2][r_index, int(data_timestep)-1] 
                             - self.variables[signal+'__bio'][time][trial], 
                             name=_constraint_name(signal, '__bioc', time, trial), lb=0, ub=0)
                         
@@ -439,41 +439,70 @@ class MSCommFitting():   # explicit typing for cython
     def graph(self, graphs:list = [], 
               zip_name='msComFit.zip',    # the name of the export zip file
               ):
+        timestep_ratio = self.parameters['data_timestep_hr']/self.parameters['timestep_hr']
         def add_plot(ax, labels, basename, trial):
             labels.append(basename)
             ax.plot(self.values[trial][basename].keys(),
                     self.values[trial][basename].values(),
                     label=basename)
             ax.legend(labels)
-            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['data_timestep_hr'])])
+            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/self.parameters['data_timestep_hr']/timestep_ratio)])
             return ax, labels
-            
+        
+        # def recursive_sum(array_list):
+        #     y1 = array_list[0]
+        #     for y in array_list[1:]:
+        #         y1 = y1+y
+        #     return y1
+        
         # plot the content for desired trials 
+        self.plots = []
         for graph in graphs:
+            if 'total' in graph['content']:
+                ys = []
+            print(graph)
             pyplot.rcParams['figure.figsize'] = (11, 7)
             pyplot.rcParams['figure.dpi'] = 150
             fig, ax = pyplot.subplots()
+            y_label = 'Variable value'
             for trial, basenames in self.values.items():
                 content = graph['content']
-                if graph['content'] == 'biomass':
+                if 'biomass' in graph['content']:
+                    y_label = 'grams'
                     content = 'b'
                 if graph['content'] == 'growth':
                     content = 'g'   
+                    y_label = 'grams/hour'
                 if trial == graph['trial']:
                     labels:list = []
                     for basename in basenames:
                         # parse for non-concentration variables
-                        if any([x in basename for x in [graph['species'], graph['phenotype']]]):
-                            if all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
+                        print(basename)
+                        if graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
+                            if 'total' in graph['content']:
+                                labels = [basename]
+                                xs = self.values[trial][basename].keys()
+                                ys.append(self.values[trial][basename].values())
+                            else:
                                 ax, labels = add_plot(ax, labels, basename, trial)
-                        elif 'EX_' in basename and graph['content'] in basename:
+                            print('1')
+                        elif all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
                             ax, labels = add_plot(ax, labels, basename, trial)
-                                
+                            print('2')
+                        elif 'EX_' in basename and graph['content'] in basename:
+                            ax, labels = add_plot(ax, labels, basename, trial)   
+                            y_label = 'Concentration (mM)'
+                            print('3')
+                            
                     if labels != []:
+                        if 'total' in graph['content']:
+                            labels = [basename]
+                            ax.plot(xs, sum(ys), label=graph['content'])
+                        phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all"
                         ax.set_xlabel('Time (hr)')
-                        ax.set_ylabel('Variable value')
-                        ax.set_title(f'{graph["content"]} of the {graph["species"]} {graph["phenotype"]} phenotype in the {trial} trial')
-                        fig_name = f'{"_".join([trial, graph["species"], graph["phenotype"], graph["content"]])}.jpg'
+                        ax.set_ylabel(y_label)
+                        ax.set_title(f'{graph["content"]} of {graph["species"]} ({phenotype_id}) in the {trial} trial')
+                        fig_name = f'{"_".join([trial, graph["species"], phenotype_id, graph["content"]])}.jpg'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
         
