@@ -190,7 +190,6 @@ class MSCommFitting():   # explicit typing for cython
         })
         self.parameters.update(parameters)
         self.problem = Model()
-        self.zip_name = zip_name
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
@@ -305,7 +304,6 @@ class MSCommFitting():   # explicit typing for cython
         time_3 = process_time()
         print(f'Done with metabolites loop: {(time_3-time_2)/60} min')
         for signal, parsed_df in self.dataframes.items():
-            print(signal)
             data_timestep = 1
             self.variables[signal+'__conversion'] = Variable(signal+'__conversion', lb=0, ub=1000)
             variables.append(self.variables[signal+'__conversion'])
@@ -391,18 +389,18 @@ class MSCommFitting():   # explicit typing for cython
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
                 
         # print contents
-        
         if print_conditions:
+            self.zipped_output.append('parameters.csv')
             DataFrame(data=list(self.parameters.values()),
                       index=list(self.parameters.keys()), 
                       columns=['values']
                       ).to_csv('parameters.csv')
-            self.zipped_output.append('parameters.csv')
         if print_lp:
             self.zipped_output.append('mscommfitting.lp')
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
-        if self.zip_name:
+        if zip_name:
+            self.zip_name = zip_name
             sleep(2)
             with ZipFile(self.zip_name, 'w', compression=ZIP_LZMA) as zp:
                 for file in self.zipped_output:
@@ -435,7 +433,7 @@ class MSCommFitting():   # explicit typing for cython
             if hasattr(self, zip_name()):
                 zip_name = self.zip_name
         if zip_name:
-            with ZipFile(zip_name, 'w', compression=ZIP_LZMA) as zp:
+            with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
                 zp.write('primal_values.json')
                 os.remove('primal_values.json')
         
