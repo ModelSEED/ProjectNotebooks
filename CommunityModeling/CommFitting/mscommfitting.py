@@ -16,7 +16,7 @@ from time import sleep, process_time
 import numpy as np
 # from cplex import Cplex
 # import cython
-import os, re
+import json, os, re
 
 def _variable_name(name, suffix, time, trial):
     return '-'.join([name+suffix, time, trial])
@@ -93,12 +93,11 @@ class MSCommFitting():   # explicit typing for cython
                     fluxes_df.iloc[ex_rxn.id] = elements
             
         # define only species for which data is defined
-        modeled_species = list(x for x in signal_tsv_paths.values() if x != 'OD')
-        removed_phenotypes = []
-        for col in fluxes_df:
-            if not any([species in col for species in modeled_species]):
-                removed_phenotypes.append(col)
-                fluxes_df.drop(col, axis=1, inplace=True)
+        signal_tsv_paths
+        modeled_species = list(signal_tsv_paths.values()); modeled_species.remove('OD')
+        removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
+        for col in removed_phenotypes:
+            fluxes_df.drop(col, axis=1, inplace=True)
         if removed_phenotypes != []:
             print(f'The {removed_phenotypes} phenotypes were removed since their species is not among those that are defined with data: {modeled_species}.')
         fluxes_df.astype(str)
@@ -177,8 +176,8 @@ class MSCommFitting():   # explicit typing for cython
                 
     # @cython.ccall # cfunc
     def define_problem(self, parameters={},        # parameters that will overwrite the default options
-                       zip_name='msComFit.zip',    # the name of the export zip file
-                       print_conditions: bool = True, print_lp: bool = True, zip_contents:bool = True
+                       zip_name=None,              # the name of the export zip file
+                       print_conditions: bool = True, print_lp: bool = True
                        ):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
@@ -191,7 +190,7 @@ class MSCommFitting():   # explicit typing for cython
         })
         self.parameters.update(parameters)
         self.problem = Model()
-        self.zip_contents = zip_contents
+        self.zip_name = zip_name
         trial: str; time: str; name: str; phenotype: str; met: str
         obj_coef:dict = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
@@ -305,8 +304,9 @@ class MSCommFitting():   # explicit typing for cython
                     
         time_3 = process_time()
         print(f'Done with metabolites loop: {(time_3-time_2)/60} min')
-        data_timestep = 1
         for signal, parsed_df in self.dataframes.items():
+            print(signal)
+            data_timestep = 1
             self.variables[signal+'__conversion'] = Variable(signal+'__conversion', lb=0, ub=1000)
             variables.append(self.variables[signal+'__conversion'])
             
@@ -316,9 +316,9 @@ class MSCommFitting():   # explicit typing for cython
             for time in self.simulation_timesteps:
                 if int(time)*self.parameters['timestep_hr'] >= data_timestep*self.parameters['data_timestep_hr']:  # synchronizes user timesteps with data timesteps
                     data_timestep += 1
-                    next_time = str(int(time)+1)
                     if int(data_timestep) > self.data_timesteps:
                         break
+                    next_time = str(int(time)+1)
                     self.variables[signal+'__bio'][time]:dict = {}; self.variables[signal+'__diffpos'][time]:dict = {}
                     self.variables[signal+'__diffneg'][time]:dict = {}
                     self.constraints[signal+'__bioc'][time]:dict = {}; self.constraints[signal+'__diffc'][time]:dict = {}
@@ -393,7 +393,7 @@ class MSCommFitting():   # explicit typing for cython
         # print contents
         
         if print_conditions:
-            DataFrame(data=list(self.parameters.values()), 
+            DataFrame(data=list(self.parameters.values()),
                       index=list(self.parameters.keys()), 
                       columns=['values']
                       ).to_csv('parameters.csv')
@@ -402,9 +402,9 @@ class MSCommFitting():   # explicit typing for cython
             self.zipped_output.append('mscommfitting.lp')
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
-        if self.zip_contents:
+        if self.zip_name:
             sleep(2)
-            with ZipFile(zip_name, 'w', compression=ZIP_LZMA) as zp:
+            with ZipFile(self.zip_name, 'w', compression=ZIP_LZMA) as zp:
                 for file in self.zipped_output:
                     zp.write(file)
                     os.remove(file)
@@ -413,7 +413,7 @@ class MSCommFitting():   # explicit typing for cython
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
     def compute(self, graphs:list = [],     # the graph specifications that will be parsed from the primal values
-                zip_name='msComFit.zip',    # the name of the export zip file
+                zip_name=None,              # the name of the export zip file
                 ):
         solution = self.problem.optimize()
         
@@ -428,8 +428,19 @@ class MSCommFitting():   # explicit typing for cython
                     self.values[trial][basename]:dict = {}
                 self.values[trial][basename][time] = value
                 
+        # export the processed primal values for graphing
+        with open('primal_values.json', 'w') as out:
+            json.dump(self.values, out, indent=3)
+        if not zip_name:
+            if hasattr(self, zip_name()):
+                zip_name = self.zip_name
+        if zip_name:
+            with ZipFile(zip_name, 'w', compression=ZIP_LZMA) as zp:
+                zp.write('primal_values.json')
+                os.remove('primal_values.json')
+        
         if graphs != []:
-            self.graph(graphs, zip_name)
+            self.graph(graphs, zip_name = zip_name)
             
         if "optimal" in  solution:
             print('The solution is optimal.')
@@ -437,9 +448,10 @@ class MSCommFitting():   # explicit typing for cython
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
     def graph(self, graphs:list = [], 
-              zip_name='msComFit.zip',    # the name of the export zip file
+              primal_values_filename = None,                  # the name of the primal value JSON file ('primal_values.json')
+              primal_values_zip_path = None,                  # the path of the zip file that contains the primal values file
+              zip_name=None,                                  # the name of the zip file to which images will be exported
               ):
-        timestep_ratio = self.parameters['data_timestep_hr']/self.parameters['timestep_hr']
         def add_plot(ax, labels, basename, trial):
             labels.append(basename)
             ax.plot(self.values[trial][basename].keys(),
@@ -454,6 +466,15 @@ class MSCommFitting():   # explicit typing for cython
         #     for y in array_list[1:]:
         #         y1 = y1+y
         #     return y1
+        
+        timestep_ratio = self.parameters['data_timestep_hr']/self.parameters['timestep_hr']
+        if primal_values_zip_path:
+            with ZipFile(primal_values_zip_path, 'r') as zp:
+                zp.extractall()
+                
+        if primal_values_filename:  
+            with open(primal_values_filename, 'r', encoding='utf-8') as primal:
+                self.values = json.load(primal)
         
         # plot the content for desired trials 
         self.plots = []
@@ -496,7 +517,7 @@ class MSCommFitting():   # explicit typing for cython
                             
                     if labels != []:
                         if 'total' in graph['content']:
-                            labels = [basename]
+                            print(xs, ys)
                             ax.plot(xs, sum(ys), label=graph['content'])
                         phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all"
                         ax.set_xlabel('Time (hr)')
@@ -507,7 +528,10 @@ class MSCommFitting():   # explicit typing for cython
                         self.plots.append(fig_name)
         
         # combine the figures with the other cotent
-        if self.zip_contents:
+        if not zip_name:
+            if hasattr(self, zip_name()):
+                zip_name = self.zip_name
+        if zip_name:
             with ZipFile(zip_name, 'a') as zp:
                 for plot in self.plots:
                     zp.write(plot)
