@@ -100,8 +100,6 @@ class MSCommFitting():
         
         if 'columns' not in carbon_conc_series:
             carbon_conc_series['columns'] = {}
-        if 'rows' not in ignore_trials:
-            ignore_trials['rows'] = {}
         self.carbon_conc = carbon_conc_series
         
         self.parameters["data_timestep_hr"] = []
@@ -160,7 +158,7 @@ class MSCommFitting():
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
                 
-    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, flexible_consumption:bool=False):
+    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, flexible_consumption:float=None):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -194,7 +192,6 @@ class MSCommFitting():
                                 _name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if initial_time and not 'bio' in met_id:  # !!! the value of initial_time changes
-                                initial_time = False
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
@@ -207,11 +204,12 @@ class MSCommFitting():
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=0, ub=0)
                                 if flexible_consumption:
-                                    ten_percent_val = self.variables["c_"+met]["1"][trial].lb*0
+                                    attenuated_val = self.variables["c_"+met]["1"][trial].lb*flexible_consumption
                                     self.variables["c_"+met][time][trial] = Variable(
                                         _name("c_", met, time, trial), 
-                                        lb=ten_percent_val, ub=ten_percent_val)
+                                        lb=attenuated_val, ub=attenuated_val)
                             variables.append(self.variables["c_"+met][time][trial])
+                        initial_time = False
             break   # prevents duplicated variables 
         for signal, parsed_df in self.dataframes.items():
             if 'OD' not in signal:
