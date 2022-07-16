@@ -396,9 +396,7 @@ class MSCommFitting():
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
-    def compute(self, graphs:list = [],     # the graph specifications that will be parsed from the primal values
-                zip_name=None,              # the name of the export zip file
-                ):
+    def compute(self, graphs:list = [], zip_name=None):
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
@@ -430,12 +428,7 @@ class MSCommFitting():
         else:
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
-    def graph(self, graphs:list = [],
-              primal_values_filename:str = None,                  # the name of the primal value JSON file ('primal_values.json')
-              primal_values_zip_path:str = None,                  # the path of the zip file that contains the primal values file
-              zip_name:str = None,                                # the name of the zip file to which images will be exported
-              data_timestep_hr:float = 0.163                      # the timestep value in hours of the data  
-              ):
+    def graph(self, graphs:list = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163):
         def add_plot(ax, labels, basename, trial):
             labels.append(basename.split('-')[-1])
             ax.plot(self.values[trial][basename].keys(),
@@ -556,10 +549,7 @@ class MSCommFitting():
                     zp.write(plot)
                     os.remove(plot)
                     
-    def load_model(self, mscomfit_json_path:str,  # the path of the JSON model file that will be loaded and simulated
-                   zip_name:str = None,           # the path of the zip file that contains the JSON model file
-                   class_object:bool = False,     # specifies whether the loaded model will be defined in the class object
-                   ):
+    def load_model(self, mscomfit_json_path:str, zip_name:str = None, class_object:bool = False):
         if zip_name:
             with ZipFile(zip_name, 'r') as zp:
                 zp.extract(mscomfit_json_path)
@@ -569,10 +559,7 @@ class MSCommFitting():
                 self.problem = model
             return model
 
-    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None,   # the parameter values that will replace the existing values in the LP file
-                          mscomfit_json_path:str = 'mscommfitting.json',    # the path of the JSON model file that will be loaded and simulated
-                          zip_name = None                                   # the zipfile to which the edited LP JSON will be exported 
-                          ):
+    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, mscomfit_json_path:str = 'mscommfitting.json', zip_name = None):
         def change_param(arg, param, time, trial):
             if param:
                 if not isinstance(param, dict):
