@@ -428,7 +428,7 @@ class MSCommFitting():
         else:
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
-    def graph(self, graphs:list = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163):
+    def graph(self, graphs = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163):
         def add_plot(ax, labels, basename, trial):
             labels.append(basename.split('-')[-1])
             ax.plot(self.values[trial][basename].keys(),
@@ -437,12 +437,6 @@ class MSCommFitting():
             ax.legend(labels)
             ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/data_timestep_hr/timestep_ratio)])
             return ax, labels
-        
-        # def recursive_sum(array_list):
-        #     y1 = array_list[0]
-        #     for y in array_list[1:]:
-        #         y1 = y1+y
-        #     return y1
         
         timestep_ratio = 1
         if self.parameters != {}:
@@ -602,8 +596,6 @@ class MSCommFitting():
 
         # change Vmax values
         for arg in mscomfit_json['constraints']:
-            details = arg['name'].split('_')
-            name, time, trial = details[:-2], details[-2], details[-1]
             name, time, trial = arg['name'].split('-')
             if 'gc' in name:
                 arg['expression']['args'][1]['args'] = change_param(arg['expression']['args'][1]['args'], vmax, time, trial)
