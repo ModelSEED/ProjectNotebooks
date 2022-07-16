@@ -41,7 +41,6 @@ class MSCommFitting():
         self.zipped_output = []
         if zip_path:
             with ZipFile(zip_path, 'r') as zp:
-                print(zip_path)
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
@@ -161,7 +160,7 @@ class MSCommFitting():
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
                 
-    def define_problem(self, parameters={}, zip_name=None, export_parameters: bool = True, export_lp: bool =True):
+    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, flexible_consumption:bool=False):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -194,7 +193,8 @@ class MSCommFitting():
                             self.variables["c_"+met][time][trial] = Variable(
                                 _name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
-                            if initial_time and not 'bio' in met_id:
+                            if initial_time and not 'bio' in met_id:  # !!! the value of initial_time changes
+                                initial_time = False
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
@@ -206,8 +206,12 @@ class MSCommFitting():
                             if final_time and met_id in self.parameters['carbon_sources']:
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=0, ub=0)
+                                if flexible_consumption:
+                                    ten_percent_val = self.variables["c_"+met]["1"][trial].lb*0
+                                    self.variables["c_"+met][time][trial] = Variable(
+                                        _name("c_", met, time, trial), 
+                                        lb=ten_percent_val, ub=ten_percent_val)
                             variables.append(self.variables["c_"+met][time][trial])
-                        initial_time = False
             break   # prevents duplicated variables 
         for signal, parsed_df in self.dataframes.items():
             if 'OD' not in signal:
@@ -497,7 +501,7 @@ class MSCommFitting():
                                     labels.append('experimental')
                                     exp_xs = np.array(list(self.values[trial][basename].keys()))
                                     exp_xs = exp_xs.astype(np.float32); exp_xs = np.around(exp_xs, 2)
-                                    ax.plot(exp_xs, self.values[trial][basename].values(), label='experimental')
+                                    ax.plot(exp_xs, list(self.values[trial][basename].values()), label='experimental')
                                     ax.set_xticks(exp_xs[::int(2/data_timestep_hr/timestep_ratio)])
                         elif graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
                             if 'total' in graph['content']:
