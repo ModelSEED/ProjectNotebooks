@@ -1,0 +1,86 @@
+{
+  "metadata" : [
+    [
+      2,
+      "iAH991",
+      "KBaseFBA.FBAModel-12.0",
+      "2021-03-03T00:19:10+0000",
+      2,
+      "mkennedy21",
+      84574,
+      "mkennedy21:narrative_1614730750635",
+      "cbd3439a5cf69291cf7292561c20e109",
+      1414091,
+      {
+        "Genome" : "76995/3/2",
+        "Name" : "Bacteroides thetaiotaomicron VPI-5482",
+        "Number biomasses" : "1",
+        "Number compartments" : "2",
+        "Number compounds" : "1178",
+        "Number gapfills" : "0",
+        "Number gapgens" : "0",
+        "Number reactions" : "1247",
+        "Source" : "Imported",
+        "Source ID" : "iAH991V2",
+        "Type" : "SingleOrganism"
+      }
+    ]
+  ],
+  "provenance" : [
+    {
+      "copy_source_inaccessible" : null,
+      "created" : "2020-11-28T18:11:12+0000",
+      "creator" : "chenry",
+      "extracted_ids" : null,
+      "info" : [
+        2,
+        "iAH991",
+        "KBaseFBA.FBAModel-12.0",
+        "2021-03-03T00:19:10+0000",
+        2,
+        "mkennedy21",
+        84574,
+        "mkennedy21:narrative_1614730750635",
+        "cbd3439a5cf69291cf7292561c20e109",
+        1414091,
+        {
+          "Genome" : "76995/3/2",
+          "Name" : "Bacteroides thetaiotaomicron VPI-5482",
+          "Number biomasses" : "1",
+          "Number compartments" : "2",
+          "Number compounds" : "1178",
+          "Number gapfills" : "0",
+          "Number gapgens" : "0",
+          "Number reactions" : "1247",
+          "Source" : "Imported",
+          "Source ID" : "iAH991V2",
+          "Type" : "SingleOrganism"
+        }
+      ],
+      "provenance" : [
+        {
+          "custom" : { },
+          "description" : "COBRA KBase API",
+          "external_data" : [ ],
+          "input_ws_objects" : [ ],
+          "method" : "save_object",
+          "method_params" : [
+            {
+              "object_id" : "iAH991",
+              "object_type" : "KBaseFBA.FBAModel",
+              "ws" : "chenry:narrative_1605038748276"
+            }
+          ],
+          "resolved_ws_objects" : [ ],
+          "script_command_line" : "3.7.6 (default, Jan  8 2020, 13:42:34) \n[Clang 4.0.1 (tags/RELEASE_401/final)]",
+          "service" : "cobrakbase.KBaseAPI",
+          "service_ver" : "0.2.7",
+          "subactions" : [ ]
+        }
+      ],
+      "refs" : [
+        "76995/3/2"
+      ]
+    }
+  ]
+}

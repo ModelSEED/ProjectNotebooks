@@ -1,0 +1,11 @@
+Workflow for setting up notebook to work with Megan's B theta model:
+
+1. Download model iAH991 as JSON from this Narrative: https://narrative.kbase.us/narrative/84574
+
+2. Remove duplicate compound (ggdp_c0) and convert to SBML, saving as .xml. Use notebook Convert_Model_JSON_to_SBML.
+
+3. Re-upload model to KBase workspace as iAH991.xml_model.
+
+4. Use notebook KBase_Cobrapy_Integration to get model from workspace and work with it in cobrapy. For prerequisites to get this integration to work, read SettingUpNotebooks_01_2021. Remember that periodically you will have to create a new developer token and save it in the right place in order to access KBase models with the notebook.
+
+5. Science with https://opencobra.github.io/cobrapy/
