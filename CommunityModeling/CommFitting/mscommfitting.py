@@ -17,16 +17,12 @@ import numpy as np
 # from cplex import Cplex
 import json, os, re
 
-def _variable_name(name, suffix, time, trial):
+def _name(name, suffix, time, trial):
     return '-'.join([name+suffix, time, trial])
-
-def _constraint_name(name, suffix, time, trial):
-    return '_'.join([name+suffix, time, trial])
 
 class MSCommFitting(): 
 
-    def __init__(self, 
-                 ):
+    def __init__(self):
         self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species, self.values = {}, {}, {}, {}, {}, {}
         self.phenotypes_parsed_df: np.ndarray; self.problem: object; self.species_phenotypes_bool_df: object
         self.zipped_output, self.plots = [], []
@@ -39,23 +35,13 @@ class MSCommFitting():
         csv.astype(str)
         return csv
     
-    def load_data(self,
-                 community_members: dict = {},         # the model of the community that was experimentally investigated and will be examined via fitting, which includes the permanent KBase ID of the media (e.g. 93465/3/1) that describe each respective community model
-                 kbase_token: str = None,              # the KBase user token that must be provided to access permanent_media_id
-                 solver:str = 'glpk',                  # the LP solver that will optimize the community model in the given media
-                 signal_tsv_paths: dict = {},          # the dictionary of index names for each paths to signal TSV data that will be fitted
-                 phenotypes_csv_path: str = None,      # a custom CSV of media phenotypic data
-                 media_conc_path:str = None,           # a CSV of the media concentrations
-                 species_abundance_path:str = None,    # a CSV over the series of species abundances for a range of trials
-                 carbon_conc_series: dict = None,      # the concentrations of carbon sources in the media
-                 ignore_trials:dict = {},              # the trials (row+column coordinates) that will be ignored by the model
-                 ignore_timesteps:list=[],             # tiemsteps that will be ignored 
-                 significant_deviation:float = 2,      # the lowest multiple of a trial mean from its initial value that will permit its inclusion in the model fit
-                 zip_path:str = None             # specifies whether the input contents are in a zipped file
-                  ):
+    def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, 
+                  phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, carbon_conc_series: dict = {}, 
+                  ignore_trials:dict = {}, ignore_timesteps:list=[], significant_deviation:float = 2, zip_path:str = None):
         self.zipped_output = []
         if zip_path:
             with ZipFile(zip_path, 'r') as zp:
+                print(zip_path)
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
@@ -175,10 +161,7 @@ class MSCommFitting():
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
                 
-    def define_problem(self, parameters={},        # parameters that will overwrite the default options
-                       zip_name=None,              # the name of the export zip file
-                       print_conditions: bool = True, print_lp: bool = True
-                       ):
+    def define_problem(self, parameters={}, zip_name=None, export_parameters: bool = True, export_lp: bool =True):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -209,7 +192,7 @@ class MSCommFitting():
                         for trial in parsed_df[0]:
                             # define biomass measurement conversion variables 
                             self.variables["c_"+met][time][trial] = Variable(
-                                _variable_name("c_", met, time, trial), lb=0, ub=1000)
+                                _name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if initial_time and not 'bio' in met_id:
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
@@ -218,11 +201,11 @@ class MSCommFitting():
                                 if met_id in self.carbon_conc['columns'] and trial[1:] in self.carbon_conc['columns'][met_id]:
                                     initial_val = self.carbon_conc['columns'][met_id][trial[1:]]
                                 self.variables["c_"+met][time][trial] = Variable(
-                                    _variable_name("c_", met, time, trial), lb=initial_val, ub=initial_val)
+                                    _name("c_", met, time, trial), lb=initial_val, ub=initial_val)
                             # mandate complete carbon consumption
                             if final_time and met_id in self.parameters['carbon_sources']:
                                 self.variables["c_"+met][time][trial] = Variable(
-                                    _variable_name("c_", met, time, trial), lb=0, ub=0)
+                                    _name("c_", met, time, trial), lb=0, ub=0)
                             variables.append(self.variables["c_"+met][time][trial])
                         initial_time = False
             break   # prevents duplicated variables 
@@ -246,27 +229,27 @@ class MSCommFitting():
                 self.constraints['gc_'+phenotype][time] = {}; self.constraints['cvc_'+phenotype][time] = {}
                 for trial in parsed_df[0]:
                     self.variables['b_'+phenotype][time][trial] = Variable(         # predicted biomass abundance
-                        _variable_name("b_", phenotype, time, trial), lb=0, ub=100)
+                        _name("b_", phenotype, time, trial), lb=0, ub=100)
                     self.variables['g_'+phenotype][time][trial] = Variable(         # biomass growth
-                        _variable_name("g_", phenotype, time, trial), lb=0, ub=1000)   
+                        _name("g_", phenotype, time, trial), lb=0, ub=1000)   
                     
                     if 'stationary' not in phenotype:
                         self.variables['cvt_'+phenotype][time][trial] = Variable(       # conversion rate to the stationary phase
-                            _variable_name("cvt_", phenotype, time, trial), lb=0, ub=100)  
+                            _name("cvt_", phenotype, time, trial), lb=0, ub=100)  
                         self.variables['cvf_'+phenotype][time][trial] = Variable(       # conversion from to the stationary phase
-                            _variable_name("cvf_", phenotype, time, trial), lb=0, ub=100)   
+                            _name("cvf_", phenotype, time, trial), lb=0, ub=100)   
                         
                         # 0 <= -cvt + bcv*b_{phenotype} + cvmin
                         self.constraints['cvc_'+phenotype][time][trial] = Constraint(
                             -self.variables['cvt_'+phenotype][time][trial] 
                             + self.parameters['bcv']*self.variables['b_'+phenotype][time][trial] + self.parameters['cvmin'],
-                            lb=0, ub=None, name=_constraint_name('cvc_', phenotype, time, trial))  
+                            lb=0, ub=None, name=_name('cvc_', phenotype, time, trial))  
                         
                         # g_{phenotype} - b_{phenotype}*v = 0
                         self.constraints['gc_'+phenotype][time][trial] = Constraint(
                             self.variables['g_'+phenotype][time][trial] 
                             - self.parameters['v']*self.variables['b_'+phenotype][time][trial],
-                            lb=0, ub=0, name=_constraint_name("gc_", phenotype, time, trial))
+                            lb=0, ub=0, name=_name("gc_", phenotype, time, trial))
                 
                         obj_coef.update({self.variables['cvf_'+phenotype][time][trial]: self.parameters['cvcf'],
                                          self.variables['cvt_'+phenotype][time][trial]: self.parameters['cvct']})
@@ -295,7 +278,7 @@ class MSCommFitting():
                                     self.phenotypes_parsed_df[2][r_index]*half_dt, np.array([
                                         self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial]
                                         for phenotype in self.phenotypes_parsed_df[1]])),
-                                ub=0, lb=0, name=_constraint_name("dcc_", met, time, trial))
+                                ub=0, lb=0, name=_name("dcc_", met, time, trial))
                             
                             constraints.append(self.constraints['dcc_'+met][time][trial])
                             if last_column:
@@ -338,36 +321,36 @@ class MSCommFitting():
                                         self.variables['b_'+phenotype][time][trial] 
                                         - from_sum + to_sum 
                                         - self.variables['b_'+phenotype][next_time][trial],
-                                        ub=0, lb=0, name=_constraint_name("dbc_", phenotype, time, trial))
+                                        ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
                                 else:
                                     # -b_{phenotype} + dt*g_{phenotype} + cvf - cvt - b+1_{phenotype} = 0
                                     self.constraints['dbc_'+phenotype][time][trial] = Constraint( 
                                         self.variables['b_'+phenotype][time][trial] - self.variables['b_'+phenotype][next_time][trial]
                                         + half_dt*(self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial])
                                         + self.variables['cvf_'+phenotype][time][trial] - self.variables['cvt_'+phenotype][time][trial],
-                                        ub=0, lb=0, name=_constraint_name("dbc_", phenotype, time, trial))
+                                        ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
                                 
                                 constraints.append(self.constraints['dbc_'+phenotype][time][trial])
                                 
                         self.variables[signal+'__bio'][time][trial] = Variable(
-                            _variable_name(signal, '__bio', time, trial), lb=0, ub=1000)
+                            _name(signal, '__bio', time, trial), lb=0, ub=1000)
                         self.variables[signal+'__diffpos'][time][trial] = Variable( 
-                            _variable_name(signal, '__diffpos', time, trial), lb=0, ub=100) 
+                            _name(signal, '__diffpos', time, trial), lb=0, ub=100) 
                         self.variables[signal+'__diffneg'][time][trial] = Variable(  
-                            _variable_name(signal, '__diffneg', time, trial), lb=0, ub=100) 
+                            _name(signal, '__diffneg', time, trial), lb=0, ub=100) 
                             
                         # {signal}__conversion*datum = {signal}__bio
                         self.constraints[signal+'__bioc'][time][trial] = Constraint(
                             self.variables[signal+'__conversion']*parsed_df[2][r_index, int(data_timestep)-1] 
                             - self.variables[signal+'__bio'][time][trial], 
-                            name=_constraint_name(signal, '__bioc', time, trial), lb=0, ub=0)
+                            name=_name(signal, '__bioc', time, trial), lb=0, ub=0)
                         
                         # {speces}_bio - sum_k^K(es_k*b_{phenotype}) - {signal}_diffpos + {signal}_diffneg = 0
                         self.constraints[signal+'__diffc'][time][trial] = Constraint( 
                             self.variables[signal+'__bio'][time][trial] - signal_sum 
                             - self.variables[signal+'__diffpos'][time][trial]
                             + self.variables[signal+'__diffneg'][time][trial], 
-                            name=_constraint_name(signal, '__diffc', time, trial), lb=0, ub=0)
+                            name=_name(signal, '__diffc', time, trial), lb=0, ub=0)
     
                         obj_coef.update({self.variables[signal+'__diffpos'][time][trial]: self.parameters['diffpos'],
                                          self.variables[signal+'__diffneg'][time][trial]: self.parameters['diffneg']})                            
@@ -390,13 +373,13 @@ class MSCommFitting():
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
                 
         # print contents
-        if print_conditions:
+        if export_parameters:
             self.zipped_output.append('parameters.csv')
             DataFrame(data=list(self.parameters.values()),
                       index=list(self.parameters.keys()), 
                       columns=['values']
                       ).to_csv('parameters.csv')
-        if print_lp:
+        if export_lp:
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
@@ -417,7 +400,6 @@ class MSCommFitting():
                 zip_name=None,              # the name of the export zip file
                 ):
         solution = self.problem.optimize()
-        
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
             if 'conversion' not in variable:
@@ -455,7 +437,7 @@ class MSCommFitting():
               data_timestep_hr:float = 0.163                      # the timestep value in hours of the data  
               ):
         def add_plot(ax, labels, basename, trial):
-            labels.append(basename.split('_')[-1])
+            labels.append(basename.split('-')[-1])
             ax.plot(self.values[trial][basename].keys(),
                     self.values[trial][basename].values(),
                     label=basename)
@@ -494,14 +476,14 @@ class MSCommFitting():
             for trial, basenames in self.values.items():
                 content = graph['content']
                 if graph['content'] == 'OD':
-                    y_label = 'grams'
+                    y_label = 'Biomass (g)'
                     graph['phenotype'] = graph['species'] = '*'
                 elif 'biomass' in graph['content']:
                     content = 'b'
-                    y_label = 'grams'
+                    y_label = 'Biomass (g)'
                 elif graph['content'] == 'growth':
                     content = 'g'   
-                    y_label = 'grams/hour'
+                    y_label = 'Biomass (g/hr)'
                 elif 'stress-test' in graph['content']:
                     content = graph['content'].split('_')[1]
                     y_label = graph['species']+' coculture %'
@@ -510,16 +492,21 @@ class MSCommFitting():
                     labels:list = []
                     for basename in basenames:
                         # parse for non-concentration variables
-                        if graph['content'] == 'OD':
+                        if any([x in graph['content'] for x in ['total','OD']]):
                             if 'b_' in basename:
-                                labels.append('predicted')
-                                label = 'predicted'
-                                xs = np.array(list(self.values[trial][basename].keys()))
-                                ys.append(np.array(list(self.values[trial][basename].values())))
-                                print('pred', basename)
+                                if graph['content'] == 'OD':
+                                    labels.append('predicted')
+                                    label = 'predicted'
+                                    xs = np.array(list(self.values[trial][basename].keys()))
+                                    ys.append(np.array(list(self.values[trial][basename].values())))
+                                elif graph['content'] == 'total':
+                                    if graph['species'] in basename:
+                                        labels.append('total_biomass')
+                                        label = 'total_biomass'
+                                        xs = np.array(list(self.values[trial][basename].keys()))
+                                        ys.append(np.array(list(self.values[trial][basename].values())))
                             if 'experimental_data' in graph and graph['experimental_data']:
                                 if basename == 'OD__bio':
-                                    print('exp')
                                     labels.append('experimental')
                                     exp_xs = np.array(list(self.values[trial][basename].keys()))
                                     exp_xs = exp_xs.astype(np.float32); exp_xs = np.around(exp_xs, 2)
@@ -564,7 +551,7 @@ class MSCommFitting():
             if hasattr(self, zip_name()):
                 zip_name = self.zip_name
         if zip_name:
-            with ZipFile(zip_name, 'a') as zp:
+            with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
                 for plot in self.plots:
                     zp.write(plot)
                     os.remove(plot)
@@ -584,29 +571,31 @@ class MSCommFitting():
 
     def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None,   # the parameter values that will replace the existing values in the LP file
                           mscomfit_json_path:str = 'mscommfitting.json',    # the path of the JSON model file that will be loaded and simulated
-                          # zip_path:str = 'mscommfitting.zip'
+                          zip_name = None                                   # the zipfile to which the edited LP JSON will be exported 
                           ):
         def change_param(arg, param, time, trial):
             if param:
                 if not isinstance(param, dict):
-                    arg['args'][0]['value'] = param
+                    arg[0]['value'] = param
                 else:
                     if time in param:
                         if trial in param[time]:
-                            arg['args'][0]['value'] = param[time][trial]
-                        arg['args'][0]['value'] = param[time]
+                            arg[0]['value'] = param[time][trial]
+                        arg[0]['value'] = param[time]
                     else:
-                        arg['args'][0]['value'] = param['default']
+                        arg[0]['value'] = param['default']
             return arg
     
         time_1 = process_time()
-        if os.path.exists(mscomfit_json_path):
+        if not zip_name:
+            zip_name = self.zip_name
+        if not os.path.exists(mscomfit_json_path):
             with ZipFile(self.zip_name, 'r') as zp:
                 zp.extract(mscomfit_json_path)
             with open(mscomfit_json_path, 'r') as mscmft:
                 mscomfit_json = json.load(mscmft)
         else:
-            with ZipFile(self.zip_name, 'r') as zp:
+            with ZipFile(zip_name, 'r') as zp:
                 zp.extract('mscommfitting.json')
             with open('mscommfitting.json', 'r') as mscmft:
                 mscomfit_json = json.load(mscmft)
@@ -614,19 +603,29 @@ class MSCommFitting():
         time_2 = process_time()
         print(f'Done loading the JSON: {(time_2-time_1)/60} min')
         
+        # change objective coefficients
         for arg in mscomfit_json['objective']['expression']['args']:
             name, time, trial = arg['args'][1]['name'].split('-')
             if 'cvf' in name:
-                arg = change_param(arg, cvf, time, trial)
+                arg['args'] = change_param(arg['args'], cvf, time, trial)
             elif 'cvt' in name:
-                arg = change_param(arg, cvt, time, trial)
+                arg['args'] = change_param(arg['args'], cvt, time, trial)
             elif 'diff' in name:
-                arg = change_param(arg, diff, time, trial)
+                arg['args'] = change_param(arg['args'], diff, time, trial)
+
+        # change Vmax values
+        for arg in mscomfit_json['constraints']:
+            details = arg['name'].split('_')
+            name, time, trial = details[:-2], details[-2], details[-1]
+            name, time, trial = arg['name'].split('-')
+            if 'gc' in name:
+                arg['expression']['args'][1]['args'] = change_param(arg['expression']['args'][1]['args'], vmax, time, trial)
         
         with open(mscomfit_json_path, 'w') as mscmft:
             json.dump(mscomfit_json, mscmft, indent=3)
-        with ZipFile( self.zip_name, 'a') as zp:
-            zp.write(mscomfit_json)
+        with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
+            zp.write(mscomfit_json_path)
+            os.remove(mscomfit_json_path)
         time_3 = process_time()
         print(f'Done exporting the model: {(time_3-time_2)/60} min')
             
