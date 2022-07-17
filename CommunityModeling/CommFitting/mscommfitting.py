@@ -638,12 +638,12 @@ class MSCommFitting():
         time_4 = process_time()
         print(f'Done loading the model: {(time_4-time_3)/60} min')  # ~1/2 the defining a new problem
     
-    def introduce_km(self,vmax,km):#Good starting values to try are: vmax = 3.75; km = 2.5 : Equivalent of vmax = 0.5 because at starting maltose of 5 this is vmax/(km + [maltose]) = 3.75/(2.5+5) = 0.5
-        vmax_var = {}
+    def introduce_km(self,vmax,km,met,graphs,zipname,extract_zipname):#Good starting values to try are: vmax = 3.75; km = 2.5 : Equivalent of vmax = 0.5 because at starting maltose of 5 this is vmax/(km + [maltose]) = 3.75/(2.5+5) = 0.5
+        vmax_var = {"default":-0.3}
         last_conc = {}
         count = 0
         while 1:#Dangerous - if there's never convergence, then this never stops
-            error = 0
+            error = None
             for t in self.variables["c_"+met]:
                 if t not in vmax_var:
                     vmax_var[t] = {}
@@ -651,18 +651,18 @@ class MSCommFitting():
                     last_conc[t] = {}
                 for trial in self.variables["c_"+met][t]:
                     if trial in last_conc[t]: 
-                        error += (last_conc[t][trial]-self.variables["c_"+met][time][trial].primal)**2
-                    else:
-                        error = 100
-                    last_conc[t][trial] = self.variables["c_"+met][time][trial].primal
-                    vmax_var[t][trial] = vmax/(km+last_conc[t][trial])
+                        error += (last_conc[t][trial]-self.variables["c_"+met][t][trial].primal)**2
+                    last_conc[t][trial] = self.variables["c_"+met][t][trial].primal
+                    vmax_var[t][trial] = -1*vmax/(km+last_conc[t][trial])
                     count += 1
             #Not sure if I'm using the vmax argument right here... please check
-            mscommfit.change_parameters(vmax=vmax_var, zip_name='simple_full_community_edited.zip')  # The Vmax argument can be either a number or a dictionary that is organized by ["time"]["trial"], just as the naming scheme of the variables and constraints
-            %time mscommfit.compute(graphs, 'simple_full_community_edited.zip')
-            error = error/count**0.5
-            if error < 1:#Definitely don't know what the error threshold should actually be for convergence
-                break
+            self.change_parameters(vmax_var,zipname,extract_zipname)  # The Vmax argument can be either a number or a dictionary that is organized by ["time"]["trial"], just as the naming scheme of the variables and constraints
+            self.compute(graphs,zipname)
+            if error:
+                error = (error/count)**0.5
+                print("Error:",error)
+                if error < 1:#Definitely don't know what the error threshold should actually be for convergence
+                    break
         
     def parameter_optimization(self,):
         with ZipFile(self.zip_name, 'r') as zp:
