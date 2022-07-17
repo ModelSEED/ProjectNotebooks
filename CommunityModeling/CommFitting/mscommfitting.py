@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError
-from pandas import read_table, read_csv, DataFrame
+from pandas import read_table, read_csv, DataFrame, ExcelFile
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.constants import hour
@@ -35,7 +35,55 @@ class MSCommFitting():
         csv.astype(str)
         return csv
     
-    def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, 
+    def _df_construction(self, name, signal, ignore_trials, ignore_timesteps, significant_deviation):
+        # parse the DataFrame for values
+        self.signal_species[signal] = name
+        self.simulation_time = self.dataframes[signal].iloc[0,-1]/hour
+        self.parameters["data_timestep_hr"].append(self.simulation_time/int(self.dataframes[signal].columns[-1]))
+        
+        # refine the DataFrame
+        self.dataframes[signal] = self.dataframes[signal].iloc[1::2]  # excludes the times
+        self.dataframes[signal].columns = map(str, self.dataframes[signal].columns)
+        self.dataframes[signal].index = self.dataframes[signal]['Well']
+        for col in self.dataframes[signal].columns:
+            if any([x in col for x in ['Plate', 'Well', 'Cycle']]):
+                self.dataframes[signal].drop(col, axis=1, inplace=True)
+        self.dataframes[signal].columns = map(float, self.dataframes[signal].columns)
+        self.dataframes[signal].columns = map(int, self.dataframes[signal].columns)
+        
+        # filter data contents
+        dropped_trials = []
+        for trial in self.dataframes[signal].index:
+            if any([trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'],
+                    trial in ignore_trials['wells']]):
+                self.dataframes[signal].drop(trial, axis=0, inplace=True)
+                dropped_trials.append(trial)
+        if dropped_trials != []:
+            print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
+
+        for col in self.dataframes[signal]:
+            if col in ignore_timesteps:
+                self.dataframes[signal].drop(col, axis=1, inplace=True)
+        if 'OD' not in signal:
+            removed_trials = []
+            for trial, row in self.dataframes[signal].iterrows():
+                row_array = np.array(row.to_list())
+                if row_array[-1]/row_array[0] < significant_deviation:
+                    self.dataframes[signal].drop(trial, axis=0, inplace=True)
+                    removed_trials.append(trial)
+            if removed_trials != []:
+                print(f'The {removed_trials} trials were removed from the {name} measurements, with their deviation over time being less than the threshold of {significant_deviation}.')
+        
+        # process the data for subsequent operations and optimal efficiency
+        self.dataframes[signal].astype(str)
+        self.dataframes[signal]: np.ndarray = FBAHelper.parse_df(self.dataframes[signal])
+        
+        # differentiate the phenotypes for each species
+        if "OD" not in signal:
+            self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
+                1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
+    
+    def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, signal_csv_paths:dict = {},
                   phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, carbon_conc_series: dict = {}, 
                   ignore_trials:dict = {}, ignore_timesteps:list=[], significant_deviation:float = 2, zip_path:str = None):
         self.zipped_output = []
@@ -87,8 +135,8 @@ class MSCommFitting():
                     fluxes_df.iloc[ex_rxn.id] = elements
             
         # define only species for which data is defined
-        signal_tsv_paths
-        modeled_species = list(signal_tsv_paths.values()); modeled_species.remove('OD')
+        signal_source = signal_tsv_paths or signal_csv_paths
+        modeled_species = list(signal_source.values()); print(modeled_species); modeled_species.remove('OD')
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
         for col in removed_phenotypes:
             fluxes_df.drop(col, axis=1, inplace=True)
@@ -98,69 +146,43 @@ class MSCommFitting():
         self.phenotypes_parsed_df = FBAHelper.parse_df(fluxes_df)
         self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_parsed_df[1])
         
+        # define carbon concentrations for each trial
         if 'columns' not in carbon_conc_series:
             carbon_conc_series['columns'] = {}
         if 'rows' not in carbon_conc_series:
             carbon_conc_series['rows'] = {}
         self.carbon_conc = carbon_conc_series
         
+        # define the set of used trials
         self.parameters["data_timestep_hr"] = []
-        if 'columns' not in ignore_trials:
-            ignore_trials['columns'] = []
-        if 'rows' not in ignore_trials:
-            ignore_trials['rows'] = []
-        if 'wells' not in ignore_trials:
-            ignore_trials['wells'] = []
-        ignore_trials['columns'] = list(map(str, ignore_trials['columns']))
-        ignore_trials['rows'] = list(map(str, ignore_trials['rows']))
+        ignore_trials['columns'] = list(map(str, ignore_trials['columns'])) if 'columns' in ignore_trials else []
+        ignore_trials['rows'] = list(map(str, ignore_trials['rows'])) if 'rows' in ignore_trials else []
+        ignore_trials['wells'] = ignore_trials['wells'] if 'wells' in ignore_trials else []
         ignore_timesteps = list(map(str, ignore_timesteps))
+        
+        # import and parse the raw CSV data
+        if signal_csv_paths != {}:
+            raw_data = ExcelFile(signal_csv_paths['path'])
+            for sheet, signal in signal_csv_paths.items():
+                if sheet != 'path':
+                    self.dataframes[signal] = raw_data.parse(sheet)
+                    self.dataframes[signal].columns = self.dataframes[signal].iloc[6]
+                    self.dataframes[signal] = self.dataframes[signal].drop(self.dataframes[signal].index[:7])
+                    self._df_construction(sheet, signal, ignore_trials, ignore_timesteps, significant_deviation)
+        
+        # import and parse raw TSV data
         for path, name in signal_tsv_paths.items():
             self.zipped_output.append(path)
             signal = os.path.splitext(path)[0].split("_")[0]
             # define the signal dataframe
-            self.signal_species[signal] = name # {name:phenotypes}
             self.dataframes[signal] = read_table(path)
-            self.simulation_time = self.dataframes[signal].iloc[0,-1]/hour
-            self.parameters["data_timestep_hr"].append(self.simulation_time/int(self.dataframes[signal].columns[-1]))
-            self.dataframes[signal] = self.dataframes[signal].iloc[1::2]  # excludes the times
-            self.dataframes[signal].index = self.dataframes[signal]['Well']
-            # filter data contents
-            dropped_trials = []
-            for trial in self.dataframes[signal].index:
-                if any([trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'],
-                        trial in ignore_trials['wells']]):
-                    self.dataframes[signal].drop(trial, axis=0, inplace=True)
-                    dropped_trials.append(trial)
-            if dropped_trials != []:
-                print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
-            for col in ['Plate', 'Cycle', 'Well']:
-                self.dataframes[signal].drop(col, axis=1, inplace=True)
-            for col in self.dataframes[signal]:
-                if col in ignore_timesteps:
-                    self.dataframes[signal].drop(col, axis=1, inplace=True)
-            if 'OD' not in signal:
-                removed_trials = []
-                for trial, row in self.dataframes[signal].iterrows():
-                    row_array = np.array(row.to_list())
-                    if row_array[-1]/row_array[0] < significant_deviation:
-                        self.dataframes[signal].drop(trial, axis=0, inplace=True)
-                        removed_trials.append(trial)
-                if removed_trials != []:
-                    print(f'The {removed_trials} trials were removed from the {name} measurements, with their deviation over time being less than the threshold of {significant_deviation}.')
-            
-            # process the data for subsequent operations and optimal efficiency
-            self.dataframes[signal].astype(str)
-            self.dataframes[signal]: np.ndarray = FBAHelper.parse_df(self.dataframes[signal])
-            
-            # differentiate the phenotypes for each species
-            if "OD" not in signal:
-                self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
-                    1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
+            self._df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation)
         
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
+        self.trials = np.unique(np.concatenate([x[0] for x in self.dataframes.values()]))
                 
-    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None):
+    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -172,11 +194,23 @@ class MSCommFitting():
             'diffpos': 1, 'diffneg': 1, # objective coefficients to the diffpos and diffneg variables that correspond with the components of difference between experimental and predicted bimoass values
         })
         self.parameters.update(parameters)
+        self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
         self.problem = Model()
         print("Solver:",type(self.problem))
-        trial: str; time: str; name: str; phenotype: str; met: str
-        obj_coef = {}; constraints: list = []; variables: list = []  # lists are orders-of-magnitude faster than numpy arrays for appending
-        self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
+        
+        # refine the applicable range of bad_data_timesteps
+        if bad_data_timesteps:
+            for trial in bad_data_timesteps:
+                if ':' in bad_data_timesteps[trial]:
+                    start, end = bad_data_timesteps[trial].split(':')
+                    end = end or self.simulation_timesteps[-1]
+                    bad_data_timesteps[trial] = list(range(int(start), int(end)))
+            if '*' in bad_data_timesteps:
+                bad_data_timesteps = {trial:bad_data_timesteps['*'] for trial in self.trials}
+        
+        # construct the problem        
+        obj_coef = {}
+        constraints, variables = [], []  # lists are orders-of-magnitude faster than numpy arrays for appending
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
             for met in self.phenotypes_parsed_df[0]:
@@ -184,17 +218,14 @@ class MSCommFitting():
                 met_id = met_id.replace('EX_', '', 1)
                 if not metabolites_to_track and met_id != 'cpd00001' or metabolites_to_track and met_id in metabolites_to_track:
                     self.variables["c_"+met] = {}; self.constraints['dcc_'+met] = {}
-                    initial_time = True; final_time = False
                     for time in self.simulation_timesteps:
-                        if time == self.simulation_timesteps[-1]:
-                            final_time = True
                         self.variables["c_"+met][time] = {}; self.constraints['dcc_'+met][time] = {}
                         for trial in parsed_df[0]:
                             # define biomass measurement conversion variables 
                             self.variables["c_"+met][time][trial] = Variable(
                                 _name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
-                            if initial_time and not 'bio' in met_id:  # !!! the value of initial_time changes
+                            if time == self.simulation_timesteps[0] and not 'bio' in met_id:
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
@@ -203,7 +234,7 @@ class MSCommFitting():
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=initial_val, ub=initial_val)
                             # mandate complete carbon consumption
-                            if final_time and met_id in self.parameters['carbon_sources']:
+                            if time == self.simulation_timesteps[-1] and met_id in self.parameters['carbon_sources']:
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=0, ub=0)
                                 if final_relative_carbon_conc:
@@ -211,7 +242,6 @@ class MSCommFitting():
                                         _name("c_", met, time, trial), 
                                         lb=0, ub=self.variables["c_"+met]["1"][trial].lb*final_relative_carbon_conc)
                             variables.append(self.variables["c_"+met][time][trial])
-                        initial_time = False
             break   # prevents duplicated variables 
         for signal, parsed_df in self.dataframes.items():
             if 'OD' not in signal:
@@ -227,40 +257,40 @@ class MSCommFitting():
             self.variables['v_'+phenotype] = {} 
             self.constraints['gc_'+phenotype] = {}; self.constraints['cvc_'+phenotype] = {}
             for time in self.simulation_timesteps:
-                self.variables['cvt_'+phenotype][time] = {}; self.variables['cvf_'+phenotype][time] = {}
-                self.variables['b_'+phenotype][time] = {}; self.variables['g_'+phenotype][time] = {}
-                self.variables['v_'+phenotype][time] = {}
-                self.constraints['gc_'+phenotype][time] = {}; self.constraints['cvc_'+phenotype][time] = {}
-                for trial in parsed_df[0]:
-                    self.variables['b_'+phenotype][time][trial] = Variable(         # predicted biomass abundance
-                        _name("b_", phenotype, time, trial), lb=0, ub=100)
-                    self.variables['g_'+phenotype][time][trial] = Variable(         # biomass growth
-                        _name("g_", phenotype, time, trial), lb=0, ub=1000)   
-                    
-                    if 'stationary' not in phenotype:
-                        self.variables['cvt_'+phenotype][time][trial] = Variable(       # conversion rate to the stationary phase
-                            _name("cvt_", phenotype, time, trial), lb=0, ub=100)  
-                        self.variables['cvf_'+phenotype][time][trial] = Variable(       # conversion from to the stationary phase
-                            _name("cvf_", phenotype, time, trial), lb=0, ub=100)   
+                    self.variables['cvt_'+phenotype][time] = {}; self.variables['cvf_'+phenotype][time] = {}
+                    self.variables['b_'+phenotype][time] = {}; self.variables['g_'+phenotype][time] = {}
+                    self.variables['v_'+phenotype][time] = {}
+                    self.constraints['gc_'+phenotype][time] = {}; self.constraints['cvc_'+phenotype][time] = {}
+                    for trial in self.trials:
+                        self.variables['b_'+phenotype][time][trial] = Variable(         # predicted biomass abundance
+                            _name("b_", phenotype, time, trial), lb=0, ub=100)
+                        self.variables['g_'+phenotype][time][trial] = Variable(         # biomass growth
+                            _name("g_", phenotype, time, trial), lb=0, ub=1000)   
                         
-                        # 0 <= -cvt + bcv*b_{phenotype} + cvmin
-                        self.constraints['cvc_'+phenotype][time][trial] = Constraint(
-                            -self.variables['cvt_'+phenotype][time][trial] 
-                            + self.parameters['bcv']*self.variables['b_'+phenotype][time][trial] + self.parameters['cvmin'],
-                            lb=0, ub=None, name=_name('cvc_', phenotype, time, trial))  
-                        
-                        # g_{phenotype} - b_{phenotype}*v = 0
-                        self.constraints['gc_'+phenotype][time][trial] = Constraint(
-                            self.variables['g_'+phenotype][time][trial] 
-                            - self.parameters['v']*self.variables['b_'+phenotype][time][trial],
-                            lb=0, ub=0, name=_name("gc_", phenotype, time, trial))
-                
-                        obj_coef.update({self.variables['cvf_'+phenotype][time][trial]: self.parameters['cvcf'],
-                                         self.variables['cvt_'+phenotype][time][trial]: self.parameters['cvct']})
-                        variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
-                        constraints.extend([self.constraints['cvc_'+phenotype][time][trial], self.constraints['gc_'+phenotype][time][trial]])
+                        if 'stationary' not in phenotype:
+                            self.variables['cvt_'+phenotype][time][trial] = Variable(       # conversion rate to the stationary phase
+                                _name("cvt_", phenotype, time, trial), lb=0, ub=100)  
+                            self.variables['cvf_'+phenotype][time][trial] = Variable(       # conversion from to the stationary phase
+                                _name("cvf_", phenotype, time, trial), lb=0, ub=100)   
+                            
+                            # 0 <= -cvt + bcv*b_{phenotype} + cvmin
+                            self.constraints['cvc_'+phenotype][time][trial] = Constraint(
+                                -self.variables['cvt_'+phenotype][time][trial] 
+                                + self.parameters['bcv']*self.variables['b_'+phenotype][time][trial] + self.parameters['cvmin'],
+                                lb=0, ub=None, name=_name('cvc_', phenotype, time, trial))  
+                            
+                            # g_{phenotype} - b_{phenotype}*v = 0
+                            self.constraints['gc_'+phenotype][time][trial] = Constraint(
+                                self.variables['g_'+phenotype][time][trial] 
+                                - self.parameters['v']*self.variables['b_'+phenotype][time][trial],
+                                lb=0, ub=0, name=_name("gc_", phenotype, time, trial))
                     
-                    variables.extend([self.variables['b_'+phenotype][time][trial], self.variables['g_'+phenotype][time][trial]])
+                            obj_coef.update({self.variables['cvf_'+phenotype][time][trial]: self.parameters['cvcf'],
+                                             self.variables['cvt_'+phenotype][time][trial]: self.parameters['cvct']})
+                            variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
+                            constraints.extend([self.constraints['cvc_'+phenotype][time][trial], self.constraints['gc_'+phenotype][time][trial]])
+                        
+                        variables.extend([self.variables['b_'+phenotype][time][trial], self.variables['g_'+phenotype][time][trial]])
                     
         # define non-concentration variables  
         half_dt = self.parameters['data_timestep_hr']/2
@@ -272,11 +302,8 @@ class MSCommFitting():
                 met_id = met_id.replace('EX_', '', 1)
                 if not metabolites_to_track and 'cpd00001' != met_id or metabolites_to_track and met_id in metabolites_to_track:
                     for trial in parsed_df[0]:
-                        last_column = False
                         for time in self.simulation_timesteps:
                             next_time = str(int(time)+1)
-                            if next_time == self.simulation_timesteps[-1]:
-                                last_column = True  
                             # c_{met} + dt*sum_k^K() - c+1_{met} = 0
                             self.constraints['dcc_'+met][time][trial] = Constraint(
                                 self.variables["c_"+met][time][trial] - self.variables["c_"+met][next_time][trial] 
@@ -287,7 +314,7 @@ class MSCommFitting():
                                 ub=0, lb=0, name=_name("dcc_", met, time, trial))
                             
                             constraints.append(self.constraints['dcc_'+met][time][trial])
-                            if last_column:
+                            if next_time == self.simulation_timesteps[-1]:
                                 break
             break   # prevents duplicated constraints
                     
@@ -311,60 +338,61 @@ class MSCommFitting():
                     self.variables[signal+'__diffneg'][time] = {}
                     self.constraints[signal+'__bioc'][time] = {}; self.constraints[signal+'__diffc'][time] = {}
                     for r_index, trial in enumerate(parsed_df[0]):
-                        total_biomass: Add = 0; signal_sum: Add = 0; from_sum: Add = 0; to_sum: Add = 0
-                        for phenotype in self.phenotypes_parsed_df[1]:
-                            total_biomass += self.variables["b_"+phenotype][time][trial]
-                            val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, phenotype]
-                            signal_sum += val*self.variables["b_"+phenotype][time][trial]
-                            if all(['OD' not in signal, self.signal_species[signal] in phenotype, 'stationary' not in phenotype]):
-                                from_sum += val*self.variables['cvf_'+phenotype][time][trial] 
-                                to_sum += val*self.variables['cvt_'+phenotype][time][trial]  
-                        for phenotype in self.phenotypes_parsed_df[1]:
-                            if 'OD' not in signal and self.signal_species[signal] in phenotype:
-                                if "stationary" in phenotype:
-                                    # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{phenotype} = 0
-                                    self.constraints['dbc_'+phenotype][time][trial] = Constraint(
-                                        self.variables['b_'+phenotype][time][trial] 
-                                        - from_sum + to_sum 
-                                        - self.variables['b_'+phenotype][next_time][trial],
-                                        ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
-                                else:
-                                    # -b_{phenotype} + dt*g_{phenotype} + cvf - cvt - b+1_{phenotype} = 0
-                                    self.constraints['dbc_'+phenotype][time][trial] = Constraint( 
-                                        self.variables['b_'+phenotype][time][trial] - self.variables['b_'+phenotype][next_time][trial]
-                                        + half_dt*(self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial])
-                                        + self.variables['cvf_'+phenotype][time][trial] - self.variables['cvt_'+phenotype][time][trial],
-                                        ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
+                        if not bad_data_timesteps or trial not in bad_data_timesteps or time not in bad_data_timesteps[trial]:
+                            total_biomass:Add = 0; signal_sum: Add = 0; from_sum: Add = 0; to_sum: Add = 0
+                            for phenotype in self.phenotypes_parsed_df[1]:
+                                total_biomass += self.variables["b_"+phenotype][time][trial]
+                                val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, phenotype]
+                                signal_sum += val*self.variables["b_"+phenotype][time][trial]
+                                if all(['OD' not in signal, self.signal_species[signal] in phenotype, 'stationary' not in phenotype]):
+                                    from_sum += val*self.variables['cvf_'+phenotype][time][trial] 
+                                    to_sum += val*self.variables['cvt_'+phenotype][time][trial]  
+                            for phenotype in self.phenotypes_parsed_df[1]:
+                                if 'OD' not in signal and self.signal_species[signal] in phenotype:
+                                    if "stationary" in phenotype:
+                                        # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{phenotype} = 0
+                                        self.constraints['dbc_'+phenotype][time][trial] = Constraint(
+                                            self.variables['b_'+phenotype][time][trial] 
+                                            - from_sum + to_sum 
+                                            - self.variables['b_'+phenotype][next_time][trial],
+                                            ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
+                                    else:
+                                        # -b_{phenotype} + dt*g_{phenotype} + cvf - cvt - b+1_{phenotype} = 0
+                                        self.constraints['dbc_'+phenotype][time][trial] = Constraint( 
+                                            self.variables['b_'+phenotype][time][trial] - self.variables['b_'+phenotype][next_time][trial]
+                                            + half_dt*(self.variables['g_'+phenotype][time][trial]+self.variables['g_'+phenotype][next_time][trial])
+                                            + self.variables['cvf_'+phenotype][time][trial] - self.variables['cvt_'+phenotype][time][trial],
+                                            ub=0, lb=0, name=_name("dbc_", phenotype, time, trial))
+                                    
+                                    constraints.append(self.constraints['dbc_'+phenotype][time][trial])
+                                    
+                            self.variables[signal+'__bio'][time][trial] = Variable(
+                                _name(signal, '__bio', time, trial), lb=0, ub=1000)
+                            self.variables[signal+'__diffpos'][time][trial] = Variable( 
+                                _name(signal, '__diffpos', time, trial), lb=0, ub=100) 
+                            self.variables[signal+'__diffneg'][time][trial] = Variable(  
+                                _name(signal, '__diffneg', time, trial), lb=0, ub=100) 
                                 
-                                constraints.append(self.constraints['dbc_'+phenotype][time][trial])
-                                
-                        self.variables[signal+'__bio'][time][trial] = Variable(
-                            _name(signal, '__bio', time, trial), lb=0, ub=1000)
-                        self.variables[signal+'__diffpos'][time][trial] = Variable( 
-                            _name(signal, '__diffpos', time, trial), lb=0, ub=100) 
-                        self.variables[signal+'__diffneg'][time][trial] = Variable(  
-                            _name(signal, '__diffneg', time, trial), lb=0, ub=100) 
+                            # {signal}__conversion*datum = {signal}__bio
+                            self.constraints[signal+'__bioc'][time][trial] = Constraint(
+                                self.variables[signal+'__conversion']*parsed_df[2][r_index, int(data_timestep)-1] 
+                                - self.variables[signal+'__bio'][time][trial], 
+                                name=_name(signal, '__bioc', time, trial), lb=0, ub=0)
                             
-                        # {signal}__conversion*datum = {signal}__bio
-                        self.constraints[signal+'__bioc'][time][trial] = Constraint(
-                            self.variables[signal+'__conversion']*parsed_df[2][r_index, int(data_timestep)-1] 
-                            - self.variables[signal+'__bio'][time][trial], 
-                            name=_name(signal, '__bioc', time, trial), lb=0, ub=0)
-                        
-                        # {speces}_bio - sum_k^K(es_k*b_{phenotype}) - {signal}_diffpos + {signal}_diffneg = 0
-                        self.constraints[signal+'__diffc'][time][trial] = Constraint( 
-                            self.variables[signal+'__bio'][time][trial] - signal_sum 
-                            - self.variables[signal+'__diffpos'][time][trial]
-                            + self.variables[signal+'__diffneg'][time][trial], 
-                            name=_name(signal, '__diffc', time, trial), lb=0, ub=0)
-    
-                        obj_coef.update({self.variables[signal+'__diffpos'][time][trial]: self.parameters['diffpos'],
-                                         self.variables[signal+'__diffneg'][time][trial]: self.parameters['diffneg']})                            
-                        variables.extend([self.variables[signal+'__bio'][time][trial], 
-                                          self.variables[signal+'__diffpos'][time][trial],
-                                          self.variables[signal+'__diffneg'][time][trial]])
-                        constraints.extend([self.constraints[signal+'__bioc'][time][trial],
-                                           self.constraints[signal+'__diffc'][time][trial]])
+                            # {speces}_bio - sum_k^K(es_k*b_{phenotype}) - {signal}_diffpos + {signal}_diffneg = 0
+                            self.constraints[signal+'__diffc'][time][trial] = Constraint( 
+                                self.variables[signal+'__bio'][time][trial] - signal_sum 
+                                - self.variables[signal+'__diffpos'][time][trial]
+                                + self.variables[signal+'__diffneg'][time][trial], 
+                                name=_name(signal, '__diffc', time, trial), lb=0, ub=0)
+        
+                            obj_coef.update({self.variables[signal+'__diffpos'][time][trial]: self.parameters['diffpos'],
+                                             self.variables[signal+'__diffneg'][time][trial]: self.parameters['diffneg']})                            
+                            variables.extend([self.variables[signal+'__bio'][time][trial], 
+                                              self.variables[signal+'__diffpos'][time][trial],
+                                              self.variables[signal+'__diffneg'][time][trial]])
+                            constraints.extend([self.constraints[signal+'__bioc'][time][trial],
+                                               self.constraints[signal+'__diffc'][time][trial]])
                 
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
@@ -621,7 +649,7 @@ class MSCommFitting():
                             print(met['ub'])
         
         # change Vmax values
-        for arg in mscomfit_json['constraints']:
+        for arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
             name, time, trial = arg['name'].split('-')
             if 'gc' in name:
                 arg['expression']['args'][1]['args'] = change_param(arg['expression']['args'][1]['args'], vmax, time, trial)
