@@ -98,8 +98,10 @@ class MSCommFitting():
         self.phenotypes_parsed_df = FBAHelper.parse_df(fluxes_df)
         self.species_phenotypes_bool_df = DataFrame(columns=self.phenotypes_parsed_df[1])
         
-        if 'rows' not in ignore_trials:
-            ignore_trials['rows'] = {}
+        if 'columns' not in carbon_conc_series:
+            carbon_conc_series['columns'] = {}
+        if 'rows' not in carbon_conc_series:
+            carbon_conc_series['rows'] = {}
         self.carbon_conc = carbon_conc_series
         
         self.parameters["data_timestep_hr"] = []
@@ -158,7 +160,7 @@ class MSCommFitting():
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
                 
-    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, flexible_consumption:bool=False,metabolites_to_track:list=None):
+    def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -182,12 +184,10 @@ class MSCommFitting():
                 met_id = met_id.replace('EX_', '', 1)
                 if not metabolites_to_track and met_id != 'cpd00001' or metabolites_to_track and met_id in metabolites_to_track:
                     self.variables["c_"+met] = {}; self.constraints['dcc_'+met] = {}
+                    initial_time = True; final_time = False
                     for time in self.simulation_timesteps:
-                        initial_time = final_time = False
                         if time == self.simulation_timesteps[-1]:
                             final_time = True
-                        if time == self.simulation_timesteps[0]:
-                            initial_time = True
                         self.variables["c_"+met][time] = {}; self.constraints['dcc_'+met][time] = {}
                         for trial in parsed_df[0]:
                             # define biomass measurement conversion variables 
@@ -196,19 +196,22 @@ class MSCommFitting():
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if initial_time and not 'bio' in met_id:  # !!! the value of initial_time changes
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
-                                if met_id in self.carbon_conc and trial[0] in self.carbon_conc[met_id]:
-                                    initial_val = self.carbon_conc[met_id][trial[0]]
+                                if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
+                                    initial_val = self.carbon_conc['rows'][met_id][trial[0]]
+                                if met_id in self.carbon_conc['columns'] and trial[1:] in self.carbon_conc['columns'][met_id]:
+                                    initial_val = self.carbon_conc['columns'][met_id][trial[1:]]
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=initial_val, ub=initial_val)
                             # mandate complete carbon consumption
                             if final_time and met_id in self.parameters['carbon_sources']:
                                 self.variables["c_"+met][time][trial] = Variable(
                                     _name("c_", met, time, trial), lb=0, ub=0)
-                                if flexible_consumption:
+                                if final_relative_carbon_conc:
                                     self.variables["c_"+met][time][trial] = Variable(
                                         _name("c_", met, time, trial), 
-                                        lb=0, ub=self.variables["c_"+met]["1"][trial].lb*0.1)
+                                        lb=0, ub=self.variables["c_"+met]["1"][trial].lb*final_relative_carbon_conc)
                             variables.append(self.variables["c_"+met][time][trial])
+                        initial_time = False
             break   # prevents duplicated variables 
         for signal, parsed_df in self.dataframes.items():
             if 'OD' not in signal:
@@ -283,7 +286,7 @@ class MSCommFitting():
                                         for phenotype in self.phenotypes_parsed_df[1]])),
                                 ub=0, lb=0, name=_name("dcc_", met, time, trial))
                             
-                            constraints.extend([self.constraints['dcc_'+met][time][trial]])
+                            constraints.append(self.constraints['dcc_'+met][time][trial])
                             if last_column:
                                 break
             break   # prevents duplicated constraints
@@ -416,7 +419,7 @@ class MSCommFitting():
         with open('primal_values.json', 'w') as out:
             json.dump(self.values, out, indent=3)
         if not zip_name:
-            if hasattr(self, zip_name()):
+            if hasattr(self, zip_name):
                 zip_name = self.zip_name
         if zip_name:
             with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
@@ -556,7 +559,7 @@ class MSCommFitting():
                 self.problem = model
             return model
 
-    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, mscomfit_json_path:str = 'mscommfitting.json', zip_name = None,final_concentrations = None):
+    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, mscomfit_json_path='mscommfitting.json', export_zip_name=None, extract_zip_name=None, final_concentrations:dict=None, final_relative_carbon_conc:float=None, previous_relative_conc:float=None):
         def change_param(arg, param, time, trial):
             if param:
                 if not isinstance(param, dict):
@@ -571,16 +574,16 @@ class MSCommFitting():
             return arg
     
         time_1 = process_time()
-        if not zip_name:
-            zip_name = self.zip_name
+        if not export_zip_name:
+            export_zip_name = self.zip_name
         if not os.path.exists(mscomfit_json_path):
-            with ZipFile(self.zip_name, 'r') as zp:
+            if not extract_zip_name:
+                extract_zip_name = self.zip_name
+            with ZipFile(extract_zip_name, 'r') as zp:
                 zp.extract(mscomfit_json_path)
             with open(mscomfit_json_path, 'r') as mscmft:
                 mscomfit_json = json.load(mscmft)
         else:
-            with ZipFile(zip_name, 'r') as zp:
-                zp.extract('mscommfitting.json')
             with open('mscommfitting.json', 'r') as mscmft:
                 mscomfit_json = json.load(mscmft)
 
@@ -597,13 +600,25 @@ class MSCommFitting():
             elif 'diff' in name:
                 arg['args'] = change_param(arg['args'], diff, time, trial)
 
-        #Change final concentrations
-        if final_concentrations:
-            for met in final_concentrations:
-                time  = self.simulation_timesteps[-1]
-                for trial in self.variables["c_"+met][time]:
-                    self.variables["c_"+met][time][trial].lb = 0
-                    self.variables["c_"+met][time][trial].ub = final_concentrations[met]
+        # change final concentrations
+        if final_concentrations:  # absolute concentration
+            for met in mscomfit_json['variables']:
+                name, time, trial = met['name'].split('-')
+                if name in final_concentrations and time == self.simulation_timesteps[-1]:
+                    met['lb'] = 0
+                    met['ub'] = final_concentrations[met]
+                    
+        if final_relative_carbon_conc:  # relative concentration
+            for met in mscomfit_json['variables']:
+                if 'EX_' in met['name']:
+                    name, time, trial = met['name'].split('-')
+                    if any([x in name for x in self.parameters['carbon_sources']]) and time == self.simulation_timesteps[-1]:
+                        print(met['ub'])
+                        met['lb'] = 0
+                        met['ub'] *= final_relative_carbon_conc
+                        if previous_relative_conc:
+                            met['ub'] /= previous_relative_conc
+                            print(met['ub'])
         
         # change Vmax values
         for arg in mscomfit_json['constraints']:
@@ -613,7 +628,7 @@ class MSCommFitting():
         
         with open(mscomfit_json_path, 'w') as mscmft:
             json.dump(mscomfit_json, mscmft, indent=3)
-        with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
+        with ZipFile(export_zip_name, 'a', compression=ZIP_LZMA) as zp:
             zp.write(mscomfit_json_path)
             os.remove(mscomfit_json_path)
         time_3 = process_time()
