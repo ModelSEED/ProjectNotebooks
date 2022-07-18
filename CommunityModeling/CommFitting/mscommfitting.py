@@ -486,8 +486,26 @@ class MSCommFitting():
         # plot the content for desired trials 
         self.plots = []
         for graph in graphs:
-            if any([x in graph['content'] for x in ['total','OD']]):
-                ys = []
+            content = graph['content']
+            if any([x in graph['content'] for x in ['total', 'OD', 'all_biomass']]):
+                ys = {}
+                for name in self.signal_species.values():
+                    ys[name] = []
+            if any(x == graph['content'] for x in ['OD', 'all_biomass']):
+                y_label = 'Biomass (g)'
+                graph['phenotype'] = graph['species'] = '*'
+            elif 'biomass' in graph['content']:
+                content = 'b'
+                y_label = 'Biomass (g)'
+            elif graph['content'] == 'growth':
+                content = 'g'   
+                y_label = 'Biomass (g/hr)'
+            elif 'stress-test' in graph['content']:
+                content = graph['content'].split('_')[1]
+                y_label = graph['species']+' coculture %'
+                x_label = content+' (mM)'
+            if graph['species'] == '*':
+                graph['species'] = self.signal_species.values()
             print(graph)
             pyplot.rcParams['figure.figsize'] = (11, 7)
             pyplot.rcParams['figure.dpi'] = 150
@@ -495,43 +513,29 @@ class MSCommFitting():
             y_label = 'Variable value'
             x_label = 'Time (hr)'
             for trial, basenames in self.values.items():
-                content = graph['content']
-                if graph['content'] == 'OD':
-                    y_label = 'Biomass (g)'
-                    graph['phenotype'] = graph['species'] = '*'
-                elif 'biomass' in graph['content']:
-                    content = 'b'
-                    y_label = 'Biomass (g)'
-                elif graph['content'] == 'growth':
-                    content = 'g'   
-                    y_label = 'Biomass (g/hr)'
-                elif 'stress-test' in graph['content']:
-                    content = graph['content'].split('_')[1]
-                    y_label = graph['species']+' coculture %'
-                    x_label = content+' (mM)'
                 if trial == graph['trial']:
                     labels:list = []
                     for basename in basenames:
                         # parse for non-concentration variables
-                        if any([x in graph['content'] for x in ['total','OD']]):
+                        if any([x in graph['content'] for x in ['total', 'all_biomass', 'OD']]):
                             if 'b_' in basename:
-                                if graph['content'] == 'OD':
-                                    labels.append('predicted')
-                                    label = 'predicted'
-                                    xs = np.array(list(self.values[trial][basename].keys()))
-                                    ys.append(np.array(list(self.values[trial][basename].values())))
-                                elif graph['content'] == 'total':
-                                    if graph['species'] in basename:
-                                        labels.append('total_biomass')
-                                        label = 'total_biomass'
-                                        xs = np.array(list(self.values[trial][basename].keys()))
-                                        ys.append(np.array(list(self.values[trial][basename].values())))
+                                var_name, species, phenotype = basename.split('_')
+                                print('predicted')
+                                label = f'{species}_biomass (model)'
+                                labels.append(label)
+                                xs = np.array(list(self.values[trial][basename].keys()))
+                                if any([x in graph['content'] for x in ['all_biomass', 'OD']]):
+                                    ys['OD'].append(np.array(list(self.values[trial][basename].values())))
+                                if any([x in graph['content'] for x in ['all_biomass', 'total']]):
+                                    ys[species].append(np.array(list(self.values[trial][basename].values())))
                             if 'experimental_data' in graph and graph['experimental_data']:
-                                if basename == 'OD__bio':
-                                    labels.append('experimental')
+                                if any(['__bio' in basename and graph['content'] == 'all_biomass',
+                                        basename == 'OD__bio' and graph['content'] == 'OD']):
+                                    print('experimental')
+                                    labels.append(basename)
                                     exp_xs = np.array(list(self.values[trial][basename].keys()))
                                     exp_xs = exp_xs.astype(np.float32); exp_xs = np.around(exp_xs, 2)
-                                    ax.plot(exp_xs, list(self.values[trial][basename].values()), label='experimental')
+                                    ax.plot(exp_xs, list(self.values[trial][basename].values()), label=f'{basename} (exp)')
                                     ax.set_xticks(exp_xs[::int(2/data_timestep_hr/timestep_ratio)])
                         elif graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
                             if 'total' in graph['content']:
@@ -552,12 +556,13 @@ class MSCommFitting():
                             print('3')
                             
                     if labels != []:
-                        if any([x in graph['content'] for x in ['total','OD']]):
+                        if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
                             xs = xs.astype(np.float32); xs = np.around(xs, 2)
-                            ax.plot(xs, sum(ys), label=label)
+                            for name in ys:
+                                ax.plot(xs, sum(ys[name]), label=f'{name}_biomass (model)')
                             ax.set_xticks(xs[::int(2/data_timestep_hr/timestep_ratio)])
                         phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all phenotypes"
-                        species_id = graph["species"] if graph["species"] != '*' else 'all species'
+                        species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
                         ax.set_xlabel(x_label)
                         ax.set_ylabel(y_label)
                         if len(labels) > 1:
