@@ -430,7 +430,7 @@ class MSCommFitting():
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
-    def compute(self, graphs:list = [], zip_name=None):
+    def compute(self, graphs:list = [], zip_name=None, publishing=False):
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
@@ -455,14 +455,14 @@ class MSCommFitting():
                 os.remove('primal_values.json')
         
         if graphs != []:
-            self.graph(graphs, zip_name = zip_name)
+            self.graph(graphs, zip_name=zip_name, publishing=publishing)
             
         if "optimal" in  solution:
             print('The solution is optimal.')
         else:
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
-    def graph(self, graphs = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163):
+    def graph(self, graphs = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163, publishing:bool = False, title:str=None):
         def add_plot(ax, labels, basename, trial):
             labels.append(basename.split('-')[-1])
             ax.plot(self.values[trial][basename].keys(),
@@ -487,19 +487,21 @@ class MSCommFitting():
         self.plots = []
         for graph in graphs:
             content = graph['content']
+            y_label = 'Variable value'
+            x_label = 'Time (hr)'
             if any([x in graph['content'] for x in ['total', 'OD', 'all_biomass']]):
                 ys = {}
                 for name in self.signal_species.values():
                     ys[name] = []
             if any(x == graph['content'] for x in ['OD', 'all_biomass']):
-                y_label = 'Biomass (g)'
+                y_label = 'Biomass concentration (g/L)'
                 graph['phenotype'] = graph['species'] = '*'
             elif 'biomass' in graph['content']:
                 content = 'b'
-                y_label = 'Biomass (g)'
+                y_label = 'Biomass concentration (g/L)'
             elif graph['content'] == 'growth':
                 content = 'g'   
-                y_label = 'Biomass (g/hr)'
+                y_label = 'Biomass growth (g/hr)'
             elif 'stress-test' in graph['content']:
                 content = graph['content'].split('_')[1]
                 y_label = graph['species']+' coculture %'
@@ -507,22 +509,37 @@ class MSCommFitting():
             if graph['species'] == '*':
                 graph['species'] = self.signal_species.values()
             print(graph)
+            
+            # figure specifications
             pyplot.rcParams['figure.figsize'] = (11, 7)
             pyplot.rcParams['figure.dpi'] = 150
+            if publishing:
+                pyplot.rc('axes', titlesize=20, labelsize=20)
+                pyplot.rc('xtick', labelsize=20) 
+                pyplot.rc('ytick', labelsize=20) 
+                pyplot.rc('legend', fontsize=18)
             fig, ax = pyplot.subplots()
-            y_label = 'Variable value'
-            x_label = 'Time (hr)'
+            
+            # define the figure contents
             for trial, basenames in self.values.items():
                 if trial == graph['trial']:
-                    labels:list = []
+                    labels = []
                     for basename in basenames:
                         # parse for non-concentration variables
                         if any([x in graph['content'] for x in ['total', 'all_biomass', 'OD']]):
                             if 'b_' in basename:
                                 var_name, species, phenotype = basename.split('_')
-                                print('predicted')
                                 label = f'{species}_biomass (model)'
-                                labels.append(label)
+                                if publishing:
+                                    for signal, species_name in self.signal_species.items():
+                                        if species == species_name:
+                                             break
+                                    if species == 'ecoli':
+                                        species_name = 'E. coli'  
+                                    elif species == 'pf':
+                                        species_name = 'P. fluorescens'
+                                    label = f'{species_name} biomass from optimized model'
+                                labels.append({species:label})
                                 xs = np.array(list(self.values[trial][basename].keys()))
                                 if any([x in graph['content'] for x in ['all_biomass', 'OD']]):
                                     ys['OD'].append(np.array(list(self.values[trial][basename].values())))
@@ -531,12 +548,22 @@ class MSCommFitting():
                             if 'experimental_data' in graph and graph['experimental_data']:
                                 if any(['__bio' in basename and graph['content'] == 'all_biomass',
                                         basename == 'OD__bio' and graph['content'] == 'OD']):
-                                    print('experimental')
-                                    labels.append(basename)
+                                    signal = basename.split('_')[0]
+                                    label = basename
+                                    if publishing:
+                                        if self.signal_species[signal] == 'ecoli':
+                                            species = 'E. coli'  
+                                        elif self.signal_species[signal] == 'pf':
+                                            species = 'P. fluorescens'
+                                        label = f'Experimental {species} profile (from {signal})'
+                                        if signal == 'OD':
+                                            label = 'Experimental total biomass (from OD)'
+                                    labels.append(label)
                                     exp_xs = np.array(list(self.values[trial][basename].keys()))
-                                    exp_xs = exp_xs.astype(np.float32); exp_xs = np.around(exp_xs, 2)
-                                    ax.plot(exp_xs, list(self.values[trial][basename].values()), label=f'{basename} (exp)')
-                                    ax.set_xticks(exp_xs[::int(2/data_timestep_hr/timestep_ratio)])
+                                    exp_xs = exp_xs.astype(np.float32)
+                                    ax.plot(exp_xs, list(self.values[trial][basename].values()), label=label)
+                                    x_ticks = np.around(exp_xs, 0)
+                                    ax.set_xticks(x_ticks[::int(2/data_timestep_hr/timestep_ratio)])
                         elif graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
                             if 'total' in graph['content']:
                                 labels = [basename]
@@ -557,17 +584,30 @@ class MSCommFitting():
                             
                     if labels != []:
                         if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
-                            xs = xs.astype(np.float32); xs = np.around(xs, 2)
+                            xs = xs.astype(np.float32)
+                            x_ticks = np.around(xs, 0)
                             for name in ys:
-                                ax.plot(xs, sum(ys[name]), label=f'{name}_biomass (model)')
-                            ax.set_xticks(xs[::int(2/data_timestep_hr/timestep_ratio)])
+                                label=f'{name}_biomass (model)'
+                                if publishing:
+                                    if name == 'OD':
+                                        label = 'Total biomass from optimized model'
+                                    else:
+                                        for lbl in labels:
+                                            if isinstance(lbl,dict):
+                                                if name in lbl:
+                                                    label = lbl[name]
+                                ax.plot(xs, sum(ys[name]), label=label)
+                            ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
                         phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all phenotypes"
                         species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
                         ax.set_xlabel(x_label)
                         ax.set_ylabel(y_label)
                         if len(labels) > 1:
                             ax.legend()
-                        ax.set_title(f'{graph["content"]} of {species_id} ({phenotype_id}) in the {trial} trial')
+                        if title:
+                            if title == 'default':
+                                title = f'{graph["content"]} of {species_id} ({phenotype_id}) in the {trial} trial'
+                            ax.set_title(title)
                         fig_name = f'{"_".join([trial, species_id, phenotype_id, graph["content"]])}.jpg'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
