@@ -4,11 +4,13 @@ from modelseedpy.core.exceptions import FeasibilityError
 from pandas import read_table, read_csv, DataFrame, ExcelFile
 from optlang import Variable, Constraint, Objective, Model
 from modelseedpy.core.fbahelper import FBAHelper
+from modelseedpy.core.exceptions import ParameterError
 from scipy.constants import hour
 from scipy.optimize import newton
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
+from copy import deepcopy
 from sympy.core.add import Add
 from matplotlib import pyplot
 # from pprint import pprint
@@ -23,7 +25,7 @@ def _name(name, suffix, time, trial):
 class MSCommFitting(): 
 
     def __init__(self):
-        self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species, self.values = {}, {}, {}, {}, {}, {}
+        self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species = {}, {}, {}, {}, {}
         self.phenotypes_parsed_df: np.ndarray; self.problem: object; self.species_phenotypes_bool_df: object
         self.zipped_output, self.plots = [], []
         
@@ -82,6 +84,10 @@ class MSCommFitting():
         if "OD" not in signal:
             self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                 1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
+            
+    def export_model_json(self, json_model, path): 
+        with open(path, 'w') as lp:
+            json.dump(json_model, lp, indent=3)
     
     def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, signal_csv_paths:dict = {},
                   phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, carbon_conc_series: dict = {}, 
@@ -136,7 +142,7 @@ class MSCommFitting():
             
         # define only species for which data is defined
         signal_source = signal_tsv_paths or signal_csv_paths
-        modeled_species = list(signal_source.values()); print(modeled_species); modeled_species.remove('OD')
+        modeled_species = list(signal_source.values()); modeled_species.remove('OD')
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
         for col in removed_phenotypes:
             fluxes_df.drop(col, axis=1, inplace=True)
@@ -181,6 +187,12 @@ class MSCommFitting():
         self.parameters["data_timestep_hr"] = sum(self.parameters["data_timestep_hr"])/len(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
         self.trials = np.unique(np.concatenate([x[0] for x in self.dataframes.values()]))
+        
+    def met_id_parser(self, met):
+        met_id = re.sub('(\_\w\d+)', '', met)
+        met_id = met_id.replace('EX_', '', 1)
+        met_id = met_id.replace('c_', '', 1)
+        return met_id
                 
     def define_problem(self, parameters={}, zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None):
         self.parameters.update({
@@ -214,8 +226,7 @@ class MSCommFitting():
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
             for met in self.phenotypes_parsed_df[0]:
-                met_id = re.sub('(\_\w\d+)', '', met)
-                met_id = met_id.replace('EX_', '', 1)
+                met_id = self.met_id_parser(met)
                 if not metabolites_to_track and met_id != 'cpd00001' or metabolites_to_track and met_id in metabolites_to_track:
                     self.variables["c_"+met] = {}; self.constraints['dcc_'+met] = {}
                     for time in self.simulation_timesteps:
@@ -298,8 +309,7 @@ class MSCommFitting():
         print(f'Done with biomass loop: {(time_2-time_1)/60} min')
         for parsed_df in self.dataframes.values():
             for r_index, met in enumerate(self.phenotypes_parsed_df[0]):
-                met_id = re.sub('(\_\w\d+)', '', met)
-                met_id = met_id.replace('EX_', '', 1)
+                met_id = self.met_id_parser(met)
                 if not metabolites_to_track and 'cpd00001' != met_id or metabolites_to_track and met_id in metabolites_to_track:
                     for trial in parsed_df[0]:
                         for time in self.simulation_timesteps:
@@ -417,8 +427,7 @@ class MSCommFitting():
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
-            with open('mscommfitting.json', 'w') as lp:
-                json.dump(self.problem.to_json(), lp, indent=3)
+            self.export_model_json(self.problem.to_json(), 'mscommfitting.json')
         if zip_name:
             self.zip_name = zip_name
             sleep(2)
@@ -430,7 +439,8 @@ class MSCommFitting():
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6-time_5)/60} min')
                 
-    def compute(self, graphs:list = [], zip_name=None, publishing=False):
+    def compute(self, graphs:list = [], export_zip_name=None, publishing=False):
+        self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
         for variable, value in self.problem.primal_values.items():
@@ -446,16 +456,16 @@ class MSCommFitting():
         # export the processed primal values for graphing
         with open('primal_values.json', 'w') as out:
             json.dump(self.values, out, indent=3)
-        if not zip_name:
-            if hasattr(self, zip_name):
-                zip_name = self.zip_name
-        if zip_name:
-            with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
+        if not export_zip_name:
+            if hasattr(self, 'zip_name'):
+                export_zip_name = self.zip_name
+        if export_zip_name:
+            with ZipFile(export_zip_name, 'a', compression=ZIP_LZMA) as zp:
                 zp.write('primal_values.json')
                 os.remove('primal_values.json')
         
         if graphs != []:
-            self.graph(graphs, zip_name=zip_name, publishing=publishing)
+            self.graph(graphs, zip_name=export_zip_name, publishing=publishing)
             
         if "optimal" in  solution:
             print('The solution is optimal.')
@@ -581,22 +591,23 @@ class MSCommFitting():
                             ax, labels = add_plot(ax, labels, basename, trial)   
                             y_label = 'Concentration (mM)'
                             print('3')
-                            
+                       
                     if labels != []:
                         if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
                             xs = xs.astype(np.float32)
                             x_ticks = np.around(xs, 0)
                             for name in ys:
-                                label=f'{name}_biomass (model)'
-                                if publishing:
-                                    if name == 'OD':
-                                        label = 'Total biomass from optimized model'
-                                    else:
-                                        for lbl in labels:
-                                            if isinstance(lbl,dict):
-                                                if name in lbl:
-                                                    label = lbl[name]
-                                ax.plot(xs, sum(ys[name]), label=label)
+                                if ys[name] != []:
+                                    label=f'{name}_biomass (model)'
+                                    if publishing:
+                                        if name == 'OD':
+                                            label = 'Total biomass from optimized model'
+                                        else:
+                                            for lbl in labels:
+                                                if isinstance(lbl,dict):
+                                                    if name in lbl:
+                                                        label = lbl[name]
+                                    ax.plot(xs, sum(ys[name]), label=label)
                             ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
                         phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all phenotypes"
                         species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
@@ -614,7 +625,7 @@ class MSCommFitting():
         
         # combine the figures with the other cotent
         if not zip_name:
-            if hasattr(self, zip_name()):
+            if hasattr(self, 'zip_name'):
                 zip_name = self.zip_name
         if zip_name:
             with ZipFile(zip_name, 'a', compression=ZIP_LZMA) as zp:
@@ -622,85 +633,116 @@ class MSCommFitting():
                     zp.write(plot)
                     os.remove(plot)
                     
-    def load_model(self, mscomfit_json_path:str, zip_name:str = None, class_object:bool = False):
+    def load_model(self, mscomfit_json_path:str=None, zip_name:str = None, model_to_load:dict=None):
         if zip_name:
             with ZipFile(zip_name, 'r') as zp:
                 zp.extract(mscomfit_json_path)
-        with open(mscomfit_json_path, 'r') as mscmft:
-            model = Model.from_json(json.load(mscmft))
-            if class_object:
-                self.problem = model
-            return model
-
-    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, mscomfit_json_path='mscommfitting.json', export_zip_name=None, extract_zip_name=None, final_concentrations:dict=None, final_relative_carbon_conc:float=None, previous_relative_conc:float=None):
+        if mscomfit_json_path:
+            with open(mscomfit_json_path, 'r') as mscmft:
+                return json.load(mscmft)
+        if model_to_load:
+            print(model_to_load.keys())
+            self.problem = Model.from_json(model_to_load)
+        
+    def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, km=None, error_threshold:float=1, strain:str=None, graphs:list=None, mscomfit_json_path='mscommfitting.json', primal_values_filename:str=None, export_zip_name=None, extract_zip_name=None, final_concentrations:dict=None, final_relative_carbon_conc:float=None, previous_relative_conc:float=None):
         def change_param(arg, param, time, trial):
-            if param:
-                if not isinstance(param, dict):
-                    arg[0]['value'] = param
+            if not isinstance(param, dict):
+                arg[0]['value'] = param
+            else:
+                if time in param:
+                    if trial in param[time]:
+                        arg[0]['value'] = param[time][trial]
+                    arg[0]['value'] = param[time]
                 else:
-                    if time in param:
-                        if trial in param[time]:
-                            arg[0]['value'] = param[time][trial]
-                        arg[0]['value'] = param[time]
-                    else:
-                        arg[0]['value'] = param['default']
+                    arg[0]['value'] = param['default']
             return arg
+        
+        def change_vmax(mscomfit_json, vmax, met, strain):
+            vmax = vmax[met][strain] if isinstance(vmax, dict) else vmax
+            for arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
+                name, time, trial = arg['name'].split('-')
+                if 'gc' in name:
+                    arg['expression']['args'][1]['args'] = change_param(arg['expression']['args'][1]['args'], vmax, time, trial)
+            return mscomfit_json
     
         time_1 = process_time()
-        if not export_zip_name:
-            export_zip_name = self.zip_name
         if not os.path.exists(mscomfit_json_path):
-            if not extract_zip_name:
-                extract_zip_name = self.zip_name
-            with ZipFile(extract_zip_name, 'r') as zp:
-                zp.extract(mscomfit_json_path)
-            with open(mscomfit_json_path, 'r') as mscmft:
-                mscomfit_json = json.load(mscmft)
+            extract_zip_name = extract_zip_name or self.zip_name
+            mscomfit_json = self.load_model(mscomfit_json_path, zip_name=extract_zip_name)
         else:
-            with open('mscommfitting.json', 'r') as mscmft:
-                mscomfit_json = json.load(mscmft)
-
+            mscomfit_json = self.load_model(mscomfit_json_path)
         time_2 = process_time()
         print(f'Done loading the JSON: {(time_2-time_1)/60} min')
         
         # change objective coefficients
-        for arg in mscomfit_json['objective']['expression']['args']:
-            name, time, trial = arg['args'][1]['name'].split('-')
-            if 'cvf' in name:
-                arg['args'] = change_param(arg['args'], cvf, time, trial)
-            elif 'cvt' in name:
-                arg['args'] = change_param(arg['args'], cvt, time, trial)
-            elif 'diff' in name:
-                arg['args'] = change_param(arg['args'], diff, time, trial)
+        if any([cvf, cvt, diff]):
+            for arg in mscomfit_json['objective']['expression']['args']:
+                name, time, trial = arg['args'][1]['name'].split('-')
+                if cvf and 'cvf' in name:
+                    arg['args'] = change_param(arg['args'], cvf, time, trial)
+                elif cvt and 'cvt' in name:
+                    arg['args'] = change_param(arg['args'], cvt, time, trial)
+                elif diff and 'diff' in name:
+                    arg['args'] = change_param(arg['args'], diff, time, trial)
 
-        # change final concentrations
-        if final_concentrations:  # absolute concentration
-            for met in mscomfit_json['variables']:
-                name, time, trial = met['name'].split('-')
-                if name in final_concentrations and time == self.simulation_timesteps[-1]:
-                    met['lb'] = 0
-                    met['ub'] = final_concentrations[met]
-                    
-        if final_relative_carbon_conc:  # relative concentration
+        if km and not vmax:
+            raise ParameterError(f'A Vmax must be defined with the Km of {km}.')
+        if final_relative_carbon_conc or final_concentrations or km and vmax:
+            if not hasattr(self, 'values'):
+                with open(primal_values_filename, 'r') as pv:
+                    self.values = json.load(pv)
             for met in mscomfit_json['variables']:
                 if 'EX_' in met['name']:
-                    name, time, trial = met['name'].split('-')
-                    if any([x in name for x in self.parameters['carbon_sources']]) and time == self.simulation_timesteps[-1]:
+                    met_name, time, trial = met['name'].split('-')
+                    # print(self.values[trial][met_name].keys())
+                    # change final concentrations
+                    if final_concentrations and met_name in final_concentrations and time == self.simulation_timesteps[-1]:  # absolute concentration
+                        met['lb'] = 0
+                        met['ub'] = final_concentrations[met_name]
+                    if all([final_relative_carbon_conc, any([x in met_name for x in self.parameters['carbon_sources']]), 
+                            time == self.simulation_timesteps[-1]]):  # relative concentration
                         print(met['ub'])
                         met['lb'] = 0
                         met['ub'] *= final_relative_carbon_conc
                         if previous_relative_conc:
                             met['ub'] /= previous_relative_conc
                             print(met['ub'])
+                    
+                    # change growth kinetics
+                    met_id = self.met_id_parser(met_name)
+                    if vmax and met_id in vmax:
+                        if km and met_id in km:  # at starting maltose of 5, vmax/(km + [maltose]) = 2.26667/(2+5) = 0.3
+                            vmax_var = deepcopy(vmax) # a deepcopy that captures the organization of Vmax without changing its contents
+                            last_conc = {}
+                            count = error = 0
+                            while (error < error_threshold):  # infinite loop sans convergence ; unknown necessary threshold 
+                                error = 0
+                                for time in self.variables[met_name]:
+                                    primal_time = int(time)*self.parameters['timestep_hr']
+                                    if time not in last_conc:
+                                        last_conc[time] = {}
+                                    for trial in self.variables[met_name][time]:
+                                        if trial in last_conc[time]:
+                                            error += (last_conc[time][trial]-self.values[trial][met_name][primal_time])**2
+                                        last_conc[time][trial] = self.values[trial][met_name][primal_time]
+                                        if isinstance(vmax[met_id][strain], dict):
+                                            vmax_var[met_id][strain][time][trial] = -(
+                                                vmax[met_id][strain][time][trial]/(km[met_id][strain][time][trial]+last_conc[time][trial]))
+                                        else:
+                                            print('new growth rate: ', vmax_var[met_id][strain])
+                                            vmax_var[met_id][strain] = -(vmax[met_id][strain]/(km[met_id][strain]+last_conc[time][trial]))
+                                        count += 1
+                                mscomfit_json = change_vmax(mscomfit_json, vmax_var, met_id, strain)
+                                # self.export_model_json(mscomfit_json, mscomfit_json_path)
+                                self.load_model(model_to_load=mscomfit_json)
+                                self.compute(graphs, export_zip_name)
+                                error = (error/count)**0.5
+                                print("Error:",error)
+                        else:
+                            mscomfit_json = change_vmax(mscomfit_json, vmax, met, strain)
         
-        # change Vmax values
-        for arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
-            name, time, trial = arg['name'].split('-')
-            if 'gc' in name:
-                arg['expression']['args'][1]['args'] = change_param(arg['expression']['args'][1]['args'], vmax, time, trial)
-        
-        with open(mscomfit_json_path, 'w') as mscmft:
-            json.dump(mscomfit_json, mscmft, indent=3)
+        self.export_model_json(mscomfit_json, mscomfit_json_path)
+        export_zip_name = export_zip_name or self.zip_name
         with ZipFile(export_zip_name, 'a', compression=ZIP_LZMA) as zp:
             zp.write(mscomfit_json_path)
             os.remove(mscomfit_json_path)
@@ -711,32 +753,6 @@ class MSCommFitting():
         time_4 = process_time()
         print(f'Done loading the model: {(time_4-time_3)/60} min')  # ~1/2 the defining a new problem
     
-    def introduce_km(self,vmax,km,met,graphs,zipname,extract_zipname):#Good starting values to try are: vmax = 3.75; km = 2.5 : Equivalent of vmax = 0.5 because at starting maltose of 5 this is vmax/(km + [maltose]) = 3.75/(2.5+5) = 0.5
-        vmax_var = {"default":-0.3}
-        last_conc = {}
-        count = 0
-        while 1:#Dangerous - if there's never convergence, then this never stops
-            error = None
-            for t in self.variables["c_"+met]:
-                if t not in vmax_var:
-                    vmax_var[t] = {}
-                if t not in last_conc:
-                    last_conc[t] = {}
-                for trial in self.variables["c_"+met][t]:
-                    if trial in last_conc[t]: 
-                        error += (last_conc[t][trial]-self.variables["c_"+met][t][trial].primal)**2
-                    last_conc[t][trial] = self.variables["c_"+met][t][trial].primal
-                    vmax_var[t][trial] = -1*vmax/(km+last_conc[t][trial])
-                    count += 1
-            #Not sure if I'm using the vmax argument right here... please check
-            self.change_parameters(vmax_var,zipname,extract_zipname)  # The Vmax argument can be either a number or a dictionary that is organized by ["time"]["trial"], just as the naming scheme of the variables and constraints
-            self.compute(graphs,zipname)
-            if error:
-                error = (error/count)**0.5
-                print("Error:",error)
-                if error < 1:#Definitely don't know what the error threshold should actually be for convergence
-                    break
-        
     def parameter_optimization(self,):
         with ZipFile(self.zip_name, 'r') as zp:
             zp.extract('mscommfitting.json')
