@@ -1,0 +1,24 @@
+SteadyCom
+    """ Implementation of SteadyCom (Chan et al 2017).
+
+    Args:
+        community (CommunityModel): community model
+        constraints (dict): environmental or additional constraints (optional)
+        solver (Solver): solver instance instantiated with the model, for speed (optional)
+
+    Returns:
+        CommunitySolution: solution object
+    """
+    
+SteadComVA
+    """ Abundance Variability Analysis using SteadyCom (Chan et al 2017).
+
+    Args:
+        community (CommunityModel): community model
+        obj_frac (float): minimum fraction of the maximum growth rate (default 1.0)
+        constraints (dict): environmental or additional constraints (optional)
+        solver (Solver): solver instance instantiated with the model, for speed (optional)
+
+    Returns:
+        dict: species abundance variability
+    """
