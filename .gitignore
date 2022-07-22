@@ -122,6 +122,7 @@ venv.bak/
 
 # MSCommfitting
 *.zip
+*.lp
 **/mscommfitting.json
 
 # mypy
