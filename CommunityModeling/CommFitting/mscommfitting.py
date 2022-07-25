@@ -55,9 +55,16 @@ class MSCommFitting():
         
         # filter data contents
         dropped_trials = []
+        if isinstance(ignore_trials, dict):
+            ignore_trials['columns'] = list(map(str, ignore_trials['columns'])) if 'columns' in ignore_trials else []
+            ignore_trials['rows'] = list(map(str, ignore_trials['rows'])) if 'rows' in ignore_trials else []
+            ignore_trials['wells'] = ignore_trials['wells'] if 'wells' in ignore_trials else []
+        elif isinstance(ignore_trials, list):
+            ignore_trials = list(map(str, ignore_trials['rows']))
         for trial in self.dataframes[signal].index:
-            if any([trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'],  # !!! generalize the logic beyond a single character for each row and the remaining characters for each column
-                    trial in ignore_trials['wells']]):
+            if isinstance(ignore_trials, dict) and any(
+                    [trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'], trial in ignore_trials['wells']]
+                    ) or isinstance(ignore_trials, list) and trial in ignore_trials:
                 self.dataframes[signal].drop(trial, axis=0, inplace=True)
                 dropped_trials.append(trial)
         if dropped_trials:
@@ -162,9 +169,6 @@ class MSCommFitting():
         
         # define the set of used trials
         self.parameters["data_timestep_hr"] = []
-        ignore_trials['columns'] = list(map(str, ignore_trials['columns'])) if 'columns' in ignore_trials else []
-        ignore_trials['rows'] = list(map(str, ignore_trials['rows'])) if 'rows' in ignore_trials else []
-        ignore_trials['wells'] = ignore_trials['wells'] if 'wells' in ignore_trials else []
         ignore_timesteps = list(map(str, ignore_timesteps))
         
         # import and parse the raw CSV data
