@@ -98,11 +98,11 @@ class MSCommFitting():
     
     def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {},
                   signal_csv_paths:dict = {}, phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, 
-                  carbon_conc_series: dict = {}, ignore_trials:dict = {}, ignore_timesteps:list=[], significant_deviation:float = 2, zip_path:str = None):
+                  carbon_conc_series: dict = {}, ignore_trials:dict = {}, ignore_timesteps:list=[], significant_deviation:float = 2, extract_zip_path:str = None):
         self.zipped_output = []
         self.phenotype_met = phenotype_met
-        if zip_path:
-            with ZipFile(zip_path, 'r') as zp:
+        if extract_zip_path:
+            with ZipFile(extract_zip_path, 'r') as zp:
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
@@ -149,8 +149,7 @@ class MSCommFitting():
                     fluxes_df.iloc[ex_rxn.id] = elements
             
         # define only species for which data is defined
-        signal_source = signal_tsv_paths or signal_csv_paths
-        modeled_species = list(signal_source.values()); modeled_species.remove('OD')
+        modeled_species = list(signal_csv_paths.values()); modeled_species.remove('OD')
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
         for col in removed_phenotypes:
             fluxes_df.drop(col, axis=1, inplace=True)
@@ -478,7 +477,8 @@ class MSCommFitting():
                     self.values[trial][basename].values(),
                     label=basename)
             ax.legend(labels)
-            ax.set_xticks(list(self.values[trial][basename].keys())[::int(2/data_timestep_hr/timestep_ratio)])
+            x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
+            ax.set_xticks(x_ticks[::int(2/data_timestep_hr/timestep_ratio)])
             return ax, labels
         
         timestep_ratio = 1
@@ -529,6 +529,7 @@ class MSCommFitting():
                 pyplot.rc('ytick', labelsize=20) 
                 pyplot.rc('legend', fontsize=18)
             fig, ax = pyplot.subplots()
+            x_ticks = None
             
             # define the figure contents
             for trial, basenames in self.values.items():
@@ -551,6 +552,7 @@ class MSCommFitting():
                                     label = f'{species_name} biomass from optimized model'
                                 labels.append({species:label})
                                 xs = np.array(list(self.values[trial][basename].keys()))
+                                ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
                                 if any([x in graph['content'] for x in ['all_biomass', 'OD']]):
                                     ys['OD'].append(np.array(list(self.values[trial][basename].values())))
                                 if any([x in graph['content'] for x in ['all_biomass', 'total']]):
@@ -561,7 +563,7 @@ class MSCommFitting():
                                         basename == 'OD__bio' and graph['content'] == 'OD']):
                                     signal = basename.split('_')[0]
                                     label = basename
-                                    if publishing:
+                                    if publishing:  # !!! expand the functionality to aesthetic concentration figures
                                         if self.signal_species[signal] == 'ecoli':
                                             species = 'E. coli'  
                                         elif self.signal_species[signal] == 'pf':
@@ -574,12 +576,12 @@ class MSCommFitting():
                                     exp_xs = exp_xs.astype(np.float32)
                                     ax.plot(exp_xs, list(self.values[trial][basename].values()), label=label)
                                     x_ticks = np.around(exp_xs, 0)
-                                    ax.set_xticks(x_ticks[::int(2/data_timestep_hr/timestep_ratio)])
                         elif graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
                             if 'total' in graph['content']:
                                 labels = [basename]
                                 xs = np.array(list(self.values[trial][basename].keys()))
                                 ys.append(np.array(list(self.values[trial][basename].values())))
+                                ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
                             else:
                                 ax, labels = add_plot(ax, labels, basename, trial)
                             print('1')
@@ -596,7 +598,6 @@ class MSCommFitting():
                     if labels != []:
                         if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
                             xs = xs.astype(np.float32)
-                            x_ticks = np.around(xs, 0)
                             for name in ys:
                                 if ys[name] != []:
                                     label=f'{name}_biomass (model)'
@@ -609,7 +610,6 @@ class MSCommFitting():
                                                     if name in lbl:
                                                         label = lbl[name]
                                     ax.plot(xs, sum(ys[name]), label=label)
-                            ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
                         phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all phenotypes"
                         species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
                         ax.set_xlabel(x_label)

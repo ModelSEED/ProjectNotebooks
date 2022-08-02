@@ -21,11 +21,6 @@ class Smetana:
         # !!! set fluxes to respective reactions in a model based upon the environmental media
         media
 
-    def _add_vars_cons(self, model, vars_cons):
-        model.add_cons_vars(vars_cons)
-        model.solver.update()
-        return model
-
     def sc_score(self, min_growth=0.1, n_solutions=100, abstol=1e-6):
         # community = community.copy(copy_models=False, interacting=True, create_biomass=False, merge_extracellular_compartments=False)
 
@@ -45,7 +40,7 @@ class Smetana:
                     lb = Constraint(rxn.flux_expression - 1000*variables[model.id], name=f'c_{rxn.id}_lb', ub=0)
                     ub = Constraint(rxn.flux_expression + 1000*variables[model.id], name=f"c_{rxn.id}_ub", lb=0)
                     constraints.extend([lb, ub])
-        self.community = self._add_vars_cons(self.community, list(variables.values())+constraints)
+        self.community = FBAHelper._add_vars_cons(self.community, list(variables.values())+constraints)
 
         # calculate the SCS
         scores = {}
@@ -54,7 +49,7 @@ class Smetana:
             other_members = {other for other in self.models if other.id != model.id}
             # SMETANA_Biomass: bio1 > {min_growth}
             smetana_biomass = Constraint(model.reactions.bio1, name='SMETANA_Biomass', lb=min_growth)
-            com_model = self._add_vars_cons(com_model, [smetana_biomass])
+            com_model = FBAHelper._add_vars_cons(com_model, [smetana_biomass])
             objective = {f"y_{other}": 1.0 for other in other_members}
 
             previous_constraints, donors_list = [], []
@@ -74,7 +69,7 @@ class Smetana:
                 # c_{rxn.id}_lb: sum(y_{species_id}) < # iterations - 1
                 previous_con = f'iteration_{i}'
                 previous_constraints.append(previous_con)
-                com_model = self._add_vars_cons(com_model, list(Constraint(
+                com_model = FBAHelper._add_vars_cons(com_model, list(Constraint(
                     sum(variables[o.id] for o in donors), name=previous_con, ub=len(previous_constraints)-1)))
 
             # the constraints may need to be removed to prevent an error from an already existing constraint
@@ -95,7 +90,7 @@ class Smetana:
             community.merged.biomass_reaction = model.biomass_reaction  # !!! change the biomass reaction of the community to the species model
 
             ex_rxns = {ex_rxn.id:met for ex_rxn in model.exchanges for met in ex_rxn.metabolites}
-            medium_list, sols = minimal_medium(self.community, exchange_reactions=ex_rxns, min_growth=min_growth,
+            medium_list, sols = Smetana.minimal_medium(self.community, exchange_reactions=ex_rxns, min_growth=min_growth,
                 n_solutions=n_solutions, max_uptake=max_uptake, validate=validate, abstol=abstol, warnings=False)
 
             if medium_list:
@@ -145,7 +140,7 @@ class Smetana:
         noninteracting = self.non_interacting(self.community.copy())
         max_uptake *= len(community.organisms)
 
-        noninteracting_medium, sol1 = minimal_medium(
+        noninteracting_medium, sol1 = Smetana.minimal_medium(
             noninteracting, exchange_reactions=noninteracting.exchanges, direction=direction,
             min_growth=min_growth, max_uptake=max_uptake, validate=validate, warnings=False, milp=(not use_lp))
         if noninteracting_medium is None:
@@ -153,7 +148,7 @@ class Smetana:
             return None
 
         # anabiotic environment is limited to non-interacting community minimal media
-        interacting_medium, sol2 = minimal_medium(
+        interacting_medium, sol2 = Smetana.minimal_medium(
             self.community, direction=direction, exchange_reactions=noninteracting_medium,
             min_growth=min_growth, milp=(not use_lp), max_uptake=max_uptake, validate=validate, warnings=False)
         if interacting_medium is None:
@@ -179,7 +174,7 @@ class Smetana:
                   max_uptake=10, validate=False, use_lp=False, exclude=None):
         exch_reactions = self.community.exchanges
         max_uptake *= len(community.organisms)
-        medium, sol = minimal_medium(
+        medium, sol = Smetana.minimal_medium(
             self.community, exchange_reactions=exch_reactions, direction=direction,
             min_growth=min_growth, max_uptake=max_uptake, validate=validate, warnings=False, milp=(not use_lp))
 
@@ -200,8 +195,8 @@ class Smetana:
             species_exchanges = model.exchanges
             species_exchanged_substrates = {met for met in rxn.metabolites.keys() for rxn in model.exchanges}
 
-            medium_i, sol = minimal_medium(self.community, exchange_reactions=species_exchanges, direction=direction,
-                min_growth=min_growth, max_uptake=max_uptake, validate=validate, solver=self.community.problem, warnings=False, milp=(not use_lp))
+            medium_i, sol = Smetana.minimal_medium(self.community, direction=direction,
+                min_growth=min_growth, max_uptake=max_uptake, validate=validate, milp=(not use_lp))
 
             if sol.status != 'optimal':
                 warn('MRO: Failed to find a valid solution for: ' + model.id)
@@ -212,15 +207,16 @@ class Smetana:
         pairwise = {(model1, model2): individual_media[model1.id] & individual_media[model2.id] for model1, model2 in combinations(self.model, 2)}
         return (sum(map(len, pairwise.values())) / len(pairwise)) / (sum(map(len, individual_media.values())) / len(individual_media))
 
-    def minimal_medium(self, model, direction=-1, min_growth=1, max_uptake=100, max_compounds=None, n_solutions=1, validate=True, abstol=1e-6, milp=True):
-        def get_medium(solution, exchange_reactions, direction, abstol):
+    @staticmethod
+    def minimal_medium(model, direction=-1, min_growth=1, max_uptake=100, max_compounds=None, n_solutions=1, validate=True, milp=True):
+        def get_medium(solution, exchange_reactions, direction):
             return set(ex_rxn.id for ex_rxn in exchange_reactions
-                       if (direction < 0 and solution.values[ex_rxn.id] < -abstol or direction > 0 and solution.values[ex_rxn.id] > abstol))
+                       if (direction < 0 and solution.fluxes[ex_rxn.id] < 0 or direction > 0 and solution.fluxes[ex_rxn.id] > 0))
 
         def validate_solution(model, medium, direction, min_growth, max_uptake):
             for ex_rxn in model.exchanges:
                 if direction == -1:
-                    ex_rxn.bounds = (-max_uptake, inf) if ex_rxn.id in medium else (0, inf)
+                    ex_rxn.bounds = (min_growth, inf) if ex_rxn.id in medium else (0, inf)
                 else:
                     ex_rxn.bounds = (-inf, max_uptake) if ex_rxn.id in medium else (-inf, 0)
 
@@ -228,7 +224,7 @@ class Smetana:
             if sol.objective_value < min_growth:
                 warn(f'The objective value of {sol.objective_value} is less than the minimal growth {min_growth}.')
 
-        exchange_reactions = model.exchanges
+        exchange_reactions = [rxn for rxn in model.reactions if "EX_" in rxn.id]
 
         if not milp and max_compounds is not None:
             raise RuntimeError("max_compounds can only be used with MILP formulation")
@@ -239,13 +235,13 @@ class Smetana:
         constraints = []
         if milp:
             for ex_rxn in exchange_reactions:
-                variables['y_' + ex_rxn.id] = Variable('y_' + ex_rxn.id, 0, 1, 'binary')
+                variables['y_' + ex_rxn.id] = Variable(name=f'y_{ex_rxn.id}', lb=0, ub=1, type='binary')
                 if direction < 0:
                     # c_{ex_rxn.id}: ex_rxn > -y_{ex_rxn.id}
-                    constraints.append(Constraint(ex_rxn + max_uptake*variables['y_' + ex_rxn.id], lb=0, name='c_'+ex_rxn.id))
+                    constraints.append(Constraint(ex_rxn.flux_expression + max_uptake*variables['y_' + ex_rxn.id], lb=0, name='c_'+ex_rxn.id))
                 else:
                     # c_{ex_rxn.id}: ex_rxn < y_{ex_rxn.id}
-                    constraints.append(Constraint(ex_rxn - max_uptake*variables['y_' + ex_rxn.id], ub=0, name='c_'+ex_rxn.id))
+                    constraints.append(Constraint(ex_rxn.flux_expression - max_uptake*variables['y_' + ex_rxn.id], ub=0, name='c_'+ex_rxn.id))
             if max_compounds:
                 # c_{ex_rxn.id}: sum(y_{ex_rxn.id}) < max_compounds
                 constraints.append(Constraint(
@@ -256,50 +252,45 @@ class Smetana:
                 variables['f_' + ex_rxn.id] = Variable('f_' + ex_rxn.id, 0, max_uptake)
                 if direction < 0:
                     # c_{ex_rxn.id}: ex_rxn < -f_{ex_rxn.id}
-                    constraints.append(Constraint(ex_rxn + max_uptake*variables['f_' + ex_rxn.id], lb=0, name='c_'+ex_rxn.id))
+                    constraints.append(Constraint(ex_rxn.flux_expression + max_uptake*variables['f_' + ex_rxn.id], lb=0, name='c_'+ex_rxn.id))
                 else:
                     # c_{ex_rxn.id}: ex_rxn > f_{ex_rxn.id}
-                    constraints.append(Constraint(ex_rxn - max_uptake*variables['f_' + ex_rxn.id], ub=0, name='c_'+ex_rxn.id))
+                    constraints.append(Constraint(ex_rxn.flux_expression - max_uptake*variables['f_' + ex_rxn.id], ub=0, name='c_'+ex_rxn.id))
             objective = Objective(sum(variables['f_' + ex_rxn.id] for ex_rxn in exchange_reactions), direction="min")
 
-        model = self._add_vars_cons(model, list(variables.values())+constraints)
+        model = FBAHelper._add_vars_cons(model, list(variables.values())+constraints)
         model.objective = objective
         model.solver.update()
 
-        result, ret_sols = None, None
+        medium, solution = None, None
         for ex_rxn in exchange_reactions:  # !!! are the default bounds of (-max_uptake,-max_uptake) and (0,0) sensible?
             if direction < 0:
-                ex_rxn.bounds = 0,ex_rxn.upper_bound if not ex_rxn in exchange_reactions else -max_uptake, -max_uptake
+                ex_rxn.bounds = (0,ex_rxn.upper_bound) if ex_rxn not in exchange_reactions else (-max_uptake, -max_uptake)
             else:
-                ex_rxn.bounds = ex_rxn.lower_bound, max_uptake if not ex_rxn in exchange_reactions else 0, 0
+                ex_rxn.bounds = (ex_rxn.lower_bound, max_uptake) if ex_rxn not in exchange_reactions else (0, 0)
         model.reactions.bio1.bounds = (min_growth, inf)
 
         if n_solutions == 1:
             solution = model.optimize()
-            if solution.status != 'optimal':
-                warn('No solution found')
-                ret_sols = solution
-            else:
-                medium = get_medium(solution, exchange_reactions, direction, abstol)
-                if validate:
-                    validate_solution(model, medium, exchange_reactions, direction, min_growth, max_uptake)
-                result, ret_sols = medium, solution
+            medium = get_medium(solution, exchange_reactions, direction)
+            if validate:
+                validate_solution(model, medium, direction, min_growth, max_uptake)
+            return medium, solution
 
         media, solutions = [], []
         for i in range(n_solutions):
             if i > 0:
                 previous_sol = [variables['y_' + ex_rxn.id] for r_id in medium]
-                model = self._add_vars_cons(model, [Constraint(sum(previous_sol), ub=len(previous_sol)-1, name=f"iteration_{i}")])
+                model = FBAHelper._add_vars_cons(model, [Constraint(sum(previous_sol), ub=len(previous_sol)-1, name=f"iteration_{i}")])
             solution = model.optimize('min')
             if solution.status != 'optimal':
                 break
 
-            medium = get_medium(solution, exchange_reactions, direction, abstol)
+            medium = get_medium(solution, exchange_reactions, direction)
             media.append(medium)
             solutions.append(solution)
-            result, ret_sols = media, solutions
 
-        return result, ret_sols
+        return medium, solution
 
     def smetana_score(self, min_growth=0.1, n_solutions=100, abstol=1e-6, min_mol_weight=False, max_uptake=10.0):  # the sum of all interspecies dependencies under a given nutritional environment
         scs = self.sc_score(min_growth, n_solutions, abstol)
