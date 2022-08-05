@@ -4,7 +4,6 @@ from typing import Union
 from math import inf
 from warnings import warn
 
-
 from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from optlang import Variable, Constraint, Objective
@@ -16,47 +15,45 @@ class Smetana:
     def __init__(self, cobra_models: Union[list, tuple, set], media):
         # convert COBRA model into ReFramed model
         self.models = cobra_models
-        self.community, self.bimomass_indicies = MSCommunity.build_from_species_models(cobra_models, name="SMETANA_example", cobra_model=True)  # abundances argument may be valuable
-
-        # !!! set fluxes to respective reactions in a model based upon the environmental media
-        media
+        self.community, self.biomass_indicies = MSCommunity.build_from_species_models(cobra_models, name="SMETANA_example", cobra_model=True)  # abundances argument may be valuable
+        self.community = FBAHelper.update_model_media(self.community, media)
 
     def sc_score(self, min_growth=0.1, n_solutions=100, abstol=1e-6):
+        """Calculate the frequency of interspecies dependency in a community"""
         # community = community.copy(copy_models=False, interacting=True, create_biomass=False, merge_extracellular_compartments=False)
 
         # identify the biomass compounds of each respective community model
-        variables = {}
         for rxn in self.community.reactions:
             rxn.lower_bound = 0 if 'bio' in rxn.id else rxn.lower_bound
 
         # reaction flux bounds, with consideration of each species
         # c_{rxn.id}_lb: rxn < 1000*y_{species_id}
         # c_{rxn.id}_ub: rxn > -1000*y_{species_id}
+        variables = {}
         constraints = []
         for model in self.models:
             variables[model.id] = Variable(name=f'y_{model.id}', lb=0, ub=1, type='binary')
             for rxn in model.reactions:
-                if rxn.id != self.bimomass_indicies[model.id]:
+                if rxn.id != self.biomass_indicies[model.id]:
                     lb = Constraint(rxn.flux_expression - 1000*variables[model.id], name=f'c_{rxn.id}_lb', ub=0)
                     ub = Constraint(rxn.flux_expression + 1000*variables[model.id], name=f"c_{rxn.id}_ub", lb=0)
                     constraints.extend([lb, ub])
-        self.community = FBAHelper._add_vars_cons(self.community, list(variables.values())+constraints)
+        self.community = FBAHelper.add_vars_cons(self.community, list(variables.values())+constraints)
 
         # calculate the SCS
         scores = {}
         com_model = self.community  # .copy()
         for model in self.models:
-            other_members = {other for other in self.models if other.id != model.id}
+            other_members = [other for other in self.models if other.id != model.id]
             # SMETANA_Biomass: bio1 > {min_growth}
             smetana_biomass = Constraint(model.reactions.bio1, name='SMETANA_Biomass', lb=min_growth)
-            com_model = FBAHelper._add_vars_cons(com_model, [smetana_biomass])
-            objective = {f"y_{other}": 1.0 for other in other_members}
+            com_model = FBAHelper.add_vars_cons(com_model, [smetana_biomass])
+            com_model.problem.objective = Objective({f"y_{other.id}": 1.0 for other in other_members}, direction="min")
+            com_model.solver.update()
 
             previous_constraints, donors_list = [], []
             failed = False
             for i in range(n_solutions):
-                com_model.problem.objective = Objective(objective, direction="min")
-                com_model.solver.update()
                 sol = com_model.optimize()
                 if sol.status.value != 'optimal':
                     failed = i == 0
@@ -65,15 +62,14 @@ class Smetana:
                 donors = [o for o in other_members if sol.values[f"y_{o.id}"] > abstol]
                 donors_list.append(donors)
 
-                # the quantity of
+                # the community is iteratively reduced
                 # c_{rxn.id}_lb: sum(y_{species_id}) < # iterations - 1
                 previous_con = f'iteration_{i}'
                 previous_constraints.append(previous_con)
-                com_model = FBAHelper._add_vars_cons(com_model, list(Constraint(
+                com_model = FBAHelper.add_vars_cons(com_model, list(Constraint(
                     sum(variables[o.id] for o in donors), name=previous_con, ub=len(previous_constraints)-1)))
 
-            # the constraints may need to be removed to prevent an error from an already existing constraint
-            com_model.remove_cons_vars([smetana_biomass])
+            com_model.remove_cons_vars([smetana_biomass]+previous_constraints)
             if not failed:
                 donors_list_n = float(len(donors_list))
                 donors_counter = Counter(chain(*donors_list))
@@ -84,10 +80,12 @@ class Smetana:
         return scores
 
     def mu_score(self, min_growth=0.1, max_uptake=10.0, abstol=1e-6, n_solutions=100):
+        """Calculate the quantity of metabolic requirements for species growth"""
         max_uptake *= len(self.models)
         scores = {}
         for model in self.models:
-            community.merged.biomass_reaction = model.biomass_reaction  # !!! change the biomass reaction of the community to the species model
+            # change the community biomass reaction of that of the individual species
+            self.community.reactions.bio1 = model.reactions.bio1
 
             ex_rxns = {ex_rxn.id:met for ex_rxn in model.exchanges for met in ex_rxn.metabolites}
             medium_list, sols = Smetana.minimal_medium(self.community, exchange_reactions=ex_rxns, min_growth=min_growth,
@@ -258,7 +256,7 @@ class Smetana:
                     constraints.append(Constraint(ex_rxn.flux_expression - max_uptake*variables['f_' + ex_rxn.id], ub=0, name='c_'+ex_rxn.id))
             objective = Objective(sum(variables['f_' + ex_rxn.id] for ex_rxn in exchange_reactions), direction="min")
 
-        model = FBAHelper._add_vars_cons(model, list(variables.values())+constraints)
+        model = FBAHelper.add_vars_cons(model, list(variables.values())+constraints)
         model.objective = objective
         model.solver.update()
 
@@ -281,7 +279,7 @@ class Smetana:
         for i in range(n_solutions):
             if i > 0:
                 previous_sol = [variables['y_' + ex_rxn.id] for r_id in medium]
-                model = FBAHelper._add_vars_cons(model, [Constraint(sum(previous_sol), ub=len(previous_sol)-1, name=f"iteration_{i}")])
+                model = FBAHelper.add_vars_cons(model, [Constraint(sum(previous_sol), ub=len(previous_sol)-1, name=f"iteration_{i}")])
             solution = model.optimize('min')
             if solution.status != 'optimal':
                 break

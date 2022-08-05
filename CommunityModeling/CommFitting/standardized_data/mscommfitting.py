@@ -30,9 +30,6 @@ def isnumber(string):
 def _name(name, suffix, time, trial):
     return '-'.join([name+suffix, time, trial])
 
-def exchange_reactions(model):
-    return [rxn for rxn in model.reactions if "EX_" in rxn.id]
-
 class MSCommFitting(): 
 
     def __init__(self):
@@ -111,7 +108,7 @@ class MSCommFitting():
         with open(path, 'w') as lp:
             json.dump(json_model, lp, indent=3)
     
-    def load_data(self, community_members: dict = {}, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {},
+    def load_data(self, community_members: dict = {}, kbase_token: str = None, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {},
                   signal_csv_paths:dict = {}, phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, 
                   carbon_conc_series: dict = {}, ignore_trials:Union[dict,list]=None, ignore_timesteps:list=[], significant_deviation:float = 2, 
                   extract_zip_path:str = None):
@@ -136,28 +133,17 @@ class MSCommFitting():
             self.media_conc = self._process_csv(media_conc_path, 'media_compound')
         elif community_members:
             # import the media for each model
-            models = OrderedDict(); community_ex_rxns:set = set(); species:dict = {}
+            models = OrderedDict(); ex_rxns:set = set(); species:dict = {}
             #Using KBase media to constrain exchange reactions in model
             for model, content in community_members.items():
                 model.solver = solver
-                ex_rxns = exchange_reactions(model)
-                ex_rxn_ids = [rxn.id.split('_')[1] for rxn in ex_rxns]
-                community_ex_rxns.update(ex_rxns)
-                species.update({content['name']: list(content['phenotypes'].keys())})
+                ex_rxns.update(model.exchanges)
+                species.update({content['name']: content['phenotypes'].keys()})
                 models[model] = []
                 for media in content['phenotypes'].values():
                     with model:  # !!! Is this the correct method of parameterizing a media for a model?
-                        # pkgmgr = MSPackageManager.get_pkg_mgr(model)
-                        # pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
-                        for content in media.data['mediacompounds']:  # !!! possibly leverage the new FBAHelper merging function
-                            if cpd.id in list(self.media_conc["media_compound"]):
-                                content.concentration = self.media_conc.iloc[
-                                    self.media_conc.index[self.media_conc["media_compound"] == cpd.id]
-                                    ]["mM"].values[0]
-                            if cpd.id not in ex_rxn_ids:
-                                model.add_boundary(metabolite=Metabolite(id=cpd_id, name=cpd.name), 
-                                    type="exchange", lower_bound=cpd.minFlux, upper_bound=cpd.maxFlux)
-                        model.medium
+                        pkgmgr = MSPackageManager.get_pkg_mgr(model)
+                        pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
                         models[model].append(model.optimize())
                     
             # construct the parsed table of all exchange fluxes for each phenotype
@@ -219,7 +205,7 @@ class MSCommFitting():
         met_id = met_id.replace('c_', '', 1)
         return met_id
                 
-    def define_problem(self, parameters={}, export_zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None, zero_start=[]):
+    def define_problem(self, parameters={}, export_zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
             "cvct": 1,                      # Coefficient for the minimization of phenotype conversion to the stationary phase. 
@@ -236,7 +222,7 @@ class MSCommFitting():
         print("Solver:",type(self.problem))
         
         # refine the applicable range of bad_data_timesteps
-        if bad_data_timesteps:  # !!! evidently erroneous code
+        if bad_data_timesteps:
             for trial in bad_data_timesteps:
                 if ':' in bad_data_timesteps[trial]:
                     start, end = bad_data_timesteps[trial].split(':')
@@ -263,7 +249,6 @@ class MSCommFitting():
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if time == self.simulation_timesteps[0] and not 'bio' in met_id:
                                 initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
-                                initial_val = initial_val if met_id not in zero_start else 0
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
                                 if met_id in self.carbon_conc['columns'] and trial[1:] in self.carbon_conc['columns'][met_id]:
