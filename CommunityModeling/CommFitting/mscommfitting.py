@@ -1,23 +1,32 @@
 # -*- coding: utf-8 -*-
-from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
+# from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError
 from pandas import read_csv, DataFrame, ExcelFile
 from optlang import Variable, Constraint, Objective, Model
+from cobra.core.metabolite import Metabolite
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.constants import hour
 from scipy.optimize import newton
 from collections import OrderedDict
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
+from itertools import chain
 from copy import deepcopy
 from sympy.core.add import Add
 from matplotlib import pyplot
-from typing import Union
-# from pprint import pprint
+from typing import Union, Iterable
+from pprint import pprint
 from time import sleep, process_time
 import numpy as np
 # from cplex import Cplex
 import json, os, re
+
+
+class ObjectAlreadyDefinedError(Exception):
+    pass
+
+class NoFluxError(Exception):
+    pass
 
 
 def isnumber(string):
@@ -27,11 +36,17 @@ def isnumber(string):
         return False
     return True
 
-def _name(name, suffix, time, trial):
-    return '-'.join([name+suffix, time, trial])
-
-def exchange_reactions(model):
-    return [rxn for rxn in model.reactions if "EX_" in rxn.id]
+names = []
+def _name(name, suffix, time, trial, catch_duplicates=False):
+    name = '-'.join([name+suffix, time, trial])
+    if catch_duplicates:
+        if name not in names:
+            names.append(name)
+            return name
+        else:
+            raise ObjectAlreadyDefinedError(f"The object {name} is already defined for the problem.")
+    else:
+        return name
 
 class MSCommFitting(): 
 
@@ -107,14 +122,18 @@ class MSCommFitting():
             self.species_phenotypes_bool_df.loc[signal]: np.ndarray[int] = np.array([
                 1 if self.signal_species[signal] in pheno else 0 for pheno in self.phenotypes_parsed_df[1]])
             
-    def export_model_json(self, json_model, path): 
+    def _export_model_json(self, json_model, path): 
         with open(path, 'w') as lp:
             json.dump(json_model, lp, indent=3)
     
-    def load_data(self, community_members: dict = {}, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {},
+    def load_data(self, base_media, community_members: dict = {}, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {}, 
                   signal_csv_paths:dict = {}, phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, 
                   carbon_conc_series: dict = {}, ignore_trials:Union[dict,list]=None, ignore_timesteps:list=[], significant_deviation:float = 2, 
                   extract_zip_path:str = None):
+        self.community_members = {content["name"]: list(content["phenotypes"].keys()) for member, content in community_members.items()}
+        for species, phenos in self.community_members.items():
+            phenos.append("stationary")
+        self.media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
         self.zipped_output = []
         self.phenotype_met = phenotype_met
         if extract_zip_path:
@@ -131,49 +150,53 @@ class MSCommFitting():
             for col in to_drop+['rxn']:
                 fluxes_df.drop(col, axis=1, inplace=True)
             print(f'The {to_drop+["rxn"]} columns were dropped from the phenotypes CSV.')
-            
-            # import and process the media concentrations CSV
-            self.media_conc = self._process_csv(media_conc_path, 'media_compound')
         elif community_members:
+            self.community_members = {}
+            for member, content in community_members.items():
+                self.community_members[content["name"]] = list(content["phenotypes"].keys())
             # import the media for each model
-            models = OrderedDict(); community_ex_rxns:set = set(); species:dict = {}
+            models = OrderedDict()
+            species = {}
+            # carbon_sources = [c for content in carbon_conc_series.values() for c in content]
             #Using KBase media to constrain exchange reactions in model
+            solutions = []
             for model, content in community_members.items():
+                model_rxns = [rxn.id for rxn in model.reactions]
                 model.solver = solver
-                ex_rxns = exchange_reactions(model)
-                ex_rxn_ids = [rxn.id.split('_')[1] for rxn in ex_rxns]
-                community_ex_rxns.update(ex_rxns)
                 species.update({content['name']: list(content['phenotypes'].keys())})
-                models[model] = []
-                for media in content['phenotypes'].values():
-                    with model:  # !!! Is this the correct method of parameterizing a media for a model?
+                models[model] = {"exchanges":FBAHelper.exchange_reactions(model), "solutions":[]}
+                for cpds in content['phenotypes'].values():
+                    with model:
                         # pkgmgr = MSPackageManager.get_pkg_mgr(model)
                         # pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
-                        for content in media.data['mediacompounds']:  # !!! possibly leverage the new FBAHelper merging function
-                            if cpd.id in list(self.media_conc["media_compound"]):
-                                content.concentration = self.media_conc.iloc[
-                                    self.media_conc.index[self.media_conc["media_compound"] == cpd.id]
-                                    ]["mM"].values[0]
-                            if cpd.id not in ex_rxn_ids:
-                                model.add_boundary(metabolite=Metabolite(id=cpd_id, name=cpd.name), 
-                                    type="exchange", lower_bound=cpd.minFlux, upper_bound=cpd.maxFlux)
-                        model.medium
-                        models[model].append(model.optimize())
+                        # model = FBAHelper.update_model_media(model, media)
+                        for cpd, bounds in cpds.items():
+                            reaction = "EX_"+cpd+"_e0"
+                            if reaction not in model_rxns:
+                                model.add_boundary(metabolite=Metabolite(id=cpd.id, name=cpd.name, compartment="e0"), type="exchange")
+                            model.reactions.get_by_id(reaction).lower_bound = bounds[0]
+                            model.reactions.get_by_id(reaction).upper_bound = bounds[1]
+                        sol = model.optimize()
+                        models[model]["solutions"].append(sol)
+                        solutions.append(sol.objective_value)
                     
             # construct the parsed table of all exchange fluxes for each phenotype
+            if all(np.array(solutions) == 0):
+                raise NoFluxError("The simulation lacks any flux.")
+            cols = ["rxn"]
+            for spec, phenotypes in species.items():
+                cols.extend([spec+'-'+phenotype for phenotype in phenotypes])
+                cols.append(spec+'-stationary')
             fluxes_df = DataFrame(
-                data={'bio':[sol.fluxes['bio1'] for solutions in models.values() for sol in solutions]},
-                columns=['rxn']+[spec+'-'+phenotype for spec, phenotypes in species.items() for phenotype in phenotypes]
-                +[spec+'-stationary' for spec in species.keys()])
+                data={'bio':[sol.fluxes['bio1'] for model in models for sol in models[model]["solutions"]]}, 
+                columns=cols)
             fluxes_df.index.name = 'rxn'
             fluxes_df.drop('rxn', axis=1, inplace=True)
-            for ex_rxn in ex_rxns:
-                elements = []
-                for model, solutions in models.items():
-                    for sol in solutions:
-                        elements.append(sol.fluxes[ex_rxn] if ex_rxn in sol.fluxes else 0)
-                if any(np.array(elements) != 0):
-                    fluxes_df.iloc[ex_rxn.id] = elements
+            for model, content in models.items(): 
+                for ex_rxn in content["exchanges"]:
+                    elements = [sol.fluxes[ex_rxn] for sol in content["solutions"] if ex_rxn in sol.fluxes]
+                    if len(elements) > 0:
+                        fluxes_df.iloc[ex_rxn.id] = elements
             
         # define only species for which data is defined
         modeled_species = list(signal_csv_paths.values()); modeled_species.remove('OD')
@@ -213,11 +236,16 @@ class MSCommFitting():
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
         self.trials = np.unique(np.concatenate([x[0] for x in self.dataframes.values()]))
         
-    def met_id_parser(self, met):
+    def _met_id_parser(self, met):
         met_id = re.sub('(\_\w\d+)', '', met)
         met_id = met_id.replace('EX_', '', 1)
         met_id = met_id.replace('c_', '', 1)
         return met_id
+    
+    def _update_problem(self, contents: Iterable):
+        for content in contents:
+            self.problem.add(content)
+            self.problem.update()
                 
     def define_problem(self, parameters={}, export_zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None, zero_start=[]):
         self.parameters.update({
@@ -251,7 +279,7 @@ class MSCommFitting():
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
             for met in self.phenotypes_parsed_df[0]:
-                met_id = self.met_id_parser(met)
+                met_id = self._met_id_parser(met)
                 if not metabolites_to_track and met_id != 'cpd00001' or metabolites_to_track and met_id in metabolites_to_track:
                     self.variables["c_"+met] = {}; self.constraints['dcc_'+met] = {}
                     for time in self.simulation_timesteps:
@@ -262,7 +290,7 @@ class MSCommFitting():
                                 _name("c_", met, time, trial), lb=0, ub=1000)
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if time == self.simulation_timesteps[0] and not 'bio' in met_id:
-                                initial_val = self.media_conc.at[met_id,'mM'] if met_id in list(self.media_conc.index) else 100
+                                initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
                                 initial_val = initial_val if met_id not in zero_start else 0
                                 if met_id in self.carbon_conc['rows'] and trial[0] in self.carbon_conc['rows'][met_id]:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
@@ -287,7 +315,8 @@ class MSCommFitting():
                         self.constraints['dbc_'+phenotype] = {}
                         for time in self.simulation_timesteps:
                             self.constraints['dbc_'+phenotype][time] = {}
-                  
+            
+        
         for phenotype in self.phenotypes_parsed_df[1]:
             self.variables['cvt_'+phenotype] = {}; self.variables['cvf_'+phenotype] = {}
             self.variables['b_'+phenotype] = {}; self.variables['g_'+phenotype] = {}
@@ -335,7 +364,7 @@ class MSCommFitting():
         print(f'Done with biomass loop: {(time_2-time_1)/60} min')
         for parsed_df in self.dataframes.values():
             for r_index, met in enumerate(self.phenotypes_parsed_df[0]):
-                met_id = self.met_id_parser(met)
+                met_id = self._met_id_parser(met)
                 if not metabolites_to_track and 'cpd00001' != met_id or metabolites_to_track and met_id in metabolites_to_track:
                     for trial in parsed_df[0]:
                         for time in self.simulation_timesteps:
@@ -378,7 +407,11 @@ class MSCommFitting():
                             total_biomass:Add = 0; signal_sum: Add = 0; from_sum: Add = 0; to_sum: Add = 0
                             for phenotype in self.phenotypes_parsed_df[1]:
                                 total_biomass += self.variables["b_"+phenotype][time][trial]
+                                # print(signal, phenotype)
+                                # display(self.species_phenotypes_bool_df)
+                                # OD is included in every signal
                                 val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, phenotype]
+                                val = val if isnumber(val) else val.values[0]
                                 signal_sum += val*self.variables["b_"+phenotype][time][trial]
                                 if all(['OD' not in signal, self.signal_species[signal] in phenotype, 'stationary' not in phenotype]):
                                     from_sum += val*self.variables['cvf_'+phenotype][time][trial] 
@@ -433,10 +466,7 @@ class MSCommFitting():
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
         # construct the problem
-        self.problem.add(variables)
-        self.problem.update()
-        self.problem.add(constraints)
-        self.problem.update()
+        self._update_problem([variables, constraints])
         self.problem.objective = Objective(Zero, direction="min") #, sloppy=True)
         self.problem.objective.set_linear_coefficients(obj_coef)
         time_5 = process_time()
@@ -453,7 +483,7 @@ class MSCommFitting():
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
                 lp.write(self.problem.to_lp())
-            self.export_model_json(self.problem.to_json(), 'mscommfitting.json')
+            self._export_model_json(self.problem.to_json(), 'mscommfitting.json')
         if export_zip_name:
             self.zip_name = export_zip_name
             sleep(2)
@@ -469,6 +499,8 @@ class MSCommFitting():
         self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
+        if all(np.array(list(self.problem.primal_values.values())) == 0):
+            raise NoFluxError("The simulation lacks any flux.")
         for variable, value in self.problem.primal_values.items():
             if 'conversion' not in variable:
                 basename, time, trial = variable.split('-')
@@ -499,11 +531,11 @@ class MSCommFitting():
             raise FeasibilityError(f'The solution is sub-optimal, with a {solution} status.')
                 
     def graph(self, graphs = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163, publishing:bool = False, title:str=None):
-        def add_plot(ax, labels, basename, trial):
+        def add_plot(ax, labels, basename, trial, linestyle="solid"):
             labels.append(basename.split('-')[-1])
             ax.plot(self.values[trial][basename].keys(),
                     self.values[trial][basename].values(),
-                    label=basename)
+                    label=basename, linestyle=linestyle)
             ax.legend(labels)
             x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
             ax.set_xticks(x_ticks[::int(2/data_timestep_hr/timestep_ratio)])
@@ -522,9 +554,10 @@ class MSCommFitting():
         
         # plot the content for desired trials 
         self.plots = []
+        contents = {"biomass":'b', "growth":'g'}
         print(self.signal_species)
         for graph in graphs:
-            content = graph['content']
+            content = graph['content'] if graph['content'] not in contents else contents[graph['content']]
             y_label = 'Variable value'
             x_label = 'Time (hr)'
             if any([x in graph['content'] for x in ['total', 'OD', 'all_biomass']]):
@@ -535,18 +568,18 @@ class MSCommFitting():
                 y_label = 'Biomass concentration (g/L)'
                 graph['phenotype'] = graph['species'] = '*'
             elif 'biomass' in graph['content']:
-                content = 'b'
                 y_label = 'Biomass concentration (g/L)'
             elif graph['content'] == 'growth':
-                content = 'g'   
                 y_label = 'Biomass growth (g/hr)'
-            elif 'stress-test' in graph['content']:
-                content = graph['content'].split('_')[1]
-                y_label = graph['species']+' coculture %'
-                x_label = content+' (mM)'
-            if graph['species'] == '*':
-                graph['species'] = self.signal_species.values()
-            print(graph)
+            # elif 'stress-test' in graph['content']:
+            #     content = graph['content'].split('_')[1]
+            #     y_label = graph['species']+' coculture %'
+            #     x_label = content+' (mM)'
+            if "species" not in graph or graph['species'] == '*':
+                graph['species'] = list(self.signal_species.values())
+            if "phenotype" not in graph or graph['phenotype'] == '*':
+                graph['phenotype'] = set(chain(*[pheno for species, pheno in self.community_members.items() if species in graph["species"]]))
+            pprint(graph)
             
             # figure specifications
             pyplot.rcParams['figure.figsize'] = (11, 7)
@@ -561,11 +594,12 @@ class MSCommFitting():
             
             # define the figure contents
             for trial, basenames in self.values.items():
-                if trial == graph['trial']:
+                if trial in graph['trial']:
                     labels = []
                     for basename in basenames:
                         # parse for non-concentration variables
-                        if any([x in graph['content'] for x in ['total', 'all_biomass', 'OD']]):
+                        print(basename)
+                        if any([x in content for x in ['total', 'all_biomass', 'OD']]):
                             if 'b_' in basename:
                                 var_name, species, phenotype = basename.split('_')
                                 label = f'{species}_biomass (model)'
@@ -581,17 +615,17 @@ class MSCommFitting():
                                 labels.append({species:label})
                                 xs = np.array(list(self.values[trial][basename].keys()))
                                 ax.set_xticks(x_ticks[::int(3/data_timestep_hr/timestep_ratio)])
-                                if any([x in graph['content'] for x in ['all_biomass', 'OD']]):
+                                if any([x in content for x in ['all_biomass', 'OD']]):
                                     ys['OD'].append(np.array(list(self.values[trial][basename].values())))
-                                if any([x in graph['content'] for x in ['all_biomass', 'total']]):
+                                if any([x in content for x in ['all_biomass', 'total']]):
                                     ys[species].append(np.array(list(self.values[trial][basename].values())))
                             if 'experimental_data' in graph and graph['experimental_data']:
                                 print('exp', basename)
-                                if any(['__bio' in basename and graph['content'] == 'all_biomass',
-                                        basename == 'OD__bio' and graph['content'] == 'OD']):
+                                if any(['__bio' in basename and content == 'all_biomass',
+                                        basename == 'OD__bio' and content == 'OD']):
                                     signal = basename.split('_')[0]
                                     label = basename
-                                    if publishing:  # !!! expand the functionality to aesthetic concentration figures
+                                    if publishing:  # TODO expand the functionality to aesthetic concentration figures
                                         if self.signal_species[signal] == 'ecoli':
                                             species = 'E. coli'  
                                         elif self.signal_species[signal] == 'pf':
@@ -604,8 +638,8 @@ class MSCommFitting():
                                     exp_xs = exp_xs.astype(np.float32)
                                     ax.plot(exp_xs, list(self.values[trial][basename].values()), label=label)
                                     x_ticks = np.around(exp_xs, 0)
-                        elif graph['phenotype'] == '*' and all([x in basename for x in [graph['species'], content]]):
-                            if 'total' in graph['content']:
+                        elif graph['phenotype'] == '*' and content in basename and all([x in basename for x in graph['species']]):
+                            if 'total' in content:
                                 labels = [basename]
                                 xs = np.array(list(self.values[trial][basename].keys()))
                                 ys.append(np.array(list(self.values[trial][basename].values())))
@@ -614,17 +648,19 @@ class MSCommFitting():
                                 ax, labels = add_plot(ax, labels, basename, trial)
                             print('1')
                         # 
-                        elif all([x in basename for x in [graph['species'], graph['phenotype'], content]]):
-                            ax, labels = add_plot(ax, labels, basename, trial)
-                            print('2')
+                        elif any([x in basename for x in graph['phenotype']]):
+                            if any([x in basename for x in graph['species']]) and content in basename:
+                                linestyle="solid" if "ecoli" in basename else "dashed"
+                                ax, labels = add_plot(ax, labels, basename, trial, linestyle)
+                                print(basename, '2')
                         # concentration plots
-                        elif 'EX_' in basename and graph['content'] in basename:
+                        elif 'EX_' in basename and content in basename:
                             ax, labels = add_plot(ax, labels, basename, trial)   
                             y_label = 'Concentration (mM)'
                             print('3')
                        
                     if labels != []:
-                        if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
+                        if any([x in content for x in ['OD', 'all_biomass', 'total']]):
                             xs = xs.astype(np.float32)
                             for name in ys:
                                 if ys[name] != []:
@@ -638,17 +674,22 @@ class MSCommFitting():
                                                     if name in lbl:
                                                         label = lbl[name]
                                     ax.plot(xs, sum(ys[name]), label=label)
-                        phenotype_id = graph['phenotype'] if graph['phenotype'] != '*' else "all phenotypes"
+                        phenotype_id = graph['phenotype'] if isinstance(graph['phenotype'], str) else f"{','.join(graph['phenotype'])} phenotypes"
                         species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
                         ax.set_xlabel(x_label)
                         ax.set_ylabel(y_label)
                         if len(labels) > 1:
                             ax.legend()
-                        if title:
-                            if title == 'default':
-                                title = f'{graph["content"]} of {species_id} ({phenotype_id}) in the {trial} trial'
-                            ax.set_title(title)
-                        fig_name = f'{"_".join([trial, species_id, phenotype_id, graph["content"]])}.jpg'
+                        if not publishing:
+                            if not title:
+                                org_content = content if content not in contents else list(contents.keys())[list(contents.values()).index(content)]
+                                this_title = f'{org_content} of {species_id} ({phenotype_id}) in the {trial} trial'
+                                if "cpd" in content:
+                                    this_title=f"{org_content} in the {trial} trial"
+                                ax.set_title(this_title)
+                            else:
+                                ax.set_title(title)
+                        fig_name = f'{"_".join([trial, species_id, phenotype_id, content])}.jpg'
                         fig.savefig(fig_name)
                         self.plots.append(fig_name)
         
@@ -758,7 +799,7 @@ class MSCommFitting():
                                 print(met['ub'])
                         
                         # change growth kinetics
-                        met_id = self.met_id_parser(met_name)
+                        met_id = self._met_id_parser(met_name)
                         if met_id in self.phenotype_met.values() and vmax:
                             vmax = vmax if not isinstance(vmax[met_id], (float,int)) else universalize(vmax, met_id, self.variables[met_name]) 
                             if km:  # at starting maltose of 5, vmax/(km + [maltose]) = 2.26667/(2+5) = 0.3
@@ -782,7 +823,7 @@ class MSCommFitting():
                                     last_conc_same_count += 1 if last_conc == conc_tracker[time][trial] else 0
                                     last_conc = conc_tracker[time][trial]
                                     mscomfit_json = change_vmax(mscomfit_json, vmax_var[met_id])
-                                    # self.export_model_json(mscomfit_json, mscomfit_json_path)
+                                    # self._export_model_json(mscomfit_json, mscomfit_json_path)
                                     self.load_model(model_to_load=mscomfit_json)
                                     self.compute(graphs)#, export_zip_name)
                                     if error != 0:
@@ -791,7 +832,7 @@ class MSCommFitting():
                             else:
                                 mscomfit_json = change_vmax(mscomfit_json, vmax[met_id])
         
-        self.export_model_json(mscomfit_json, mscomfit_json_path)
+        self._export_model_json(mscomfit_json, mscomfit_json_path)
         export_zip_name = export_zip_name or self.zip_name
         with ZipFile(export_zip_name, 'a', compression=ZIP_LZMA) as zp:
             zp.write(mscomfit_json_path)
