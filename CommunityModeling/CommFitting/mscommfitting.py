@@ -152,7 +152,7 @@ class MSCommFitting():
             print(f'The {to_drop+["rxn"]} columns were dropped from the phenotypes CSV.')
         elif community_members:
             self.community_members = {}
-            for member, content in community_members.items():
+            for content in community_members.values():
                 self.community_members[content["name"]] = list(content["phenotypes"].keys())
             # import the media for each model
             models = OrderedDict()
@@ -161,45 +161,73 @@ class MSCommFitting():
             #Using KBase media to constrain exchange reactions in model
             solutions = []
             for model, content in community_members.items():
+                model = FBAHelper.update_model_media(model, base_media)
                 model_rxns = [rxn.id for rxn in model.reactions]
                 model.solver = solver
-                species.update({content['name']: list(content['phenotypes'].keys())})
-                models[model] = {"exchanges":FBAHelper.exchange_reactions(model), "solutions":[]}
-                for cpds in content['phenotypes'].values():
+                models[model] = {
+                    "exchanges":FBAHelper.exchange_reactions(model), "solutions":{}, 
+                    "name": content['name'], "phenotypes": list(content['phenotypes'].keys())+["stationary"]}
+                # print(content['phenotypes'])
+                for pheno, cpds in content['phenotypes'].items():
                     with model:
                         # pkgmgr = MSPackageManager.get_pkg_mgr(model)
                         # pkgmgr.getpkg("KBaseMediaPkg").build_package(media, default_uptake=0, default_excretion=1000)
-                        # model = FBAHelper.update_model_media(model, media)
                         for cpd, bounds in cpds.items():
-                            reaction = "EX_"+cpd+"_e0"
-                            if reaction not in model_rxns:
-                                model.add_boundary(metabolite=Metabolite(id=cpd.id, name=cpd.name, compartment="e0"), type="exchange")
-                            model.reactions.get_by_id(reaction).lower_bound = bounds[0]
-                            model.reactions.get_by_id(reaction).upper_bound = bounds[1]
+                            rxnID = "EX_"+cpd+"_e0"
+                            if rxnID not in model_rxns:
+                                model.add_boundary(
+                                    metabolite=model.metabolites.get_by_id(cpd), reaction_id=rxnID, type="exchange")
+                            model.reactions.get_by_id(rxnID).lower_bound = bounds[0]
+                            model.reactions.get_by_id(rxnID).upper_bound = bounds[1]
                         sol = model.optimize()
-                        models[model]["solutions"].append(sol)
+                        models[model]["solutions"][content["name"]+'-'+pheno] = sol
                         solutions.append(sol.objective_value)
                     
             # construct the parsed table of all exchange fluxes for each phenotype
             if all(np.array(solutions) == 0):
-                raise NoFluxError("The simulation lacks any flux.")
-            cols = ["rxn"]
-            for spec, phenotypes in species.items():
-                cols.extend([spec+'-'+phenotype for phenotype in phenotypes])
-                cols.append(spec+'-stationary')
-            fluxes_df = DataFrame(
-                data={'bio':[sol.fluxes['bio1'] for model in models for sol in models[model]["solutions"]]}, 
-                columns=cols)
-            fluxes_df.index.name = 'rxn'
-            fluxes_df.drop('rxn', axis=1, inplace=True)
-            for model, content in models.items(): 
-                for ex_rxn in content["exchanges"]:
-                    elements = [sol.fluxes[ex_rxn] for sol in content["solutions"] if ex_rxn in sol.fluxes]
-                    if len(elements) > 0:
-                        fluxes_df.iloc[ex_rxn.id] = elements
+                raise NoFluxError("The metabolic models did not grow.")
+            cols = {}
+            # biomass row
+            cols["rxn"] = set(["bio"])
+            for model, content in models.items():
+                for phenotype in content["phenotypes"]:
+                    col = content["name"]+'-'+phenotype
+                    if col in list(content["solutions"].keys()):
+                        bio_rxns = [x for x in content["solutions"][col].fluxes.index if "bio" in x]
+                        flux = np.mean([content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
+                        cols[col] = [flux]
+                    else:
+                        cols[col] = [0] 
+
+            # exchange reactions rows
+            looped_cols = cols.copy(); looped_cols.pop("rxn")
+            for row_index, ex_rxn in enumerate(content["exchanges"]):
+                cols["rxn"].add(ex_rxn.id)
+                for model, content in models.items():
+                    for phenotype in content["phenotypes"]:
+                        col = content["name"]+'-'+phenotype
+                        if col in content["solutions"].keys():
+                            if ex_rxn.id in list(content["solutions"][col].fluxes.index):
+                                if ex_rxn.id not in cols["rxn"]:
+                                    cols[col].append(content["solutions"][col].fluxes[ex_rxn.id])
+                                else:
+                                    if cols[col][row_index] == 0:
+                                        cols[col][row_index] = content["solutions"][col].fluxes[ex_rxn.id]
+                                    else:
+                                        print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
+                        else:
+                            if ex_rxn.id not in cols["rxn"]:
+                                cols[col].append(0)
+                            elif cols[col][row_index] != 0:
+                                print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
+            fluxes_df = DataFrame(data=cols)
+            # fluxes_df.groupby("rxn")[x for x in looped_cols].apply(",".join)
+            fluxes_df.index = fluxes_df['rxn']; fluxes_df.drop('rxn', axis=1, inplace=True)
+            fluxes_df.groupby(fluxes_df.index).sum()
+            display(fluxes_df)
             
         # define only species for which data is defined
-        modeled_species = list(signal_csv_paths.values()); modeled_species.remove('OD')
+        modeled_species = list(v for v in signal_csv_paths.values() in "OD" not in v)
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
         for col in removed_phenotypes:
             fluxes_df.drop(col, axis=1, inplace=True)
@@ -625,7 +653,7 @@ class MSCommFitting():
                                         basename == 'OD__bio' and content == 'OD']):
                                     signal = basename.split('_')[0]
                                     label = basename
-                                    if publishing:  # TODO expand the functionality to aesthetic concentration figures
+                                    if publishing:
                                         if self.signal_species[signal] == 'ecoli':
                                             species = 'E. coli'  
                                         elif self.signal_species[signal] == 'pf':
