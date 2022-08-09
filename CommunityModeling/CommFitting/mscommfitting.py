@@ -156,7 +156,6 @@ class MSCommFitting():
                 self.community_members[content["name"]] = list(content["phenotypes"].keys())
             # import the media for each model
             models = OrderedDict()
-            species = {}
             # carbon_sources = [c for content in carbon_conc_series.values() for c in content]
             #Using KBase media to constrain exchange reactions in model
             solutions = []
@@ -180,7 +179,7 @@ class MSCommFitting():
                             model.reactions.get_by_id(rxnID).lower_bound = bounds[0]
                             model.reactions.get_by_id(rxnID).upper_bound = bounds[1]
                         sol = model.optimize()
-                        models[model]["solutions"][content["name"]+'-'+pheno] = sol
+                        models[model]["solutions"][content["name"]+'_'+pheno] = sol
                         solutions.append(sol.objective_value)
                     
             # construct the parsed table of all exchange fluxes for each phenotype
@@ -188,10 +187,10 @@ class MSCommFitting():
                 raise NoFluxError("The metabolic models did not grow.")
             cols = {}
             # biomass row
-            cols["rxn"] = set(["bio"])
+            cols["rxn"] = ["bio"]
             for model, content in models.items():
                 for phenotype in content["phenotypes"]:
-                    col = content["name"]+'-'+phenotype
+                    col = content["name"]+'_'+phenotype
                     if col in list(content["solutions"].keys()):
                         bio_rxns = [x for x in content["solutions"][col].fluxes.index if "bio" in x]
                         flux = np.mean([content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
@@ -201,33 +200,24 @@ class MSCommFitting():
 
             # exchange reactions rows
             looped_cols = cols.copy(); looped_cols.pop("rxn")
-            for row_index, ex_rxn in enumerate(content["exchanges"]):
-                cols["rxn"].add(ex_rxn.id)
-                for model, content in models.items():
-                    for phenotype in content["phenotypes"]:
-                        col = content["name"]+'-'+phenotype
+            for model, content in models.items():
+                for ex_rxn in content["exchanges"]:
+                    cols["rxn"].append(ex_rxn.id)
+                    for col in looped_cols:
                         if col in content["solutions"].keys():
                             if ex_rxn.id in list(content["solutions"][col].fluxes.index):
-                                if ex_rxn.id not in cols["rxn"]:
-                                    cols[col].append(content["solutions"][col].fluxes[ex_rxn.id])
-                                else:
-                                    if cols[col][row_index] == 0:
-                                        cols[col][row_index] = content["solutions"][col].fluxes[ex_rxn.id]
-                                    else:
-                                        print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
+                                cols[col].append(content["solutions"][col].fluxes[ex_rxn.id])
                         else:
-                            if ex_rxn.id not in cols["rxn"]:
-                                cols[col].append(0)
-                            elif cols[col][row_index] != 0:
-                                print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
+                            cols[col].append(0) 
+            
+            # construct the DataFrame
             fluxes_df = DataFrame(data=cols)
-            # fluxes_df.groupby("rxn")[x for x in looped_cols].apply(",".join)
             fluxes_df.index = fluxes_df['rxn']; fluxes_df.drop('rxn', axis=1, inplace=True)
-            fluxes_df.groupby(fluxes_df.index).sum()
-            display(fluxes_df)
+            fluxes_df = fluxes_df.groupby(fluxes_df.index).sum()
+            fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
             
         # define only species for which data is defined
-        modeled_species = list(v for v in signal_csv_paths.values() in "OD" not in v)
+        modeled_species = list(v for v in signal_csv_paths.values() if "OD" not in v)
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
         for col in removed_phenotypes:
             fluxes_df.drop(col, axis=1, inplace=True)
