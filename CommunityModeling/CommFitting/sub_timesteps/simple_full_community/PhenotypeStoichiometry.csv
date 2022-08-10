@@ -1,0 +1,27 @@
+rxn,rxn name,ecoli_malt,ecoli_acetate,pf_acetate,pf_4HB,ecoli_stationary,pf_stationary
+bio,biomas,0.206365562,0.04574416,0.013228103,0.046298361,0,0
+EX_cpd00001_e0,Exchange for H2O,7.979185611,1.330390268,0,0,0,0
+EX_cpd00007_e0,Exchange for O2,-3.089253373,-0.024796536,-0.049873183,-0.17455614,0,0
+EX_cpd00009_e0,Exchange for Phosphate,-0.19906146,-0.044125091,-0.182178626,-0.637625191,0,0
+EX_cpd00011_e0,Exchange for CO2,3.529641713,0.122415236,0,0,0,0
+EX_cpd00013_e0,Exchange for NH3,-2.228730531,-0.494032394,-0.628559826,-2.199959392,0,0
+EX_cpd00029_e0,Exchange for Acetate,0,-1,-1,0,0,0
+EX_cpd00030_e0,Exchange for Mn2+,-0.000142599,-3.16E-05,0,0,0,0
+EX_cpd00034_e0,Exchange for Zn2+,-7.04E-05,-1.56E-05,0,0,0,0
+EX_cpd00048_e0,Exchange for Sulfate,-0.051966976,-0.011519111,-0.042766457,-0.1496826,0,0
+EX_cpd00058_e0,Exchange for Cu2+_e0,-0.000146313,-3.24E-05,0,0,0,0
+EX_cpd00063_e0,Exchange for Ca2+,-0.001074133,-0.000238098,0,0,0,0
+EX_cpd00067_e0,Exchange for H+,1.896169126,-0.579684776,-1.896271367,-4.136949784,0,0
+EX_cpd00099_e0,Exchange for Cl-,-0.001074133,-0.000238098,0,0,0,0
+EX_cpd00104_e0,Exchange for BIOT_e0,0,-9.15E-08,0,0,0,0
+EX_cpd00116_e0,Exchange for Methanol_e0,4.13E-07,0,0,0,0,0
+EX_cpd00136_e0,Exchange for 4-Hydroxybenzoate,0,0,0,-1,0,0
+EX_cpd00149_e0,Exchange for Co2+,-5.16E-06,-1.14E-06,0,0,0,0
+EX_cpd00179_e0,Exchange for Maltose,-1,0,0,0,0,0
+EX_cpd00205_e0,Exchange for K+,-0.040281113,-0.00892894,0,0,0,0
+EX_cpd00244_e0,Exchange for Ni2+_e0,-6.67E-05,-1.48E-05,0,0,0,0
+EX_cpd00254_e0,Exchange for Mg,-0.001790221,-0.000396831,0,0,0,0
+EX_cpd02701_c0,Sink for S-Adenosyl-4-methylthio-2-oxobutanoate,4.13E-07,0,0,0,0,0
+EX_cpd10515_e0,Exchange for Fe2+,-0.003314437,-0.000734697,-1.32E-05,-4.63E-05,0,0
+EX_cpd11416_c0,Sink for Biomass,0,0,0.013228103,0.046298361,0,0
+EX_cpd11574_e0,Exchange for Molybdate_e0,-1.44E-06,-3.20E-07,0,0,0,0
