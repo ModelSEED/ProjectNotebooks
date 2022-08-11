@@ -215,6 +215,7 @@ class MSCommFitting():
             fluxes_df.index = fluxes_df['rxn']; fluxes_df.drop('rxn', axis=1, inplace=True)
             fluxes_df = fluxes_df.groupby(fluxes_df.index).sum()
             fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
+            fluxes_df.to_csv("fluxes.csv")
             
         # define only species for which data is defined
         modeled_species = list(v for v in signal_csv_paths.values() if "OD" not in v)
@@ -272,7 +273,7 @@ class MSCommFitting():
             "cvcf": 1,                      # Coefficient for the minimization of phenotype conversion from the stationary phase. 
             "bcv": 1,                       # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
             "cvmin": 0,                     # This is the lowest value the limit on phenotype conversion goes, 
-            "v": 1000,                      # the kinetics constant that is externally adjusted 
+            "v": 0.1,                       # the kinetics constant that is externally adjusted 
             'carbon_sources': ['cpd00136', 'cpd00179'],  # 4hb, maltose
             'diffpos': 1, 'diffneg': 1, # objective coefficients to the diffpos and diffneg variables that correspond with the components of difference between experimental and predicted bimoass values
         })
