@@ -4,6 +4,7 @@ from modelseedpy.core.exceptions import FeasibilityError, ParameterError
 from pandas import read_csv, DataFrame, ExcelFile
 from optlang import Variable, Constraint, Objective, Model
 from cobra.core.metabolite import Metabolite
+from cobra.medium import minimal_medium
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.constants import hour
 from scipy.optimize import newton
@@ -130,9 +131,7 @@ class MSCommFitting():
                   signal_csv_paths:dict = {}, phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, 
                   carbon_conc_series: dict = {}, ignore_trials:Union[dict,list]=None, ignore_timesteps:list=[], significant_deviation:float = 2, 
                   extract_zip_path:str = None):
-        self.community_members = {content["name"]: list(content["phenotypes"].keys()) for member, content in community_members.items()}
-        for species, phenos in self.community_members.items():
-            phenos.append("stationary")
+        self.community_members = {content["name"]: list(content["phenotypes"].keys())+["stationary"] for member, content in community_members.items()}
         self.media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
         self.zipped_output = []
         self.phenotype_met = phenotype_met
@@ -151,21 +150,21 @@ class MSCommFitting():
                 fluxes_df.drop(col, axis=1, inplace=True)
             print(f'The {to_drop+["rxn"]} columns were dropped from the phenotypes CSV.')
         elif community_members:
-            self.community_members = {}
-            for content in community_members.values():
-                self.community_members[content["name"]] = list(content["phenotypes"].keys())
             # import the media for each model
             models = OrderedDict()
             # carbon_sources = [c for content in carbon_conc_series.values() for c in content]
             #Using KBase media to constrain exchange reactions in model
             solutions = []
-            for model, content in community_members.items():
-                model = FBAHelper.update_model_media(model, base_media)
+            for model, content in community_members.items():  # prevents the stationary phenotype from being called with the other phenotypes
+#                 model = FBAHelper.update_model_media(model, base_media)
+                model.medium = minimal_medium(model)
                 model_rxns = [rxn.id for rxn in model.reactions]
                 model.solver = solver
+                print(list(content['phenotypes'].keys()))
+                name = content["name"]
                 models[model] = {
                     "exchanges":FBAHelper.exchange_reactions(model), "solutions":{}, 
-                    "name": content['name'], "phenotypes": list(content['phenotypes'].keys())+["stationary"]}
+                    "name": name, "phenotypes": self.community_members[name]}
                 # print(content['phenotypes'])
                 for pheno, cpds in content['phenotypes'].items():
                     with model:
@@ -186,7 +185,7 @@ class MSCommFitting():
             if all(np.array(solutions) == 0):
                 raise NoFluxError("The metabolic models did not grow.")
             cols = {}
-            # biomass row
+            ## biomass row
             cols["rxn"] = ["bio"]
             for model, content in models.items():
                 for phenotype in content["phenotypes"]:
@@ -198,7 +197,7 @@ class MSCommFitting():
                     else:
                         cols[col] = [0] 
 
-            # exchange reactions rows
+            ## exchange reactions rows
             looped_cols = cols.copy(); looped_cols.pop("rxn")
             for model, content in models.items():
                 for ex_rxn in content["exchanges"]:
@@ -210,7 +209,7 @@ class MSCommFitting():
                         else:
                             cols[col].append(0) 
             
-            # construct the DataFrame
+            ## construct the DataFrame
             fluxes_df = DataFrame(data=cols)
             fluxes_df.index = fluxes_df['rxn']; fluxes_df.drop('rxn', axis=1, inplace=True)
             fluxes_df = fluxes_df.groupby(fluxes_df.index).sum()
@@ -552,8 +551,8 @@ class MSCommFitting():
     def graph(self, graphs = [], primal_values_filename:str = None, primal_values_zip_path:str = None, zip_name:str = None, data_timestep_hr:float = 0.163, publishing:bool = False, title:str=None):
         def add_plot(ax, labels, basename, trial, linestyle="solid"):
             labels.append(basename.split('-')[-1])
-            ax.plot(self.values[trial][basename].keys(),
-                    self.values[trial][basename].values(),
+            ax.plot(list(self.values[trial][basename].keys()),
+                    list(self.values[trial][basename].values()),
                     label=basename, linestyle=linestyle)
             ax.legend(labels)
             x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
