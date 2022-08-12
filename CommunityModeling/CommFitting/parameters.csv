@@ -5,7 +5,7 @@ cvct,1
 cvcf,1
 bcv,100
 cvmin,100
-v,0.003
+v,0.3
 carbon_sources,"['cpd00136', 'cpd00179']"
 diffpos,100
 diffneg,100
