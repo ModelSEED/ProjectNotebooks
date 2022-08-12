@@ -160,7 +160,6 @@ class MSCommFitting():
                 model.medium = minimal_medium(model)
                 model_rxns = [rxn.id for rxn in model.reactions]
                 model.solver = solver
-                print(list(content['phenotypes'].keys()))
                 name = content["name"]
                 models[model] = {
                     "exchanges":FBAHelper.exchange_reactions(model), "solutions":{}, 
