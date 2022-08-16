@@ -46,7 +46,7 @@ class Smetana:
         # c_{rxn.id}_ub: rxn > -1000*y_{species_id}
         variables = {}
         constraints = []
-        for model in cobra_models:
+        for model in cobra_models:  # TODO this can be converted to an MSCommunity object by looping through each index
             variables[model.id] = Variable(name=f'y_{model.id}', lb=0, ub=1, type='binary')
             for rxn in model.reactions:
                 if "bio" not in rxn.id:
