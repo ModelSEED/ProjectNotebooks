@@ -14,23 +14,22 @@ from cobra import Reaction
 
 
 class Smetana:
+    def __init__(self, cobra_models: Iterable, community_model, min_growth):
+        self.community, self.models = Smetana._load_models(cobra_models, community_model)
+        self.media = MSCommunity.estimate_minimal_community_media(self.models, self.community, True, min_growth)
+
+        
 
     @staticmethod
-    def _load_models(cobra_models: Iterable, msdb_path:str, community_model=None):
+    def _load_models(cobra_models: Iterable, community_model=None):
         if not community_model:
-            community = MSCommunity.build_from_species_models(
-                cobra_models, msdb_path, name="SMETANA_example", cobra_model=True)  # abundances argument may be valuable
-        else:
-            # models = PARSING_FUNCTION(community_model) # TODO the individual models of a community model must be parsed
-            Smetana._compatibilize_models([community_model], msdb_path)
-        return community, cobra_models
+            return MSCommunity.build_from_species_models(cobra_models, name="SMETANA_example", cobra_model=True), cobra_models
+        # models = PARSING_FUNCTION(community_model) # TODO the individual models of a community model must be parsed
+        return Smetana._compatibilize_models([community_model])[0], Smetana._compatibilize_models(cobra_models)
 
     @staticmethod
-    def _compatibilize_models(cobra_models:Iterable, msdb_path:str):
-        mscompat = MSCompatibility(msdb_path)
-        cobra_models = mscompat.align_exchanges(
-            cobra_models, standardize=True, conflicts_file_name='exchanges_conflicts.json')
-        return cobra_models
+    def _compatibilize_models(cobra_models:Iterable):
+        return MSCompatibility.align_exchanges(cobra_models, standardize=True, conflicts_file_name='exchanges_conflicts.json')
 
     @staticmethod
     def sc_score(cobra_models:Iterable=None, msdb_path:str=None, community_model=None, min_growth=0.1, n_solutions=100, abstol=1e-6):
@@ -88,15 +87,15 @@ class Smetana:
 
     @staticmethod
     def mu_score(cobra_models:Iterable, msdb_path:str, min_growth=0.1):
-        """the fractional frequency of each receive metabolite amongst all possible alternative syntrophic solutions (the solution of fluxes from a community to a species)"""
+        """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
         scores = {}
         cobra_models = Smetana._compatibilize_models(cobra_models, msdb_path)
         comm_min_media = MSCommunity.estimate_minimal_community_media(cobra_models, min_growth=min_growth)
         for model in cobra_models:
             ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
-            minimal_media = MSCommunity.estimate_minimal_community_media(model, min_growth=min_growth)
-            counter = Counter(minimal_media)
-            scores[model.id] = {met: counter[ex] / len(minimal_media) for ex, met in ex_rxns.items()}
+            min_media = minimal_medium(model, min_growth, minimize_components=True)
+            counter = Counter(min_media)
+            scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items()}
         return scores
 
     @staticmethod
@@ -141,13 +140,13 @@ class Smetana:
         return len(noninteracting_medium) - len(interacting_medium)
 
     @staticmethod
-    def mro_score(cobra_models:Iterable, msdb_path:str, min_growth=0.1):
+    def mro_score(cobra_models:Iterable, min_growth=0.1):
         """Determine the maximal overlap of minimal media between member organisms."""
-        cobra_models = Smetana._compatibilize_models(cobra_models, msdb_path)
+        cobra_models = Smetana._compatibilize_models(cobra_models)
         ind_media = {model.id: set(minimal_medium(model, min_growth, minimize_components=True).index) for model in cobra_models}
         pairs = {(model1, model2): ind_media[model1.id] & ind_media[model2.id] for model1, model2 in combinations(cobra_models, 2)}
         # ratio of the average size of intersecting minimal media between any two members and the minimal media of all members
-        return mean(map(len, pairs.values())) / mean(map(len, ind_media.values()))
+        return mean(list(map(len, pairs.values()))) / mean(list(map(len, ind_media.values())))
 
     @staticmethod
     def smetana_score(cobra_models: Iterable, msdb_path:str, community_model=None, min_growth=0.1, n_solutions=100, abstol=1e-6):
