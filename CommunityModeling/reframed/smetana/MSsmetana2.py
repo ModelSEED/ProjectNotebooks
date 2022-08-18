@@ -2,6 +2,7 @@ from collections import Counter
 from itertools import combinations, chain
 from typing import Iterable
 from math import prod
+from json import load
 
 from cobra.medium import minimal_medium
 from modelseedpy.community.mscommunity import MSCommunity
@@ -12,10 +13,14 @@ from numpy import mean
 
 
 class Smetana:
-    def __init__(self, cobra_models: Iterable, community_model, min_growth):
+    def __init__(self, cobra_models: Iterable, community_model, min_growth=0.1, media_json_path=None):
         self.min_growth = min_growth
         self.community, self.models = Smetana._load_models(cobra_models, community_model)
-        self.media = MSCommunity.estimate_minimal_community_media(self.models, self.community, True, min_growth)
+        if not media_json_path:
+            self.media = MSCommunity.estimate_minimal_community_media(self.models, self.community, True, min_growth)
+        else:
+            with open(media_json_path, 'r') as media:
+                self.media = load(media)
 
     def mro_score(self):
         self.mro = Smetana.mro(self.models, media_dict=self.media)
@@ -23,7 +28,7 @@ class Smetana:
 
     def mip_score(self):
         self.mip = Smetana.mip(self.models, com_model=self.community, media_dict=self.media)
-        return self.
+        return self.mip
 
     def mu_score(self):
         self.mu = Smetana.mu(self.models, self.media)
@@ -38,8 +43,18 @@ class Smetana:
         return self.sc
 
     def smetana_score(self):
-        self.smetana = Smetana.smetana(self.models, self.community, self.min_growth, media_dict=self.media)
+        if not hasattr(self,"sc"):
+            self.sc = Smetana.sc(self.models, self.community, self.min_growth)
+        if not hasattr(self,"mu"):
+            self.mu = Smetana.mu(self.models, self.media)
+        if not hasattr(self,"mp"):
+            self.mp = Smetana.mp(self.models, self.community, media_dict=self.media)
+
+        self.smetana = Smetana.smetana(self.models, self.community, self.min_growth,
+                                       prior_values=(self.sc, self.mu, self.mp), media_dict=self.media)
         return self.smetana
+
+    ###### STATIC METHODS OF THE SMETANA SCORES, WHICH ARE LEVERAGED IN THE ABOVE CLASS OBJECT ######
 
     @staticmethod
     def _load_models(cobra_models: Iterable, community_model=None):
@@ -50,20 +65,15 @@ class Smetana:
 
     @staticmethod
     def _compatibilize_models(cobra_models:Iterable):
-        return MSCompatibility.align_exchanges(cobra_models, standardize=True, conflicts_file_name='exchanges_conflicts.json')
+        return MSCompatibility.align_exchanges(cobra_models, True, 'exchanges_conflicts.json')
 
     @staticmethod
     def _get_media(media, model_s_, min_growth=None, com_model=None, syntrophy=True):
+        if not media:
+            return MSCommunity.estimate_minimal_community_media(model_s_, com_model, syntrophy, min_growth)
         if not com_model:
-            if not media:
-                return minimal_medium(model_s_, min_growth, minimize_components=True)
-            else:
-                return media["members"][model_s_.id]["media"]
-        else:
-            if not media:
-                return MSCommunity.estimate_minimal_community_media(model_s_, com_model, syntrophy, min_growth)
-            else:
-                return media["community_media"]
+            return media["members"][model_s_.id]["media"]
+        return media["community_media"]
 
     @staticmethod
     def sc(cobra_models:Iterable=None, community_model=None, min_growth=0.1, n_solutions=100, abstol=1e-6):
@@ -127,13 +137,13 @@ class Smetana:
         # comm_min_media = Smetana._get_media(media_dict, cobra_models, min_growth, False)
         for model in cobra_models:
             ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
-            min_media = Smetana._get_media(media_dict, model, min_growth, True)
+            min_media = Smetana._get_media(media_dict, model, min_growth, syntrophy=True)
             counter = Counter(min_media)
             scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items()}
         return scores
 
     @staticmethod
-    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=Nonw):  # TODO this must be validated with the Machado formulation
+    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=None):  # TODO this must be validated with the Machado formulation
         """Discover the metabolites that each species contributes to a community"""
         if not all([community_model, cobra_models]):
             community_model, cobra_models = Smetana._load_models(cobra_models, community_model)
@@ -183,13 +193,16 @@ class Smetana:
         return mean(list(map(len, pairs.values()))) / mean(list(map(len, ind_media.values())))
 
     @staticmethod
-    def smetana(cobra_models: Iterable, community=None, min_growth=0.1, n_solutions=100, abstol=1e-6, media_dict=None):
+    def smetana(cobra_models: Iterable, community=None, min_growth=0.1, n_solutions=100, abstol=1e-6, prior_values=None, media_dict=None):
         """Quantifies the extent of syntrophy as the sum of all exchanges in a given nutritional environment"""
         if not all([community, cobra_models]):
             community, cobra_models = Smetana._load_models(cobra_models, community)
-        scs = Smetana.sc(cobra_models, community, min_growth, n_solutions, abstol)
-        mus = Smetana.mu(cobra_models, min_growth, media_dict)
-        mps = Smetana.mp(cobra_models, community, min_growth, abstol, media_dict)
+        if not prior_values:
+            scs = Smetana.sc(cobra_models, community, min_growth, n_solutions, abstol)
+            mus = Smetana.mu(cobra_models, min_growth, media_dict)
+            mps = Smetana.mp(cobra_models, community, min_growth, abstol, media_dict)
+        else:
+            scs, mus, mps = prior_values
 
         smtna_score = 0
         for model in cobra_models:
