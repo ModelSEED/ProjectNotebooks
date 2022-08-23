@@ -1,0 +1,38 @@
+{
+   "name": "test",
+   "expression": {
+      "type": "Add",
+      "args": [
+         {
+            "type": "Mul",
+            "args": [
+               {
+                  "type": "Symbol",
+                  "name": "var1"
+               },
+               {
+                  "type": "Number",
+                  "name": 123
+               }
+            ]
+         },
+         {
+            "type": "Mul",
+            "args": [
+               {
+                  "type": "Symbol",
+                  "name": "var2"
+               },
+               {
+                  "type": "Number",
+                  "name": 1
+               }
+            ]
+         }
+      ]
+   },
+   "lb": 0,
+   "ub": 1000,
+   "indicator_variable": null,
+   "active_when": 1
+}

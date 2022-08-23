@@ -1,0 +1,20 @@
+            looped_cols = cols.copy(); looped_cols.pop("rxn")
+            for row_index, ex_rxn in enumerate(content["exchanges"]):
+                cols["rxn"].add(ex_rxn.id)
+                for model, content in models.items():
+                    for phenotype in content["phenotypes"]:
+                        col = content["name"]+'-'+phenotype
+                        if col in content["solutions"].keys():
+                            if ex_rxn.id in list(content["solutions"][col].fluxes.index):
+                                if ex_rxn.id not in cols["rxn"]:
+                                    cols[col].append(content["solutions"][col].fluxes[ex_rxn.id])
+                                else:
+                                    if cols[col][row_index] == 0:
+                                        cols[col][row_index] = content["solutions"][col].fluxes[ex_rxn.id]
+                                    else:
+                                        print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
+                        else:
+                            if ex_rxn.id not in cols["rxn"]:
+                                cols[col].append(0)
+                            elif cols[col][row_index] != 0:
+                                print(f"ERROR: The {ex_rxn.id} reaction is being overwritten.")
