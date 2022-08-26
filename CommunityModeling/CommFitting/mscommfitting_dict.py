@@ -49,7 +49,7 @@ class MSCommFitting():
 
     def __init__(self):
         self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species = {}, {}, {}, {}, {}
-        self.phenotypes_parsed_df; self.problem: object; self.species_phenotypes_bool_df: object
+        self.problem: object; self.species_phenotypes_bool_df: object
         self.zipped_output, self.plots = [], []
         
     def _process_csv(self, csv_path, index_col):
@@ -270,8 +270,7 @@ class MSCommFitting():
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
         # self.problem = Model()
         objective = tupObjective("minimize variance and phenotypic transitions", [], "min")
-        print("Solver:",type(self.problem))
-        
+
         # refine the applicable range of bad_data_timesteps
         if bad_data_timesteps:  # !!! evidently erroneous code
             for trial in bad_data_timesteps:
@@ -379,8 +378,8 @@ class MSCommFitting():
                             next_time = str(int(time)+1)
 
                             # c_{met} + dt/2*sum_k^K( g_{pheno} ) - c+1_{met} = 0
-                            growth_phenotypes = [
-                                [self.variables['g_'+pheno][next_time][trial].name, self.variables['g_'+pheno][time][trial].name]
+                            growth_phenotypes = [  # names represents the variables in the dictionary format
+                                [self.variables['g_'+pheno][next_time][trial].name, self.variables['g_'+pheno][time][trial]].name
                                                  for pheno in self.phenotypes_parsed_df.columns]
                             self.constraints['dcc_'+met][time][trial] = tupConstraint(
                                 name=_name("dcc_", met, time, trial),
@@ -485,6 +484,7 @@ class MSCommFitting():
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
         # construct the problem
         self.dict_model = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective)
+        print("Solver:", type(self.dict_model))
         time_5 = process_time()
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
                 
@@ -495,8 +495,8 @@ class MSCommFitting():
         if export_lp:
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
-                lp.write(self.problem.to_lp())
-            self._export_model_json(self.problem.to_json(), 'mscommfitting.json')
+                lp.write(self.dict_model.to_lp())
+            self._export_model_json(self.dict_model.to_json(), 'mscommfitting.json')
         if export_zip_name:
             self.zip_name = export_zip_name
             sleep(2)
@@ -510,11 +510,11 @@ class MSCommFitting():
                 
     def compute(self, graphs:list = [], export_zip_name=None, publishing=False):
         self.values = {}
-        solution = self.problem.optimize()
+        solution = self.dict_model.optimize()
         # categorize the primal values by trial and time
-        if all(np.array(list(self.problem.primal_values.values())) == 0):
+        if all(np.array(list(self.dict_model.primal_values.values())) == 0):
             raise NoFluxError("The simulation lacks any flux.")
-        for variable, value in self.problem.primal_values.items():
+        for variable, value in self.dict_model.primal_values.items():
             if 'conversion' not in variable:
                 basename, time, trial = variable.split('-')
                 time = int(time)*self.parameters['data_timestep_hr']
@@ -725,7 +725,7 @@ class MSCommFitting():
                 return json.load(mscmft)
         if model_to_load:
             print(model_to_load.keys())
-            self.problem = Model.from_json(model_to_load)
+            self.dict_model = Model.from_json(model_to_load)
         
     def change_parameters(self, cvt=None, cvf=None, diff=None, vmax={}, km={}, error_threshold:float=1, strain:str=None, graphs:list=None, mscomfit_json_path='mscommfitting.json', primal_values_filename:str=None, export_zip_name=None, extract_zip_name=None, final_concentrations:dict=None, final_relative_carbon_conc:float=None, previous_relative_conc:float=None):
         def change_param(arg, param, time, trial):
@@ -853,7 +853,7 @@ class MSCommFitting():
         time_3 = process_time()
         print(f'Done exporting the model: {(time_3-time_2)/60} min')
             
-        self.problem = Model.from_json(mscomfit_json)
+        self.dict_model = Model.from_json(mscomfit_json)
         time_4 = process_time()
         print(f'Done loading the model: {(time_4-time_3)/60} min')  # ~1/2 the defining a new problem
     
