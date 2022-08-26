@@ -80,32 +80,31 @@ class Smetana:
         """Calculate the frequency of interspecies dependency in a community"""
         if not all([cobra_models, community_model]):
             community_model, cobra_models = Smetana._load_models(cobra_models, community_model)
-        # disable all biomass reactions in the community
         for rxn in community_model.reactions:
             rxn.lower_bound = 0 if 'bio' in rxn.id else rxn.lower_bound
 
-        # constrain all fluxes of with the species binary variable
         # c_{rxn.id}_lb: rxn < 1000*y_{species_id}
         # c_{rxn.id}_ub: rxn > -1000*y_{species_id}
         variables = {}
         constraints = []
         for model in cobra_models:  # TODO this can be converted to an MSCommunity object by looping through each index
             variables[model.id] = Variable(name=f'y_{model.id}', lb=0, ub=1, type='binary')
+            model = FBAHelper.add_cons_vars(model, list(variables[model.id]))
             for rxn in model.reactions:
                 if "bio" not in rxn.id:
-                    lb = Constraint(rxn.flux_expression - 1000*variables[model.id], name=f'c_{rxn.id}_lb', ub=0)
-                    ub = Constraint(rxn.flux_expression + 1000*variables[model.id], name=f"c_{rxn.id}_ub", lb=0)
+                    lb = Constraint(rxn.flux_expression + 1000*variables[model.id], name=f'c_{rxn.id}_lb', lb=0)
+                    ub = Constraint(rxn.flux_expression - 1000*variables[model.id], name=f"c_{rxn.id}_ub", ub=0)
                     constraints.extend([lb, ub])
-        community = FBAHelper.add_vars_cons(community_model, list(variables.values()) + constraints)
+        community = FBAHelper.add_cons_vars(community_model, list(variables.values()) + constraints)
 
         # calculate the SCS
         scores = {}
         for model in cobra_models:
-            com_model = community
+            com_model = community.copy()
             other_members = [other for other in cobra_models if other.id != model.id]
             # SMETANA_Biomass: bio1 > {min_growth}
             smetana_biomass = Constraint(sum(rxn for rxn in model.reactions if "bio" in rxn.id), name='SMETANA_Biomass', lb=min_growth)
-            com_model = FBAHelper.add_vars_cons(com_model, [smetana_biomass])
+            com_model = FBAHelper.add_cons_vars(com_model, [smetana_biomass])
             com_model = FBAHelper.add_objective(com_model, {f"y_{other.id}": 1.0 for other in other_members}, "min")
             previous_constraints, donors_list = [], []
             for i in range(n_solutions):
@@ -116,14 +115,14 @@ class Smetana:
                 donors = [o for o in other_members if sol.values[f"y_{o.id}"] > abstol]
                 donors_list.append(donors)
 
-                # the community is iteratively reduced
+                # this solution is removed from the search space
                 # c_{rxn.id}_lb: sum(y_{species_id}) < # iterations - 1
                 previous_con = f'iteration_{i}'
                 previous_constraints.append(previous_con)
-                com_model = FBAHelper.add_vars_cons(com_model, list(Constraint(
+                com_model = FBAHelper.add_cons_vars(com_model, list(Constraint(
                     sum(variables[o.id] for o in donors), name=previous_con, ub=len(previous_constraints) - 1)))
 
-            # calculate the score if the loop completed without an error exit
+            # calculate the score if the loop completed without error
             if i == n_solutions-1:
                 donors_counter = Counter(chain(*donors_list))
                 scores[model.id] = {o: donors_counter[o] / len(donors_list) for o in other_members}
@@ -132,9 +131,9 @@ class Smetana:
     @staticmethod
     def mu(cobra_models:Iterable, min_growth=0.1, media_dict=None):
         """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
+        # TODO: support for parsing a community model should be added to mirror Machado's functionality
         scores = {}
         cobra_models = Smetana._compatibilize_models(cobra_models)
-        # comm_min_media = Smetana._get_media(media_dict, cobra_models, min_growth, False)
         for model in cobra_models:
             ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
             min_media = Smetana._get_media(media_dict, model, min_growth, syntrophy=True)
@@ -143,17 +142,17 @@ class Smetana:
         return scores
 
     @staticmethod
-    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=None):  # TODO this must be validated with the Machado formulation
+    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=None):
         """Discover the metabolites that each species contributes to a community"""
         if not all([community_model, cobra_models]):
             community_model, cobra_models = Smetana._load_models(cobra_models, community_model)
 
-        community_medium = Smetana._get_media(media_dict, cobra_models, min_growth, community_model, False)
+        noninteracting_community_medium = Smetana._get_media(media_dict, cobra_models, min_growth, community_model, False)
         scores = {}
         for model in cobra_models:
             scores[model.id] = []
-            # !!! This excludes cross-feeding that does not completely satisfy the community needs for the respective metabolite
-            possible_contributions = [ex_rxn for ex_rxn in FBAHelper.exchange_reactions(model) if ex_rxn.id not in community_medium]
+            # !!! This approach excludes cross-feeding that incompletely satisfies community needs
+            possible_contributions = [ex_rxn for ex_rxn in FBAHelper.exchange_reactions(model) if ex_rxn.id not in noninteracting_community_medium]
             while len(possible_contributions) > 0:
                 community_model.objective = Objective({ex_rxn.flux_expression: 1 for ex_rxn in possible_contributions})
                 sol = community_model.optimize()
@@ -166,12 +165,12 @@ class Smetana:
                             scores[model.id].append(met.id)
                 possible_contributions = blocked
 
-            for ex_rxn in possible_contributions:
-                community_model.objective = Objective({ex_rxn.flux_expression: 1}) # !!! What is the practical difference of this objective versus the prior objective?
+            for ex_rxn in possible_contributions:  # This assumes that possible_contributions never reaches zero
+                community_model.objective = Objective({ex_rxn.flux_expression: 1})
                 sol = community_model.optimize()
-                score = 1 if sol.status == 'optimal' and sol.fobj > abstol else 0  # TODO the simple binary description of whether a metabolite is contributed by a species may be more concisely determined
                 for met in ex_rxn:
-                    scores[model.id].append(met.id)
+                    if sol.status != 'optimal' or sol.fobj < abstol:
+                        scores[model.id].remove(met.id)
         return scores
 
     @staticmethod
@@ -179,7 +178,6 @@ class Smetana:
         """Determine the maximum quantity of nutrients that can be sourced through syntrophy"""
         cobra_models = Smetana._compatibilize_models(cobra_models)
         noninteracting_medium = Smetana._get_media(media_dict, cobra_models, min_growth, com_model, False)
-        # TODO verify that the com_model block does not eradicate the effects of the syntrophy block
         interacting_medium = Smetana._get_media(media_dict, cobra_models, min_growth, com_model)
         return len(noninteracting_medium) - len(interacting_medium)
 

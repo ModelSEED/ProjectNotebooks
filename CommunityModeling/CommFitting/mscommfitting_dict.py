@@ -255,11 +255,6 @@ class MSCommFitting():
         met_id = met_id.replace('c_', '', 1)
         return met_id
     
-    def _update_problem(self, contents: Iterable):
-        for content in contents:
-            self.problem.add(content)
-            self.problem.update()
-                
     def define_problem(self, parameters={}, export_zip_name:str=None, export_parameters:bool=True, export_lp:bool=True, final_relative_carbon_conc:float=None, metabolites_to_track:list=None, bad_data_timesteps:dict = None, zero_start=[]):
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Timestep size of the simulation in hours 
@@ -273,7 +268,8 @@ class MSCommFitting():
         })
         self.parameters.update(parameters)
         self.simulation_timesteps = list(map(str, range(1, int(self.simulation_time/self.parameters['timestep_hr'])+1)))
-        self.problem = Model()
+        # self.problem = Model()
+        objective = tupObjective("minimize variance and phenotypic transitions", [], "min")
         print("Solver:",type(self.problem))
         
         # refine the applicable range of bad_data_timesteps
@@ -360,9 +356,11 @@ class MSCommFitting():
                                  (self.parameters['cvmin'])]
                             )
 
-                            # TODO: The objective must be defined in the OptlangHelper format
-                            obj_coef.update({self.variables['cvf_'+phenotype][time][trial]: self.parameters['cvcf'],
-                                             self.variables['cvt_'+phenotype][time][trial]: self.parameters['cvct']})
+                            objective.expr.extend([(
+                                self.variables['cvf_' + phenotype][time][trial].name, self.parameters['cvcf']
+                            ), (
+                                self.variables['cvt_' + phenotype][time][trial], self.parameters['cvct']
+                            )])
                             variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
                             constraints.extend([self.constraints['cvc_'+phenotype][time][trial], self.constraints['gc_'+phenotype][time][trial]])
                         
@@ -472,10 +470,12 @@ class MSCommFitting():
                                                 (self.variables[signal+'__diffneg'][time][trial].name)))
                             )
 
-                            # TODO: The objective must be defined in the OptlangHelper format
-                            obj_coef.update({self.variables[signal+'__diffpos'][time][trial]: self.parameters['diffpos'],
-                                             self.variables[signal+'__diffneg'][time][trial]: self.parameters['diffneg']})                            
-                            variables.extend([self.variables[signal+'__bio'][time][trial], 
+                            objective.expr.extend([(
+                                self.variables[signal + '__diffpos'][time][trial].name, self.parameters['diffpos']
+                            ), (
+                                self.variables[signal + '__diffneg'][time][trial].name, self.parameters['diffneg']
+                            )])
+                            variables.extend([self.variables[signal+'__bio'][time][trial],
                                               self.variables[signal+'__diffpos'][time][trial],
                                               self.variables[signal+'__diffneg'][time][trial]])
                             constraints.extend([self.constraints[signal+'__bioc'][time][trial],
@@ -484,20 +484,14 @@ class MSCommFitting():
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
         # construct the problem
-        self.dict_model = OptlangHelper.define_model("OptlangHelper test", variables, constraints, obj_coef)
-        self._update_problem([variables, constraints])
-        self.problem.objective = Objective(Zero, direction="min") #, sloppy=True)
-        self.problem.objective.set_linear_coefficients(obj_coef)
+        self.dict_model = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective)
         time_5 = process_time()
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
                 
         # print contents
         if export_parameters:
             self.zipped_output.append('parameters.csv')
-            DataFrame(data=list(self.parameters.values()),
-                      index=list(self.parameters.keys()), 
-                      columns=['values']
-                      ).to_csv('parameters.csv')
+            DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()), columns=['values']).to_csv('parameters.csv')
         if export_lp:
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
