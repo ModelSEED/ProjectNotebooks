@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
-from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, tuple_dot_product
+from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
 from pandas import read_csv, DataFrame, ExcelFile
 # from optlang import Variable, Constraint, Objective, Model
 from cobra.core.metabolite import Metabolite
@@ -367,9 +367,14 @@ class MSCommFitting():
                                 }
                             )
 
-                            objective.expr.extend([(  # TODO - The objective expression must be updated to the dictionary form
-                                self.variables['cvf_' + phenotype][time][trial].name, self.parameters['cvcf']),
-                                (self.variables['cvt_' + phenotype][time][trial], self.parameters['cvct'])])
+                            objective.expr.extend([{
+                                "elements": [
+                                    {"elements": [self.parameters['cvcf'], self.variables['cvf_'+phenotype][time][trial].name],
+                                     "operation": "Mull"},
+                                    {"elements": [self.parameters['cvct'], self.variables['cvt_' + phenotype][time][trial].name],
+                                     "operation": "Mull"}],
+                                "operation": "Add"
+                            }]
                             variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
                             constraints.extend([self.constraints['cvc_'+phenotype][time][trial], self.constraints['gc_'+phenotype][time][trial]])
 
@@ -387,8 +392,8 @@ class MSCommFitting():
                         for time in self.simulation_timesteps:
                             next_time = str(int(time)+1)
 
-                            # c_{met} + dt/2*sum_k^K( g_{pheno} ) - c+1_{met} = 0
-                            growth_phenotypes = [  # names represents the variables in the dictionary format
+                            # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno} ) - c+1_{met} = 0
+                            growth_phenos = [  # names represents the variables in the dictionary format
                                 [self.variables['g_'+pheno][next_time][trial].name, self.variables['g_'+pheno][time][trial]].name
                                                  for pheno in self.phenotypes_parsed_df.columns]
                             self.constraints['dcc_'+met][time][trial] = tupConstraint(
@@ -397,17 +402,13 @@ class MSCommFitting():
                                     "elements": [
                                         self.variables["c_"+met][time][trial].name,
                                         {"elements": [-1, self.variables["c_"+met][next_time][trial].name],
-                                         "operation": "Mul"}
-                                    # TODO - The tuple_dot_product must be updated
+                                         "operation": "Mul"},
+                                        OptlangHelper.heuns_dot_product(
+                                            coefficients=[half_dt*self.phenotypes_parsed_df.values[r_index]],
+                                            zipped_to_sum=growth_phenos)
                                     ],
                                     "operation": "Add"
-                                }
-
-                                [(),
-                                      (),
-                                      tuple_dot_product(growth_phenotypes,
-                                          [half_dt*self.phenotypes_parsed_df.values[r_index]])  # array multiplication
-                                      ])
+                                })
 
                             constraints.append(self.constraints['dcc_'+met][time][trial])
                             if next_time == self.simulation_timesteps[-1]:
@@ -435,37 +436,56 @@ class MSCommFitting():
                     self.constraints[signal+'__bioc'][time] = {}; self.constraints[signal+'__diffc'][time] = {}
                     for r_index, trial in enumerate(parsed_df.index):
                         if not bad_data_timesteps or trial not in bad_data_timesteps or time not in bad_data_timesteps[trial]:
-                            total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
-                            for phenotype in self.phenotypes_parsed_df.columns:
-                                total_biomass.append(self.variables["b_"+phenotype][time][trial].name)
+                            x = {"type": "Add", "args": []}
+                            total_biomass, signal_sum, from_sum, to_sum = x.copy(), x.copy(), x.copy(), x.copy()
+                            for pheno_index, phenotype in enumerate(self.phenotypes_parsed_df.columns):
+                                # total_biomass.append(self.variables["b_"+phenotype][time][trial].name)
                                 # OD is included in every signal
                                 val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, phenotype]
                                 val = val if isnumber(val) else val.values[0]
-                                signal_sum.append((val, self.variables["b_"+phenotype][time][trial].name))
+                                signal_sum["args"].append(
+                                    {"operation": "Mul", "elements": [-1, val, self.variables["b_"+phenotype][time][trial].name]})
                                 if all(['OD' not in signal, self.signal_species[signal] in phenotype, 'stationary' not in phenotype]):
-                                    from_sum.append((val, self.variables["cvf_" + phenotype][time][trial].name))
-                                    to_sum.append((val, self.variables["cvt_" + phenotype][time][trial].name))
+                                    from_sum["args"].append({"operation": "Mul",
+                                         "elements": [-1, growth_phenos[pheno_index], val,
+                                                      self.variables["cvf_" + phenotype][time][trial].name]})
+                                    to_sum["args"].append({"operation": "Mul",
+                                         "elements": [val, self.variables["cvt_" + phenotype][time][trial].name]})
                             for phenotype in self.phenotypes_parsed_df.columns:
                                 if 'OD' not in signal and self.signal_species[signal] in phenotype:
                                     if "stationary" in phenotype:
                                         # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) - b+1_{phenotype} = 0
                                         self.constraints['dbc_'+phenotype][time][trial] = tupConstraint(
                                             name=_name("dbc_", phenotype, time, trial),
-                                            expr=list(chain((self.variables['b_'+phenotype][time][trial].name),
-                                                            zip([-1] * len(from_sum), from_sum), to_sum,
-                                                            (-1, self.variables['b_'+phenotype][next_time][trial].name)))
+                                            expr={
+                                                    "elements": [
+                                                        self.variables['b_'+phenotype][time][trial].name,
+                                                        from_sum, to_sum,
+                                                        {"elements": [-1, self.variables["b_"+met][next_time][trial].name],
+                                                         "operation": "Mul"}],
+                                                    "operation": "Add"
+                                                }
                                         )
                                     else:
                                         # b_{phenotype} + dt/2*(g_{phenotype} + g+1_{phenotype}) + cvf - cvt - b+1_{phenotype} = 0
                                         self.constraints['dbc_'+phenotype][time][trial] = tupConstraint(
                                             name=_name("dbc_", phenotype, time, trial),
-                                            expr=((self.variables['b_'+phenotype][time][trial].name),  # TODO: THe OptlangHelper logic must be expanded to accommodate the nested sum within the summed product
-                                                   (half_dt, (self.variables['g_'+phenotype][time][trial].name,
-                                                              self.variables['g_'+phenotype][next_time][trial].name)
-                                                    ),
-                                                   (self.variables['cvf_'+phenotype][time][trial].name),
-                                                   (-1, self.variables['cvt_'+phenotype][time][trial].name),
-                                                   (-1, self.variables['b_'+phenotype][next_time][trial].name))
+                                            expr={
+                                                    "elements": [
+                                                        self.variables['b_'+phenotype][time][trial].name,
+                                                        {"elements": [half_dt, {
+                                                            "elements": [self.variables['g_'+phenotype][time][trial].name,
+                                                                         self.variables['g_'+phenotype][next_time][trial].name],
+                                                            "operation": "Add"}],
+                                                         "operation": "Mul"},
+                                                        self.variables['cvf_'+phenotype][time][trial].name,
+                                                        {"elements": [-1, self.variables['cvt_'+phenotype][time][trial].name],
+                                                         "operation": "Mul"},
+                                                        {"elements": [-1, self.variables['b_'+phenotype][next_time][trial].name],
+                                                         "operation": "Mul"},
+                                                    ],
+                                                    "operation": "Add"
+                                                }
                                         )
                                     constraints.append(self.constraints['dbc_'+phenotype][time][trial])
 
@@ -483,17 +503,25 @@ class MSCommFitting():
                             # {speces}_bio - sum_k^K(es_k*b_{phenotype}) - {signal}_diffpos + {signal}_diffneg = 0
                             self.constraints[signal+'__diffc'][time][trial] = tupConstraint(
                                 name=_name(signal, '__diffc', time, trial),
-                                expr=list(chain((self.variables[signal+'__bio'][time][trial].name),
-                                                zip([-1]*len(signal_sum), signal_sum),
-                                                (-1, self.variables[signal+'__diffpos'][time][trial].name),
-                                                (self.variables[signal+'__diffneg'][time][trial].name)))
+                                expr={
+                                        "elements": [
+                                            self.variables[signal+'__bio'][time][trial].name, signal_sum,
+                                            self.variables[signal+'__diffneg'][time][trial].name,
+                                            {"elements": [-1, self.variables[signal+'__diffpos'][time][trial].name],
+                                             "operation": "Mul"}
+                                        ],
+                                        "operation": "Add"
+                                    }
                             )
 
-                            objective.expr.extend([(
-                                self.variables[signal + '__diffpos'][time][trial].name, self.parameters['diffpos']
-                            ), (
-                                self.variables[signal + '__diffneg'][time][trial].name, self.parameters['diffneg']
-                            )])
+                            objective.expr.extend([{
+                                "elements": [
+                                    {"elements": [self.parameters['diffpos'], self.variables[signal+'__diffpos'][time][trial].name],
+                                     "operation": "Mull"},
+                                    {"elements": [self.parameters['diffneg'], self.variables[signal+'__diffneg'][time][trial].name],
+                                     "operation": "Mull"}],
+                                "operation": "Add"
+                            }])
                             variables.extend([self.variables[signal+'__bio'][time][trial],
                                               self.variables[signal+'__diffpos'][time][trial],
                                               self.variables[signal+'__diffneg'][time][trial]])
