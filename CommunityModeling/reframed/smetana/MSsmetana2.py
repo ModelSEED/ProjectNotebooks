@@ -90,24 +90,30 @@ class Smetana:
         constraints = []
         for model in cobra_models:  # TODO this can be converted to an MSCommunity object by looping through each index
             variables[model.id] = Variable(name=f'y_{model.id}', lb=0, ub=1, type='binary')
-            model = FBAHelper.add_cons_vars(model, [variables[model.id]])
+            FBAHelper.add_cons_vars(community_model, [variables[model.id]])
             for rxn in model.reactions:
                 if "bio" not in rxn.id:
-                    lb = Constraint(rxn.flux_expression + 1000*variables[model.id], name=f'c_{rxn.id}_lb', lb=0)
-                    ub = Constraint(rxn.flux_expression - 1000*variables[model.id], name=f"c_{rxn.id}_ub", ub=0)
+                    # print(rxn.flux_expression)
+                    lb = Constraint(rxn.forward_variable + 1000*variables[model.id], name=f'c_{rxn.id}_lb', lb=0)
+                    ub = Constraint(rxn.forward_variable - 1000*variables[model.id], name=f"c_{rxn.id}_ub", ub=0)
                     constraints.extend([lb, ub])
-        pprint([(cons, cons.expression) for cons in constraints])
-        community = FBAHelper.add_cons_vars(community_model, list(variables.values()) + constraints)  #
+        # for cons in constraints:
+        #     print(type(cons.expression), str(cons.expression))
+        #     break
+        for cons in community_model.constraints:
+            if "EX_Ser_Thr_e0" in str(cons.expression):
+                print(cons)
+        FBAHelper.add_cons_vars(community_model, list(constraints))  #
 
         # calculate the SCS
         scores = {}
         for model in cobra_models:
-            com_model = community.copy()
+            com_model = community_model.copy()
             other_members = [other for other in cobra_models if other.id != model.id]
             # SMETANA_Biomass: bio1 > {min_growth}
             smetana_biomass = Constraint(sum(rxn for rxn in model.reactions if "bio" in rxn.id), name='SMETANA_Biomass', lb=min_growth)
-            com_model = FBAHelper.add_cons_vars(com_model, [smetana_biomass])
-            com_model = FBAHelper.add_objective(com_model, {f"y_{other.id}": 1.0 for other in other_members}, "min")
+            FBAHelper.add_cons_vars(com_model, [smetana_biomass])
+            FBAHelper.add_objective(com_model, {f"y_{other.id}": 1.0 for other in other_members}, "min")
             previous_constraints, donors_list = [], []
             for i in range(n_solutions):
                 sol = com_model.optimize()
@@ -121,7 +127,7 @@ class Smetana:
                 # c_{rxn.id}_lb: sum(y_{species_id}) < # iterations - 1
                 previous_con = f'iteration_{i}'
                 previous_constraints.append(previous_con)
-                com_model = FBAHelper.add_cons_vars(com_model, list(Constraint(
+                FBAHelper.add_cons_vars(com_model, list(Constraint(
                     sum(variables[o.id] for o in donors), name=previous_con, ub=len(previous_constraints) - 1)))
 
             # calculate the score if the loop completed without error
