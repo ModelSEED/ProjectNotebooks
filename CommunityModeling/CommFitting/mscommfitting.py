@@ -5,7 +5,8 @@ from pandas import read_csv, DataFrame, ExcelFile
 from optlang import Variable, Constraint, Objective, Model
 from cobra.core.metabolite import Metabolite
 from cobra.medium import minimal_medium
-from modelseedpy.core.fbahelper import FBAHelper, OptlangHelper
+from modelseedpy.core.fbahelper import FBAHelper
+from modelseedpy.core.optlanghelper import OptlangHelper
 from scipy.constants import hour
 from scipy.optimize import newton
 from collections import OrderedDict
@@ -120,7 +121,7 @@ class MSCommFitting():
         with open(path, 'w') as lp:
             json.dump(json_model, lp, indent=3)
     
-    def load_data(self, base_media, community_members: dict = {}, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {}, 
+    def load_data(self, base_media, community_members: dict = {}, solver:str = 'glpk', signal_tsv_paths: dict = {}, phenotype_met:dict = {},
                   signal_csv_paths:dict = {}, phenotypes_csv_path: str = None, media_conc_path:str = None, species_abundance_path:str = None, 
                   carbon_conc_series: dict = {}, ignore_trials:Union[dict,list]=None, ignore_timesteps:list=[], significant_deviation:float = 2, 
                   extract_zip_path:str = None):
@@ -149,7 +150,6 @@ class MSCommFitting():
             #Using KBase media to constrain exchange reactions in model
             solutions = []
             for model, content in community_members.items():  # prevents the stationary phenotype from being called with the other phenotypes
-#                 model = FBAHelper.update_model_media(model, base_media)
                 model.medium = minimal_medium(model)
                 model_rxns = [rxn.id for rxn in model.reactions]
                 model.solver = solver
@@ -264,7 +264,7 @@ class MSCommFitting():
             "cvcf": 1,                      # Coefficient for the minimization of phenotype conversion from the stationary phase. 
             "bcv": 1,                       # This is the highest fraction of biomass for a given species that can change phenotypes in a single time step
             "cvmin": 0,                     # This is the lowest value the limit on phenotype conversion goes, 
-            "v": 0.1,                       # the kinetics constant that is externally adjusted 
+            "v": 0.1,                       # the kinetics constant that is externally adjusted
             'carbon_sources': ['cpd00136', 'cpd00179'],  # 4hb, maltose
             'diffpos': 1, 'diffneg': 1, # objective coefficients to the diffpos and diffneg variables that correspond with the components of difference between experimental and predicted bimoass values
         })

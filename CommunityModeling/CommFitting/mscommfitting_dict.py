@@ -52,7 +52,6 @@ class MSCommFitting:
 
     def __init__(self):
         self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species = {}, {}, {}, {}, {}
-        self.problem: object; self.species_phenotypes_bool_df: object
         self.zipped_output, self.plots = [], []
 
     def _process_csv(self, csv_path, index_col):
@@ -285,7 +284,6 @@ class MSCommFitting:
                 bad_data_timesteps = {trial:bad_data_timesteps['*'] for trial in self.trials}
 
         # construct the problem
-        obj_coef = {}
         constraints, variables = [], []  # lists are orders-of-magnitude faster than numpy arrays for appending
         time_1 = process_time()
         for signal, parsed_df in self.dataframes.items():
@@ -297,7 +295,7 @@ class MSCommFitting:
                         self.variables["c_"+met][time] = {}; self.constraints['dcc_'+met][time] = {}
                         for trial in parsed_df.index:
                             # define biomass measurement conversion variables
-                            default = tupVariable(_name("c_", met, time, trial))
+                            conc_var = tupVariable(_name("c_", met, time, trial))
                             # constrain initial time concentrations to the media or a large number if it is not explicitly defined
                             if time == self.simulation_timesteps[0] and not 'bio' in met_id:
                                 initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
@@ -306,13 +304,14 @@ class MSCommFitting:
                                     initial_val = self.carbon_conc['rows'][met_id][trial[0]]
                                 if met_id in self.carbon_conc['columns'] and trial[1:] in self.carbon_conc['columns'][met_id]:
                                     initial_val = self.carbon_conc['columns'][met_id][trial[1:]]
-                                default = default._replace(bounds = Bounds(initial_val, initial_val))
+                                conc_var = conc_var._replace(bounds = Bounds(initial_val, initial_val))
                             # mandate complete carbon consumption
                             if time == self.simulation_timesteps[-1] and met_id in self.parameters['carbon_sources']:
-                                default = default._replace(bounds=Bounds(0, 0))
+                                conc_var = conc_var._replace(bounds=Bounds(0, 0))
                                 if final_relative_carbon_conc:
-                                    default = default._replace(bounds=(0, default.bounds.lb*final_relative_carbon_conc))  # lower_bound
-                            self.variables["c_" + met][time][trial] = default
+                                    conc_var = conc_var._replace(bounds=(0,
+                                        self.variables["c_" + met]["1"][trial].bounds.lb*final_relative_carbon_conc))
+                            self.variables["c_" + met][time][trial] = conc_var
                             variables.append(self.variables["c_"+met][time][trial])
             break   # prevents duplicated variables
         for signal, parsed_df in self.dataframes.items():
@@ -373,9 +372,9 @@ class MSCommFitting:
                             objective.expr.extend([{
                                 "elements": [
                                     {"elements": [self.parameters['cvcf'], self.variables['cvf_'+phenotype][time][trial].name],
-                                     "operation": "Mull"},
+                                     "operation": "Mul"},
                                     {"elements": [self.parameters['cvct'], self.variables['cvt_' + phenotype][time][trial].name],
-                                     "operation": "Mull"}],
+                                     "operation": "Mul"}],
                                 "operation": "Add"
                             }])
                             variables.extend([self.variables['cvf_'+phenotype][time][trial], self.variables['cvt_'+phenotype][time][trial]])
@@ -406,7 +405,7 @@ class MSCommFitting:
                                         self.variables["c_"+met][time][trial].name,
                                         {"elements": [-1, self.variables["c_"+met][next_time][trial].name],
                                          "operation": "Mul"},
-                                        OptlangHelper.dot_product(growth_phenos,
+                                        *OptlangHelper.dot_product(growth_phenos,
                                             coefficients_for_heuns=half_dt*self.phenotypes_parsed_df.values[r_index])
                                     ],
                                     "operation": "Add"
@@ -433,32 +432,25 @@ class MSCommFitting:
                     if int(data_timestep) > self.data_timesteps:
                         break
                     next_time = str(int(time)+1)
-                    growth_phenos = {"elements": [], "operation": "Add"}
-                    for pheno in self.phenotypes_parsed_df.columns:
-                        growth_phenos["elements"].append({
-                            "elements": [self.variables['g_' + pheno][next_time][trial].name,
-                                         self.variables['g_' + pheno][time][trial].name],
-                            "operation": "Mul"})
                     self.variables[signal+'__bio'][time] = {}; self.variables[signal+'__diffpos'][time] = {}
                     self.variables[signal+'__diffneg'][time] = {}
                     self.constraints[signal+'__bioc'][time] = {}; self.constraints[signal+'__diffc'][time] = {}
                     for r_index, trial in enumerate(parsed_df.index):
                         if not bad_data_timesteps or trial not in bad_data_timesteps or time not in bad_data_timesteps[trial]:
-                            x = {"operation": "Add", "elements": []}
-                            total_biomass, signal_sum, from_sum, to_sum = x.copy(), x.copy(), x.copy(), x.copy()
+                            # x = {"operation": "Add", "elements": []}
+                            # total_biomass, signal_sum, from_sum, to_sum = x.copy(), x.copy(), x.copy(), x.copy()
+                            total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
                             for pheno_index, pheno in enumerate(self.phenotypes_parsed_df.columns):
                                 # total_biomass.append(self.variables["b_"+pheno][time][trial].name)
                                 # OD is included in every signal
                                 val = 1 if 'OD' in signal else self.species_phenotypes_bool_df.loc[signal, pheno]
                                 val = val if isnumber(val) else val.values[0]
-                                signal_sum["elements"].append(
-                                    {"operation": "Mul", "elements": [-1, val, self.variables["b_"+pheno][time][trial].name]})
+                                signal_sum.append({"operation": "Mul", "elements": [-1, val, self.variables["b_"+pheno][time][trial].name]})
                                 if all(['OD' not in signal, self.signal_species[signal] in pheno, 'stationary' not in pheno]):
-                                    from_sum["elements"].append({"operation": "Mul",
-                                         "elements": [-1, growth_phenos["elements"][pheno_index], val,
-                                                      self.variables["cvf_" + pheno][time][trial].name]})
-                                    to_sum["elements"].append({"operation": "Mul",
-                                         "elements": [val, self.variables["cvt_"+pheno][time][trial].name]})
+                                    from_sum.append({"operation": "Mul", "elements": [
+                                        -val, self.variables["cvf_" + pheno][time][trial].name]})
+                                    to_sum.append({"operation": "Mul", "elements": [
+                                        val, self.variables["cvt_"+pheno][time][trial].name]})
                             for pheno in self.phenotypes_parsed_df.columns:
                                 if 'OD' not in signal and self.signal_species[signal] in pheno:
                                     if "stationary" in pheno:
@@ -468,7 +460,7 @@ class MSCommFitting:
                                             expr={
                                                     "elements": [
                                                         self.variables['b_'+pheno][time][trial].name,
-                                                        from_sum, to_sum,
+                                                        *from_sum, *to_sum,
                                                         {"elements": [-1, self.variables["b_"+pheno][next_time][trial].name],
                                                          "operation": "Mul"}],
                                                     "operation": "Add"
@@ -481,17 +473,11 @@ class MSCommFitting:
                                             expr={
                                                     "elements": [
                                                         self.variables['b_'+pheno][time][trial].name,
-                                                        {"elements": [half_dt, {
-                                                            "elements": [
-                                                                self.variables['g_' + pheno][time][trial].name,
-                                                                self.variables['g_' + pheno][next_time][trial].name],
-                                                            "operation": "Add"}],
-                                                         "operation": "Mul"},
+                                                        {"elements": [half_dt, self.variables['g_' + pheno][time][trial].name], "operation": "Mul"},
+                                                        {"elements": [half_dt, self.variables['g_' + pheno][next_time][trial].name], "operation": "Mul"},
                                                         self.variables['cvf_'+pheno][time][trial].name,
-                                                        {"elements": [-1, self.variables['cvt_'+pheno][time][trial].name],
-                                                         "operation": "Mul"},
-                                                        {"elements": [-1, self.variables['b_'+pheno][next_time][trial].name],
-                                                         "operation": "Mul"},
+                                                        {"elements": [-1, self.variables['cvt_'+pheno][time][trial].name], "operation": "Mul"},
+                                                        {"elements": [-1, self.variables['b_'+pheno][next_time][trial].name], "operation": "Mul"},
                                                     ],
                                                     "operation": "Add"
                                                 }
@@ -522,7 +508,7 @@ class MSCommFitting:
                                 name=_name(signal, '__diffc', time, trial),
                                 expr={
                                         "elements": [
-                                            self.variables[signal+'__bio'][time][trial].name, signal_sum,
+                                            self.variables[signal+'__bio'][time][trial].name, *signal_sum,
                                             self.variables[signal+'__diffneg'][time][trial].name,
                                             {"elements": [-1, self.variables[signal+'__diffpos'][time][trial].name],
                                              "operation": "Mul"}
@@ -534,9 +520,9 @@ class MSCommFitting:
                             objective.expr.extend([{
                                 "elements": [
                                     {"elements": [self.parameters['diffpos'], self.variables[signal+'__diffpos'][time][trial].name],
-                                     "operation": "Mull"},
+                                     "operation": "Mul"},
                                     {"elements": [self.parameters['diffneg'], self.variables[signal+'__diffneg'][time][trial].name],
-                                     "operation": "Mull"}],
+                                     "operation": "Mul"}],
                                 "operation": "Add"
                             }])
                             variables.extend([self.variables[signal+'__bio'][time][trial],
@@ -548,8 +534,8 @@ class MSCommFitting:
         time_4 = process_time()
         print(f'Done with the dbc & diffc loop: {(time_4-time_3)/60} min')
         # construct the problem
-        self.dict_model = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective, True)
-        print("Solver:", type(self.dict_model))
+        self.problem = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective, True)
+        print("Solver:", type(self.problem))
         time_5 = process_time()
         print(f'Done with loading the variables, constraints, and objective: {(time_5-time_4)/60} min')
 
@@ -560,8 +546,8 @@ class MSCommFitting:
         if export_lp:
             self.zipped_output.extend(['mscommfitting.lp', 'mscommfitting.json'])
             with open('mscommfitting.lp', 'w') as lp:
-                lp.write(self.dict_model.to_lp())
-            self._export_model_json(self.dict_model.to_json(), 'mscommfitting.json')
+                lp.write(self.problem.to_lp())
+            self._export_model_json(self.problem.to_json(), 'mscommfitting.json')
         if export_zip_name:
             self.zip_name = export_zip_name
             sleep(2)
@@ -575,11 +561,11 @@ class MSCommFitting:
 
     def compute(self, graphs:list = [], export_zip_name=None, publishing=False):
         self.values = {}
-        solution = self.dict_model.optimize()
+        solution = self.problem.optimize()
         # categorize the primal values by trial and time
-        if all(np.array(list(self.dict_model.primal_values.values())) == 0):
+        if all(np.array(list(self.problem.primal_values.values())) == 0):
             raise NoFluxError("The simulation lacks any flux.")
-        for variable, value in self.dict_model.primal_values.items():
+        for variable, value in self.problem.primal_values.items():
             if 'conversion' not in variable:
                 basename, time, trial = variable.split('-')
                 time = int(time)*self.parameters['data_timestep_hr']
@@ -789,8 +775,8 @@ class MSCommFitting:
             with open(mscomfit_json_path, 'r') as mscmft:
                 return json.load(mscmft)
         if model_to_load:
-            print(model_to_load.keys())
-            self.dict_model = Model.from_json(model_to_load)
+            # print(model_to_load.keys())
+            self.problem = Model.from_json(model_to_load)
 
     def change_parameters(self, cvt=None, cvf=None, diff=None, vmax={}, km={}, error_threshold:float=1, strain:str=None, graphs:list=None, mscomfit_json_path='mscommfitting.json', primal_values_filename:str=None, export_zip_name=None, extract_zip_name=None, final_concentrations:dict=None, final_relative_carbon_conc:float=None, previous_relative_conc:float=None):
         def change_param(arg, param, time, trial):
@@ -918,7 +904,7 @@ class MSCommFitting:
         time_3 = process_time()
         print(f'Done exporting the model: {(time_3-time_2)/60} min')
 
-        self.dict_model = Model.from_json(mscomfit_json)
+        self.problem = Model.from_json(mscomfit_json)
         time_4 = process_time()
         print(f'Done loading the model: {(time_4-time_3)/60} min')  # ~1/2 the defining a new problem
 

@@ -73,6 +73,87 @@ class Smetana:
             return media["members"][model_s_.id]["media"]
         return media["community_media"]
 
+
+    @staticmethod
+    def mro(cobra_models:Iterable, min_growth=0.1, media_dict=None):
+        """Determine the maximal overlap of minimal media between member organisms."""
+        cobra_models = Smetana._compatibilize_models(cobra_models)
+        ind_media = {model.id: set(Smetana._get_media(media_dict, model, min_growth)) for model in cobra_models}
+        pairs = {(model1, model2): ind_media[model1.id] & ind_media[model2.id] for model1, model2 in combinations(cobra_models, 2)}
+        # ratio of the average size of intersecting minimal media between any two members and the minimal media of all members
+        return mean(list(map(len, pairs.values()))) / mean(list(map(len, ind_media.values())))
+
+    @staticmethod
+    def mip(cobra_models:Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None, noninteracting_media_dict=None):
+        """Determine the maximum quantity of nutrients that can be sourced through syntrophy"""
+        cobra_models = Smetana._compatibilize_models(cobra_models)
+        if noninteracting_media_dict:
+            noninteracting_medium = noninteracting_media_dict["community_media"]
+        else:
+            noninteracting_medium = Smetana._get_media(noninteracting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
+        if interacting_media_dict:
+            interacting_medium = interacting_media_dict["community_media"]
+        else:
+            interacting_medium = Smetana._get_media(interacting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
+        print(f"non-interacting keys", list(noninteracting_medium.keys()))
+        pprint(noninteracting_medium)
+        pprint(interacting_medium)
+        return len(noninteracting_medium) - len(interacting_medium)
+
+    @staticmethod
+    def mu(cobra_models:Iterable, min_growth=0.1, media_dict=None):
+        """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
+        # TODO: support for parsing a community model should be added to mirror Machado's functionality
+        scores = {}
+        cobra_models = Smetana._compatibilize_models(cobra_models)
+        for model in cobra_models:
+            ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
+            min_media = Smetana._get_media(media_dict, model, min_growth, syntrophy=True)
+            counter = Counter(min_media)
+            scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items() if counter[ex] > 0}
+        pprint(scores)
+        return scores
+
+    @staticmethod
+    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=None):
+        """Discover the metabolites that each species contributes to a community"""
+        if not all([community_model, cobra_models]):
+            community_model, cobra_models = Smetana._load_models(cobra_models, community_model)
+
+        noninteracting_community_medium = Smetana._get_media(media_dict, cobra_models, min_growth, community_model, False)
+        scores = {}
+        for model in cobra_models:
+            scores[model.id] = []
+            # !!! This approach excludes cross-feeding that incompletely satisfies community needs
+            possible_contributions = [ex_rxn for ex_rxn in FBAHelper.exchange_reactions(model) if ex_rxn.id not in noninteracting_community_medium]
+            while len(possible_contributions) > 0:
+                print("remaining possible_contributions", len(possible_contributions), end="\r")
+                community_model.objective = Objective(sum(ex_rxn.flux_expression for ex_rxn in possible_contributions))
+                sol = community_model.optimize()
+                # pprint([ex for ex in sol.fluxes.keys() if "EX_" in ex and sol.fluxes[ex] > 0])
+                # TODO - affirm that missing exchange reactions of individual in the community fluxes is acceptable
+                fluxes_contributions = [ex for ex in possible_contributions if ex.id in sol.fluxes.keys()]
+                blocked = [ex for ex in fluxes_contributions if sol.fluxes[ex.id] < abstol]
+                if sol.status != 'optimal' or len(blocked) == len(possible_contributions):
+                    break
+                # log confirmed contributions, where the fluxes exceed an absolute tolerance
+                for ex_rxn in fluxes_contributions:
+                    if sol.fluxes[ex_rxn.id] >= abstol:
+                        for met in ex_rxn.metabolites:
+                            scores[model.id].append(met.id)
+                possible_contributions = blocked
+
+            # TODO - evaluate the necessity of this block considering that the ultimate removal is never triggered
+            for ex_rxn in possible_contributions:  # This assumes that possible_contributions never reaches zero
+                community_model.objective = Objective(ex_rxn.flux_expression)
+                sol = community_model.optimize()
+                for met in ex_rxn.metabolites:
+                    if sol.status != 'optimal' or sol.objective_value < abstol and met.id in scores[model.id]:
+                        print("removing", met.id)
+                        scores[model.id].remove(met.id)
+        pprint(scores)
+        return scores
+
     @staticmethod
     def sc(cobra_models:Iterable=None, community_model=None, min_growth=0.1, n_solutions=100, abstol=1e-6):
         """Calculate the frequency of interspecies dependency in a community"""
@@ -132,84 +213,6 @@ class Smetana:
                 donors_counter = Counter(chain(*donors_list))
                 scores[model.id] = {o: donors_counter[o] / len(donors_list) for o in other_members}
         return scores
-
-    @staticmethod
-    def mu(cobra_models:Iterable, min_growth=0.1, media_dict=None):
-        """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
-        # TODO: support for parsing a community model should be added to mirror Machado's functionality
-        scores = {}
-        cobra_models = Smetana._compatibilize_models(cobra_models)
-        for model in cobra_models:
-            ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
-            min_media = Smetana._get_media(media_dict, model, min_growth, syntrophy=True)
-            counter = Counter(min_media)
-            scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items() if counter[ex] > 0}
-        return scores
-
-    @staticmethod
-    def mp(cobra_models:Iterable=None, community_model=None, min_growth=0.1, abstol=1e-3, media_dict=None):
-        """Discover the metabolites that each species contributes to a community"""
-        if not all([community_model, cobra_models]):
-            community_model, cobra_models = Smetana._load_models(cobra_models, community_model)
-
-        noninteracting_community_medium = Smetana._get_media(media_dict, cobra_models, min_growth, community_model, False)
-        scores = {}
-        for model in cobra_models:
-            scores[model.id] = []
-            # !!! This approach excludes cross-feeding that incompletely satisfies community needs
-            possible_contributions = [ex_rxn for ex_rxn in FBAHelper.exchange_reactions(model) if ex_rxn.id not in noninteracting_community_medium]
-            while len(possible_contributions) > 0:
-                print("remaining possible_contributions", len(possible_contributions), end="\r")
-                community_model.objective = Objective(sum(ex_rxn.flux_expression for ex_rxn in possible_contributions))
-                sol = community_model.optimize()
-                # pprint([ex for ex in sol.fluxes.keys() if "EX_" in ex and sol.fluxes[ex] > 0])
-                # TODO - affirm that missing exchange reactions of individual in the community fluxes is acceptable
-                fluxes_contributions = [ex for ex in possible_contributions if ex.id in sol.fluxes.keys()]
-                blocked = [ex for ex in fluxes_contributions if sol.fluxes[ex.id] < abstol]
-                if sol.status != 'optimal' or len(blocked) == len(possible_contributions):
-                    break
-                # log confirmed contributions, where the fluxes exceed an absolute tolerance
-                for ex_rxn in fluxes_contributions:
-                    if sol.fluxes[ex_rxn.id] >= abstol:
-                        for met in ex_rxn.metabolites:
-                            scores[model.id].append(met.id)
-                possible_contributions = blocked
-
-            # TODO - evaluate the necessity of this block considering that the ultimate removal is never triggered
-            for ex_rxn in possible_contributions:  # This assumes that possible_contributions never reaches zero
-                community_model.objective = Objective(ex_rxn.flux_expression)
-                sol = community_model.optimize()
-                for met in ex_rxn.metabolites:
-                    if sol.status != 'optimal' or sol.objective_value < abstol and met.id in scores[model.id]:
-                        print("removing", met.id)
-                        scores[model.id].remove(met.id)
-        return scores
-
-    @staticmethod
-    def mip(cobra_models:Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None, noninteracting_media_dict=None):
-        """Determine the maximum quantity of nutrients that can be sourced through syntrophy"""
-        cobra_models = Smetana._compatibilize_models(cobra_models)
-        if noninteracting_media_dict:
-            noninteracting_medium = noninteracting_media_dict["community_media"]
-        else:
-            noninteracting_medium = Smetana._get_media(noninteracting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
-        if interacting_media_dict:
-            interacting_medium = interacting_media_dict["community_media"]
-        else:
-            interacting_medium = Smetana._get_media(interacting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
-        print(f"non-interacting keys", list(noninteracting_medium.keys()))
-        pprint(noninteracting_medium)
-        pprint(interacting_medium)
-        return len(noninteracting_medium) - len(interacting_medium)
-
-    @staticmethod
-    def mro(cobra_models:Iterable, min_growth=0.1, media_dict=None):
-        """Determine the maximal overlap of minimal media between member organisms."""
-        cobra_models = Smetana._compatibilize_models(cobra_models)
-        ind_media = {model.id: set(Smetana._get_media(media_dict, model, min_growth)) for model in cobra_models}
-        pairs = {(model1, model2): ind_media[model1.id] & ind_media[model2.id] for model1, model2 in combinations(cobra_models, 2)}
-        # ratio of the average size of intersecting minimal media between any two members and the minimal media of all members
-        return mean(list(map(len, pairs.values()))) / mean(list(map(len, ind_media.values())))
 
     @staticmethod
     def smetana(cobra_models: Iterable, community=None, min_growth=0.1, n_solutions=100, abstol=1e-6, prior_values=None, media_dict=None):
