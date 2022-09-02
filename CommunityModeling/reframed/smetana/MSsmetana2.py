@@ -9,30 +9,42 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.community.mscompatibility import MSCompatibility
 from modelseedpy.core.fbahelper import FBAHelper
 from optlang import Variable, Constraint, Objective
+from deepdiff import DeepDiff
 from pprint import pprint
 from numpy import mean
 
 
 class Smetana:
-    def __init__(self, cobra_models: Iterable, community_model, min_growth=0.1, n_solutions=100, abstol=1e-3, media_dict=None):
-        self.min_growth = min_growth; self.abstol = abstol; self.n_solutions = n_solutions
+    def __init__(self, cobra_models: Iterable, community_model, min_growth=0.1,
+                 n_solutions=100, abstol=1e-3, media_dict=None, printing=True):
+        self.min_growth = min_growth; self.abstol = abstol; self.n_solutions = n_solutions; self.printing = printing
         self.community, self.models = Smetana._load_models(cobra_models, community_model)
         self.media = media_dict or MSCommunity.minimal_community_media(self.models, self.community, True, min_growth)
 
     def mro_score(self):
         self.mro = Smetana.mro(self.models, self.min_growth, self.media)
+        if self.printing:
+            print(f"{self.mro/100:.2f}% of member minimal media, on average, overlap with other member minimal media.")
         return self.mro
 
     def mip_score(self, interacting_media:dict=None, noninteracting_media:dict=None):
         self.mip = Smetana.mip(self.models, self.community, self.min_growth, interacting_media, noninteracting_media)
+        if self.printing:
+            print(f"{self.mip} required community compounds are sourced via syntrophy in the community.")
         return self.mip
 
     def mu_score(self):
-        self.mu = Smetana.mu(self.models, self.min_growth, self.media)
+        if not hasattr(self, "member_objectives"):
+            self.member_solutions = {model.id: model.optimize() for model in self.models}
+        self.mu = Smetana.mu(self.models, self.min_growth, self.media, self.member_solutions)
+        if self.printing:
+            print(f"{self.mip} required community compounds are sourced via syntrophy in the community.")
         return self.mu
 
     def mp_score(self):
         self.mp = Smetana.mp(self.models, self.community, self.min_growth, self.abstol, self.media)
+        if self.printing:
+            print(f"")
         return self.mp
 
     def sc_score(self):
@@ -61,9 +73,9 @@ class Smetana:
         return Smetana._compatibilize_models([community_model])[0], Smetana._compatibilize_models(cobra_models)
 
     @staticmethod
-    def _compatibilize_models(cobra_models:Iterable):
-        return cobra_models
-        # return MSCompatibility.align_exchanges(cobra_models, True, 'exchanges_conflicts.json')
+    def _compatibilize_models(cobra_models:Iterable, printing=False):
+        # return cobra_models
+        return MSCompatibility.standardize(cobra_models, conflicts_file_name='exchanges_conflicts.json', printing=printing)
 
     @staticmethod
     def _get_media(media, model_s_=None, min_growth=None, com_model=None, syntrophy=True):
@@ -86,6 +98,10 @@ class Smetana:
     @staticmethod
     def mip(cobra_models:Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None, noninteracting_media_dict=None):
         """Determine the maximum quantity of nutrients that can be sourced through syntrophy"""
+        if noninteracting_media_dict and interacting_media_dict:
+            noninteracting_medium = Smetana._get_media(noninteracting_media_dict, cobra_models, min_growth, com_model, False)
+            interacting_medium = Smetana._get_media(interacting_media_dict, cobra_models, min_growth, com_model, True)
+            return len(noninteracting_medium) - len(interacting_medium)
         cobra_models = Smetana._compatibilize_models(cobra_models)
         if noninteracting_media_dict:
             noninteracting_medium = noninteracting_media_dict["community_media"]
@@ -95,22 +111,47 @@ class Smetana:
             interacting_medium = interacting_media_dict["community_media"]
         else:
             interacting_medium = Smetana._get_media(interacting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
-        print(f"non-interacting keys", list(noninteracting_medium.keys()))
-        pprint(noninteracting_medium)
-        pprint(interacting_medium)
+        pprint(DeepDiff(noninteracting_medium, interacting_medium))
         return len(noninteracting_medium) - len(interacting_medium)
 
     @staticmethod
-    def mu(cobra_models:Iterable, min_growth=0.1, media_dict=None):
+    def mu(cobra_models:Iterable, min_growth=0.1, n_solutions=100, abstol=1e-3, media_dict=None, member_solutions=None):
         """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
-        # TODO: support for parsing a community model should be added to mirror Machado's functionality
+        # determine the solutions for each member
+        # member_solutions = member_solutions if member_solutions else {model.id: model.optimize() for model in cobra_models}
         scores = {}
         cobra_models = Smetana._compatibilize_models(cobra_models)
         for model in cobra_models:
-            ex_rxns = {ex_rxn.id: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
-            min_media = Smetana._get_media(media_dict, model, min_growth, syntrophy=True)
-            counter = Counter(min_media)
-            scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items() if counter[ex] > 0}
+            ex_rxns = {ex_rxn: met for ex_rxn in FBAHelper.exchange_reactions(model) for met in ex_rxn.metabolites}
+            exchange_counter = Counter([ex_rxn.id for ex_rxn in ex_rxns])
+            # print([(ex, count) for ex, count in exchange_counter.items() if count > 1])
+            variables = {ex_rxn.id: Variable('___'.join([model.id, ex_rxn.id]), lb=0, ub=1, type="binary") for ex_rxn in ex_rxns}
+            FBAHelper.add_cons_vars(model, [list(variables.values())])
+            media, solutions = [], []
+            for i in range(0, n_solutions):
+                if i > 0:
+                    constraint = Constraint(sum([variables[ex.id] for ex in medium]), ub=len(medium)-1, name=f"iteration_{i}")
+                    FBAHelper.add_cons_vars(model, [constraint])
+                sol = model.optimize()
+                if sol.status != 'optimal':
+                    break
+                # determine the de facto medium for this simulated growth
+                solutions.append(sol)
+                medium = set([ex_rxn for ex_rxn in ex_rxns if sol.fluxes[ex_rxn.id] < -abstol])
+                media.append(medium)
+
+            counter = Counter(chain(*media))
+            scores[model.id] = {met.id: counter[ex] / len(media) for ex, met in ex_rxns.items() if counter[ex] > 0}
+            # scores[model.id] = set()
+            # min_media = Smetana._get_media(media_dict, model, min_growth)
+            # others = [other for other in cobra_models if other != model]
+            # for sol in others.values():
+            #     nonzero = [(rxnID, flux) for rxnID, flux in sol.fluxes.items() if flux > 0]
+            #     for rxnID, flux in nonzero:
+            #         if rxnID in min_media:
+            #             scores[model.id].add(rxnID)
+            #     scores[model.id] = {met: counter[ex] / len(min_media) for ex, met in ex_rxns.items() if counter[ex] > 0}
+
         pprint(scores)
         return scores
 
