@@ -9,7 +9,7 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.community.mscompatibility import MSCompatibility
 from modelseedpy.core.fbahelper import FBAHelper
 from optlang import Variable, Constraint, Objective
-from deepdiff import DeepDiff
+from deepdiff import DeepDiff  # (old, new)
 from pprint import pprint
 from numpy import mean
 
@@ -122,12 +122,13 @@ class Smetana:
         if noninteracting_media_dict:
             noninteracting_medium = noninteracting_media_dict["community_media"]
         else:
-            noninteracting_medium = Smetana._get_media(noninteracting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
+            noninteracting_medium = Smetana._get_media(None, cobra_models, min_growth, com_model, False)["community_media"]
 
         if interacting_media_dict:
             interacting_medium = interacting_media_dict["community_media"]
         else:
-            interacting_medium = Smetana._get_media(interacting_media_dict, cobra_models, min_growth, com_model, False)["community_media"]
+            interacting_medium = Smetana._get_media(None, cobra_models, min_growth, com_model, False)["community_media"]
+        print("Difference between the non-interacting and interacting media.")
         pprint(DeepDiff(noninteracting_medium, interacting_medium))
         return len(noninteracting_medium) - len(interacting_medium)
 
