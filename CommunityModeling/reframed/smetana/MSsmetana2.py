@@ -17,14 +17,20 @@ from numpy import mean
 
 
 class Smetana:
-    def __init__(self, cobra_models: Iterable, community_model, min_growth=0.1,
-                 n_solutions=100, abstol=1e-3, media_dict=None, printing=True, compatibilize=True):
+    def __init__(self, cobra_models: Iterable, community_model, min_growth=0.1, n_solutions=100, 
+                 abstol=1e-3, media_dict=None, printing=True, compatibilize=True, minimize_flux=True):
 
         self.min_growth = min_growth ; self.abstol = abstol ; self.n_solutions = n_solutions
         self.printing = printing ; self.compatibilize = compatibilize
 
         self.community, self.models = Smetana._load_models(cobra_models, community_model, compatibilize)
-        self.media = media_dict or MSCommunity.minimal_community_media(self.models, self.community, True, min_growth)
+        if not media_dict:
+            if minimize_flux:
+                self.media = MinimalMediaPkg.minimize_flux(self.community, min_growth)
+            else:
+                self.media = MinimalMediaPkg.minimize_components(self.community, min_growth)
+        else:
+            self.media = media_dict
 
     def mro_score(self):
         self.mro = Smetana.mro(self.models, self.min_growth, self.media, self.compatibilize)
