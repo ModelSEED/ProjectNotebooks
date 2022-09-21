@@ -103,7 +103,6 @@ class Smetana:
             return media["members"][model_s_.id]["media"]
         return media["community_media"]
 
-
     @staticmethod
     def mro(cobra_models:Iterable, min_growth=0.1, media_dict=None, compatibilize=True):
         """Determine the maximal overlap of minimal media between member organisms."""
