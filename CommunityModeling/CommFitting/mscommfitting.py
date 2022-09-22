@@ -38,6 +38,14 @@ def dict_keys_exists(dic, *keys):
     return False
 
 
+def find_dic_number(dic):
+    for k, v in dic.items():
+        if isnumber(v):
+            return v
+        num = find_dic_number(dic[k])
+    return num
+
+
 def default_dict_values(dic, key, default):
     return default if not dict_keys_exists(dic, key) else dic[key]
 
@@ -775,14 +783,15 @@ class MSCommFitting:
                     vmax_arg['expression']['args'][1]['args'][0]['value'] = change_param(vmax, vmax_time, vmax_trial)
 
         def universalize(param, met_id, variable):
-            new_param = param.copy()
-            for time in variable:
-                new_param[met_id][time] = {}
-                vmax_val = param[met_id] if not isinstance(vmax_val, dict) else vmax_val[time]
-                for trial in variable[time]:
-                    vmax_val = vmax_val if not isinstance(vmax_val, dict) else vmax_val[trial]
-                    new_param[met_id][time][trial] = vmax_val
-            return new_param
+            constant_num = find_dic_number(param)
+            return {met_id:{time:{trial:constant_num} for time, trial in variable.items()}}
+            # for time in variable:
+            #     new_param[met_id][time] = {}
+            #     vmax_val = param[met_id] if not isinstance(vmax_val, dict) else vmax_val[time]
+            #     for trial in variable[time]:
+            #         vmax_val = vmax_val if not isinstance(vmax_val, dict) else vmax_val[trial]
+            #         new_param[met_id][time][trial] = vmax_val
+            # return new_param
 
         # load the model JSON
         vmax, km = vmax or {}, km or {}
