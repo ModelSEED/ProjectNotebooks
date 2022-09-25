@@ -16,9 +16,12 @@ from matplotlib import pyplot
 from typing import Union, Iterable
 from pprint import pprint
 from time import sleep, process_time
+from math import inf, isclose
 import numpy as np
 # from cplex import Cplex
-import json, os, re
+import logging, json, os, re
+
+logger = logging.getLogger(__name__)
 
 
 def isnumber(string):
@@ -47,7 +50,7 @@ def find_dic_number(dic):
 
 
 def default_dict_values(dic, key, default):
-    return default if not dict_keys_exists(dic, key) else dic[key]
+    return default if not key in dic else dic[key]
 
 
 # define data objects
@@ -762,36 +765,29 @@ class MSCommFitting:
                 return json.load(mscmft)
         if model_to_load:
             self.problem = Model.from_json(model_to_load)
+
+    def _change_param(self, param, param_time, param_trial):
+        if not isinstance(param, dict):
+            return param
+        if param_time in param:
+            if param_trial in param[param_time]:
+                return param[param_time][param_trial]
+            return param[param_time]
+        return param['default']
         
     def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, km=None,graphs:list=None,
                           mscomfit_json_path='mscommfitting.json', primal_values_filename:str=None,
                           export_zip_name=None, extract_zip_name=None,final_abs_concs:dict=None,
-                          final_rel_c12_conc:float=None, previous_relative_conc:float=None):
-        def change_param(param, param_time, param_trial):
-            if not isinstance(param, dict):
-                return param
-            if param_time in param:
-                if param_trial in param[param_time]:
-                    return param[param_time][param_trial]
-                return param[param_time]
-            return param['default']
-
-        def change_vmax(vmax):
-            for vmax_arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
-                vmax_name, vmax_time, vmax_trial = vmax_arg['name'].split('-')
-                if 'gc' in vmax_name:
-                    vmax_arg['expression']['args'][1]['args'][0]['value'] = change_param(vmax, vmax_time, vmax_trial)
+                          final_rel_c12_conc:float=None, previous_relative_conc:float=None, convergence_tol=0.1):
+        def change_v(new_v):
+            for v_arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
+                v_name, v_time, v_trial = v_arg['name'].split('-')
+                if 'gc' in v_name:
+                    v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
 
         def universalize(param, met_id, variable):
-            constant_num = find_dic_number(param)
-            return {met_id:{time:{trial:constant_num} for time, trial in variable.items()}}
-            # for time in variable:
-            #     new_param[met_id][time] = {}
-            #     vmax_val = param[met_id] if not isinstance(vmax_val, dict) else vmax_val[time]
-            #     for trial in variable[time]:
-            #         vmax_val = vmax_val if not isinstance(vmax_val, dict) else vmax_val[trial]
-            #         new_param[met_id][time][trial] = vmax_val
-            # return new_param
+            param.update({met_id: {time: {list(trial.keys())[0]: find_dic_number(param)
+                                          } for time, trial in variable.items()}})
 
         # load the model JSON
         vmax, km = vmax or {}, km or {}
@@ -809,14 +805,14 @@ class MSCommFitting:
             for arg in mscomfit_json['objective']['expression']['args']:
                 name, time, trial = arg['args'][1]['name'].split('-')
                 if cvf and 'cvf' in name:
-                    arg['args'][0]['value'] = change_param(cvf, time, trial)
+                    arg['args'][0]['value'] = self._change_param(cvf, time, trial)
                 if cvt and 'cvt' in name:
-                    arg['args'][0]['value'] = change_param(cvt, time, trial)
+                    arg['args'][0]['value'] = self._change_param(cvt, time, trial)
                 if diff and 'diff' in name:
-                    arg['args'][0]['value'] = change_param(diff, time, trial)
+                    arg['args'][0]['value'] = self._change_param(diff, time, trial)
 
         if km and not vmax:
-            raise ParameterError(f'A Vmax must be defined with the Km of {km}.')
+            raise ParameterError(f'A Vmax must be defined when Km is defined (here {km}).')
         if any([final_rel_c12_conc, final_abs_concs, vmax]):
             # uploads primal values when they are not in RAM
             if not hasattr(self, 'values'):
@@ -831,7 +827,6 @@ class MSCommFitting:
                 # assign initial concentration
                 if time == self.simulation_timesteps[0]:
                     initial_concentrations[met_name] = met["ub"]
-                    print("initial_concentrations", initial_concentrations[met_name])
                 # assign final concentration
                 elif time == self.simulation_timesteps[-1]:
                     if final_abs_concs and dict_keys_exists(final_abs_concs, met_name):
@@ -847,39 +842,55 @@ class MSCommFitting:
 
                 if met_name not in already_constrained:
                     already_constrained.append(met_name)
-                    # change growth kinetics
+                    # confirm that the metabolite was produced during the simulation
                     met_id = self._met_id_parser(met_name)
+                    if any([isclose(max(list(self.values[trial][met_name].values())), 0)
+                            for trial in self.values]):  # TODO - perhaps this should only skip affected trials?
+                        print(f"The {met_id} metabolite of interest was not produced "
+                              "during the simulation; hence, its kinetics cannot be changed.")
+                        continue
+                    # change growth kinetics
                     if met_id in list(chain(*self.phenotype_met.values())):
-                        # defines the Vmax for each metabolite, or applies a constant Vmax for all instances in the same dict structure
-                        vmax = universalize(vmax, met_id, self.variables[met_name
+                        ## defines the Vmax for each metabolite, or distributes a constant Vmax
+                        universalize(vmax, met_id, self.variables[met_name
                             ]) if isinstance(vmax[met_id], (float,int)) else vmax
-                        # calculate the Michaelis-Menten kinetic rate: vmax / (km + [maltose])
+                        ## calculate the Michaelis-Menten kinetic rate: vmax*[maltose] / (km + [maltose])
                         if km:  # Vmax=2.2667 & Km=2 to start, given [maltose]=5, which yields 0.3
-                            vmax_var, conc_tracker = vmax.copy(), {}
-                            print(met_id)
-                            count = last_conc_same_count = last_conc = 0
-                            while (last_conc_same_count < 5):  # guessed loop threshold
+                            ### defining the new growth rate terms
+                            universalize(km, met_id, self.variables[met_name
+                                ]) if isinstance(km[met_id], (float, int)) else km
+                            v, primal_conc = vmax.copy(), {}
+                            count = 0  # same_last_conc = last_conc = 0
+                            error = convergence_tol+1
+                            while (error > convergence_tol):
                                 error = 0
                                 for time in self.variables[met_name]:
+                                    primal_conc[time] = default_dict_values(primal_conc, time, {})
                                     time_hr = int(time)*self.parameters['timestep_hr']
-                                    conc_tracker[time] = default_dict_values(conc_tracker, time, {})
                                     for trial in self.variables[met_name][time]:
-                                        if trial in conc_tracker[time]:
-                                            error += (conc_tracker[time][trial]-self.values[trial][met_name][time_hr])**2
-                                        conc_tracker[time][trial] = self.values[trial][met_name][time_hr]
-                                        vmax_var[met_id][time][trial] /= -(km[met_id]+conc_tracker[time][trial])
-                                        print('new growth rate: ', vmax_var[met_id][time][trial])
+                                        if trial in primal_conc[time]:
+                                            error += (primal_conc[time][trial]-self.values[trial][met_name][time_hr])**2
+                                        #### concentrations from the last simulation calculate a new growth rate
+                                        primal_conc[time][trial] = self.values[trial][met_name][time_hr]
+                                        print("new concentration", primal_conc[time][trial])
+                                        v[met_id][time][trial] = -(primal_conc[time][trial]*vmax[met_id][time][trial]
+                                                                   / (km[met_id][time][trial]+primal_conc[time][trial]))
+                                        if v[met_id][time][trial] > 0:
+                                            logger.critical(f"The growth rate of {v[met_id][time][trial]} will cause "
+                                                            "an infeasible solution.")
+                                        print('new growth rate: ', v[met_id][time][trial])
                                         count += 1
-                                last_conc_same_count += 1 if last_conc == conc_tracker[time][trial] else 0
-                                last_conc = conc_tracker[time][trial]
-                                change_vmax(vmax_var[met_id])
+                                # same_last_conc += 1 if last_conc == primal_conc[time][trial] else 0
+                                # last_conc = primal_conc[time][trial]
+                                change_v(v[met_id])
                                 # self._export_model_json(mscomfit_json, mscomfit_json_path)
                                 self.load_model(model_to_load=mscomfit_json)
                                 self.compute(graphs)#, export_zip_name)
-                                error = (error/count)**0.5 if error != 0 else 0
+                                # TODO - the primal values dictionary must be updated with each loop to allow errors to change
+                                error = (error/count)**0.5 if error > 0 else 0
                                 print("Error:",error)
                         else:
-                            change_vmax(vmax[met_id])
+                            change_v(vmax[met_id])
 
         # export and load the edited model
         self._export_model_json(mscomfit_json, mscomfit_json_path)
