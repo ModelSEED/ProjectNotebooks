@@ -4,18 +4,27 @@ Created on Mon Aug  1 11:44:07 2022
 
 @author: Andrew Freiburger
 """
-from pandas import read_csv, DataFrame, ExcelFile
+from pandas import read_csv, DataFrame, ExcelFile, read_excel
 import numpy as np
 
+
 class DataStandardization:
-    
+    # base_media = date = ""; columns = rows = 0 ; members = [""] ; zipped_output = []
+    # species_abundances, carbon_sources, species_identities_rows, row_concentrations = {}, {}, {}, {}
+
     def process_csv(self, signal_csv_paths, ignore_trials, ignore_timesteps, significant_deviation):
         self.zipped_output.append(signal_csv_paths['path'])
-        raw_data = ExcelFile(signal_csv_paths['path'])
+        if "xls" in signal_csv_paths['path']:
+            raw_data = ExcelFile(signal_csv_paths['path'])
+        elif "csv" in signal_csv_paths['path']:
+            raw_data = read_csv(signal_csv_paths['path'])
         for org_sheet, name in signal_csv_paths.items():
             if org_sheet != 'path':
                 sheet = org_sheet.replace(' ', '_')
-                self.dataframes[sheet] = raw_data.parse(org_sheet)
+                if "xls" in signal_csv_paths['path']:
+                    self.dataframes[sheet] = raw_data.parse(org_sheet)
+                elif "csv" in signal_csv_paths['path']:
+                    self.dataframes[sheet] = raw_data
                 self.dataframes[sheet].columns = self.dataframes[sheet].iloc[6]
                 self.dataframes[sheet] = self.dataframes[sheet].drop(self.dataframes[sheet].index[:7])
                 self._df_construction(name, sheet, ignore_trials, ignore_timesteps, significant_deviation)

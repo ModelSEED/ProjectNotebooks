@@ -2,7 +2,7 @@
 # from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
-from pandas import read_csv, DataFrame, ExcelFile
+from pandas import read_csv, DataFrame, ExcelFile, read_excel
 from optlang import Model
 from cobra.medium import minimal_medium
 from modelseedpy.core.fbahelper import FBAHelper
@@ -144,6 +144,65 @@ class MSCommFitting:
     def _export_model_json(self, json_model, path):
         with open(path, 'w') as lp:
             json.dump(json_model, lp, indent=3)
+
+    # TODO - convert the parameters to class objects and test
+    def _standardize(self, members, species_abundances, dimensions, experiments_path,
+                     row_concentrations, species_identities_rows, carbon_sources, date):
+        experiments = read_excel(experiments_path)
+        column_num, row_num = dimensions
+        constructed_experiments = DataFrame()
+        experiment_prefix = "Y"
+        constructed_experiments["short_code"] = [f"{experiment_prefix}{x + 1}" for x in list(experiments.index)]
+        constructed_experiments["base_media"] = [self.base_media] * (column_num*row_num)
+
+        # define the strains column
+        strains, additional_compounds, experiment_ids = [], [], []
+        trial_name_conversion = {}
+        count = 1
+        ## apply universal values to all trials
+        base_row_conc = [] if '*' not in row_concentrations else [
+            ':'.join([met, str(row_concentrations['*'][met][0]),
+                      str(row_concentrations['*'][met][1])]) for met in row_concentrations['*']]
+        for row in range(1, row_num+1):
+            row_conc = base_row_conc[:]
+            trial_letter = chr(ord("A") + row)
+            ## add rows where the initial concentration is non-zero
+            if row in row_concentrations:
+                for met in row_concentrations[row]:
+                    if row_concentrations[row][met][0] > 0:
+                        row_conc.append(':'.join([met, str(row_concentrations[row][met][0]),
+                                                  str(row_concentrations[row][met][1])]))
+            row_concentration = ';'.join(row_conc)
+            composition = {}
+            for col in range(1, column_num+1):
+                ## construct the columns of information
+                additional_compounds.append(row_concentration)
+                experiment_id = []
+                for member in members:
+                    ### define the relative community abundances
+                    composition[member] = [member, f"r{species_abundances[col][member]}"]
+                    ### define the member strain, where it is appropriate
+                    if member in species_identities_rows[row]:
+                        composition[member][0] += f"_{species_identities_rows[row][member]}"
+                    ### the experimental ID is abundance+memberID
+                    if int(composition[member][1][1:]) != 0:
+                        experiment_id.append(f"{composition[member][1]}_{composition[member][0]}")
+                    composition[member] = ':'.join(composition[member])
+                strains.append(';'.join(composition[member] for member in members))
+                for r in row_conc:
+                    met, init, end = r.split(':')
+                    experiment_id.append(f"{init}_{carbon_sources[met]}")
+                experiment_id = '-'.join(experiment_id)
+                experiment_ids.append(experiment_id)
+                trial_name_conversion[trial_letter + str(col + 1)] = [experiment_prefix + str(count), experiment_id]
+                count += 1
+
+        # add final columns to the exported dataframe
+        constructed_experiments["strains"] = strains
+        constructed_experiments["additional_compounds"] = additional_compounds
+        constructed_experiments["date"] = [date] * (column_num*row_num)
+        constructed_experiments.insert(0, "experiment_ids", experiment_ids)
+        return constructed_experiments
     
     def load_data(self, base_media, community_members: dict, solver:str = 'glpk', phenotype_met:dict = None, signal_csv_paths:dict = None,
                   species_abundance_path:str = None, carbon_conc_series: dict = None, ignore_trials:Union[dict,list]=None,
@@ -262,6 +321,8 @@ class MSCommFitting:
         self.parameters["data_timestep_hr"] = np.mean(self.parameters["data_timestep_hr"])
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
         self.trials = set(chain.from_iterable([list(df.index) for df in self.dataframes.values()]))
+
+        MSCommFitting._standardize()
         
     def _met_id_parser(self, met):
         met_id = re.sub('(\_\w\d+)', '', met)
@@ -774,17 +835,48 @@ class MSCommFitting:
                 return param[param_time][param_trial]
             return param[param_time]
         return param['default']
+
+    def _change_v(self, new_v, mscomfit_json):
+        for v_arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
+            v_name, v_time, v_trial = v_arg['name'].split('-')
+            if 'gc' in v_name:  # gc = growth constraint
+                v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
+
+    def _align_concentrations(self, met_name, met_id, vmax, km, graphs, mscomfit_json, convergence_tol):
+        v, primal_conc = vmax.copy(), {}
+        count = 0
+        error = convergence_tol + 1
+        ### optimizing the new growth rate terms
+        while (error > convergence_tol):
+            error = 0
+            for time in self.variables[met_name]:
+                primal_conc[time] = default_dict_values(primal_conc, time, {})
+                time_hr = int(time) * self.parameters['timestep_hr']
+                for trial in self.variables[met_name][time]:
+                    if trial in primal_conc[time]:
+                        error += (primal_conc[time][trial] - self.values[trial][met_name][time_hr]) ** 2
+                    #### concentrations from the last simulation calculate a new growth rate
+                    primal_conc[time][trial] = self.values[trial][met_name][time_hr]
+                    print("new concentration", primal_conc[time][trial])
+                    v[met_id][time][trial] = -(primal_conc[time][trial] * vmax[met_id][time][trial]
+                                               / (km[met_id][time][trial] + primal_conc[time][trial]))
+                    if v[met_id][time][trial] > 0:
+                        logger.critical(f"The growth rate of {v[met_id][time][trial]} will cause "
+                                        "an infeasible solution.")
+                    print('new growth rate: ', v[met_id][time][trial])
+                    count += 1
+            self._change_v(v[met_id], mscomfit_json)
+            # self._export_model_json(mscomfit_json, mscomfit_json_path)
+            self.load_model(model_to_load=mscomfit_json)
+            self.compute(graphs)  # , export_zip_name)
+            # TODO - the primal values dictionary must be updated with each loop to allow errors to change
+            error = (error / count) ** 0.5 if error > 0 else 0
+            print("Error:", error)
         
     def change_parameters(self, cvt=None, cvf=None, diff=None, vmax=None, km=None,graphs:list=None,
                           mscomfit_json_path='mscommfitting.json', primal_values_filename:str=None,
                           export_zip_name=None, extract_zip_name=None,final_abs_concs:dict=None,
                           final_rel_c12_conc:float=None, previous_relative_conc:float=None, convergence_tol=0.1):
-        def change_v(new_v):
-            for v_arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
-                v_name, v_time, v_trial = v_arg['name'].split('-')
-                if 'gc' in v_name:
-                    v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
-
         def universalize(param, met_id, variable):
             param.update({met_id: {time: {list(trial.keys())[0]: find_dic_number(param)
                                           } for time, trial in variable.items()}})
@@ -840,57 +932,30 @@ class MSCommFitting:
                             met['lb'] /= previous_relative_conc
                             print("ub 3", met['lb'])
 
-                if met_name not in already_constrained:
-                    already_constrained.append(met_name)
-                    # confirm that the metabolite was produced during the simulation
-                    met_id = self._met_id_parser(met_name)
-                    if any([isclose(max(list(self.values[trial][met_name].values())), 0)
-                            for trial in self.values]):  # TODO - perhaps this should only skip affected trials?
-                        print(f"The {met_id} metabolite of interest was not produced "
-                              "during the simulation; hence, its kinetics cannot be changed.")
-                        continue
-                    # change growth kinetics
-                    if met_id in list(chain(*self.phenotype_met.values())):
-                        ## defines the Vmax for each metabolite, or distributes a constant Vmax
-                        universalize(vmax, met_id, self.variables[met_name
-                            ]) if isinstance(vmax[met_id], (float,int)) else vmax
-                        ## calculate the Michaelis-Menten kinetic rate: vmax*[maltose] / (km + [maltose])
-                        if km:  # Vmax=2.2667 & Km=2 to start, given [maltose]=5, which yields 0.3
-                            ### defining the new growth rate terms
-                            universalize(km, met_id, self.variables[met_name
-                                ]) if isinstance(km[met_id], (float, int)) else km
-                            v, primal_conc = vmax.copy(), {}
-                            count = 0  # same_last_conc = last_conc = 0
-                            error = convergence_tol+1
-                            while (error > convergence_tol):
-                                error = 0
-                                for time in self.variables[met_name]:
-                                    primal_conc[time] = default_dict_values(primal_conc, time, {})
-                                    time_hr = int(time)*self.parameters['timestep_hr']
-                                    for trial in self.variables[met_name][time]:
-                                        if trial in primal_conc[time]:
-                                            error += (primal_conc[time][trial]-self.values[trial][met_name][time_hr])**2
-                                        #### concentrations from the last simulation calculate a new growth rate
-                                        primal_conc[time][trial] = self.values[trial][met_name][time_hr]
-                                        print("new concentration", primal_conc[time][trial])
-                                        v[met_id][time][trial] = -(primal_conc[time][trial]*vmax[met_id][time][trial]
-                                                                   / (km[met_id][time][trial]+primal_conc[time][trial]))
-                                        if v[met_id][time][trial] > 0:
-                                            logger.critical(f"The growth rate of {v[met_id][time][trial]} will cause "
-                                                            "an infeasible solution.")
-                                        print('new growth rate: ', v[met_id][time][trial])
-                                        count += 1
-                                # same_last_conc += 1 if last_conc == primal_conc[time][trial] else 0
-                                # last_conc = primal_conc[time][trial]
-                                change_v(v[met_id])
-                                # self._export_model_json(mscomfit_json, mscomfit_json_path)
-                                self.load_model(model_to_load=mscomfit_json)
-                                self.compute(graphs)#, export_zip_name)
-                                # TODO - the primal values dictionary must be updated with each loop to allow errors to change
-                                error = (error/count)**0.5 if error > 0 else 0
-                                print("Error:",error)
-                        else:
-                            change_v(vmax[met_id])
+                if met_name in already_constrained:
+                    continue
+                already_constrained.append(met_name)
+                # confirm that the metabolite was produced during the simulation
+                met_id = self._met_id_parser(met_name)
+                if met_id not in list(chain(*self.phenotype_met.values())):
+                    continue
+                if any([isclose(max(list(self.values[trial][met_name].values())), 0)
+                        for trial in self.values]):  # TODO - perhaps this should only skip affected trials?
+                    print(f"The {met_id} metabolite of interest was not produced "
+                          "during the simulation; hence, its does not contribute to growth kinetics.")
+                    continue
+                # change growth kinetics
+                ## defines the Vmax for each metabolite, or distributes a constant Vmax
+                universalize(vmax, met_id, self.variables[met_name
+                    ]) if isinstance(vmax[met_id], (float,int)) else vmax
+                if km:
+                    ## calculate the Michaelis-Menten kinetic rate: vmax*[maltose] / (km+[maltose])
+                    universalize(km, met_id, self.variables[met_name
+                        ]) if isinstance(km[met_id], (float, int)) else km
+                    self._align_concentrations(
+                        met_name, met_id, vmax, km, graphs, mscomfit_json, convergence_tol)
+                else:
+                    self._change_v(vmax[met_id], mscomfit_json)
 
         # export and load the edited model
         self._export_model_json(mscomfit_json, mscomfit_json_path)
