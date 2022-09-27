@@ -78,13 +78,13 @@ class MSCommFitting:
         csv.drop(index_col, axis=1, inplace=True)
         csv.astype(str)
         return csv
-    
+
     def _df_construction(self, name, signal, ignore_trials, ignore_timesteps, significant_deviation):
         # parse the DataFrame for values
         self.signal_species[signal] = name
         self.simulation_time = self.dataframes[signal].iloc[0,-1]/hour
         self.parameters["data_timestep_hr"].append(self.simulation_time/int(self.dataframes[signal].columns[-1]))
-        
+
         # refine the DataFrame
         # TODO - this must be replaced for the standardized experimental data
         self.dataframes[signal] = self.dataframes[signal].iloc[1::2]  # excludes the times
@@ -95,7 +95,7 @@ class MSCommFitting:
                 self.dataframes[signal].drop(col, axis=1, inplace=True)
         self.dataframes[signal].columns = map(float, self.dataframes[signal].columns)
         self.dataframes[signal].columns = map(int, self.dataframes[signal].columns)
-        
+
         # filter data contents
         # TODO - this must be replaced for the standardized experimental data
         dropped_trials = []
@@ -146,41 +146,41 @@ class MSCommFitting:
             json.dump(json_model, lp, indent=3)
 
     # TODO - convert the parameters to class objects and test
-    def _standardize(self, members, species_abundances, dimensions, experiments_path,
-                     row_concentrations, species_identities_rows, carbon_sources, date):
-        experiments = read_excel(experiments_path)
-        column_num, row_num = dimensions
+    def _standardize(self, base_media, species_identities_rows, date):
+        column_num = len(self.species_abundances)
+        row_num = len(self.carbon_conc["rows"]) or len(self.species_iddentities_rows)
+        if not row_num:
+            raise ValueError("Either the strain identities or the carbon concentrations must be defined for the rows;"
+                             f"not {self.species_iddentities_rows} and {self.carbon_conc}, respectively.")
         constructed_experiments = DataFrame()
-        experiment_prefix = "Y"
-        constructed_experiments["short_code"] = [f"{experiment_prefix}{x + 1}" for x in list(experiments.index)]
-        constructed_experiments["base_media"] = [self.base_media] * (column_num*row_num)
+        constructed_experiments["short_code"] = [f"{self.experiment_prefix}{x + 1}" for x in list(range(column_num*row_num))]
+        constructed_experiments["base_media"] = [base_media.path[0]] * (column_num*row_num)
 
         # define the strains column
         strains, additional_compounds, experiment_ids = [], [], []
         trial_name_conversion = {}
         count = 1
         ## apply universal values to all trials
-        base_row_conc = [] if '*' not in row_concentrations else [
-            ':'.join([met, str(row_concentrations['*'][met][0]),
-                      str(row_concentrations['*'][met][1])]) for met in row_concentrations['*']]
+        base_row_conc = []
         for row in range(1, row_num+1):
             row_conc = base_row_conc[:]
             trial_letter = chr(ord("A") + row)
             ## add rows where the initial concentration is non-zero
-            if row in row_concentrations:
-                for met in row_concentrations[row]:
+            if row in self.carbon_conc_series["row"]:
+                for met in self.carbon_conc_series["row"][row]:
                     if row_concentrations[row][met][0] > 0:
                         row_conc.append(':'.join([met, str(row_concentrations[row][met][0]),
                                                   str(row_concentrations[row][met][1])]))
             row_concentration = ';'.join(row_conc)
             composition = {}
+            member_names = list(self.community_members.keys())
             for col in range(1, column_num+1):
                 ## construct the columns of information
                 additional_compounds.append(row_concentration)
                 experiment_id = []
-                for member in members:
+                for member in member_names:
                     ### define the relative community abundances
-                    composition[member] = [member, f"r{species_abundances[col][member]}"]
+                    composition[member] = [member, f"r{self.species_abundances[col][member]}"]
                     ### define the member strain, where it is appropriate
                     if member in species_identities_rows[row]:
                         composition[member][0] += f"_{species_identities_rows[row][member]}"
@@ -188,14 +188,19 @@ class MSCommFitting:
                     if int(composition[member][1][1:]) != 0:
                         experiment_id.append(f"{composition[member][1]}_{composition[member][0]}")
                     composition[member] = ':'.join(composition[member])
-                strains.append(';'.join(composition[member] for member in members))
+                strains.append(';'.join(composition[member] for member in member_names))
+                phenotype_mets = list(self.phenotype_met.values())
                 for r in row_conc:
-                    met, init, end = r.split(':')
-                    experiment_id.append(f"{init}_{carbon_sources[met]}")
+                    metID, init, end = r.split(':')
+                    met_name = phenotype_mets[list(self.phenotype_met.keys()).index(metID)]
+                    experiment_id.append(f"{init}_{met_name}")
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
-                trial_name_conversion[trial_letter + str(col + 1)] = [experiment_prefix + str(count), experiment_id]
+                trial_name_conversion[trial_letter + str(col + 1)] = [self.experiment_prefix + str(count), experiment_id]
                 count += 1
+
+        # increment the short-code prefix for each experiment
+        self.experiment_prefix = chr(ord(self.experiment_prefix)+1)
 
         # add final columns to the exported dataframe
         constructed_experiments["strains"] = strains
@@ -206,13 +211,14 @@ class MSCommFitting:
     
     def load_data(self, base_media, community_members: dict, solver:str = 'glpk', phenotype_met:dict = None, signal_csv_paths:dict = None,
                   species_abundance_path:str = None, carbon_conc_series: dict = None, ignore_trials:Union[dict,list]=None,
-                  ignore_timesteps:list=None, significant_deviation:float = 2, extract_zip_path:str = None):
+                  ignore_timesteps:list=None, species_identities_rows=None, significant_deviation:float = 2, extract_zip_path:str = None):
         # define default values
         ignore_timesteps = ignore_timesteps or []
         signal_csv_paths = signal_csv_paths or {}
         carbon_conc_series = carbon_conc_series or {}
 
-        self.community_members = {content["name"]: list(content["phenotypes"].keys())+["stationary"] for member, content in community_members.items()}
+        self.community_members = {content["name"]: list(content["phenotypes"].keys())+["stationary"]
+                                  for member, content in community_members.items()}
         self.phenotype_met = phenotype_met or {content["name"]:list(
             v.keys()) for content in community_members.values() for k,v in content["phenotypes"].items()}
         self.media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
@@ -222,6 +228,8 @@ class MSCommFitting:
                 zp.extractall()
         if species_abundance_path:
             self.species_abundances = self._process_csv(species_abundance_path, 'trial_column')
+        # TODO - the species_identities_rows parameter must be defined to capture varying strains of a member with each row
+        self.species_iddentities_rows = species_identities_rows
 
         # log information of each respective model
         models = OrderedDict()
@@ -234,7 +242,7 @@ class MSCommFitting:
             model.solver = solver
             ## log the model
             models[model] = {"exchanges":FBAHelper.exchange_reactions(model), "solutions":{},
-                "name": content["name"], "phenotypes": self.community_members[content["name"]]}
+                             "name": content["name"], "phenotypes": self.community_members[content["name"]]}
             for pheno, cpds in content['phenotypes'].items():
                 col = content["name"] + '_' + pheno
                 for cpdID, bounds in cpds.items():
@@ -322,7 +330,7 @@ class MSCommFitting:
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
         self.trials = set(chain.from_iterable([list(df.index) for df in self.dataframes.values()]))
 
-        MSCommFitting._standardize()
+        MSCommFitting._standardize(base_media)
         
     def _met_id_parser(self, met):
         met_id = re.sub('(\_\w\d+)', '', met)
@@ -837,7 +845,7 @@ class MSCommFitting:
         return param['default']
 
     def _change_v(self, new_v, mscomfit_json):
-        for v_arg in mscomfit_json['constraints']:  # !!! specify as phenotype-specific, as well as the Km
+        for v_arg in mscomfit_json['constraints']:  # TODO - specify as phenotype-specific, as well as the Km
             v_name, v_time, v_trial = v_arg['name'].split('-')
             if 'gc' in v_name:  # gc = growth constraint
                 v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
