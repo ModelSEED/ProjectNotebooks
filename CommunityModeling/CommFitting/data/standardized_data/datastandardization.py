@@ -91,24 +91,23 @@ class DataStandardization:
                            ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
                            significant_deviation: float = 2, extract_zip_path: str = None, growth_data_path=None):
         (
-            media_conc, zipped_output, carbon_conc_series, data_timestep_hr, simulation_time, dataframes,
-            data_timesteps, trials, species_phenos_df, carbon_conc_series
+            media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes,
+            data_timesteps, trials, species_phenos_df
         ) = DataStandardization.load_data(
-            base_media, community_members, solver, signal_csv_paths, carbon_conc_series, ignore_trials,
+            base_media, community_members, solver, signal_csv_paths, ignore_trials,
             ignore_timesteps, significant_deviation, extract_zip_path
         )
         constructed_experiments, trial_name_conversion = DataStandardization.metadata(
-            base_media, community_members, species_abundances, carbon_conc_series, species_identities_rows, findDate(growth_data_path))
+            base_media, community_members, species_abundances, species_identities_rows, findDate(growth_data_path))
         growth_dfs = DataStandardization.growth_data(growth_data_path, trial_name_conversion)
         return (constructed_experiments, growth_dfs, trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
 
     @staticmethod
-    def load_data(base_media, community_members, solver, signal_csv_paths, carbon_conc_series,
+    def load_data(base_media, community_members, solver, signal_csv_paths,
                   ignore_trials, ignore_timesteps, significant_deviation, extract_zip_path):
         # define default values
         ignore_timesteps = ignore_timesteps or []
         signal_csv_paths = signal_csv_paths or {}
-        carbon_conc_series = carbon_conc_series or {}
 
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
@@ -188,10 +187,6 @@ class DataStandardization:
                   f'since their species is not among those with data: {modeled_species}.')
         phenos_tup = FBAHelper.parse_df(fluxes_df)
 
-        # define carbon concentrations for each trial
-        carbon_conc_series['columns'] = default_dict_values(carbon_conc_series, "columns", {})
-        carbon_conc_series['rows'] = default_dict_values(carbon_conc_series, "rows", {})
-
         # define the set of used trials
         ignore_timesteps = list(map(str, ignore_timesteps))
 
@@ -223,8 +218,8 @@ class DataStandardization:
             1 if "OD" not in signal and signal != "path" and signal_species[signal] in pheno else 0
             for pheno in phenos_tup.columns]) for signal in signal_csv_paths})
 
-        return (media_conc, zipped_output, carbon_conc_series, data_timestep_hr, simulation_time,
-                dataframes, data_timesteps, trials, species_phenos_df, carbon_conc_series)
+        return (media_conc, zipped_output, data_timestep_hr, simulation_time,
+                dataframes, data_timesteps, trials, species_phenos_df)
 
     @staticmethod
     def _spreadsheet_extension_load(path):
@@ -242,8 +237,14 @@ class DataStandardization:
 
     @staticmethod
     def metadata(base_media, community_members, species_abundances, carbon_conc, species_identities_rows, date):
+        # define carbon concentrations for each trial
+        carbon_conc = carbon_conc or {}
+        carbon_conc['columns'] = default_dict_values(carbon_conc, "columns", {})
+        carbon_conc['rows'] = default_dict_values(carbon_conc, "rows", {})
         column_num = len(species_abundances)
         row_num = len(list(carbon_conc["rows"].values())[0]) or len(species_identities_rows)
+
+        # define the metadata DataFrame and a few columns
         constructed_experiments = DataFrame()
         experiment_prefix = "A"
         constructed_experiments["short_code"] = [f"{experiment_prefix}{x+1}" for x in list(range(column_num*row_num))]
@@ -252,7 +253,7 @@ class DataStandardization:
         # define community content
         members = list(content["name"] for content in community_members.values())
         species_mets = {content["name"]: list(v.keys())
-                         for content in community_members.values() for v in content["phenotypes"].values()}
+                        for content in community_members.values() for v in content["phenotypes"].values()}
 
         # define the strains column
         strains, additional_compounds, experiment_ids = [], [], []
@@ -265,6 +266,7 @@ class DataStandardization:
         for row in range(1, row_num+1):
             row_conc = base_row_conc[:]
             trial_letter = chr(ord("A") + row)
+            trial_name_conversion[trial_letter] = {}
             ## add rows where the initial concentration in the first trial is non-zero
             for met, conc_dict in carbon_conc["rows"].items():
                 if conc_dict[sorted(list(conc_dict.keys()))[row-1]] > 0:
@@ -299,11 +301,21 @@ class DataStandardization:
                     experiment_id.append(f"{init}_{met_name}")
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
-                trial_name_conversion[trial_letter + str(col + 1)] = [experiment_prefix + str(count), experiment_id]
+                trial_name_conversion[trial_letter][str(col+1)] = experiment_prefix + str(count)
                 count += 1
 
+        # convert the variable concentrations to short codes
+        standardized_carbon_conc = {}
+        for met, conc in carbon_conc["rows"].items():
+            for row, val in conc.items():
+                standardized_carbon_conc[met] = {short_code:val for short_code in trial_name_conversion[row].values()}
+        for met, conc in carbon_conc["columns"].items():
+            for col, val in conc.items():
+                for row in trial_name_conversion:
+                    standardized_carbon_conc[met][trial_name_conversion[row][col]] = val
+
         # add columns to the exported dataframe
-        constructed_experiments.insert(0, "experiment_ids", experiment_ids)
+        constructed_experiments.insert(0, "trial_IDs", experiment_ids)
         constructed_experiments["additional_compounds"] = additional_compounds
         constructed_experiments["strains"] = strains
         constructed_experiments["date"] = [date] * (column_num*row_num)

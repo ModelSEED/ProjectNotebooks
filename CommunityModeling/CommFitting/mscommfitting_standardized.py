@@ -2,7 +2,7 @@
 # from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
-from pandas import DataFrame
+from pandas import DataFrame, read_csv
 from optlang import Model
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.optimize import newton
@@ -53,8 +53,6 @@ def default_dict_values(dic, key, default):
 
 # define data objects
 names = []
-
-
 def _name(name, suffix, time, trial):
     name = '-'.join([name+suffix, time, trial])
     if name not in names:
@@ -66,9 +64,10 @@ def _name(name, suffix, time, trial):
 
 class MSCommFitting:
 
-    def __init__(self, growth_df=None, experimental_metadata=None, data_timestep_hr=0.164, simulation_time=26):
+    def __init__(self, fluxes_csv_path, growth_df=None, experimental_metadata=None, data_timestep_hr=0.164, simulation_time=26):
         self.parameters, self.variables, self.constraints, self.dataframes, self.signal_species = {}, {}, {}, {}, {}
         self.zipped_output, self.plots = [], []
+        self.fluxes_tup = FBAHelper.parse_df(read_csv(fluxes_csv_path))
         self.growth_df = growth_df ; self.experimental_metadata = experimental_metadata
         self.data_timestep_hr = data_timestep_hr ; self.simulation_time = simulation_time
 
@@ -122,24 +121,22 @@ class MSCommFitting:
         growth_tup = FBAHelper.parse_df(self.growth_df)
         constraints, variables = [], []
         time_1 = process_time()
-        for met in self.phenos_tup.index:
+        for met in self.fluxes_tup.index:
             met_id = self._met_id_parser(met)
             if not mets_to_track and met_id != 'cpd00001' or met_id in mets_to_track:
                 self.variables["c_"+met] = {} ; self.constraints['dcc_'+met] = {}
                 for time in self.simulation_timesteps:
                     self.variables["c_"+met][time] = {} ; self.constraints['dcc_'+met][time] = {}
-                    for trial in parsed_df.index:
+                    for trial in growth_tup.index:
                         ## define biomass measurement conversion variables
                         conc_var = tupVariable(_name("c_", met, time, trial))
                         ## constrain initial time concentrations to the media or a large default
                         if time == self.simulation_timesteps[0] and not 'bio' in met_id:
                             initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
                             initial_val = 0 if met_id in zero_start else initial_val
-                            # TODO Is the circumstance of both trues desirable, or should this be elifs?
-                            if dict_keys_exists(self.carbon_conc['rows'], met_id, trial[0]):
-                                initial_val = self.carbon_conc['rows'][met_id][trial[0]]
-                            if dict_keys_exists(self.carbon_conc['columns'], met_id, trial[1:]):
-                                initial_val = self.carbon_conc['columns'][met_id][trial[1:]]
+                            # TODO - the designation of rows and columns must be distinguished from short_codes
+                            if dict_keys_exists(self.carbon_conc, met_id, trial):
+                                initial_val = self.carbon_conc[met_id][trial]
                             conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                         ## mandate complete carbon consumption
                         if time == self.simulation_timesteps[-1] and met_id in self.parameters['carbon_sources']:
@@ -148,12 +145,12 @@ class MSCommFitting:
                         self.variables["c_" + met][time][trial] = conc_var
                         variables.append(self.variables["c_"+met][time][trial])
         for signal in [signal for signal in self.dataframes if 'OD' not in signal]:
-            for phenotype in self.phenos_tup.columns:
+            for phenotype in self.fluxes_tup.columns:
                 if self.signal_species[signal] in phenotype:
                     self.constraints['dbc_'+phenotype] = {time:{} for time in self.simulation_timesteps}
 
         # define growth and biomass variables and constraints
-        for pheno in self.phenos_tup.columns:
+        for pheno in self.fluxes_tup.columns:
             self.variables['cvt_'+pheno] = {} ; self.variables['cvf_'+pheno] = {}
             self.variables['b_'+pheno] = {} ; self.variables['g_'+pheno] = {}
             self.variables['v_'+pheno] = {}
@@ -213,7 +210,7 @@ class MSCommFitting:
         half_dt = self.parameters['data_timestep_hr']/2
         time_2 = process_time()
         print(f'Done with concentrations and biomass loops: {(time_2-time_1)/60} min')
-        for r_index, met in enumerate(self.phenos_tup.index):
+        for r_index, met in enumerate(self.fluxes_tup.index):
             met_id = self._met_id_parser(met)
             if not mets_to_track and met_id != 'cpd00001' or met_id in mets_to_track:
                 for trial in list(self.dataframes.values())[0].index:
@@ -221,7 +218,7 @@ class MSCommFitting:
                         # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno} ) = c+1_{met}
                         next_time = str(int(time) + 1)
                         growth_phenos = [[self.variables['g_'+pheno][next_time][trial].name,
-                             self.variables['g_'+pheno][time][trial].name] for pheno in self.phenos_tup.columns]
+                             self.variables['g_'+pheno][time][trial].name] for pheno in self.fluxes_tup.columns]
                         self.constraints['dcc_'+met][time][trial] = tupConstraint(
                             name=_name("dcc_", met, time, trial),
                             expr={
@@ -230,7 +227,7 @@ class MSCommFitting:
                                     {"elements": [-1, self.variables["c_"+met][next_time][trial].name],
                                      "operation": "Mul"},
                                     *OptlangHelper.dot_product(growth_phenos,
-                                        heuns_coefs=half_dt*self.phenos_tup.values[r_index])],
+                                        heuns_coefs=half_dt*self.fluxes_tup.values[r_index])],
                                 "operation": "Add"
                             })
                         constraints.append(self.constraints['dcc_'+met][time][trial])
@@ -257,7 +254,7 @@ class MSCommFitting:
                     for r_index, trial in enumerate(parsed_df.index):
                         if not dict_keys_exists(bad_data_timesteps, trial, time):
                             total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
-                            for pheno_index, pheno in enumerate(self.phenos_tup.columns):
+                            for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                                 # define the collections of signal and pheno terms
                                 val = 1 if 'OD' in signal else self.species_phenos_df.loc[signal, pheno]
                                 val = val if isnumber(val) else val.values[0]
@@ -269,7 +266,7 @@ class MSCommFitting:
                                         -val, self.variables["cvf_" + pheno][time][trial].name]})
                                     to_sum.append({"operation": "Mul", "elements": [
                                         val, self.variables["cvt_"+pheno][time][trial].name]})
-                            for pheno in self.phenos_tup.columns:
+                            for pheno in self.fluxes_tup.columns:
                                 if 'OD' not in signal and self.signal_species[signal] in pheno:
                                     if "stationary" in pheno:
                                         # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) = b+1_{phenotype}

@@ -1,4 +1,4 @@
-,experiment_ids,short_code,base_media,additional_compounds,strains,date
+,trial_IDs,short_code,base_media,additional_compounds,strains,date
 0,r1_pf-5_ecoli,A1,93465/19/1,cpd00179:5:5,ecoli_mRuby:r0;pf:r1,29-4-22
 1,r1_ecoli_mRuby-r50_pf-5_ecoli,A2,93465/19/1,cpd00179:5:5,ecoli_mRuby:r1;pf:r50,29-4-22
 2,r1_ecoli_mRuby-r20_pf-5_ecoli,A3,93465/19/1,cpd00179:5:5,ecoli_mRuby:r1;pf:r20,29-4-22
