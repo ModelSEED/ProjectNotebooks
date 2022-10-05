@@ -26,7 +26,6 @@ def isnumber(string):
         return False
     return True
 
-
 def findDate(string):
     monthNames = ["January", "February", "March", "April", "May", "June", "July",
                   "August", "September", "October", "November", "December"]
@@ -61,7 +60,6 @@ def findDate(string):
     #         break
     # return day+month+year
 
-
 def dict_keys_exists(dic, *keys):
     if keys[0] in dic:
         remainingKeys = keys[1:]
@@ -70,7 +68,6 @@ def dict_keys_exists(dic, *keys):
         return True
     return False
 
-
 def find_dic_number(dic):
     for k, v in dic.items():
         if isnumber(v):
@@ -78,9 +75,12 @@ def find_dic_number(dic):
         num = find_dic_number(dic[k])
     return num
 
-
 def default_dict_values(dic, key, default):
     return default if not key in dic else dic[key]
+
+def trial_contents(short_code, indices_tup, values):
+    matches = [True if ele == short_code else False for ele in indices_tup]
+    return np.array(values)[matches]
 
 
 class DataStandardization:
@@ -89,18 +89,24 @@ class DataStandardization:
     def process_jeffs_data(base_media, community_members: dict, solver: str = 'glpk',
                            signal_csv_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                            ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
-                           significant_deviation: float = 2, extract_zip_path: str = None, growth_data_path=None):
+                           significant_deviation: float = 2, extract_zip_path: str = None):
         (
-            media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes,
-            data_timesteps, trials, species_phenos_df
+            media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
+            dataframes, trials, species_phenos_df, fluxes_df
         ) = DataStandardization.load_data(
             base_media, community_members, solver, signal_csv_paths, ignore_trials,
             ignore_timesteps, significant_deviation, extract_zip_path
         )
-        constructed_experiments, trial_name_conversion = DataStandardization.metadata(
-            base_media, community_members, species_abundances, species_identities_rows, findDate(growth_data_path))
-        growth_dfs = DataStandardization.growth_data(growth_data_path, trial_name_conversion)
-        return (constructed_experiments, growth_dfs, trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
+        experimental_metadata, standardized_carbon_conc, trial_name_conversion = DataStandardization.metadata(
+            base_media, community_members, species_abundances, carbon_conc_series,
+            species_identities_rows, findDate(signal_csv_paths["path"])
+        )
+        # invert the trial_name_conversion keys and values
+        # for row in trial_name_conversion:
+        #     short_code_ID = {contents[0]:contents[1] for contents in trial_name_conversion[row].values()}
+        growth_dfs = DataStandardization.growth_data(dataframes, trial_name_conversion)
+        return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc, signal_species,
+                trial_name_conversion, species_phenos_df, np.mean(data_timestep_hr), simulation_time, media_conc)
 
     @staticmethod
     def load_data(base_media, community_members, solver, signal_csv_paths,
@@ -149,11 +155,12 @@ class DataStandardization:
             for phenotype in content["phenotypes"]:
                 col = content["name"] + '_' + phenotype
                 cols[col] = [0]
-                if col in content["solutions"]:
-                    bio_rxns = [x for x in content["solutions"][col].fluxes.index if "bio" in x]
-                    flux = np.mean(
-                        [content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
-                    cols[col] = [flux]
+                if col not in content["solutions"]:
+                    continue
+                bio_rxns = [x for x in content["solutions"][col].fluxes.index if "bio" in x]
+                flux = np.mean(
+                    [content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
+                cols[col] = [flux]
         ## exchange reactions rows
         looped_cols = cols.copy();
         looped_cols.pop("rxn")
@@ -187,39 +194,40 @@ class DataStandardization:
                   f'since their species is not among those with data: {modeled_species}.')
         phenos_tup = FBAHelper.parse_df(fluxes_df)
 
-        # define the set of used trials
-        ignore_timesteps = list(map(str, ignore_timesteps))
-
         # import and parse the raw CSV data
+        ignore_timesteps = list(map(str, ignore_timesteps))
         data_timestep_hr = []
         dataframes, signal_species = {}, {}
         zipped_output.append(signal_csv_paths['path'])
         raw_data = DataStandardization._spreadsheet_extension_load(signal_csv_paths['path'])
         for org_sheet, name in signal_csv_paths.items():
-            if org_sheet != 'path':
-                sheet = org_sheet.replace(' ', '_')
-                dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
-                    signal_csv_paths['path'], raw_data, org_sheet)
-                dataframes[sheet].columns = dataframes[sheet].iloc[6]
-                dataframes[sheet] = dataframes[sheet].drop(dataframes[sheet].index[:7])
-                # parse the DataFrame for values
-                signal_species[sheet] = name
-                simulation_time = dataframes[sheet].iloc[0, -1] / hour
-                data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
-                dataframes = DataStandardization._df_construction(
-                    name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
-
-        data_timestep_hr = np.mean(data_timestep_hr)
-        data_timesteps = int(simulation_time / data_timestep_hr)
-        trials = set(chain.from_iterable([list(df.index) for df in dataframes.values()]))
+            if org_sheet == 'path':
+                continue
+            sheet = org_sheet.replace(' ', '_')
+            dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
+                signal_csv_paths['path'], raw_data, org_sheet)
+            dataframes[sheet].columns = dataframes[sheet].iloc[6]
+            dataframes[sheet] = dataframes[sheet].drop(dataframes[sheet].index[:7])
+            # parse the DataFrame for values
+            signal_species[sheet] = name
+            simulation_time = dataframes[sheet].iloc[0, -1] / hour
+            data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
+            # define the times and data
+            data_times_df = DataStandardization._df_construction(
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes[sheet].iloc[0::2])
+            data_values_df = DataStandardization._df_construction(
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes[sheet].iloc[1::2])
+            # display(data_times_df) ; display(data_values_df)
+            dataframes[sheet] = (data_times_df, data_values_df)
 
         # differentiate the phenotypes for each species
-        species_phenos_df = DataFrame(columns=phenos_tup.columns, data={signal: np.array([
-            1 if "OD" not in signal and signal != "path" and signal_species[signal] in pheno else 0
-            for pheno in phenos_tup.columns]) for signal in signal_csv_paths})
-
-        return (media_conc, zipped_output, data_timestep_hr, simulation_time,
-                dataframes, data_timesteps, trials, species_phenos_df)
+        trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
+        species_phenos_df = DataFrame(columns=phenos_tup.columns, data={pheno: {
+            signal:1 if signal_species[signal] in pheno else 0
+            for signal in signal_csv_paths if signal != "path" and "OD" not in signal
+        } for pheno in phenos_tup.columns})
+        return (media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
+                dataframes, trials, species_phenos_df, fluxes_df)
 
     @staticmethod
     def _spreadsheet_extension_load(path):
@@ -301,18 +309,19 @@ class DataStandardization:
                     experiment_id.append(f"{init}_{met_name}")
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
-                trial_name_conversion[trial_letter][str(col+1)] = experiment_prefix + str(count)
+                trial_name_conversion[trial_letter][str(col+1)] = (experiment_prefix+str(count), experiment_id)
                 count += 1
 
         # convert the variable concentrations to short codes
         standardized_carbon_conc = {}
         for met, conc in carbon_conc["rows"].items():
+            standardized_carbon_conc[met] = {}
             for row, val in conc.items():
-                standardized_carbon_conc[met] = {short_code:val for short_code in trial_name_conversion[row].values()}
+                standardized_carbon_conc[met].update({short_code:val for short_code, expID in trial_name_conversion[row].values()})
         for met, conc in carbon_conc["columns"].items():
             for col, val in conc.items():
                 for row in trial_name_conversion:
-                    standardized_carbon_conc[met][trial_name_conversion[row][col]] = val
+                    standardized_carbon_conc[met][trial_name_conversion[row][col][0]] = val
 
         # add columns to the exported dataframe
         constructed_experiments.insert(0, "trial_IDs", experiment_ids)
@@ -320,7 +329,7 @@ class DataStandardization:
         constructed_experiments["strains"] = strains
         constructed_experiments["date"] = [date] * (column_num*row_num)
         constructed_experiments.to_csv("growth_metadata.csv")
-        return constructed_experiments, trial_name_conversion
+        return constructed_experiments, standardized_carbon_conc, trial_name_conversion
 
     def _met_id_parser(self, met):
         met_id = re.sub('(\_\w\d+)', '', met)
@@ -329,16 +338,16 @@ class DataStandardization:
         return met_id
 
     @staticmethod
-    def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, dataframes):
+    def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, org_df):
         # refine the DataFrame
-        dataframes[signal] = dataframes[signal].iloc[1::2]  # excludes the times
-        dataframes[signal].columns = map(str, dataframes[signal].columns)
-        dataframes[signal].index = dataframes[signal]['Well']
-        for col in dataframes[signal].columns:
+        dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
+        dataframe.columns = map(str, dataframe.columns)
+        dataframe.index = dataframe['Well']
+        dataframe.drop('Well', axis=1, inplace=True)
+        for col in dataframe.columns:
             if any([x in col for x in ['Plate', 'Well', 'Cycle']]):
-                dataframes[signal].drop(col, axis=1, inplace=True)
-        dataframes[signal].columns = map(float, dataframes[signal].columns)
-        dataframes[signal].columns = map(int, dataframes[signal].columns)
+                dataframe.drop(col, axis=1, inplace=True)
+        dataframe.columns = list(map(int, list(map(float, dataframe.columns))))
 
         # filter data contents
         dropped_trials = []
@@ -349,38 +358,36 @@ class DataStandardization:
         elif isIterable(ignore_trials):
             if ignore_trials[0][0].isalpha() and isnumber(ignore_trials[0][1:]):
                 short_code = True  # TODO - drop trials with respect to the short codes, and not the full codes
-        for trial in dataframes[signal].index:
+        for trial in dataframe.index:
             if isinstance(ignore_trials, dict) and any(
                     [trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'], trial in ignore_trials['wells']]
             ) or isIterable(ignore_trials) and trial in ignore_trials:
-                dataframes[signal].drop(trial, axis=0, inplace=True)
+                dataframe.drop(trial, axis=0, inplace=True)
                 dropped_trials.append(trial)
             elif isIterable(ignore_trials) and trial in ignore_trials:
-                dataframes[signal].drop(trial, axis=0, inplace=True)
+                dataframe.drop(trial, axis=0, inplace=True)
                 dropped_trials.append(trial)
         if dropped_trials:
             print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
 
-        for col in dataframes[signal]:
+        for col in dataframe:
             if col in ignore_timesteps:
-                dataframes[signal].drop(col, axis=1, inplace=True)
+                dataframe.drop(col, axis=1, inplace=True)
         if 'OD' not in signal:
             removed_trials = []
-            for trial, row in dataframes[signal].iterrows():
+            for trial, row in dataframe.iterrows():
                 row_array = np.array(row.to_list())
                 ## remove trials for which the biomass growth did not change by the determined minimum deviation
                 if row_array[-1] / row_array[0] < significant_deviation:
-                    dataframes[signal].drop(trial, axis=0, inplace=True)
+                    dataframe.drop(trial, axis=0, inplace=True)
                     removed_trials.append(trial)
             if removed_trials:
                 print(f'The {removed_trials} trials were removed from the {name} measurements, '
                       f'with their deviation over time being less than the threshold of {significant_deviation}.')
 
         # process the data for subsequent operations and optimal efficiency
-        dataframes[signal].astype(str)
-        dataframes[signal] = FBAHelper.parse_df(dataframes[signal])
-
-        return dataframes
+        dataframe.astype(str)
+        return dataframe
 
     def _process_csv(self, csv_path, index_col):
         self.zipped_output.append(csv_path)
@@ -390,36 +397,24 @@ class DataStandardization:
         return csv
 
     @staticmethod
-    def growth_data(data_path, trial_name_conversion):
-        dataframes = {}
-        raw_data = DataStandardization._spreadsheet_extension_load(data_path)
-        worksheets = {"Raw OD(590)": "OD", "mNeonGreen": "pf", "mRuby": "ecoli"}
-        for org_sheet, name in worksheets.items():
-            sheet = org_sheet.replace(' ', '_')
-            dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
-                data_path, raw_data, org_sheet)
-            dataframes[sheet].columns = dataframes[sheet].iloc[6]
-            dataframes[sheet] = dataframes[sheet].drop(dataframes[sheet].index[:7])
-
+    def growth_data(dataframes, trial_name_conversion):
         short_codes, trials_list = [], []
-        values, times = {}, {}
+        values, times = {}, {}  # The times must be capture upstream
         first = True
-        for sheet, df in dataframes.items():
+        for sheet, (times_df, values_df) in dataframes.items():
+            times_tup = FBAHelper.parse_df(times_df)
+            average_times = np.mean(times_tup.values, axis=0)
             values[sheet], times[sheet] = [], []
-            for trial in set(df["Well"]):
-                for index, row in df[df["Well"] == trial].iterrows():
-                    if row["Cycle #"] == "Time (s)":
-                        # the IDs are arbitrarily defined once to prevent duplication
-                        if first:
-                            numerical_columns = [x for x in row.index if isnumber(x)]
-                            short_code, experimentalID = trial_name_conversion[trial]
-                            trials_list.extend([experimentalID] * len(numerical_columns))
-                            short_codes.extend([short_code] * len(numerical_columns))
-                        times[sheet].extend([row[x] for x in numerical_columns])
-                    elif row["Cycle #"] == "Result":
-                        values[sheet].extend([row[x] for x in numerical_columns])
+            for short_code in values_df.index:
+                row_let, col_num = short_code[0], short_code[1:]
+                for row in trial_contents(short_code, values_df.index, values_df.values):
+                    if first:
+                        short_code, experimentalID = trial_name_conversion[row_let][col_num]
+                        trials_list.extend([experimentalID] * len(values_df.columns))
+                        short_codes.extend([short_code] * len(values_df.columns))
+                    values[sheet].extend(row)
+                    times[sheet].extend(average_times)
             first = False
-
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
         df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
         df_data.update({f"{sheet}":vals for sheet, vals in values.items()})

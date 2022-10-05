@@ -1,0 +1,11 @@
+,values
+data_timestep_hr,0.0027431191825664047
+timestep_hr,0.0027431191825664047
+cvct,1
+cvcf,1
+bcv,1
+cvmin,0
+v,0.1
+carbon_sources,"['cpd00136', 'cpd00179']"
+diffpos,1
+diffneg,1
