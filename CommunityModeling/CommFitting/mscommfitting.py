@@ -330,8 +330,6 @@ class MSCommFitting:
         self.data_timesteps = int(self.simulation_time/self.parameters["data_timestep_hr"])
         self.trials = set(chain.from_iterable([list(df.index) for df in self.dataframes.values()]))
 
-        MSCommFitting._standardize(base_media)
-        
     def _met_id_parser(self, met):
         met_id = re.sub('(\_\w\d+)', '', met)
         met_id = met_id.replace('EX_', '', 1)

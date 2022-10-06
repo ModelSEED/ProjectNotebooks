@@ -127,23 +127,22 @@ class DataStandardization:
         models = OrderedDict()
         solutions = []
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
-            ## define the model
-            model = org_model.copy()
-            model.medium = minimal_medium(model)
-            model_rxns = [rxn.id for rxn in model.reactions]
-            model.solver = solver
-            ## log the model
-            models[model] = {"exchanges": FBAHelper.exchange_reactions(model), "solutions": {},
-                             "name": content["name"], "phenotypes": named_community_members[content["name"]]}
+            model_rxns = [rxn.id for rxn in org_model.reactions]
+            models[org_model.id] = {"exchanges": FBAHelper.exchange_reactions(org_model), "solutions": {},
+                                    "name": content["name"], "phenotypes": named_community_members[content["name"]]}
             for pheno, cpds in content['phenotypes'].items():
+                ## copying a new model with each phenotype prevents bleedover
+                model = org_model.copy()
+                model.medium = minimal_medium(model)
+                model.solver = solver
                 col = content["name"] + '_' + pheno
                 for cpdID, bounds in cpds.items():
                     rxnID = "EX_" + cpdID + "_e0"
                     if rxnID not in model_rxns:
                         model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
                     model.reactions.get_by_id(rxnID).bounds = bounds
-                models[model]["solutions"][col] = model.optimize()
-                solutions.append(models[model]["solutions"][col].objective_value)
+                models[model.id]["solutions"][col] = model.optimize()
+                solutions.append(models[model.id]["solutions"][col].objective_value)
 
         # construct the parsed table of all exchange fluxes for each phenotype
         if all(np.array(solutions) == 0):
@@ -151,7 +150,7 @@ class DataStandardization:
         cols = {}
         ## biomass row
         cols["rxn"] = ["bio"]
-        for model, content in models.items():
+        for content in models.values():
             for phenotype in content["phenotypes"]:
                 col = content["name"] + '_' + phenotype
                 cols[col] = [0]
@@ -164,14 +163,14 @@ class DataStandardization:
         ## exchange reactions rows
         looped_cols = cols.copy();
         looped_cols.pop("rxn")
-        for model, content in models.items():
+        for content in models.values():
             for ex_rxn in content["exchanges"]:
                 cols["rxn"].append(ex_rxn.id)
                 for col in looped_cols:
                     ### reactions that are not present in the columns are ignored
                     flux = 0 if col not in content["solutions"] or \
-                                ex_rxn.id not in list(content["solutions"][col].fluxes.index) else content["solutions"][col].fluxes[
-                        ex_rxn.id]
+                                ex_rxn.id not in list(content["solutions"][col].fluxes.index) \
+                                else content["solutions"][col].fluxes[ex_rxn.id]
                     cols[col].append(flux)
 
         ## construct the DataFrame

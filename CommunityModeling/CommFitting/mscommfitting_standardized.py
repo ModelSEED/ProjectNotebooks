@@ -99,7 +99,7 @@ class MSCommFitting:
 
         # define default values
         parameters, bad_data_timesteps = parameters or {}, bad_data_timesteps or {}
-        self.parameters["data_timestep_hr"] = np.mean(np.diff(self.times))/minute/hour
+        self.parameters["data_timestep_hr"] = np.mean(np.diff(self.times))/hour
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Simulation timestep magnitude in hours
             "cvct": 1, "cvcf": 1,           # Minimization coefficients of the phenotype conversion to and from the stationary phase.
@@ -137,7 +137,7 @@ class MSCommFitting:
             self.variables["c_"+met] = {} ; self.constraints['dcc_'+met] = {}
             for short_code in unique_short_codes:
                 self.variables["c_"+met][short_code] = {} ; self.constraints['dcc_'+met][short_code] = {}
-                timesteps = list(range(len(trial_contents(short_code, growth_tup.index, self.times))))
+                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
                 for timestep in timesteps:
                     ## define biomass measurement conversion variables
                     conc_var = tupVariable(_name("c_", met, short_code, timestep))
@@ -172,7 +172,7 @@ class MSCommFitting:
                 self.variables['v_'+pheno][short_code] = {}
                 self.constraints['gc_'+pheno][short_code] = {}
                 self.constraints['cvc_'+pheno][short_code] = {}
-                timesteps = list(range(len(trial_contents(short_code, growth_tup.index, self.times))))
+                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
                 for timestep in timesteps:
                     # predicted biomass abundance and biomass growth
                     self.variables['b_'+pheno][short_code][timestep] = tupVariable(
@@ -210,7 +210,7 @@ class MSCommFitting:
                         name=_name('gc_', pheno, short_code, timestep),
                         expr={
                             "elements": [
-                                self.variables['g_' + pheno][short_code][timestep].name,
+                                self.variables['g_'+pheno][short_code][timestep].name,
                                 {"elements": [-1, self.parameters['v'],
                                               self.variables['b_'+pheno][short_code][timestep].name],
                                  "operation": "Mul"}],
@@ -237,12 +237,12 @@ class MSCommFitting:
             met_id = self._met_id_parser(met)
             if mets_to_track and met_id == 'cpd00001' or met_id not in mets_to_track:
                 continue
-            for short_code in self.fluxes_tup.index:
-                timesteps = list(range(len(trial_contents(short_code, growth_tup.index, self.times))))
+            for short_code in unique_short_codes:
+                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
                 for timestep in timesteps[:-1]:
-                    # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno} ) = c+1_{met}
-                    next_timestep = str(int(timestep) + 1)
-                    growth_phenos = [[self.variables['g_'+pheno][next_timestep][short_code].name,
+                    # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno})) = c+1_{met}
+                    next_timestep = timestep+1
+                    growth_phenos = [[self.variables['g_'+pheno][short_code][next_timestep].name,
                          self.variables['g_'+pheno][short_code][timestep].name] for pheno in self.fluxes_tup.columns]
                     self.constraints['dcc_'+met][short_code][timestep] = tupConstraint(
                         name=_name("dcc_", met, short_code, timestep),
@@ -259,7 +259,8 @@ class MSCommFitting:
 
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3-time_2)/60} min')
-        for signal in growth_tup.columns[3:]:
+        for index, signal in enumerate(growth_tup.columns[2:]):
+            signal_column_index = index+2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
             self.variables[signal+'__conversion'] = tupVariable(signal+'__conversion')
@@ -351,7 +352,7 @@ class MSCommFitting:
                                 {"elements": [-1, self.variables[signal+'__bio'][short_code][timestep].name],
                                  "operation": "Mul"},
                                 {"elements": [self.variables[signal+'__conversion'].name,
-                                              values_slice[timestep, time_column_index]],
+                                              values_slice[timestep, signal_column_index]],
                                  "operation": "Mul"}],
                             "operation": "Add"
                         })
