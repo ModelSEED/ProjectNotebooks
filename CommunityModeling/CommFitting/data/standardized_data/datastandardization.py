@@ -112,7 +112,7 @@ class DataStandardization:
     def load_data(base_media, community_members, solver, signal_csv_paths,
                   ignore_trials, ignore_timesteps, significant_deviation, extract_zip_path):
         # define default values
-        ignore_timesteps = ignore_timesteps or []
+        ignore_timesteps = ignore_timesteps or ""
         signal_csv_paths = signal_csv_paths or {}
 
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
@@ -194,7 +194,6 @@ class DataStandardization:
         phenos_tup = FBAHelper.parse_df(fluxes_df)
 
         # import and parse the raw CSV data
-        ignore_timesteps = list(map(str, ignore_timesteps))
         data_timestep_hr = []
         dataframes, signal_species = {}, {}
         zipped_output.append(signal_csv_paths['path'])
@@ -212,6 +211,7 @@ class DataStandardization:
             simulation_time = dataframes[sheet].iloc[0, -1] / hour
             data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
             # define the times and data
+            # TODO - combine the determination of these DataFrames into a single function pass
             data_times_df = DataStandardization._df_construction(
                 name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes[sheet].iloc[0::2])
             data_values_df = DataStandardization._df_construction(
@@ -368,10 +368,45 @@ class DataStandardization:
                 dropped_trials.append(trial)
         if dropped_trials:
             print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
-
-        for col in dataframe:
-            if col in ignore_timesteps:
-                dataframe.drop(col, axis=1, inplace=True)
+        if ignore_timesteps:
+            unique_cols = set(list(dataframe.columns))
+            start, end = ignore_timesteps.split(':')
+            start = int(start or dataframe.columns[0])
+            end = int(end or dataframe.columns[-1])
+            timestep_range = list(unique_cols - set(list(range(start, end+1))))  # the final bound is exclusive
+            start_index = list(dataframe.columns).index(start)
+            end_index = list(dataframe.columns).index(end)
+            ## adjust the customized range such that the threshold is reached.
+            for trial, row in dataframe.iterrows():
+                row_array = np.delete(np.array(row.to_list()), list(range(start_index, end_index+1)))
+                print(row_array)
+                ## remove trials for which the biomass growth did not change by the determined minimum deviation
+                while all([row_array[-1]/row_array[0] < significant_deviation,
+                           end <= dataframe.columns[-1], start >= dataframe.columns[0]]):
+                    print(timestep_range[0], dataframe.columns[0], dataframe.columns[-1], end, start)
+                    if timestep_range[0] == dataframe.columns[0] and start != dataframe.columns[-1]:
+                        timestep_range.append(timestep_range[-1]+1)
+                        start += 1
+                        print(f"The end boundary is increased to {timestep_range[-1]}")
+                    elif timestep_range[-1] == dataframe.columns[-1] and end != dataframe.columns[0]:
+                        timestep_range.append(timestep_range[0]-1)
+                        end -= 1
+                        print(f"The start boundary is decreased to {timestep_range[0]}")
+                    else:
+                        raise ParameterError("All of the timesteps were omitted.")
+                    row_array = np.delete(np.array(row.to_list()), list(range(
+                        list(dataframe.columns).index(start), list(dataframe.columns).index(end)+1)))
+            drop_timestep_range = list(range(start, end))
+            dropped = []
+            for col in dataframe:
+                if col in drop_timestep_range:
+                    dataframe.drop(col, axis=1, inplace=True)
+                    dropped.append(col)
+            if dropped == drop_timestep_range:
+                print(f"The ignore_timesteps columns were dropped for the {name} {signal} data.")
+            else:
+                raise ParameterError(f"The ignore_timesteps values {drop_timestep_range} "
+                                     f"were unsuccessfully dropped for the {name} {signal} data.")
         if 'OD' not in signal:
             removed_trials = []
             for trial, row in dataframe.iterrows():
@@ -417,6 +452,7 @@ class DataStandardization:
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
         df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
         df_data.update({f"{sheet}":vals for sheet, vals in values.items()})
+        print(df_data)
         growth_df = DataFrame(df_data)
         growth_df.index = growth_df["short_codes"]
         del growth_df["short_codes"]

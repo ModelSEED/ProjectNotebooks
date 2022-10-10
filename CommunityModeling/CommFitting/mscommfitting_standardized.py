@@ -49,7 +49,7 @@ def default_dict_values(dic, key, default):
     return default if not key in dic else dic[key]
 
 def trial_contents(short_code, indices_tup, values):
-    matches = [True if ele == short_code else False for ele in indices_tup]
+    matches = [ele == short_code for ele in indices_tup]
     return np.array(values)[matches]
 
 # define data objects
@@ -89,17 +89,18 @@ class MSCommFitting:
             self.problem.update()
                 
     def define_problem(self, parameters=None, export_zip_name:str=None, export_parameters:bool=True, export_lp:bool=True,
-                       final_rel_c12_conc:float=0, mets_to_track:list=None, bad_data_timesteps:dict = None, zero_start=None):
+                       final_rel_c12_conc:float=0, mets_to_track:list=None, data_timesteps:dict = None, zero_start=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
         unique_short_codes = [f"{growth_tup.index[0][0]}{num}" for num in map(str, num_sorted)]
         time_column_index = growth_tup.columns.index("Time (s)")
-        self.times = growth_tup.values[:, time_column_index]
+        full_times = growth_tup.values[:, time_column_index]
+        self.times = {short_code: trial_contents(short_code, growth_tup.index, full_times) for short_code in unique_short_codes}
 
         # define default values
-        parameters, bad_data_timesteps = parameters or {}, bad_data_timesteps or {}
-        self.parameters["data_timestep_hr"] = np.mean(np.diff(self.times))/hour
+        parameters, data_timesteps = parameters or {}, data_timesteps or {}
+        self.parameters["data_timestep_hr"] = np.mean(np.diff(np.array(list(self.times.values())).flatten()))/hour
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Simulation timestep magnitude in hours
             "cvct": 1, "cvcf": 1,           # Minimization coefficients of the phenotype conversion to and from the stationary phase.
@@ -113,18 +114,12 @@ class MSCommFitting:
         mets_to_track = mets_to_track or self.parameters["carbon_sources"]
         zero_start = zero_start or []
 
-        # refine the applicable range of bad_data_timesteps
-        if bad_data_timesteps:  # {short_code:[times]}
-            for short_code in bad_data_timesteps:
-                if ':' in bad_data_timesteps[short_code]:
-                    start, end = bad_data_timesteps[short_code].split(':')
-                    start = int(start or 1)
-                    ## 1 is added to end since the final bound is exclusive
-                    end = int(end or len(self.times))+1
-                    bad_data_timesteps[short_code] = list(map(str, list(range(start, end))))
-            if '*' in bad_data_timesteps:
-                for timestep in bad_data_timesteps['*']:
-                    self.times.pop(timestep)
+        # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
+        timesteps_to_delete = {}  # {short_code: full_times for short_code in unique_short_codes}
+        if data_timesteps:  # {short_code:[times]}
+            for short_code, times in data_timesteps.items():
+                timesteps_to_delete[short_code] = set(list(range(len(full_times)))) - set(times)
+                self.times[short_code] = np.delete(self.times[short_code], list(timesteps_to_delete[short_code]))
 
         # construct the problem
         objective = tupObjective("minimize variance and phenotypic transitions", [], "min")
@@ -137,12 +132,12 @@ class MSCommFitting:
             self.variables["c_"+met] = {} ; self.constraints['dcc_'+met] = {}
             for short_code in unique_short_codes:
                 self.variables["c_"+met][short_code] = {} ; self.constraints['dcc_'+met][short_code] = {}
-                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
+                timesteps = list(range(1,len(self.times[short_code])+1))
                 for timestep in timesteps:
                     ## define biomass measurement conversion variables
                     conc_var = tupVariable(_name("c_", met, short_code, timestep))
                     ## constrain initial time concentrations to the media or a large default
-                    if timestep == self.times[0] and not 'bio' in met_id:
+                    if timestep == self.times[short_code][0] and not 'bio' in met_id:
                         initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
                         initial_val = 0 if met_id in zero_start else initial_val
                         # TODO - the designation of rows and columns must be distinguished from short_codes
@@ -150,7 +145,7 @@ class MSCommFitting:
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if timestep == self.times[-1] and met_id in self.parameters['carbon_sources']:
+                    if timestep == self.times[short_code][-1] and met_id in self.parameters['carbon_sources']:
                         final_bound = self.variables["c_" + met][short_code]["1"].bounds.lb*final_rel_c12_conc
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
@@ -172,7 +167,7 @@ class MSCommFitting:
                 self.variables['v_'+pheno][short_code] = {}
                 self.constraints['gc_'+pheno][short_code] = {}
                 self.constraints['cvc_'+pheno][short_code] = {}
-                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
+                timesteps = list(range(1,len(self.times[short_code])+1))
                 for timestep in timesteps:
                     # predicted biomass abundance and biomass growth
                     self.variables['b_'+pheno][short_code][timestep] = tupVariable(
@@ -238,7 +233,7 @@ class MSCommFitting:
             if mets_to_track and met_id == 'cpd00001' or met_id not in mets_to_track:
                 continue
             for short_code in unique_short_codes:
-                timesteps = list(range(1,len(trial_contents(short_code, growth_tup.index, self.times))+1))
+                timesteps = list(range(1,len(self.times[short_code])+1))
                 for timestep in timesteps[:-1]:
                     # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno})) = c+1_{met}
                     next_timestep = timestep+1
@@ -269,20 +264,21 @@ class MSCommFitting:
             self.variables[signal+'__diffneg'] = {}
             self.constraints[signal+'__bioc'] = {} ; self.constraints[signal+'__diffc'] = {}
             for short_code in unique_short_codes:
-                if dict_keys_exists(bad_data_timesteps, short_code, timestep):
-                    continue
                 self.variables[signal+'__bio'][short_code] = {}
                 self.variables[signal+'__diffpos'][short_code] = {}
                 self.variables[signal+'__diffneg'][short_code] = {}
                 self.constraints[signal+'__bioc'][short_code] = {}
                 self.constraints[signal+'__diffc'][short_code] = {}
+                # the value entries are matched to only the timesteps that are condoned by data_timesteps
                 values_slice = trial_contents(short_code, growth_tup.index, growth_tup.values)
-                for timestep in list(range(len(values_slice)))[:-1]:
+                if timesteps_to_delete:
+                    values_slice = np.delete(values_slice, list(timesteps_to_delete[short_code]), axis=0)
+                for timestep in list(range(1, len(values_slice)+1))[:-1]:
                     ## the user timestep and data timestep must be synchronized
                     if int(timestep) * self.parameters['timestep_hr'] < data_timestep * self.parameters['data_timestep_hr']:
                         continue
                     data_timestep += 1
-                    if data_timestep > int(self.times[-1]/self.parameters["data_timestep_hr"]):
+                    if data_timestep > int(self.times[short_code][-1]/self.parameters["data_timestep_hr"]):
                         break
                     next_timestep = int(timestep) + 1
                     ## the phenotype transition terms are aggregated
