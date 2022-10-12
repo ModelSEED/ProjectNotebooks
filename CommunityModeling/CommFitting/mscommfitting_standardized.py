@@ -133,20 +133,19 @@ class MSCommFitting:
             for short_code in unique_short_codes:
                 self.variables["c_"+met][short_code] = {} ; self.constraints['dcc_'+met][short_code] = {}
                 timesteps = list(range(1,len(self.times[short_code])+1))
-                for timestep in timesteps:
+                for index, timestep in enumerate(timesteps):
                     ## define biomass measurement conversion variables
                     conc_var = tupVariable(_name("c_", met, short_code, timestep))
                     ## constrain initial time concentrations to the media or a large default
-                    if timestep == self.times[short_code][0] and not 'bio' in met_id:
+                    if index == 0 and not 'bio' in met_id:
                         initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
                         initial_val = 0 if met_id in zero_start else initial_val
-                        # TODO - the designation of rows and columns must be distinguished from short_codes
                         if dict_keys_exists(self.carbon_conc, met_id, short_code):
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if timestep == self.times[short_code][-1] and met_id in self.parameters['carbon_sources']:
-                        final_bound = self.variables["c_" + met][short_code]["1"].bounds.lb*final_rel_c12_conc
+                    if index == len(timesteps)-1 and met_id in self.parameters['carbon_sources']:
+                        final_bound = self.variables["c_" + met][short_code][1].bounds.lb*final_rel_c12_conc
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_"+met][short_code][timestep])

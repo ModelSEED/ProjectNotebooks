@@ -110,11 +110,24 @@ class DataStandardization:
 
     @staticmethod
     def load_data(base_media, community_members, solver, signal_csv_paths,
-                  ignore_trials, ignore_timesteps, significant_deviation, extract_zip_path):
+                  ignore_trials, ignore_timesteps, significant_deviation, extract_zip_path, min_timesteps=False):
         # define default values
-        ignore_timesteps = ignore_timesteps or ""
         signal_csv_paths = signal_csv_paths or {}
-
+        ignore_timesteps = ignore_timesteps or "0:0"
+        start, end = ignore_timesteps.split(':')
+        raw_data = DataStandardization._spreadsheet_extension_load(signal_csv_paths['path'])
+        for org_sheet, name in signal_csv_paths.items():
+            if org_sheet == 'path':
+                continue
+            df = DataStandardization._spreadsheet_extension_parse(
+                signal_csv_paths['path'], raw_data, org_sheet)
+            df.columns = df.iloc[6]
+            df.drop(df.index[:7], inplace=True)
+            ## acquire the default start and end indices of ignore_timesteps
+            start = int(start or df.columns[0])
+            end = int(end or df.columns[-1])
+            break
+        ignore_timesteps = list(range(start, end+1))
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
         media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
@@ -161,7 +174,7 @@ class DataStandardization:
                     [content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
                 cols[col] = [flux]
         ## exchange reactions rows
-        looped_cols = cols.copy();
+        looped_cols = cols.copy()
         looped_cols.pop("rxn")
         for content in models.values():
             for ex_rxn in content["exchanges"]:
@@ -197,25 +210,40 @@ class DataStandardization:
         data_timestep_hr = []
         dataframes, signal_species = {}, {}
         zipped_output.append(signal_csv_paths['path'])
-        raw_data = DataStandardization._spreadsheet_extension_load(signal_csv_paths['path'])
+        max_timestep_cols = []
+        if min_timesteps:
+            for org_sheet, name in signal_csv_paths.items():
+                if org_sheet == 'path' or "OD" in org_sheet:
+                    continue
+                ## define the DataFrame
+                sheet = org_sheet.replace(' ', '_')
+                dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
+                    signal_csv_paths['path'], raw_data, org_sheet)
+                dataframes[sheet].columns = dataframes[sheet].iloc[6]
+                dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
+                ## parse the timesteps from the DataFrame
+                drop_timestep_range = DataStandardization._min_significant_timesteps(
+                    dataframes[sheet], ignore_timesteps, significant_deviation, ignore_trials, name)
+                max_timestep_cols.append(drop_timestep_range)
+            max_cols = max(list(map(len, max_timestep_cols)))
+            ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
+
         for org_sheet, name in signal_csv_paths.items():
             if org_sheet == 'path':
                 continue
             sheet = org_sheet.replace(' ', '_')
-            dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
-                signal_csv_paths['path'], raw_data, org_sheet)
-            dataframes[sheet].columns = dataframes[sheet].iloc[6]
-            dataframes[sheet] = dataframes[sheet].drop(dataframes[sheet].index[:7])
+            if sheet not in dataframes:
+                dataframes[sheet] = DataStandardization._spreadsheet_extension_parse(
+                    signal_csv_paths['path'], raw_data, org_sheet)
+                dataframes[sheet].columns = dataframes[sheet].iloc[6]
+                dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             # parse the DataFrame for values
             signal_species[sheet] = name
             simulation_time = dataframes[sheet].iloc[0, -1] / hour
             data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
             # define the times and data
-            # TODO - combine the determination of these DataFrames into a single function pass
-            data_times_df = DataStandardization._df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes[sheet].iloc[0::2])
-            data_values_df = DataStandardization._df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes[sheet].iloc[1::2])
+            data_times_df, data_values_df = DataStandardization._df_construction(
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
             # display(data_times_df) ; display(data_values_df)
             dataframes[sheet] = (data_times_df, data_values_df)
 
@@ -227,6 +255,141 @@ class DataStandardization:
         } for pheno in phenos_tup.columns})
         return (media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
                 dataframes, trials, species_phenos_df, fluxes_df)
+
+    @staticmethod
+    def _met_id_parser(met):
+        met_id = re.sub('(\_\w\d+)', '', met)
+        met_id = met_id.replace('EX_', '', 1)
+        met_id = met_id.replace('c_', '', 1)
+        return met_id
+
+    @staticmethod
+    def _column_reduction(org_df):
+        dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
+        dataframe.columns = map(str, dataframe.columns)
+        dataframe.index = dataframe['Well']
+        dataframe.drop('Well', axis=1, inplace=True)
+        for col in dataframe.columns:
+            if any([x in col for x in ['Plate', 'Well', 'Cycle']]):
+                dataframe.drop(col, axis=1, inplace=True)
+        dataframe.columns = list(map(int, list(map(float, dataframe.columns))))
+        return dataframe
+
+    @staticmethod
+    def _remove_trials(org_df, ignore_trials, signal, name, significant_deviation):
+        # refine the ignore_trials parameter
+        if isinstance(ignore_trials, dict):
+            ignore_trials['columns'] = list(map(str, ignore_trials['columns'])) if 'columns' in ignore_trials else []
+            ignore_trials['rows'] = list(map(str, ignore_trials['rows'])) if 'rows' in ignore_trials else []
+            ignore_trials['wells'] = ignore_trials['wells'] if 'wells' in ignore_trials else []
+        elif isIterable(ignore_trials):
+            if ignore_trials[0][0].isalpha() and isnumber(ignore_trials[0][1:]):
+                short_code = True  # TODO - drop trials with respect to the short codes, and not the full codes
+
+        dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
+        dropped_trials = []
+        for trial in dataframe.index:
+            if isinstance(ignore_trials, dict) and any(
+                    [trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'], trial in ignore_trials['wells']]
+            ) or isIterable(ignore_trials) and trial in ignore_trials:
+                dataframe.drop(trial, axis=0, inplace=True)
+                dropped_trials.append(trial)
+            elif isIterable(ignore_trials) and trial in ignore_trials:
+                dataframe.drop(trial, axis=0, inplace=True)
+                dropped_trials.append(trial)
+        removed_trials = []
+        if 'OD' not in signal:
+            for trial, row in dataframe.iterrows():
+                row_array = np.array(row.to_list())
+                ## remove trials for which the biomass growth did not change by the determined minimum deviation
+                if row_array[-1] / row_array[0] < significant_deviation:
+                    dataframe.drop(trial, axis=0, inplace=True)
+                    removed_trials.append(trial)
+            if removed_trials:
+                print(f'The {removed_trials} trials were removed from the {name} measurements, '
+                      f'with their deviation over time being less than the threshold of {significant_deviation}.')
+        if dropped_trials:
+            print(f'The {dropped_trials} trials were dropped from the {name} measurements '
+                  'per the ignore_trials parameter.')
+        return dataframe
+
+    @staticmethod
+    def _min_significant_timesteps(full_df, ignore_timesteps, significant_deviation, ignore_trials, name):
+        # refine the DataFrames
+        values_df = DataStandardization._column_reduction(full_df.iloc[1::2])
+        values_df = DataStandardization._remove_trials(values_df, ignore_trials, name)
+        timestep_range = list(set(list(values_df.columns)) - set(ignore_timesteps))
+        start, end = ignore_timesteps[0], ignore_timesteps[-1]
+        start_index = list(values_df.columns).index(start)
+        end_index = list(values_df.columns).index(end)
+        ## adjust the customized range such that the threshold is reached.
+        for trial, row in values_df.iterrows():
+            row_array = np.delete(np.array(row.to_list()), list(range(start_index, end_index + 1)))
+            ## remove trials for which the biomass growth did not change by the determined minimum deviation
+            while all([row_array[-1] / row_array[0] < significant_deviation,
+                       end <= values_df.columns[-1], start >= values_df.columns[0]]):
+                # print(timestep_range[0], values_df.columns[0], values_df.columns[-1], end, start)
+                if timestep_range[0] == values_df.columns[0] and start != values_df.columns[-1]:
+                    timestep_range.append(timestep_range[-1] + 1)
+                    start += 1
+                    print(f"The end boundary for {name} is increased to {timestep_range[-1]}", end="\r")
+                elif timestep_range[-1] == values_df.columns[-1] and end != values_df.columns[0]:
+                    timestep_range.append(timestep_range[0] - 1)
+                    end -= 1
+                    print(f"The start boundary for {name} is decreased to {timestep_range[0]}", end="\r")
+                else:
+                    raise ParameterError(f"All of the timesteps were omitted for {name}.")
+                row_array = np.delete(np.array(row.to_list()), list(range(
+                    list(values_df.columns).index(start), list(values_df.columns).index(end) + 1)))
+            print("\n")
+        return list(range(start, end+1))
+
+    @staticmethod
+    def _remove_timesteps(org_df, ignore_timesteps, name, signal):
+        dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
+        if ignore_timesteps:
+            dropped = []
+            for col in dataframe:
+                if col in ignore_timesteps:
+                    dataframe.drop(col, axis=1, inplace=True)
+                    dropped.append(col)
+            if dropped == ignore_timesteps:
+                print(f"The ignore_timesteps columns were dropped for the {name} {signal} data.")
+            else:
+                raise ParameterError(f"The ignore_timesteps values {ignore_timesteps} "
+                                     f"were unsuccessfully dropped for the {name} {signal} data.")
+        return dataframe, ignore_timesteps
+
+    @staticmethod
+    def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, dataframes):
+        # refine the DataFrames
+        time_df = DataStandardization._column_reduction(dataframes[signal].iloc[0::2])
+        values_df = DataStandardization._column_reduction(dataframes[signal].iloc[1::2])
+
+        # remove specified data trials
+        if ignore_trials:
+            time_df = DataStandardization._remove_trials(
+                time_df, ignore_trials, signal, name, significant_deviation)
+            values_df = DataStandardization._remove_trials(
+                values_df, ignore_trials, signal, name, significant_deviation)
+
+        # remove specified data timesteps
+        if ignore_timesteps:
+            values_df, removed_timesteps = DataStandardization._remove_timesteps(
+                values_df, ignore_timesteps, name, signal)
+            for col in list(map(int, removed_timesteps)):
+                time_df.drop(col, axis=1, inplace=True)
+
+        # process the data for subsequent operations and optimal efficiency
+        values_df.astype(str) ; time_df.astype(str)
+        return time_df, values_df
+
+    def _process_csv(self, csv_path, index_col):
+        self.zipped_output.append(csv_path)
+        csv = read_csv(csv_path) ; csv.index = csv[index_col]
+        csv.drop(index_col, axis=1, inplace=True)
+        csv.astype(str)
+        return csv
 
     @staticmethod
     def _spreadsheet_extension_load(path):
@@ -282,7 +445,6 @@ class DataStandardization:
                         str(conc_dict[sorted(list(conc_dict.keys()), reverse=True)[-row]])]))
             row_concentration = ';'.join(row_conc)
             composition = {}
-            print(row_concentration)
             for col in range(1, column_num+1):
                 ## construct the columns of information
                 additional_compounds.append(row_concentration)
@@ -330,106 +492,6 @@ class DataStandardization:
         constructed_experiments.to_csv("growth_metadata.csv")
         return constructed_experiments, standardized_carbon_conc, trial_name_conversion
 
-    def _met_id_parser(self, met):
-        met_id = re.sub('(\_\w\d+)', '', met)
-        met_id = met_id.replace('EX_', '', 1)
-        met_id = met_id.replace('c_', '', 1)
-        return met_id
-
-    @staticmethod
-    def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, org_df):
-        # refine the DataFrame
-        dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
-        dataframe.columns = map(str, dataframe.columns)
-        dataframe.index = dataframe['Well']
-        dataframe.drop('Well', axis=1, inplace=True)
-        for col in dataframe.columns:
-            if any([x in col for x in ['Plate', 'Well', 'Cycle']]):
-                dataframe.drop(col, axis=1, inplace=True)
-        dataframe.columns = list(map(int, list(map(float, dataframe.columns))))
-
-        # filter data contents
-        dropped_trials = []
-        if isinstance(ignore_trials, dict):
-            ignore_trials['columns'] = list(map(str, ignore_trials['columns'])) if 'columns' in ignore_trials else []
-            ignore_trials['rows'] = list(map(str, ignore_trials['rows'])) if 'rows' in ignore_trials else []
-            ignore_trials['wells'] = ignore_trials['wells'] if 'wells' in ignore_trials else []
-        elif isIterable(ignore_trials):
-            if ignore_trials[0][0].isalpha() and isnumber(ignore_trials[0][1:]):
-                short_code = True  # TODO - drop trials with respect to the short codes, and not the full codes
-        for trial in dataframe.index:
-            if isinstance(ignore_trials, dict) and any(
-                    [trial[0] in ignore_trials['rows'], trial[1:] in ignore_trials['columns'], trial in ignore_trials['wells']]
-            ) or isIterable(ignore_trials) and trial in ignore_trials:
-                dataframe.drop(trial, axis=0, inplace=True)
-                dropped_trials.append(trial)
-            elif isIterable(ignore_trials) and trial in ignore_trials:
-                dataframe.drop(trial, axis=0, inplace=True)
-                dropped_trials.append(trial)
-        if dropped_trials:
-            print(f'The {dropped_trials} trials were dropped from the {name} measurements.')
-        if ignore_timesteps:
-            unique_cols = set(list(dataframe.columns))
-            start, end = ignore_timesteps.split(':')
-            start = int(start or dataframe.columns[0])
-            end = int(end or dataframe.columns[-1])
-            timestep_range = list(unique_cols - set(list(range(start, end+1))))  # the final bound is exclusive
-            start_index = list(dataframe.columns).index(start)
-            end_index = list(dataframe.columns).index(end)
-            ## adjust the customized range such that the threshold is reached.
-            for trial, row in dataframe.iterrows():
-                row_array = np.delete(np.array(row.to_list()), list(range(start_index, end_index+1)))
-                print(row_array)
-                ## remove trials for which the biomass growth did not change by the determined minimum deviation
-                while all([row_array[-1]/row_array[0] < significant_deviation,
-                           end <= dataframe.columns[-1], start >= dataframe.columns[0]]):
-                    print(timestep_range[0], dataframe.columns[0], dataframe.columns[-1], end, start)
-                    if timestep_range[0] == dataframe.columns[0] and start != dataframe.columns[-1]:
-                        timestep_range.append(timestep_range[-1]+1)
-                        start += 1
-                        print(f"The end boundary is increased to {timestep_range[-1]}")
-                    elif timestep_range[-1] == dataframe.columns[-1] and end != dataframe.columns[0]:
-                        timestep_range.append(timestep_range[0]-1)
-                        end -= 1
-                        print(f"The start boundary is decreased to {timestep_range[0]}")
-                    else:
-                        raise ParameterError("All of the timesteps were omitted.")
-                    row_array = np.delete(np.array(row.to_list()), list(range(
-                        list(dataframe.columns).index(start), list(dataframe.columns).index(end)+1)))
-            drop_timestep_range = list(range(start, end))
-            dropped = []
-            for col in dataframe:
-                if col in drop_timestep_range:
-                    dataframe.drop(col, axis=1, inplace=True)
-                    dropped.append(col)
-            if dropped == drop_timestep_range:
-                print(f"The ignore_timesteps columns were dropped for the {name} {signal} data.")
-            else:
-                raise ParameterError(f"The ignore_timesteps values {drop_timestep_range} "
-                                     f"were unsuccessfully dropped for the {name} {signal} data.")
-        if 'OD' not in signal:
-            removed_trials = []
-            for trial, row in dataframe.iterrows():
-                row_array = np.array(row.to_list())
-                ## remove trials for which the biomass growth did not change by the determined minimum deviation
-                if row_array[-1] / row_array[0] < significant_deviation:
-                    dataframe.drop(trial, axis=0, inplace=True)
-                    removed_trials.append(trial)
-            if removed_trials:
-                print(f'The {removed_trials} trials were removed from the {name} measurements, '
-                      f'with their deviation over time being less than the threshold of {significant_deviation}.')
-
-        # process the data for subsequent operations and optimal efficiency
-        dataframe.astype(str)
-        return dataframe
-
-    def _process_csv(self, csv_path, index_col):
-        self.zipped_output.append(csv_path)
-        csv = read_csv(csv_path) ; csv.index = csv[index_col]
-        csv.drop(index_col, axis=1, inplace=True)
-        csv.astype(str)
-        return csv
-
     @staticmethod
     def growth_data(dataframes, trial_name_conversion):
         short_codes, trials_list = [], []
@@ -452,7 +514,6 @@ class DataStandardization:
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
         df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
         df_data.update({f"{sheet}":vals for sheet, vals in values.items()})
-        print(df_data)
         growth_df = DataFrame(df_data)
         growth_df.index = growth_df["short_codes"]
         del growth_df["short_codes"]
