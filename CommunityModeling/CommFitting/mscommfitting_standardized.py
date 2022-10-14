@@ -462,16 +462,15 @@ class MSCommFitting:
         # plot the content for desired trials
         x_axis_split = int(2/data_timestep_hr/timestep_ratio)
         self.plots = []
-        contents = {"biomass":'b', "growth":'g'}
+        contents = {"biomass":'b_', "all_biomass":'b_', "growth":'g_'}
         for graph_index, graph in enumerate(graphs):
             content = contents.get(graph['content'], graph['content'])
             y_label = 'Variable value' ; x_label = 'Time (hr)'
             if any([x in graph['content'] for x in ['total', 'OD', 'all_biomass']]):
                 ys = {name:[] for name in self.signal_species.values()}
             if any(x == graph['content'] for x in ['OD', 'all_biomass']):
-                y_label = 'Biomass concentration (g/L)'
                 graph['phenotype'] = graph['species'] = '*'
-            elif 'biomass' in graph['content']:
+            if any(x == graph['content'] for x in ['biomass', 'all_biomass']):
                 y_label = 'Biomass concentration (g/L)'
             elif graph['content'] == 'growth':
                 y_label = 'Biomass growth (g/hr)'
@@ -484,7 +483,7 @@ class MSCommFitting:
                 graph['species'] = list(self.signal_species.values())
             if "phenotype" not in graph or graph['phenotype'] == '*':
                 graph['phenotype'] = set([col.split('_')[1] for col in self.fluxes_tup.columns
-                                      if col.split('_')[0] in graph["species"]])
+                                         if col.split('_')[0] in graph["species"]])
             print(f"graph_{graph_index}") ; pprint(graph)
 
             # define figure specifications
@@ -503,13 +502,13 @@ class MSCommFitting:
                 labels = []
                 for basename, values in basenames.items():
                     # graph comprehensive overlaid figures of biomass plots
-                    if any([x in content for x in ['total', 'all_biomass', 'OD']]):
+                    if any([x in graph['content'] for x in ['total', 'all_biomass', 'OD']]):
                         if 'b_' in basename:
                             var_name, species, phenotype = basename.split('_')
                             label = f'{species}_biomass (model)'
                             if publishing:
-                                if any([species == species_name for species_name in self.signal_species.values()]):
-                                    break
+                                # if any([species == species_name for species_name in self.signal_species.values()]):
+                                #     break
                                 if species == 'ecoli':
                                     species_name = 'E. coli'
                                 elif species == 'pf':
@@ -519,14 +518,14 @@ class MSCommFitting:
                             xs = np.array(list(values.keys()))
                             vals = np.array(list(values.values()))
                             ax.set_xticks(xs[::int(3/data_timestep_hr/timestep_ratio)])
-                            if any([x in content for x in ['all_biomass', 'OD']]):
+                            if any([x in graph['content'] for x in ['all_biomass', 'OD']]):
                                 ys['OD'].append(vals)
-                            if any([x in content for x in ['all_biomass', 'total']]):
+                            if any([x in graph['content'] for x in ['all_biomass', 'total']]):
                                 ys[species].append(vals)
-                        if all([graph['experimental_data'], '__bio' in basename,
-                                any([content in basename])]):  # TODO - any() must include all_biomass and total
+                        if all([graph['experimental_data'], '__bio' in basename,]):
+                                # any([content in basename])]):  # TODO - any() must include all_biomass and total
                             print("experimental_data")
-                            signal = basename.split('_')[0]
+                            signal = "_".join([x for x in basename.split('_')[:-1] if x])
                             label = basename
                             if publishing:
                                 if self.signal_species[signal] == 'ecoli':
@@ -562,18 +561,21 @@ class MSCommFitting:
                         # print('media concentration')
 
                 if labels:  # this flag represents whether a graph was constructed
-                    if any([x in content for x in ['OD', 'all_biomass', 'total']]):
-                        for name in ys:
-                            if not ys[name]:
+                    labeled_species = [label for i, label in enumerate(labels) if isinstance(labels[i], dict)]
+                    if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
+                        for name, vals in ys.items():
+                            if not vals:
                                 continue
                             label = f'{name}_biomass (model)'
                             if publishing:
                                 if name == 'OD':
                                     label = 'Total biomass from optimized model'
-                                else:
-                                    if isinstance(labels[-1],dict) and name in labels[-1]:
-                                        label = labels[-1][name]
-                            ax.plot(xs.astype(np.float32), sum(ys[name]), label=label)
+                            if labeled_species:
+                                for label_specie in labeled_species:
+                                    if name in label_specie:
+                                        label = label_specie[name]
+                                        break
+                            ax.plot(xs.astype(np.float32), sum(vals), label=label)
                     phenotype_id = graph['phenotype'] if isinstance(graph['phenotype'], str) else f"{','.join(graph['phenotype'])} phenotypes"
                     species_id = graph["species"] if graph["species"] != '*' and isinstance(graph["species"], str) else 'all species'
                     ax.set_xlabel(x_label)
