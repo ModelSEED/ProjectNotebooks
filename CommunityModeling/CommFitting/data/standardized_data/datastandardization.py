@@ -127,7 +127,7 @@ class DataStandardization:
             start = int(start or df.columns[0])
             end = int(end or df.columns[-1])
             break
-        ignore_timesteps = list(range(start, end+1))
+        ignore_timesteps = list(range(start, end+1)) if start != end else None
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
         media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
@@ -223,7 +223,7 @@ class DataStandardization:
                 dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
                 ## parse the timesteps from the DataFrame
                 drop_timestep_range = DataStandardization._min_significant_timesteps(
-                    dataframes[sheet], ignore_timesteps, significant_deviation, ignore_trials, name)
+                    dataframes[sheet], ignore_timesteps, significant_deviation, ignore_trials, sheet, name)
                 max_timestep_cols.append(drop_timestep_range)
             max_cols = max(list(map(len, max_timestep_cols)))
             ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
@@ -314,10 +314,10 @@ class DataStandardization:
         return dataframe
 
     @staticmethod
-    def _min_significant_timesteps(full_df, ignore_timesteps, significant_deviation, ignore_trials, name):
+    def _min_significant_timesteps(full_df, ignore_timesteps, significant_deviation, ignore_trials, signal, name):
         # refine the DataFrames
         values_df = DataStandardization._column_reduction(full_df.iloc[1::2])
-        values_df = DataStandardization._remove_trials(values_df, ignore_trials, name)
+        values_df = DataStandardization._remove_trials(values_df, ignore_trials, signal, name, significant_deviation)
         timestep_range = list(set(list(values_df.columns)) - set(ignore_timesteps))
         start, end = ignore_timesteps[0], ignore_timesteps[-1]
         start_index = list(values_df.columns).index(start)
