@@ -134,7 +134,7 @@ class MSCommFitting:
                 self.variables["c_"+met][short_code] = {} ; self.constraints['dcc_'+met][short_code] = {}
                 timesteps = list(range(1,len(self.times[short_code])+1))
                 for index, timestep in enumerate(timesteps):
-                    ## define biomass measurement conversion variables
+                    ## define the concentration variables
                     conc_var = tupVariable(_name("c_", met, short_code, timestep))
                     ## constrain initial time concentrations to the media or a large default
                     if index == 0 and not 'bio' in met_id:
@@ -250,6 +250,13 @@ class MSCommFitting:
                             "operation": "Add"
                         })
                     constraints.append(self.constraints['dcc_'+met][short_code][timestep])
+
+        #   define the conversion variables of every signal for every phenotype
+        # for signal in growth_tup.columns[2:]:
+        #     for pheno in self.fluxes_tup.columns:
+        #         conversion_name = "_".join([signal, pheno, "__conversion"])
+        #         self.variables[conversion_name] = tupVariable(conversion_name)
+        #         variables.append(self.variables[conversion_name])
 
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3-time_2)/60} min')
