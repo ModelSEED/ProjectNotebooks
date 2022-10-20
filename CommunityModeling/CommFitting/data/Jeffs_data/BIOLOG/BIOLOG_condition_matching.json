@@ -1,0 +1,108 @@
+{
+   "unmatched": [
+      "Negative Control",
+      "Positive Control",
+      "1% NaCl",
+      "4% NaCl",
+      "8% NaCl",
+      "3-Methyl Glucose",
+      "D-Glucose-6-PO4",
+      "Gelatin",
+      "L-Pyroglutamic Acid",
+      "Niaproof 4",
+      "Lithium Chloride",
+      "Potassium Tellurite",
+      "Sodium Butyrate",
+      "Sodium Bromate"
+   ],
+   "mismatched": [
+      {
+         "original": "D-Trehalose",
+         "bestMatch": "Trehalose 6-phosphate"
+      },
+      {
+         "original": "D-Cellobiose",
+         "bestMatch": "alpha-Cellobiose"
+      },
+      {
+         "original": "D-Raffinose",
+         "bestMatch": "D-Raffinose pentahydrate"
+      },
+      {
+         "original": "alpha-D-Lactose",
+         "bestMatch": "beta-Lactose"
+      },
+      {
+         "original": "beta-Methyl-D-Glucoside",
+         "bestMatch": "beta-D-Glucoside"
+      },
+      {
+         "original": "D-Salicin",
+         "bestMatch": "Salicin"
+      },
+      {
+         "original": "N-Acetyl-D-Galactosamine",
+         "bestMatch": "UDP-N-acetyl-D-galactosamine"
+      },
+      {
+         "original": "N-Acetyl-Neuraminic Acid",
+         "bestMatch": "Neuraminic acid"
+      },
+      {
+         "original": "alpha-D-Glucose",
+         "bestMatch": "beta-D-Glucose"
+      },
+      {
+         "original": "1% Sodium Lactate",
+         "bestMatch": "L-Lactate"
+      },
+      {
+         "original": "D-Arabitol",
+         "bestMatch": "D-arabitol 5-phosphate"
+      },
+      {
+         "original": "myo-Inositol",
+         "bestMatch": "1-O-Methyl-myo-inositol"
+      },
+      {
+         "original": "D-Aspartic Acid",
+         "bestMatch": "D-Aspartate"
+      },
+      {
+         "original": "Glycyl-L-Proline",
+         "bestMatch": "L-Proline"
+      },
+      {
+         "original": "L-Aspartic Acid",
+         "bestMatch": "L-Aspartate"
+      },
+      {
+         "original": "L-Glutamic Acid",
+         "bestMatch": "L-Glutamate"
+      },
+      {
+         "original": "Guanidine HCl",
+         "bestMatch": "Guanidine"
+      },
+      {
+         "original": "D-Galacturonic Acid",
+         "bestMatch": "D-Galacturonic acid calcium salt"
+      },
+      {
+         "original": "L-Galactonic Acid Lactone",
+         "bestMatch": "L-Galactonate"
+      },
+      {
+         "original": "Mucic Acid",
+         "bestMatch": "D-Mucic Acid"
+      },
+      {
+         "original": "p-Hydroxy-Phenylacetic Acid",
+         "bestMatch": "Phenylacetic acid"
+      },
+      {
+         "original": "alpha-Keto-Butyric Acid",
+         "bestMatch": "2-keto-4-hydroxybutyrate"
+      }
+   ]
+}

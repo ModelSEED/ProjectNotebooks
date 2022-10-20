@@ -32,12 +32,13 @@ def isnumber(string):
 
 
 def dict_keys_exists(dic, *keys):
+    result = keys[0] in dic
     if keys[0] in dic:
         remainingKeys = keys[1:]
         if len(remainingKeys) > 0:
-            dict_keys_exists(dic[keys[0]], keys[1:])
-        return True
-    return False
+            result = dict_keys_exists(dic[keys[0]], *remainingKeys)
+        return result
+    return result
 
 
 def find_dic_number(dic):
@@ -75,13 +76,10 @@ class MSCommFitting:
     def __init__(self, fluxes_df, carbon_conc, media_conc, signal_species, species_phenos_df, growth_df=None, experimental_metadata=None):
         self.parameters, self.variables, self.constraints, = {}, {}, {}
         self.zipped_output, self.plots = [], []
-        self.signal_species = signal_species;
-        self.species_phenos_df = species_phenos_df
+        self.signal_species = signal_species; self.species_phenos_df = species_phenos_df
         self.fluxes_tup = FBAHelper.parse_df(fluxes_df)
-        self.growth_df = growth_df;
-        self.experimental_metadata = experimental_metadata
-        self.carbon_conc = carbon_conc;
-        self.media_conc = media_conc
+        self.growth_df = growth_df; self.experimental_metadata = experimental_metadata
+        self.carbon_conc = carbon_conc; self.media_conc = media_conc
 
     def _export_model_json(self, json_model, path):
         with open(path, 'w') as lp:
@@ -103,6 +101,7 @@ class MSCommFitting:
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
+        # TODO - short_codes must be distinguished for different conditions
         unique_short_codes = [f"{growth_tup.index[0][0]}{num}" for num in map(str, num_sorted)]
         time_column_index = growth_tup.columns.index("Time (s)")
         full_times = growth_tup.values[:, time_column_index]
@@ -117,12 +116,12 @@ class MSCommFitting:
             "bcv": 1,  # The highest fraction of species biomass that can change phenotypes in a timestep
             "cvmin": 0,  # The lowest value the limit on phenotype conversion goes,
             "v": 0.1,  # The kinetics constant that is externally adjusted
-            'carbon_sources': ['cpd00136', 'cpd00179'],  # 4hb, maltose
+            'carbon_sources': [],  # 4hb, maltose
             'diffpos': 1, 'diffneg': 1,
             # diffpos and diffneg coefficients that weight difference between experimental and predicted biomass
         })
         self.parameters.update(parameters)
-        mets_to_track = mets_to_track or self.parameters["carbon_sources"]
+        mets_to_track = mets_to_track or self.parameters["carbon_sources"] or []
         zero_start = zero_start or []
 
         # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
@@ -138,20 +137,18 @@ class MSCommFitting:
         time_1 = process_time()
         for met in self.fluxes_tup.index:
             met_id = self._met_id_parser(met)
-            if mets_to_track and met_id == 'cpd00001' or met_id not in mets_to_track:
+            if mets_to_track and (met_id == 'cpd00001' or met_id not in mets_to_track):
                 continue
-            self.variables["c_" + met] = {};
-            self.constraints['dcc_' + met] = {}
+            self.variables["c_" + met] = {}; self.constraints['dcc_' + met] = {}
             for short_code in unique_short_codes:
-                self.variables["c_" + met][short_code] = {};
-                self.constraints['dcc_' + met][short_code] = {}
+                self.variables["c_" + met][short_code] = {}; self.constraints['dcc_' + met][short_code] = {}
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
                 for index, timestep in enumerate(timesteps):
                     ## define the concentration variables
                     conc_var = tupVariable(_name("c_", met, short_code, timestep))
                     ## constrain initial time concentrations to the media or a large default
                     if index == 0 and not 'bio' in met_id:
-                        initial_val = 100 if met_id not in self.media_conc else self.media_conc[met_id]
+                        initial_val = 100 if not self.media_conc or met_id not in self.media_conc else self.media_conc[met_id]
                         initial_val = 0 if met_id in zero_start else initial_val
                         if dict_keys_exists(self.carbon_conc, met_id, short_code):
                             initial_val = self.carbon_conc[met_id][short_code]
@@ -169,18 +166,13 @@ class MSCommFitting:
 
         # define growth and biomass variables and constraints
         for pheno in self.fluxes_tup.columns:
-            self.variables['cvt_' + pheno] = {};
-            self.variables['cvf_' + pheno] = {}
-            self.variables['b_' + pheno] = {};
-            self.variables['g_' + pheno] = {}
+            self.variables['cvt_' + pheno] = {}; self.variables['cvf_' + pheno] = {}
+            self.variables['b_' + pheno] = {}; self.variables['g_' + pheno] = {}
             self.variables['v_' + pheno] = {}
-            self.constraints['gc_' + pheno] = {};
-            self.constraints['cvc_' + pheno] = {}
+            self.constraints['gc_' + pheno] = {}; self.constraints['cvc_' + pheno] = {}
             for short_code in unique_short_codes:
-                self.variables['cvt_' + pheno][short_code] = {};
-                self.variables['cvf_' + pheno][short_code] = {}
-                self.variables['b_' + pheno][short_code] = {};
-                self.variables['g_' + pheno][short_code] = {}
+                self.variables['cvt_' + pheno][short_code] = {}; self.variables['cvf_' + pheno][short_code] = {}
+                self.variables['b_' + pheno][short_code] = {}; self.variables['g_' + pheno][short_code] = {}
                 self.variables['v_' + pheno][short_code] = {}
                 self.constraints['gc_' + pheno][short_code] = {}
                 self.constraints['cvc_' + pheno][short_code] = {}
@@ -247,7 +239,7 @@ class MSCommFitting:
         print(f'Done with concentrations and biomass loops: {(time_2 - time_1) / 60} min')
         for r_index, met in enumerate(self.fluxes_tup.index):
             met_id = self._met_id_parser(met)
-            if mets_to_track and met_id == 'cpd00001' or met_id not in mets_to_track:
+            if mets_to_track and (met_id == 'cpd00001' or met_id not in mets_to_track):
                 continue
             for short_code in unique_short_codes:
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
@@ -284,11 +276,9 @@ class MSCommFitting:
             # TODO - The conversion must be defined per phenotype
             self.variables[signal + '__conversion'] = tupVariable(signal + '__conversion')
             variables.append(self.variables[signal + '__conversion'])
-            self.variables[signal + '__bio'] = {};
-            self.variables[signal + '__diffpos'] = {}
+            self.variables[signal + '__bio'] = {}; self.variables[signal + '__diffpos'] = {}
             self.variables[signal + '__diffneg'] = {}
-            self.constraints[signal + '__bioc'] = {};
-            self.constraints[signal + '__diffc'] = {}
+            self.constraints[signal + '__bioc'] = {}; self.constraints[signal + '__diffc'] = {}
             for short_code in unique_short_codes:
                 self.variables[signal + '__bio'][short_code] = {}
                 self.variables[signal + '__diffpos'][short_code] = {}
@@ -311,6 +301,7 @@ class MSCommFitting:
                     total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
+                        # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
                         val = 1 if 'OD' in signal else self.species_phenos_df.loc[signal, pheno]
                         val = val if isnumber(val) else val.values[0]
                         signal_sum.append({"operation": "Mul", "elements": [
@@ -492,8 +483,7 @@ class MSCommFitting:
         contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_'}
         for graph_index, graph in enumerate(graphs):
             content = contents.get(graph['content'], graph['content'])
-            y_label = 'Variable value';
-            x_label = 'Time (hr)'
+            y_label = 'Variable value'; x_label = 'Time (hr)'
             if any([x in graph['content'] for x in ['biomass', 'OD', 'all']]):
                 ys = {name: [] for name in self.signal_species.values()}
                 if "all" in graph['content']:
@@ -515,8 +505,7 @@ class MSCommFitting:
                 raise ValueError(f"The specified graph {graph} must define species for which data will be plotted.")
             if graph['species'] == '*':
                 graph['species'] = list(self.signal_species.values())
-            print(f"graph_{graph_index}");
-            pprint(graph)
+            print(f"graph_{graph_index}"); pprint(graph)
 
             # define figure specifications
             if publishing:
@@ -742,8 +731,7 @@ class MSCommFitting:
             if not hasattr(self, 'values'):
                 with open(primal_values_filename, 'r') as pv:
                     self.values = json.load(pv)
-            initial_concentrations = {};
-            already_constrained = []
+            initial_concentrations = {}; already_constrained = []
             for var in mscomfit_json['variables']:
                 if 'cpd' not in var['name']:
                     continue
