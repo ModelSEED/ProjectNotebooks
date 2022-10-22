@@ -290,9 +290,10 @@ class GrowthData:
                 cols["rxn"].append(ex_rxn.id)
                 for col in looped_cols:
                     ### reactions that are not present in the columns are ignored
-                    flux = 0 if col not in content["solutions"] or \
-                                ex_rxn.id not in list(content["solutions"][col].fluxes.index) \
-                                else content["solutions"][col].fluxes[ex_rxn.id]
+                    flux = 0 if (
+                            col not in content["solutions"] or
+                            ex_rxn.id not in list(content["solutions"][col].fluxes.index)
+                    ) else content["solutions"][col].fluxes[ex_rxn.id]
                     cols[col].append(flux)
 
         ## construct the DataFrame
@@ -443,7 +444,7 @@ class GrowthData:
                         str(conc_dict[sorted(list(conc_dict.keys()), reverse=True)[-row]])]))
             row_concentration = ';'.join(row_conc)
             composition = {}
-            for col in range(2, column_num+1):
+            for col in range(1, column_num+1):
                 ## construct the columns of information
                 additional_compounds.append(row_concentration)
                 experiment_id = []
@@ -468,7 +469,7 @@ class GrowthData:
                     experiment_id.append(f"{init}_{met_name}")
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
-                trial_name_conversion[trial_letter][str(col)] = (experiment_prefix+str(count), experiment_id)
+                trial_name_conversion[trial_letter][str(col+1)] = (experiment_prefix+str(count), experiment_id)
                 count += 1
 
         # convert the variable concentrations to short codes

@@ -2,12 +2,11 @@
 # from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
-from pandas import DataFrame, read_csv
-from optlang import Model
+from pandas import DataFrame
+from optlang import Model, Objective
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.constants import hour, minute
 from scipy.optimize import newton
-from collections import OrderedDict
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
 from itertools import chain
@@ -16,6 +15,7 @@ from typing import Union, Iterable
 from pprint import pprint
 from time import sleep, process_time
 from math import inf, isclose
+from icecream import ic
 import numpy as np
 # from cplex import Cplex
 import logging, json, os, re
@@ -81,6 +81,14 @@ class MSCommFitting:
         self.growth_df = growth_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
 
+    #################### FITTING PHASE METHODS ####################
+    def fit(self, parameters=None, mets_to_track: list = None, carbon_sources:list=None,
+            zero_start=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None, export_zip_name: str = None,
+            export_parameters: bool = True, export_lp: bool = True, figures_zip_name=None, publishing=False):
+        self.define_problem(parameters, mets_to_track, carbon_sources, zero_start, data_timesteps, export_zip_name,
+                            export_parameters, export_lp)
+        self.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+
     def _export_model_json(self, json_model, path):
         with open(path, 'w') as lp:
             json.dump(json_model, lp, indent=3)
@@ -96,8 +104,8 @@ class MSCommFitting:
             self.problem.add(content)
             self.problem.update()
 
-    def define_problem(self, parameters=None, export_zip_name: str = None, export_parameters: bool = True, export_lp: bool = True,
-                       final_rel_c12_conc: float = 0, mets_to_track: list = None, data_timesteps: dict = None, zero_start=None):
+    def define_problem(self, parameters=None, mets_to_track: list = None, carbon_sources=None, zero_start=None,
+                       data_timesteps: dict=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: bool=True):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
@@ -116,12 +124,13 @@ class MSCommFitting:
             "bcv": 1,  # The highest fraction of species biomass that can change phenotypes in a timestep
             "cvmin": 0,  # The lowest value the limit on phenotype conversion goes,
             "v": 0.1,  # The kinetics constant that is externally adjusted
-            'carbon_sources': [],  # 4hb, maltose
             'diffpos': 1, 'diffneg': 1,
             # diffpos and diffneg coefficients that weight difference between experimental and predicted biomass
         })
         self.parameters.update(parameters)
-        mets_to_track = mets_to_track or self.parameters["carbon_sources"] or []
+        default_carbon_sources = ["cpd00076", "cpd00179", "cpd00027"]  # sucrose, maltose, glucose
+        self.carbon_sources = carbon_sources or default_carbon_sources
+        self.mets_to_track = mets_to_track or self.carbon_sources
         zero_start = zero_start or []
 
         # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
@@ -137,7 +146,7 @@ class MSCommFitting:
         time_1 = process_time()
         for met in self.fluxes_tup.index:
             met_id = self._met_id_parser(met)
-            if mets_to_track and (met_id == 'cpd00001' or met_id not in mets_to_track):
+            if self.mets_to_track and (met_id == 'cpd00001' or met_id not in self.mets_to_track):
                 continue
             self.variables["c_" + met] = {}; self.constraints['dcc_' + met] = {}
             for short_code in unique_short_codes:
@@ -154,8 +163,8 @@ class MSCommFitting:
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if index == len(timesteps) - 1 and met_id in self.parameters['carbon_sources']:
-                        final_bound = self.variables["c_" + met][short_code][1].bounds.lb * final_rel_c12_conc
+                    if index == len(timesteps) - 1 and met_id in self.carbon_sources:
+                        final_bound = self.variables["c_" + met][short_code][1].bounds.lb * self.carbon_sources[met_id]
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_" + met][short_code][timestep])
@@ -239,7 +248,7 @@ class MSCommFitting:
         print(f'Done with concentrations and biomass loops: {(time_2 - time_1) / 60} min')
         for r_index, met in enumerate(self.fluxes_tup.index):
             met_id = self._met_id_parser(met)
-            if mets_to_track and (met_id == 'cpd00001' or met_id not in mets_to_track):
+            if self.mets_to_track and (met_id == 'cpd00001' or met_id not in self.mets_to_track):
                 continue
             for short_code in unique_short_codes:
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
@@ -399,6 +408,7 @@ class MSCommFitting:
         print(f'Done with the dbc & diffc loop: {(time_4 - time_3) / 60} min')
 
         # construct the problem
+        # self.dict_problem = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective)
         self.problem = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective, True)
         print("Solver:", type(self.problem))
         time_5 = process_time()
@@ -424,7 +434,7 @@ class MSCommFitting:
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6 - time_5) / 60} min')
 
-    def compute(self, graphs: list = None, export_zip_name=None, figures_zip_name=None, publishing=False):
+    def compute(self, graphs: list = None, msdb_path:str=None, export_zip_name=None, figures_zip_name=None, publishing=False):
         self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
@@ -453,19 +463,18 @@ class MSCommFitting:
 
         # visualize the specified information
         if graphs:
-            self.graph(graphs, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing)
+            self.graph(graphs, msdb_path=msdb_path, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing)
 
-    def _add_plot(self, ax, labels, basename, trial, x_axis_split, linestyle="solid"):
-        labels.append(basename.split('-')[-1])
+    def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid"):
+        labels.append(label or basename.split('-')[-1])
         ax.plot(list(self.values[trial][basename].keys()),
                 list(self.values[trial][basename].values()),
-                label=basename, linestyle=linestyle)
-        ax.legend(labels)
+                label=labels[-1], linestyle=linestyle)
         x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
         ax.set_xticks(x_ticks[::x_axis_split])
         return ax, labels
 
-    def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None,
+    def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None, msdb_path:str=None,
               export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None):
         # define the default timestep ratio as 1
         data_timestep_hr = self.parameters.get('data_timestep_hr', data_timestep_hr)
@@ -478,9 +487,13 @@ class MSCommFitting:
                 self.values = json.load(primal)
 
         # plot the content for desired trials
+        if msdb_path and not hasattr(self, "msdb"):
+            from modelseedpy.biochem import from_local
+            self.msdb = from_local(msdb_path)
         x_axis_split = int(2 / data_timestep_hr / timestep_ratio)
         self.plots = []
-        contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_'}
+        contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_', "conc": "c_"}
+        linestyle = {"OD":"solid", "ecoli":"dashed", "pf":"dotted"}
         for graph_index, graph in enumerate(graphs):
             content = contents.get(graph['content'], graph['content'])
             y_label = 'Variable value'; x_label = 'Time (hr)'
@@ -498,13 +511,16 @@ class MSCommFitting:
             #     x_label = content+' (mM)'
             graph["experimental_data"] = default_dict_values(graph, "experimental_data", False)
             if 'phenotype' in graph and graph['phenotype'] == '*':
-                graph['species'] = list(self.signal_species.values())
+                if "species" not in graph:
+                    graph['species'] = list(self.signal_species.values())
                 graph['phenotype'] = set([col.split('_')[1] for col in self.fluxes_tup.columns
                                           if col.split('_')[0] in graph["species"]])
-            if "species" not in graph:
-                raise ValueError(f"The specified graph {graph} must define species for which data will be plotted.")
-            if graph['species'] == '*':
+            if 'species' in graph and graph['species'] == '*':
                 graph['species'] = list(self.signal_species.values())
+            elif content == "c_" and 'mets' not in graph:
+                graph["mets"] = self.mets_to_track
+            elif not any(["species" in graph, "mets" in graph]):
+                raise ValueError(f"The specified graph {graph} must define species for which data will be plotted.")
             print(f"graph_{graph_index}"); pprint(graph)
 
             # define figure specifications
@@ -515,6 +531,7 @@ class MSCommFitting:
                 pyplot.rc('legend', fontsize=18)
             fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
             x_ticks = None
+            yscale = "linear"
 
             # define the figure contents
             for trial, basenames in self.values.items():
@@ -536,7 +553,7 @@ class MSCommFitting:
                                     species_name = 'P. fluorescens'
                                 elif species == 'OD':
                                     species_name = 'Total'
-                                label = f'{species_name} biomass from optimized model'
+                                label = f'{species_name} total'
                             labels.append({species: label})
                             xs = np.array(list(values.keys()))
                             vals = np.array(list(values.values()))
@@ -559,36 +576,47 @@ class MSCommFitting:
                                 label = f'Experimental {species} profile (from {signal})'
                                 if signal == 'OD':
                                     label = 'Experimental total biomass (from OD)'
-                            labels.append(label)
-                            ax, labels = self._add_plot(ax, labels, basename, trial, x_axis_split)
+                            ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split)
                     # graph an aspect of a specific species across all phenotypes
                     if content not in basename:
                         continue
-                    elif "phenotype" in graph:
-                        if graph['phenotype'] == '*' and any([x in basename for x in graph['species']]):
-                            if 'total' in graph["content"]:  # TODO - this logic appears erroneous by not using _add_plot()
-                                labels = [basename]
-                                xs = np.array(list(values.keys()))
-                                ys.append(np.array(list(values.values())))
-                                ax.set_xticks(x_ticks[::int(3 / data_timestep_hr / timestep_ratio)])
-                            else:
-                                ax, labels = self._add_plot(ax, labels, basename, trial, x_axis_split)
-                            # print('species content of all phenotypes')
-                        # graph all phenotypes
-                        elif any([x in basename for x in graph['phenotype']]):
-                            if any([x in basename for x in graph['species']]):
-                                linestyle = "solid" if "ecoli" in basename else "dashed"
-                                ax, labels = self._add_plot(ax, labels, basename, trial, x_axis_split, linestyle)
+                    if "phenotype" in graph:
+                        for specie in graph["species"]:
+                            if specie not in basename:
+                                continue
+                            label = basename.split("_")[-1]
+                            style = "solid"
+                            # multi-species figures
+                            if len(graph["species"]) > 1:
+                                label = re.sub(r"(^[a-b]+\_)", "", basename)
+                                style = linestyle[specie]
+                            if graph['phenotype'] == '*':
+                                if 'total' in graph["content"]:  # TODO - this logic appears erroneous by not using _add_plot()
+                                    labels = [label]
+                                    xs = np.array(list(values.keys()))
+                                    ys.append(np.array(list(values.values())))
+                                    ax.set_xticks(x_ticks[::int(3 / data_timestep_hr / timestep_ratio)])
+                                else:
+                                    ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
+                                # print('species content of all phenotypes')
+                            # graph all phenotypes
+                            elif any([x in basename for x in graph['phenotype']]):
+                                ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
                                 # print('all content over all phenotypes')
+                            break
                     # graph media concentration plots
-                    elif 'EX_' in basename:
-                        ax, labels = self._add_plot(ax, labels, basename, trial, x_axis_split)
+                    elif "mets" in graph and all([
+                        any([x in basename for x in graph["mets"]]), 'EX_' in basename]
+                    ):
+                        label=self.msdb.compounds.get_by_id(re.search(r"(cpd\d+)", basename).group()).name
+                        ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split)
+                        yscale = "log"
                         y_label = 'Concentration (mM)'
                         # print('media concentration')
 
-                if labels:  # this flag represents whether a graph was constructed
-                    labeled_species = [label for label in labels if isinstance(label, dict)]
-                    if any([x in graph['content'] for x in ['OD', 'all_biomass', 'total']]):
+                if labels:  # this assesses whether a graph was constructed
+                    if any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
+                        labeled_species = [label for label in labels if isinstance(label, dict)]
                         for name, vals in ys.items():
                             if not vals:
                                 continue
@@ -598,23 +626,28 @@ class MSCommFitting:
                                     if name in label_specie:
                                         label = label_specie[name]
                                         break
-                            ax.plot(xs.astype(np.float32), sum(vals), label=label)
+                            style = "solid" if (len(graph["species"]) < 1 or name not in linestyle) else linestyle[name]
+                            style = "dashdot" if "total" in label else style
+                            ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style)
 
                     phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
                     if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                         phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
 
-                    if graph['species'] == list(self.signal_species.values()):
-                        species_id = 'all species'
-                    elif isinstance(graph["species"], str):
-                        species_id = graph["species"]
-                    else:
-                        phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
-                    if species_id == "all species" and not phenotype_id:
-                        phenotype_id = ','.join(graph['species'])
+                    if "mets" not in graph and content != "c_":
+                        species_id = graph["species"] if isinstance(graph["species"], str) else ",".join(graph["species"])
+                        if "species" in graph and graph['species'] == list(self.signal_species.values()):
+                            species_id = 'all species'
+                        else:
+                            phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
+                        if species_id == "all species" and not phenotype_id:
+                            phenotype_id = ','.join(graph['species'])
 
                     ax.set_xlabel(x_label)
                     ax.set_ylabel(y_label)
+                    ax.set_yscale(yscale)
+                    ax.set_ylim(1e-3)
+                    ax.grid(axis="y")
                     if len(labels) > 1:
                         ax.legend()
                     if not publishing:
@@ -622,12 +655,14 @@ class MSCommFitting:
                             org_content = content if content not in contents.values() else list(
                                 contents.keys())[list(contents.values()).index(content)]
                             this_title = f'{org_content} of {species_id} ({phenotype_id}) in the {trial} trial'
-                            if "cpd" in content:
+                            if content == "c_":
                                 this_title = f"{org_content} in the {trial} trial"
                             ax.set_title(this_title)
                         else:
                             ax.set_title(title)
                     fig_name = f'{"_".join([trial, species_id, phenotype_id, content])}.jpg'
+                    if "mets" in graph:
+                        fig_name = f"{trial}_{','.join(graph['mets'])}_c.jpg"
                     fig.savefig(fig_name)
                     self.plots.append(fig_name)
 
@@ -744,7 +779,7 @@ class MSCommFitting:
                 elif timestep == self.timesteps[-1]:
                     if final_abs_concs and dict_keys_exists(final_abs_concs, met_name):
                         met['lb'] = met['ub'] = final_abs_concs[met_name]
-                    elif final_rel_c12_conc and any([x in met_name for x in self.parameters['carbon_sources']]):
+                    elif final_rel_c12_conc and any([x in met_name for x in self.carbon_sources]):
                         print("ub 1", met['ub'])
                         met['lb'] = met['ub'] = initial_concentrations[met_name] * final_rel_c12_conc
                         if previous_relative_conc:
@@ -794,4 +829,25 @@ class MSCommFitting:
         with ZipFile(self.zip_name, 'r') as zp:
             zp.extract('mscommfitting.json')
 
-        newton
+        # leverage the newton module for Newton's optimization algorithm
+
+    #################### ENGINEERING PHASE METHODS ####################
+
+    def engineering(self):
+        if not hasattr(self, "problem"):
+            self.fit() # TODO - accommodate both fitting a new model and loading an existing model
+
+        # This will capture biomass variables at all times and trials, which seems undesirable
+        self.problem.objective = Objective(sum([x for x in self.problem.variables if "bio" in x.name]))
+
+        # Use a community COBRA model and CommKinetics with the fitted kinetic parameters?
+
+    def _add_phenotypes(self):
+        pass
+
+
+
+    def _change_obj(self):
+        pass
+
+
