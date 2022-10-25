@@ -147,7 +147,35 @@ def _remove_trials(org_df, ignore_trials, signal, name, significant_deviation):
     if dropped_trials:
         print(f'The {dropped_trials} trials were dropped from the {name} measurements '
               'per the ignore_trials parameter.')
-    return dataframe
+    return dataframe, dropped_trials+removed_trials
+
+def _check_plateau(org_df, signal, name, significant_deviation, timesteps_len):
+    values_df = _column_reduction(org_df.iloc[1::2])
+    dataframe = values_df.copy()  # this prevents an irrelevant warning from pandas
+    dropped = []
+    for trial, row in dataframe.iterrows():
+        row_array = np.array(row.to_list())
+        values = []
+        ## remove trials for which the biomass growth did not change by the determined minimum deviation
+        for index, val in enumerate(row_array):
+            if val / row_array[0] >= significant_deviation:
+                values.append(val)
+                if len(values) > timesteps_len:
+                    del values[0]
+                remaining_values = list(dataframe.columns[index-len(values)+1:])
+                if all([len(values) == timesteps_len, values[-1] <= values[0],
+                        remaining_values[-1] <= remaining_values[0]*1.1]):
+                    # the entire plateau, minus the first point of plateau, are removed
+                    dropped = remaining_values
+                    break
+        if dropped:
+            print(row_array[index-len(values)+1:])
+            break
+    if dropped:
+        print(f"The {dropped} timesteps were removed for the {name} {signal} data"
+              f" since the OD plateaued and is no longer valid.")
+    return dropped
+
 
 def _remove_timesteps(org_df, ignore_timesteps, name, signal):
     dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
@@ -171,10 +199,10 @@ def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_
 
     # remove specified data trials
     if ignore_trials:
-        time_df = _remove_trials(
-            time_df, ignore_trials, signal, name, significant_deviation)
-        values_df = _remove_trials(
+        values_df, removed_trials = _remove_trials(
             values_df, ignore_trials, signal, name, significant_deviation)
+        for row in removed_trials:
+            time_df.drop(row, axis=0, inplace=True)
 
     # remove specified data timesteps
     if ignore_timesteps:
@@ -338,8 +366,33 @@ class GrowthData:
             max_cols = max(list(map(len, max_timestep_cols)))
             ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
 
+        # remove trials for which the OD has plateaued
         for org_sheet, name in data_paths.items():
-            if org_sheet == 'path':
+            if "OD" not in name:
+                continue
+            ## load the OD DataFrame
+            sheet = org_sheet.replace(' ', '_')
+            dataframes[sheet] = _spreadsheet_extension_parse(
+                data_paths['path'], raw_data, org_sheet)
+            dataframes[sheet].columns = dataframes[sheet].iloc[6]
+            dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
+            ## process the OD DataFrame
+            data_times_df, data_values_df = _df_construction(
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
+            plateaued_times = _check_plateau(
+                dataframes[sheet], name, name, significant_deviation, 5)
+            ## define and store the final DataFrames
+            for col in plateaued_times:
+                if col in data_times_df.columns:
+                    data_times_df.drop(col, axis=1, inplace=True)
+                if col in data_values_df.columns:
+                    data_values_df.drop(col, axis=1, inplace=True)
+            dataframes[sheet] = (data_times_df, data_values_df)
+            break
+
+        # refine the non-OD signals
+        for org_sheet, name in data_paths.items():
+            if org_sheet == 'path' or "OD" in name:
                 continue
             sheet = org_sheet.replace(' ', '_')
             if sheet not in dataframes:
@@ -355,6 +408,11 @@ class GrowthData:
             data_times_df, data_values_df = _df_construction(
                 name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
             # display(data_times_df) ; display(data_values_df)
+            for col in plateaued_times:
+                if col in data_times_df.columns:
+                    data_times_df.drop(col, axis=1, inplace=True)
+                if col in data_values_df.columns:
+                    data_values_df.drop(col, axis=1, inplace=True)
             dataframes[sheet] = (data_times_df, data_values_df)
 
         # differentiate the phenotypes for each species
