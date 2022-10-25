@@ -105,18 +105,6 @@ class MSCommFitting:
             self.problem.add(content)
             self.problem.update()
 
-    def _check_plateau(self):
-        # assign the initial OD value
-
-        # iteratively check OD until a relative threshold to the initial value is surpassed
-        ## start scanning 2-hour blocks for equivalence between the first and last values
-
-        # remove all timesteps after the first timestep in a block where plateau is observed
-
-        # return the refined OD, which must be used to refine all other datasets and acquire a standard data length
-
-        pass
-
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: bool=True):
         # parse the growth data
@@ -182,12 +170,13 @@ class MSCommFitting:
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if index == len(timesteps) - 1:
+                    if timestep == timesteps[-1]:
                         if met_id in self.rel_final_conc:
                             final_bound = self.variables["c_" + met][short_code][1].bounds.lb * self.rel_final_conc[met_id]
                         if met_id in self.abs_final_conc: # this intentionally overwrites rel_final_conc
                             final_bound = self.abs_final_conc[met_id]
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
+                        print(timestep, conc_var)
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_" + met][short_code][timestep])
         for signal in [signal for signal in growth_tup.columns[3:] if 'OD' not in signal]:

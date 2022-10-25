@@ -150,21 +150,23 @@ def _remove_trials(org_df, ignore_trials, signal, name, significant_deviation):
     return dataframe, dropped_trials+removed_trials
 
 def _check_plateau(org_df, signal, name, significant_deviation, timesteps_len):
-    values_df = _column_reduction(org_df.iloc[1::2])
-    dataframe = values_df.copy()  # this prevents an irrelevant warning from pandas
+    dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
     dropped = []
     for trial, row in dataframe.iterrows():
         row_array = np.array(row.to_list())
+        print(trial, row_array)
         values = []
+        tracking = False
         ## remove trials for which the biomass growth did not change by the determined minimum deviation
         for index, val in enumerate(row_array):
-            if val / row_array[0] >= significant_deviation:
+            if val / row_array[0] >= significant_deviation or tracking:
+                tracking = True
                 values.append(val)
                 if len(values) > timesteps_len:
                     del values[0]
-                remaining_values = list(dataframe.columns[index-len(values)+1:])
+                remaining_values = list(dataframe.columns[index-timesteps_len+1:])
                 if all([len(values) == timesteps_len, values[-1] <= values[0],
-                        remaining_values[-1] <= remaining_values[0]*1.1]):
+                        remaining_values[0] <= remaining_values[-1]*1.1]):
                     # the entire plateau, minus the first point of plateau, are removed
                     dropped = remaining_values
                     break
@@ -172,7 +174,8 @@ def _check_plateau(org_df, signal, name, significant_deviation, timesteps_len):
             print(row_array[index-len(values)+1:])
             break
     if dropped:
-        print(f"The {dropped} timesteps were removed for the {name} {signal} data"
+        content = f"{name} {signal}" if name != signal else signal
+        print(f"The {dropped} timesteps were removed for the {content} data"
               f" since the OD plateaued and is no longer valid.")
     return dropped
 
@@ -377,10 +380,11 @@ class GrowthData:
             dataframes[sheet].columns = dataframes[sheet].iloc[6]
             dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             ## process the OD DataFrame
+            signal_species[sheet] = name
             data_times_df, data_values_df = _df_construction(
                 name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
             plateaued_times = _check_plateau(
-                dataframes[sheet], name, name, significant_deviation, 5)
+                data_values_df, name, name, significant_deviation, 3)
             ## define and store the final DataFrames
             for col in plateaued_times:
                 if col in data_times_df.columns:
