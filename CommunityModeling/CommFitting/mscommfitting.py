@@ -176,7 +176,8 @@ class MSCommFitting:
                         if met_id in self.abs_final_conc: # this intentionally overwrites rel_final_conc
                             final_bound = self.abs_final_conc[met_id]
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
-                        print(timestep, conc_var)
+                        # if met_id in zero_start:
+                        #     conc_var = conc_var._replace(bounds=Bounds(0.1, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_" + met][short_code][timestep])
         for signal in [signal for signal in growth_tup.columns[3:] if 'OD' not in signal]:

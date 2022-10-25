@@ -195,7 +195,7 @@ def _remove_timesteps(org_df, ignore_timesteps, name, signal):
                                  f"were unsuccessfully dropped for the {name} {signal} data.")
     return dataframe, ignore_timesteps
 
-def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, dataframes):
+def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num):
     # refine the DataFrames
     time_df = _column_reduction(dataframes[signal].iloc[0::2])
     values_df = _column_reduction(dataframes[signal].iloc[1::2])
@@ -214,6 +214,13 @@ def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_
         for col in list(map(int, removed_timesteps)):
             time_df.drop(col, axis=1, inplace=True)
 
+    # remove undefined trials
+    possible_rows = [chr(ord("A")+row) for row in range(1, row_num+1)]
+    for trial_code in values_df.index:
+        if trial_code[0] not in possible_rows:
+            values_df.drop(trial_code, axis=0, inplace=True)
+            time_df.drop(trial_code, axis=0, inplace=True)
+
     # process the data for subsequent operations and optimal efficiency
     values_df.astype(str); time_df.astype(str)
     return time_df, values_df
@@ -230,16 +237,19 @@ class GrowthData:
                            data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                            ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
                            significant_deviation: float = 2, extract_zip_path: str = None):
+        row_num = len(species_identities_rows)
+        if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
+            row_num = len(list(carbon_conc_series["rows"].values())[0])
         (
             media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
             dataframes, trials, species_phenos_df, fluxes_df
         ) = GrowthData.load_data(
             base_media, community_members, solver, data_paths, ignore_trials,
-            ignore_timesteps, significant_deviation, extract_zip_path
+            ignore_timesteps, significant_deviation, row_num, extract_zip_path
         )
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = GrowthData.metadata(
             base_media, community_members, species_abundances, carbon_conc_series,
-            species_identities_rows, _findDate(data_paths["path"])
+            species_identities_rows, row_num, _findDate(data_paths["path"])
         )
         # invert the trial_name_conversion keys and values
         # for row in trial_name_conversion:
@@ -249,8 +259,8 @@ class GrowthData:
                 trial_name_conversion, species_phenos_df, np.mean(data_timestep_hr), simulation_time, media_conc)
 
     @staticmethod
-    def load_data(base_media, community_members, solver, data_paths,
-                  ignore_trials, ignore_timesteps, significant_deviation, extract_zip_path, min_timesteps=False):
+    def load_data(base_media, community_members, solver, data_paths, ignore_trials, ignore_timesteps,
+                  significant_deviation, row_num, extract_zip_path, min_timesteps=False):
         # define default values
         data_paths = data_paths or {}
         ignore_timesteps = ignore_timesteps or "0:0"
@@ -353,13 +363,12 @@ class GrowthData:
         zipped_output.append(data_paths['path'])
         max_timestep_cols = []
         if min_timesteps:
-            for org_sheet, name in data_paths.items():
-                if org_sheet == 'path' or "OD" in org_sheet:
+            for sheet, name in data_paths.items():
+                if sheet == 'path' or "OD" in sheet:
                     continue
                 ## define the DataFrame
-                sheet = org_sheet.replace(' ', '_')
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, org_sheet)
+                    data_paths['path'], raw_data, sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[6]
                 dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
                 ## parse the timesteps from the DataFrame
@@ -370,19 +379,18 @@ class GrowthData:
             ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
 
         # remove trials for which the OD has plateaued
-        for org_sheet, name in data_paths.items():
+        for sheet, name in data_paths.items():
             if "OD" not in name:
                 continue
             ## load the OD DataFrame
-            sheet = org_sheet.replace(' ', '_')
             dataframes[sheet] = _spreadsheet_extension_parse(
-                data_paths['path'], raw_data, org_sheet)
+                data_paths['path'], raw_data, sheet)
             dataframes[sheet].columns = dataframes[sheet].iloc[6]
             dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             ## process the OD DataFrame
             signal_species[sheet] = name
             data_times_df, data_values_df = _df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
             plateaued_times = _check_plateau(
                 data_values_df, name, name, significant_deviation, 3)
             ## define and store the final DataFrames
@@ -395,13 +403,12 @@ class GrowthData:
             break
 
         # refine the non-OD signals
-        for org_sheet, name in data_paths.items():
-            if org_sheet == 'path' or "OD" in name:
+        for sheet, name in data_paths.items():
+            if sheet == 'path' or "OD" in name:
                 continue
-            sheet = org_sheet.replace(' ', '_')
             if sheet not in dataframes:
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, org_sheet)
+                    data_paths['path'], raw_data, sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[6]
                 dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             # parse the DataFrame for values
@@ -410,7 +417,7 @@ class GrowthData:
             data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes)
+                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
             # display(data_times_df) ; display(data_values_df)
             for col in plateaued_times:
                 if col in data_times_df.columns:
@@ -467,13 +474,13 @@ class GrowthData:
         return csv
 
     @staticmethod
-    def metadata(base_media, community_members, species_abundances, carbon_conc, species_identities_rows, date):
+    def metadata(base_media, community_members, species_abundances,
+                 carbon_conc, species_identities_rows, row_num, date):
         # define carbon concentrations for each trial
         carbon_conc = carbon_conc or {}
         carbon_conc['columns'] = default_dict_values(carbon_conc, "columns", {})
         carbon_conc['rows'] = default_dict_values(carbon_conc, "rows", {})
         column_num = len(species_abundances)
-        row_num = len(list(carbon_conc["rows"].values())[0]) or len(species_identities_rows)
 
         # define the metadata DataFrame and a few columns
         constructed_experiments = DataFrame()
@@ -541,9 +548,10 @@ class GrowthData:
             for row, val in conc.items():
                 standardized_carbon_conc[met].update({short_code:val for short_code, expID in trial_name_conversion[row].values()})
         for met, conc in carbon_conc["columns"].items():
+            standardized_carbon_conc[met] = default_dict_values(standardized_carbon_conc, met, {})
             for col, val in conc.items():
                 for row in trial_name_conversion:
-                    standardized_carbon_conc[met][trial_name_conversion[row][col][0]] = val
+                    standardized_carbon_conc[met][trial_name_conversion[row][str(col)][0]] = val
 
         # add columns to the exported dataframe
         constructed_experiments.insert(0, "trial_IDs", experiment_ids)
@@ -555,6 +563,9 @@ class GrowthData:
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):
+        # experimental_ids = {codeIds[0]:codeIds[1]
+        #                     for rowLet, content in trial_name_conversion.items()
+        #                     for colNum, codeIds in content.items()}
         short_codes, trials_list = [], []
         values, times = {}, {}  # The times must be capture upstream
         first = True
@@ -562,9 +573,11 @@ class GrowthData:
             times_tup = FBAHelper.parse_df(times_df)
             average_times = np.mean(times_tup.values, axis=0)
             values[sheet], times[sheet] = [], []
-            for short_code in values_df.index:
-                row_let, col_num = short_code[0], short_code[1:]
-                for row in trial_contents(short_code, values_df.index, values_df.values):
+            print(sheet, set(values_df.index))
+            for trial_code in values_df.index:
+                row_let, col_num = trial_code[0], trial_code[1:]
+                print(trial_code, row_let, col_num)
+                for row in trial_contents(trial_code, values_df.index, values_df.values):
                     if first:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
@@ -670,13 +683,12 @@ class BiologData:
         significant_deviation = significant_deviation or 2
         culture = culture or  _find_culture(data_paths['path'])
         date = date or _findDate(data_paths['path'])
-        for org_sheet, name in data_paths.items():
-            if org_sheet == 'path':
+        for sheet, name in data_paths.items():
+            if sheet == 'path':
                 continue
-            sheet = org_sheet.replace(' ', '_')
             if sheet not in dataframes:
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, org_sheet)
+                    data_paths['path'], raw_data, sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[8]
                 dataframes[sheet].drop(dataframes[sheet].index[:9], inplace=True)
             # parse the DataFrame for values
