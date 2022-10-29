@@ -58,10 +58,17 @@ def trial_contents(short_code, indices_tup, values):
     return np.array(values)[matches]
 
 
+def dic_keys(dic):
+    keys = []
+    if isinstance(dic, dict):
+        for key, value in dic.items():
+            keys.append(key)
+            keys.extend(dic_keys(value))
+    return keys
+
+
 # define data objects
 names = []
-
-
 def _name(name, suffix, short_code, timestep):
     name = '-'.join(list(map(str, [name + suffix, short_code, timestep])))
     if name not in names:
@@ -82,6 +89,23 @@ class MSCommFitting:
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
 
     #################### FITTING PHASE METHODS ####################
+    def fit_kinetics(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
+            abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
+            export_zip_name: str = None, export_parameters: bool = True, export_lp: bool = True, figures_zip_name:str=None,
+            publishing:bool=False):
+        while:  # fitted b deviates from the parameterized v
+            # solve for biomass b with parameterized growth rate
+            self.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc, data_timesteps, export_zip_name,
+                                export_parameters, export_lp, primal_vs)
+            self.compute()
+
+            # solve for growth rate v with solved b
+            self.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc, data_timesteps, export_zip_name,
+                                export_parameters, export_lp, primal_vs)
+            self.compute()
+
+        self.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+
     def fit(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
             abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
             export_zip_name: str = None, export_parameters: bool = True, export_lp: bool = True, figures_zip_name:str=None,
@@ -106,7 +130,8 @@ class MSCommFitting:
             self.problem.update()
 
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
-                       data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: bool=True):
+                       data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: bool=True,
+                       , primal_values=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
@@ -129,10 +154,11 @@ class MSCommFitting:
             # diffpos and diffneg coefficients that weight difference between experimental and predicted biomass
         })
         self.parameters.update(parameters)
+        self.parameters.update(self._universalize(self.parameters,"v"))
         default_carbon_sources = ["cpd00076", "cpd00179", "cpd00027"]  # sucrose, maltose, glucose
         self.rel_final_conc = rel_final_conc or {c:1 for c in default_carbon_sources}
         self.abs_final_conc = abs_final_conc or {}
-        self.mets_to_track = mets_to_track or self.rel_final_conc
+        self.mets_to_track = mets_to_track or list(self.rel_final_conc.keys())
         zero_start = zero_start or []
 
         # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
@@ -170,14 +196,16 @@ class MSCommFitting:
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if timestep == timesteps[-1]:
+                    if timestep == timesteps[-1] and any([
+                        met_id in self.rel_final_conc, met_id in self.abs_final_conc]
+                    ):
                         if met_id in self.rel_final_conc:
                             final_bound = self.variables["c_" + met][short_code][1].bounds.lb * self.rel_final_conc[met_id]
                         if met_id in self.abs_final_conc: # this intentionally overwrites rel_final_conc
                             final_bound = self.abs_final_conc[met_id]
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
-                        # if met_id in zero_start:
-                        #     conc_var = conc_var._replace(bounds=Bounds(0.1, final_bound))
+                        if met_id in zero_start:
+                            conc_var = conc_var._replace(bounds=Bounds(final_bound, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_" + met][short_code][timestep])
         for signal in [signal for signal in growth_tup.columns[3:] if 'OD' not in signal]:
@@ -236,6 +264,7 @@ class MSCommFitting:
                                     "operation": "Mul"}],
                             "operation": "Add"
                         })
+
                     # v_{pheno} = -(Vmax_{met, species} * c_{met}) / (Km_{met, species} + c_{met})
                     # self.constraints['vc_' + pheno][short_code][timestep] = tupConstraint(
                     #     name=_name('vc_', pheno, short_code, timestep),
@@ -247,13 +276,15 @@ class MSCommFitting:
                     #              "operation": "Mul"}],
                     #         "operation": "Add"
                     #     })
+
                     # g_{pheno} = b_{pheno}*v_{pheno}
+                    species, phenotype = pheno.split("_")
                     self.constraints['gc_' + pheno][short_code][timestep] = tupConstraint(
                         name=_name('gc_', pheno, short_code, timestep),
                         expr={
                             "elements": [
                                 self.variables['g_' + pheno][short_code][timestep].name,
-                                {"elements": [-1, self.parameters['v'],
+                                {"elements": [-1, self.parameters['v'][species][phenotype],
                                               self.variables['b_' + pheno][short_code][timestep].name],
                                  "operation": "Mul"}],
                             "operation": "Add"
@@ -340,7 +371,8 @@ class MSCommFitting:
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
                         # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
-                        val = 1 if 'OD' in signal else self.species_phenos_df.loc[signal, pheno]
+                        val = 1 if 'OD' in signal else self.species_phenos_df.loc[
+                            signal.replace("_", " "), pheno]
                         val = val if isnumber(val) else val.values[0]
                         signal_sum.append({"operation": "Mul", "elements": [
                             -1, val, self.variables["b_" + pheno][short_code][timestep].name]})
@@ -438,6 +470,9 @@ class MSCommFitting:
 
         # construct the problem
         # self.dict_problem = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective)
+        # pprint(variables)
+        # pprint(constraints)
+        # pprint(objective)
         self.problem = OptlangHelper.define_model("MSCommFitting model", variables, constraints, objective, True)
         print("Solver:", type(self.problem))
         time_5 = process_time()
@@ -519,10 +554,29 @@ class MSCommFitting:
             if 'gc' in v_name:  # gc = growth constraint
                 v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
 
-    def _universalize(self, param, met_id): # , variable):
-        if not isinstance(param[met_id], (float, int)):
-            return {}
-        return {met_id: {species: find_dic_number(param)} for species in self.signal_species.values() if "OD" not in species}
+    def _universalize(self, param, var):
+        species_phenos = [organism.split("_") for organism in self.fluxes_tup.columns]
+        if isnumber(param):
+            dic = {var:{}}
+            for organism in species_phenos:
+                dic[var][organism[0]] = {pheno: param for species, pheno in species_phenos
+                                         if species == organism[0]}
+            return dic
+        elif isnumber(param[var]):
+            dic = {var:{}}
+            for organism in species_phenos:
+                dic[var][organism[0]] = {pheno: param[var] for species, pheno in species_phenos
+                                         if species == organism[0]}
+            return dic
+        elif isinstance(param[var], dict):
+            dic = {var:{}}
+            for organism in species_phenos:
+                dic[var][organism[0]] = {pheno: param[var][species] for species, pheno in species_phenos
+                                         if species == organism[0]}
+            return dic
+        else:
+            logger.critical(f"The param (with keys {dic_keys(param)}) and var {var} are not amenable"
+                            f" with the parameterizing a universal value.")
                     # {short_code: {list(timestep_info.keys())[0]: find_dic_number(param)} for short_code, timestep_info in variable.items()}}
 
     def _michaelis_menten(self, conc, vmax, km):
@@ -840,12 +894,14 @@ class MSCommFitting:
 
                     ax.set_xlabel(x_label)
                     ax.set_ylabel(y_label)
-                    ax.set_yscale(yscale)
                     if "mets" in graph:
                         ax.set_ylim(mM_threshold)
                     ax.grid(axis="y")
                     if len(labels) > 1:
                         ax.legend()
+                    else:
+                        yscale = "linear"
+                    ax.set_yscale(yscale)
                     if not publishing:
                         if not title:
                             org_content = content if content not in contents.values() else list(

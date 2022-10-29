@@ -150,6 +150,7 @@ def _remove_trials(org_df, ignore_trials, signal, name, significant_deviation):
     return dataframe, dropped_trials+removed_trials
 
 def _check_plateau(org_df, signal, name, significant_deviation, timesteps_len):
+    significant_deviation = max([2, significant_deviation])
     dataframe = org_df.copy()  # this prevents an irrelevant warning from pandas
     dropped = []
     for trial, row in dataframe.iterrows():
@@ -234,9 +235,9 @@ class GrowthData:
 
     @staticmethod
     def process(base_media, community_members: dict, solver: str = 'glpk',
-                           data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
-                           ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
-                           significant_deviation: float = 2, extract_zip_path: str = None):
+                data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
+                ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
+                significant_deviation: float = 2, extract_zip_path: str = None):
         row_num = len(species_identities_rows)
         if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
             row_num = len(list(carbon_conc_series["rows"].values())[0])
@@ -262,6 +263,7 @@ class GrowthData:
     def load_data(base_media, community_members, solver, data_paths, ignore_trials, ignore_timesteps,
                   significant_deviation, row_num, extract_zip_path, min_timesteps=False):
         # define default values
+        significant_deviation = significant_deviation or 0
         data_paths = data_paths or {}
         ignore_timesteps = ignore_timesteps or "0:0"
         start, end = ignore_timesteps.split(':')
@@ -363,12 +365,13 @@ class GrowthData:
         zipped_output.append(data_paths['path'])
         max_timestep_cols = []
         if min_timesteps:
-            for sheet, name in data_paths.items():
-                if sheet == 'path' or "OD" in sheet:
+            for org_sheet, name in data_paths.items():
+                if org_sheet == 'path' or "OD" in sheet:
                     continue
                 ## define the DataFrame
+                sheet = org_sheet.replace(' ', '_')
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, sheet)
+                    data_paths['path'], raw_data, org_sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[6]
                 dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
                 ## parse the timesteps from the DataFrame
@@ -379,12 +382,13 @@ class GrowthData:
             ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
 
         # remove trials for which the OD has plateaued
-        for sheet, name in data_paths.items():
+        for org_sheet, name in data_paths.items():
             if "OD" not in name:
                 continue
             ## load the OD DataFrame
+            sheet = org_sheet.replace(' ', '_')
             dataframes[sheet] = _spreadsheet_extension_parse(
-                data_paths['path'], raw_data, sheet)
+                data_paths['path'], raw_data, org_sheet)
             dataframes[sheet].columns = dataframes[sheet].iloc[6]
             dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             ## process the OD DataFrame
@@ -403,12 +407,13 @@ class GrowthData:
             break
 
         # refine the non-OD signals
-        for sheet, name in data_paths.items():
-            if sheet == 'path' or "OD" in name:
+        for org_sheet, name in data_paths.items():
+            if org_sheet == 'path' or "OD" in name:
                 continue
+            sheet = org_sheet.replace(' ', '_')
             if sheet not in dataframes:
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, sheet)
+                    data_paths['path'], raw_data, org_sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[6]
                 dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
             # parse the DataFrame for values
@@ -429,7 +434,7 @@ class GrowthData:
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
         species_phenos_df = DataFrame(columns=phenos_tup.columns, data={pheno: {
-            signal:1 if signal_species[signal] in pheno else 0
+            signal:1 if signal_species[signal.replace(" ", "_")] in pheno else 0
             for signal in data_paths if signal != "path" and "OD" not in signal
         } for pheno in phenos_tup.columns})
         return (media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
@@ -683,12 +688,13 @@ class BiologData:
         significant_deviation = significant_deviation or 2
         culture = culture or  _find_culture(data_paths['path'])
         date = date or _findDate(data_paths['path'])
-        for sheet, name in data_paths.items():
-            if sheet == 'path':
+        for org_sheet, name in data_paths.items():
+            if org_sheet == 'path':
                 continue
+            sheet = org_sheet.replace(" ", "_")
             if sheet not in dataframes:
                 dataframes[sheet] = _spreadsheet_extension_parse(
-                    data_paths['path'], raw_data, sheet)
+                    data_paths['path'], raw_data, org_sheet)
                 dataframes[sheet].columns = dataframes[sheet].iloc[8]
                 dataframes[sheet].drop(dataframes[sheet].index[:9], inplace=True)
             # parse the DataFrame for values
