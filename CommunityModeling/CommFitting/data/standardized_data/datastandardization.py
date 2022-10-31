@@ -296,7 +296,7 @@ class GrowthData:
             models[org_model.id] = {"exchanges": FBAHelper.exchange_reactions(org_model), "solutions": {},
                                     "name": content["name"], "phenotypes": named_community_members[content["name"]]}
             for pheno, cpds in content['phenotypes'].items():
-                ## copying a new model with each phenotype prevents bleedover
+                ## copying a new model with each phenotype which prevents bleedover
                 model = org_model.copy()
                 model.medium = minimal_medium(model)
                 model.solver = solver
@@ -306,6 +306,13 @@ class GrowthData:
                     if rxnID not in model_rxns:
                         model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
                     model.reactions.get_by_id(rxnID).bounds = bounds
+                # prevents the absorption of other phenotype's carbon sources
+                for other_pheno, other_cpds in content['phenotypes'].items():
+                    if pheno != other_pheno:
+                        for cpdID, bounds in cpds.items():
+                            rxnID = "EX_" + cpdID + "_e0"
+                            if rxnID in model_rxns:
+                                model.reactions.get_by_id(rxnID).lb = 0
                 models[model.id]["solutions"][col] = model.optimize()
                 solutions.append(models[model.id]["solutions"][col].objective_value)
 
