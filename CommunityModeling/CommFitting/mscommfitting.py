@@ -117,11 +117,11 @@ class CommPhitting:
             for entity, times in entities.items():
                 b_param[trial][entity] = {time: value+1 for time, value in times.items()}
         count = 1
-        while any([isclose(b_param[trial][entity][time], b_values[trial][entity][time])
+        while not any([isclose(b_param[trial][entity][time], b_values[trial][entity][time])
                    for trial, entities in new_simulation.values.items()
                    for entity, times in entities.items() for time in times
                    if "b_" in entity
-                   ]):  # primal b deviates from the parameterized b
+                   ]):
             print(f"\nFirst kinetics optimization phase, iteration: {count}")
             # solve for growth rate v with solved b
             b_param = parse_primals(new_simulation.values, "b_")

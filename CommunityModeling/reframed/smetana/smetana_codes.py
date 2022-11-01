@@ -136,7 +136,8 @@ class Environment(AttrOrderedDict):
 
         return env
 
-def minimal_medium(model, exchange_reactions=None, direction=-1, min_mass_weight=False, min_growth=1, max_uptake=100, max_compounds=None, n_solutions=1, validate=True, abstol=1e-6, warnings=True, milp=True, use_pool=False, pool_gap=None, solver=None):
+def minimal_medium(model, exchange_reactions=None, direction=-1, min_mass_weight=False, min_growth=1, max_uptake=100, max_compounds=None,
+                   n_solutions=1, validate=True, abstol=1e-6, warnings=True, milp=True, use_pool=False, pool_gap=None, solver=None):
     def warn_wrapper(message):
         if warnings:
             warn(message)

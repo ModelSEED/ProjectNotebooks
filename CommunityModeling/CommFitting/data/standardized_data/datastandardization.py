@@ -298,7 +298,6 @@ class GrowthData:
             for pheno, cpds in content['phenotypes'].items():
                 ## copying a new model with each phenotype which prevents bleedover
                 model = org_model.copy()
-                model.medium = minimal_medium(model)
                 model.solver = solver
                 col = content["name"] + '_' + pheno
                 for cpdID, bounds in cpds.items():
