@@ -320,8 +320,8 @@ class CommPhitting:
 
                     if 'stationary' in pheno:
                         continue
-                    if "pf" and "4HB" in pheno:
-                        print(pheno, v_value, b_value)
+                    # if "pf" and "4HB" in pheno:
+                        # ic(pheno, v_value, b_value)
                     # the conversion rates to and from the stationary phase
                     self.variables['cvt_' + pheno][short_code][timestep] = tupVariable(
                         self._name("cvt_", pheno, short_code, timestep), Bounds(0, 100))

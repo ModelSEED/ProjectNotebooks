@@ -6,6 +6,8 @@ Created on Mon Aug  1 11:44:07 2022
 """
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
+from modelseedpy.fbapkg.elementuptakepkg import ElementUptakePkg
+from modelseedpy.core.msmodelutl import MSModelUtil
 from cobra.medium import minimal_medium
 from modelseedpy.core.fbahelper import FBAHelper
 from scipy.constants import hour
@@ -234,10 +236,10 @@ def _find_culture(string):
 class GrowthData:
 
     @staticmethod
-    def process(base_media, community_members: dict, solver: str = 'glpk',
+    def process(community_members: dict, base_media=None, solver: str = 'glpk',
                 data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                 ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
-                significant_deviation: float = 2, extract_zip_path: str = None):
+                significant_deviation: float = 2, extract_zip_path: str = None, msdb_path:str=None):
         row_num = len(species_identities_rows)
         if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
             row_num = len(list(carbon_conc_series["rows"].values())[0])
@@ -261,7 +263,7 @@ class GrowthData:
 
     @staticmethod
     def load_data(base_media, community_members, solver, data_paths, ignore_trials, ignore_timesteps,
-                  significant_deviation, row_num, extract_zip_path, min_timesteps=False):
+                  significant_deviation, row_num, extract_zip_path, min_timesteps=False, msdb_path=None):
         # define default values
         significant_deviation = significant_deviation or 0
         data_paths = data_paths or {}
@@ -282,7 +284,6 @@ class GrowthData:
         ignore_timesteps = list(range(start, end+1)) if start != end else None
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
-        media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
         zipped_output = []
         if extract_zip_path:
             with ZipFile(extract_zip_path, 'r') as zp:
@@ -291,28 +292,54 @@ class GrowthData:
         # log information of each respective model
         models = OrderedDict()
         solutions = []
+        msdb = None
+        media_conc = set()
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
+            model_util = MSModelUtil(org_model)
             model_rxns = [rxn.id for rxn in org_model.reactions]
-            models[org_model.id] = {"exchanges": FBAHelper.exchange_reactions(org_model), "solutions": {},
+            models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
                                     "name": content["name"], "phenotypes": named_community_members[content["name"]]}
             for pheno, cpds in content['phenotypes'].items():
                 ## copying a new model with each phenotype which prevents bleedover
-                model = org_model.copy()
-                model.solver = solver
-                col = content["name"] + '_' + pheno
-                for cpdID, bounds in cpds.items():
-                    rxnID = "EX_" + cpdID + "_e0"
-                    if rxnID not in model_rxns:
-                        model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
-                    model.reactions.get_by_id(rxnID).bounds = bounds
-                # prevents the absorption of other phenotype's carbon sources
+                model = org_model.copy()  # TODO - determine the minimal media a layer above when media can transfer with models
+                ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
+                if base_media:
+                    model_exchanges = [ex.id for ex in model_util.exchange_list()]
+                    model.medium = {"EX_"+cpd.id+"_e0": -cpd.minFlux for cpd in base_media.mediacompounds
+                                    if "EX_"+cpd.id+"_e0" in model_exchanges}
+                    media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
+                else:
+                    model.medium = minimal_medium(model, minimize_components=True)
+                    media_conc.update(list(model.medium.keys()))
+                model.medium = {cpd: 100 for cpd, flux in model.medium.items()}
+                model.medium.update({cpd: 2 for cpd, flux in model.medium.items() if cpd == "cpd00007"})
+                # print(model.id, model.medium)
+                ## constraining compromise to to carbon consumption
+                if not msdb:
+                    from modelseedpy.biochem import from_local
+                    msdb = from_local(msdb_path)
+                model = ElementUptakePkg(model).build_package({"C":max([
+                    msdb.compounds.get_by_id(cpd).elements["C"] for cpd in cpds])}).model
+                ## limit the consumption of other phenotype carbon sources to zero
                 for other_pheno, other_cpds in content['phenotypes'].items():
                     if pheno != other_pheno:
                         for cpdID, bounds in cpds.items():
                             rxnID = "EX_" + cpdID + "_e0"
                             if rxnID in model_rxns:
                                 model.reactions.get_by_id(rxnID).lb = 0
+                ## add the phenotype-specific constraints
+                col = content["name"] + '_' + pheno
+                for cpdID, bounds in cpds.items():
+                    rxnID = "EX_" + cpdID + "_e0"
+                    if rxnID not in model_rxns:
+                        raise ValueError(f"The cpd phenotype {cpdID} does not exist in the model {model.id}.")
+                        # model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
+                    model.reactions.get_by_id(rxnID).bounds = bounds
+                ## solve the model and store the optimal solution
+                model.solver = solver
                 models[model.id]["solutions"][col] = model.optimize()
+                if models[model.id]["solutions"][col] == 0:
+                    raise NoFluxError(f"The {model.id} yields zero flux with its media: \n{model.medium}")
                 solutions.append(models[model.id]["solutions"][col].objective_value)
 
         # construct the parsed table of all exchange fluxes for each phenotype
@@ -497,7 +524,8 @@ class GrowthData:
         constructed_experiments = DataFrame()
         experiment_prefix = "G"
         constructed_experiments["short_code"] = [f"{experiment_prefix}{x+1}" for x in list(range(column_num*row_num))]
-        constructed_experiments["base_media"] = [base_media.path[0]] * (column_num*row_num)
+        base_media_path = "minimal components media" if not base_media else base_media.path[0]
+        constructed_experiments["base_media"] = [base_media_path] * (column_num*row_num)
 
         # define community content
         members = list(content["name"] for content in community_members.values())
