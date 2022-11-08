@@ -22,7 +22,7 @@ from cobra.medium import minimal_medium
 from pprint import pprint
 from icecream import ic
 # from cplex import Cplex
-from math import inf
+from math import inf, isclose
 import logging, json, os, re
 from pandas import read_csv, DataFrame, ExcelFile, read_excel
 import numpy as np
@@ -244,15 +244,15 @@ def _process_csv(self, csv_path, index_col):
     csv.astype(str)
     return csv
 
-def add_rel_flux_cons(model, ex, exRXN, rel_flux=0.2):
-    # {ex.id}_uptakeLimit: {net_{carbonous_ex}} >= {net_{carbon_source}}*0.1
+def add_rel_flux_cons(model, ex, exRXN, carbon_ratio, rel_flux=0.2):
+    # {ex.id}_uptakeLimit: {net_{carbonous_ex}} >= {net_{carbon_source}}*{rel_flux}*{carbon_ratio}
     #  The negative flux sign of influxes specifies that the carbon_source value must be lesser than the other
     #  carbon influx that is being constrained.
     cons = Constraint(Zero, lb=0, ub=None, name=f"{ex.id}_uptakeLimit")
     model.add_cons_vars(cons)
     cons.set_linear_coefficients({
-            ex.forward_variable:1, ex.reverse_variable:1,
-            exRXN.forward_variable:-rel_flux, exRXN.reverse_variable:-rel_flux})
+            ex.forward_variable:1, ex.reverse_variable:-1,
+            exRXN.forward_variable:-rel_flux*carbon_ratio, exRXN.reverse_variable:rel_flux*carbon_ratio})
     return model, cons
 
 
@@ -287,9 +287,6 @@ class GrowthData:
     @staticmethod
     def phenotypes(base_media, community_members, solver):
         # log information of each respective model
-        # TODO - implement an optimization that maximizes consumption of the phenotype compound while maintaining a given growth
-        #  value. This may be an opportunity to generalize the MSMinimalMedia method of constraining growth and optimizing for something
-        #  else.
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
         models = OrderedDict()
@@ -321,29 +318,24 @@ class GrowthData:
                 # ElementUptakePkg(model).build_package({"C": max([cpd.elements["C"] for cpd in pheno_cpds])})
                 ## maximize the phenotype influx with a constrained growth
                 col = content["name"] + '_' + pheno
-                min_growth = .1 ; rel_flux = 0.2
+                min_growth = .1 ; rel_flux = .1
                 constraints = {}
                 cpd = cpds[0]
                 for cpd in cpds:
-                    exRXN = model.reactions.get_by_id("EX_"+cpd+"_e0")
-                    exRXN.lower_bound = -1000
-                    # exRXN.upper_bound = -1  this causes infeasibility
+                    phenoRXN = model.reactions.get_by_id("EX_"+cpd+"_e0")
+                    pheno_met = [phenoRXN.reactants + phenoRXN.products][0][0]
+                    phenoRXN.lower_bound = -1000
                     for ex in model_util.exchange_list():
-                        if "cpd00011" in ex.id or cpd in ex.id:
+                        if cpd in ex.id:
                             continue
                         ex_met = [ex.reactants + ex.products][0][0]
                         if "C" in ex_met.elements:
-                            # print([ex.forward_variable, ex.reverse_variable, exRXN.forward_variable, exRXN.reverse_variable])
                             try:
-                                model, constraints[f"{ex.id}_uptakeLimit"] = add_rel_flux_cons(model, ex, exRXN, rel_flux)
-                                print(constraints[f"{ex.id}_uptakeLimit"])
+                                model, constraints[f"{ex.id}_uptakeLimit"] = add_rel_flux_cons(
+                                    model, ex, phenoRXN, pheno_met.elements["C"]/ex_met.elements["C"], rel_flux)
                             except KeyError as e:
                                 # this error must be investgiated and properly resolved/prevented beyond a temporary try-except block
                                 print(f"\nThe exchange {e} is incorrectly defined in the {model.id} model.\n")
-                # FBAHelper.add_objective(model, sum([
-                #         model.reactions.get_by_id("EX_"+cpd+"_e0").flux_expression for cpd in cpds]), "min")
-                # print(model.objective)
-                # sol = model.optimize()
                 sol, sol_dict = minimizeFlux_withGrowth(model, min_growth=min_growth, obj=sum([
                         model.reactions.get_by_id("EX_"+cpd+"_e0").flux_expression for cpd in cpds]))
                 # print(*[f"{cons}\n" for cons in model.constraints])
@@ -368,6 +360,9 @@ class GrowthData:
                 #     raise NoFluxError(f"The {model.id} yields zero flux with its media: \n{model.medium}")
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
+                if isclose(sol.fluxes["EX_"+cpd+"_e0"], 0, rel_tol=1e-7):
+                    raise NoFluxError(f"The phenotype influx of {sol.fluxes['EX_'+cpd+'_e0']} is indicative "
+                                      f"of incompatible growth specifications.")
                 print(sol.fluxes["EX_"+cpd+"_e0"])
                 sol.fluxes = sol.fluxes / abs(sol.fluxes["EX_"+cpd+"_e0"])
                 models[model.id]["solutions"][col] = sol
