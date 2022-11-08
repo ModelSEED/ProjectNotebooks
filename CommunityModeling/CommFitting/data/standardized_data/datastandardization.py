@@ -316,15 +316,17 @@ class GrowthData:
 
                 ## constraining compromise of the primary carbon source from extraneous carbon sources
                 # ElementUptakePkg(model).build_package({"C": max([cpd.elements["C"] for cpd in pheno_cpds])})
-                ## maximize the phenotype influx with a constrained growth
                 col = content["name"] + '_' + pheno
-                min_growth = .1 ; rel_flux = .1
+                min_growth = .1 ; rel_flux = 10
                 constraints = {}
                 cpd = cpds[0]
+                ## establish constraints for minimal growth and inhibited other carbon influxes relative to the phenotype influx
+                coef = {obj_var:1 for obj_var in model.objective.variables}
                 for cpd in cpds:
                     phenoRXN = model.reactions.get_by_id("EX_"+cpd+"_e0")
                     pheno_met = [phenoRXN.reactants + phenoRXN.products][0][0]
                     phenoRXN.lower_bound = -1000
+                    coef.update({phenoRXN.forward_variable:min_growth, phenoRXN.reverse_variable:-min_growth})
                     for ex in model_util.exchange_list():
                         if cpd in ex.id:
                             continue
@@ -336,6 +338,11 @@ class GrowthData:
                             except KeyError as e:
                                 # this error must be investgiated and properly resolved/prevented beyond a temporary try-except block
                                 print(f"\nThe exchange {e} is incorrectly defined in the {model.id} model.\n")
+                ### min_rel_value: {biomass} >= -{min_growth}*{phenoRXN}
+                #### The negative coefficient accommodates that the net phenotype flux is negative from the minimization.
+                FBAHelper.create_constraint(model, Constraint(Zero, lb=0, ub=None, name="min_rel_value"), coef=coef)
+
+                ## maximize the phenotype influx with a constrained growth
                 sol, sol_dict = minimizeFlux_withGrowth(model, min_growth=min_growth, obj=sum([
                         model.reactions.get_by_id("EX_"+cpd+"_e0").flux_expression for cpd in cpds]))
                 # print(*[f"{cons}\n" for cons in model.constraints])

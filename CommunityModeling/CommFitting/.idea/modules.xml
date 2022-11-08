@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../.idea/Argonne.iml" filepath="$PROJECT_DIR$/../../../.idea/Argonne.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/CommFitting.iml" filepath="$PROJECT_DIR$/.idea/CommFitting.iml" />
     </modules>
   </component>
