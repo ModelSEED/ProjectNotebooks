@@ -9,7 +9,7 @@ from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, t
 from modelseedpy.fbapkg.elementuptakepkg import ElementUptakePkg
 from modelseedpy.community.mscompatibility import MSCompatibility
 from modelseedpy.core.msmodelutl import MSModelUtil
-from modelseedpy.core.msminimalmedia import minimizeFlux_withGrowth
+from modelseedpy.core.msminimalmedia import minimizeFlux_withGrowth, bioFlux_check
 from modelseedpy.core.fbahelper import FBAHelper
 from optlang import Constraint
 from optlang.symbolics import Zero
@@ -292,88 +292,58 @@ class GrowthData:
         models = OrderedDict()
         solutions = []
         media_conc = set()
+        # calculate all phenotype profiles for all members
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
             model_util = MSModelUtil(org_model)
-            # model_rxns = [rxn.id for rxn in org_model.reactions]
+            model_util.standard_exchanges()
             models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
                                     "name": content["name"], "phenotypes": named_community_members[content["name"]]}
-            for pheno, cpds in content['phenotypes'].items():
+            for pheno, pheno_cpds in content['phenotypes'].items():
                 # TODO - determine the minimal media a layer above when media can transfer with models
-                model = org_model.copy()  # second copy is needed for each phenotype
-                model = MSCompatibility.standardize([model], conflicts_file_name="orig_conflicts.json", printing=False)[0]
-                pheno_cpds = [model.metabolites.get_by_id(cpd+"_e0") for cpd in cpds]
+                pheno_util = MSModelUtil(org_model)
+                # pheno_util.compatibilize()
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
                 if base_media:
-                    model_exchanges = [ex.id for ex in model_util.exchange_list()]
-                    model.medium = {"EX_" + cpd.id + "_e0": -cpd.minFlux for cpd in base_media.mediacompounds
-                                    if "EX_" + cpd.id + "_e0" in model_exchanges}
+                    pheno_util.add_medium({"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds})
                     media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
                 else:
-                    model.medium = minimal_medium(model, minimize_components=True)
-                    media_conc.update(list(model.medium.keys()))
-                model.medium = {cpd: 100 for cpd, flux in model.medium.items()}
-                model.medium.update({cpd: 2 for cpd, flux in model.medium.items() if "cpd00007" in cpd})
-
-                ## constraining compromise of the primary carbon source from extraneous carbon sources
-                # ElementUptakePkg(model).build_package({"C": max([cpd.elements["C"] for cpd in pheno_cpds])})
+                    pheno_util.add_medium(minimal_medium(pheno_util.model, minimize_components=True))
+                    media_conc.update(list(pheno_util.model.medium.keys()))
+                pheno_util.add_medium({cpd: 100 for cpd, flux in pheno_util.model.medium.items()})
+                pheno_util.model.medium.update({
+                    cpd: 2 for cpd, flux in pheno_util.model.medium.items() if "cpd00007" in cpd})
                 col = content["name"] + '_' + pheno
-                min_growth = .1 ; rel_flux = 8
-                constraints = {}
-                cpd = cpds[0]
-                ## establish constraints for minimal growth and inhibited other carbon influxes relative to the phenotype influx
-                coef = {obj_var:1 for obj_var in model.objective.variables}
-                for cpd in cpds:
-                    phenoRXN = model.reactions.get_by_id("EX_"+cpd+"_e0")
-                    pheno_met = [phenoRXN.reactants + phenoRXN.products][0][0]
-                    phenoRXN.lower_bound = -1000
-                    coef.update({phenoRXN.forward_variable:min_growth, phenoRXN.reverse_variable:-min_growth})
-                    for ex in model_util.exchange_list():
-                        if cpd in ex.id:
-                            continue
-                        ex_met = [ex.reactants + ex.products][0][0]
-                        if "C" in ex_met.elements:
-                            try:
-                                model, constraints[f"{ex.id}_uptakeLimit"] = add_rel_flux_cons(
-                                    model, ex, phenoRXN, pheno_met.elements["C"]/ex_met.elements["C"], rel_flux)
-                            except KeyError as e:
-                                # this error must be investgiated and properly resolved/prevented beyond a temporary try-except block
-                                print(f"\nThe exchange {e} is incorrectly defined in the {model.id} model.\n")
-                ### min_rel_value: {biomass} >= -{min_growth}*{phenoRXN}
-                #### The negative coefficient accommodates that the net phenotype flux is negative from the minimization.
-                FBAHelper.create_constraint(model, Constraint(Zero, lb=0, ub=None, name="min_rel_value"), coef=coef)
+                min_growth = .1
+                ## minimize the influx of all non-phenotype compounds at a fixed biomass growth
+                ### The net flux (flux_expression) prevents the solver from counter-balancing extreme reverse flux with forward flux
+                ###   which may (?) occur from purely minimizing the reverse direction.
+                phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0") for pheno_cpd in pheno_cpds]
+                FBAHelper.add_minimal_objective_cons(pheno_util.model, min_growth)
+                FBAHelper.add_objective(pheno_util.model, sum([
+                    ex.flux_expression for ex in pheno_util.exchange_list() if ex not in phenoRXNs]), "min")
+                print(*[cons.name for cons in pheno_util.model.constraints])
+                sol = pheno_util.model.optimize()
+                bioFlux_check(pheno_util.model, sol)
+                ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
+                for ex in pheno_util.exchange_list():
+                    ex.lower_bound = min(sol.fluxes[ex.id], ex.upper_bound) if ex not in phenoRXNs else -1000
+                print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
-                ## maximize the phenotype influx with a constrained growth
-                sol, sol_dict = minimizeFlux_withGrowth(model, min_growth=min_growth, obj=sum([
-                        model.reactions.get_by_id("EX_"+cpd+"_e0").flux_expression for cpd in cpds]))
-                # print(*[f"{cons}\n" for cons in model.constraints])
-                # ## prevent the consumption of other phenotype carbon sources
-                # for other_pheno, other_cpds in content['phenotypes'].items():
-                #     if pheno != other_pheno:
-                #         for cpdID in cpds:
-                #             rxnID = "EX_" + cpdID + "_e0"
-                #             if rxnID in model_rxns:
-                #                 model.reactions.get_by_id(rxnID).lb = 0
-                # ## add the phenotype-specific constraints
-                # for cpdID in cpds:
-                #     rxnID = "EX_" + cpdID + "_e0"
-                #     if rxnID not in model_rxns:
-                #         raise ValueError(f"The cpd phenotype {cpdID} does not exist in the model {model.id}.")
-                #         # model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
-                #     model.reactions.get_by_id(rxnID).bounds = (-1, -.98)
-                # ## solve the model and store the optimal solution
-                # model.solver = solver
-                # models[model.id]["solutions"][col] = model.optimize()
-                # if models[model.id]["solutions"][col].objective_value == 0:
-                #     raise NoFluxError(f"The {model.id} yields zero flux with its media: \n{model.medium}")
+                ## maximize the phenotype influx with the previously defined growth and constraints
+                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").flux_expression for pheno_cpd in pheno_cpds]
+                FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
+                sol = pheno_util.model.optimize()
+                bioFlux_check(pheno_util.model, sol)
+                pheno_influx = sum([sol.fluxes["EX_"+pheno_cpd+"_e0"] for pheno_cpd in pheno_cpds])
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
-                if isclose(sol.fluxes["EX_"+cpd+"_e0"], 0, rel_tol=1e-7):
-                    raise NoFluxError(f"The phenotype influx of {sol.fluxes['EX_'+cpd+'_e0']} is indicative "
-                                      f"of incompatible growth specifications.")
-                print(sol.fluxes["EX_"+cpd+"_e0"])
-                sol.fluxes = sol.fluxes / abs(sol.fluxes["EX_"+cpd+"_e0"])
-                models[model.id]["solutions"][col] = sol
-                solutions.append(models[model.id]["solutions"][col].objective_value)
+                if pheno_influx >= 0:
+                    raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
+                                      f"implausible phenotype specifications.")
+                print(pheno_influx)
+                sol.fluxes = sol.fluxes / abs(pheno_influx)
+                models[pheno_util.model.id]["solutions"][col] = sol
+                solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
 
         # construct the parsed table of all exchange fluxes for each phenotype
         cols = {}
