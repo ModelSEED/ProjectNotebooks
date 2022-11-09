@@ -244,7 +244,7 @@ def _process_csv(self, csv_path, index_col):
     csv.astype(str)
     return csv
 
-def add_rel_flux_cons(model, ex, exRXN, carbon_ratio, rel_flux=0.2):
+def add_rel_flux_cons(model, ex, phenoRXN, carbon_ratio, rel_flux=0.2):
     # {ex.id}_uptakeLimit: {net_{carbonous_ex}} >= {net_{carbon_source}}*{rel_flux}*{carbon_ratio}
     #  The negative flux sign of influxes specifies that the carbon_source value must be lesser than the other
     #  carbon influx that is being constrained.
@@ -252,7 +252,7 @@ def add_rel_flux_cons(model, ex, exRXN, carbon_ratio, rel_flux=0.2):
     model.add_cons_vars(cons)
     cons.set_linear_coefficients({
             ex.forward_variable:1, ex.reverse_variable:-1,
-            exRXN.forward_variable:-rel_flux*carbon_ratio, exRXN.reverse_variable:rel_flux*carbon_ratio})
+            phenoRXN.forward_variable:-rel_flux*carbon_ratio, phenoRXN.reverse_variable:rel_flux*carbon_ratio})
     return model, cons
 
 
@@ -317,7 +317,7 @@ class GrowthData:
                 ## constraining compromise of the primary carbon source from extraneous carbon sources
                 # ElementUptakePkg(model).build_package({"C": max([cpd.elements["C"] for cpd in pheno_cpds])})
                 col = content["name"] + '_' + pheno
-                min_growth = .1 ; rel_flux = 10
+                min_growth = .1 ; rel_flux = 8
                 constraints = {}
                 cpd = cpds[0]
                 ## establish constraints for minimal growth and inhibited other carbon influxes relative to the phenotype influx
