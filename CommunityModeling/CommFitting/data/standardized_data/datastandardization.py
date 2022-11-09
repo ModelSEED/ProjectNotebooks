@@ -4,7 +4,7 @@ Created on Mon Aug  1 11:44:07 2022
 
 @author: Andrew Freiburger
 """
-from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
+from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError, ObjectiveError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
 from modelseedpy.fbapkg.elementuptakepkg import ElementUptakePkg
 from modelseedpy.community.mscompatibility import MSCompatibility
@@ -19,6 +19,7 @@ from zipfile import ZipFile, ZIP_LZMA
 from itertools import chain
 from typing import Union, Iterable
 from cobra.medium import minimal_medium
+from cobra.flux_analysis import pfba
 from pprint import pprint
 from icecream import ic
 # from cplex import Cplex
@@ -303,37 +304,56 @@ class GrowthData:
                 pheno_util = MSModelUtil(org_model)
                 # pheno_util.compatibilize()
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
-                if base_media:
-                    pheno_util.add_medium({"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds})
-                    media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
-                else:
-                    pheno_util.add_medium(minimal_medium(pheno_util.model, minimize_components=True))
-                    media_conc.update(list(pheno_util.model.medium.keys()))
-                pheno_util.add_medium({cpd: 100 for cpd, flux in pheno_util.model.medium.items()})
-                pheno_util.model.medium.update({
-                    cpd: 2 for cpd, flux in pheno_util.model.medium.items() if "cpd00007" in cpd})
-                col = content["name"] + '_' + pheno
-                min_growth = .1
-                ## minimize the influx of all non-phenotype compounds at a fixed biomass growth
-                ### The net flux (flux_expression) prevents the solver from counter-balancing extreme reverse flux with forward flux
-                ###   which may (?) occur from purely minimizing the reverse direction.
+                # if base_media:
+                #     # pheno_util.model.medium = {"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds}
+                #     pheno_util.add_medium({"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds})
+                #     media_conc = {cpd.id: cpd.concentration for cpd in base_media.mediacompounds}
+                # else:
+                #     # pheno_util.model.medium = minimal_medium(pheno_util.model, minimize_components=True)
+                #     pheno_util.add_medium(minimal_medium(pheno_util.model, minimize_components=True))
+                #     media_conc.update(list(pheno_util.model.medium.keys()))
+                # pheno_util.model.medium = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
+
+                ## The default complete media will be used until this method is developed and ready for refinement
                 phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0") for pheno_cpd in pheno_cpds]
+                media = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
+                media.update({"EX_cpd00007_e0": 2}) ; media.update({phenoRXN.id: 1000 for phenoRXN in phenoRXNs})
+                pheno_util.add_medium(media)
+                col = content["name"] + '_' + pheno
+                ## minimize the influx of all non-phenotype compounds at a fixed biomass growth
+                ### Penalization of only uptake.
+                min_growth = .1
                 FBAHelper.add_minimal_objective_cons(pheno_util.model, min_growth)
                 FBAHelper.add_objective(pheno_util.model, sum([
-                    ex.flux_expression for ex in pheno_util.exchange_list() if ex not in phenoRXNs]), "min")
-                print(*[cons.name for cons in pheno_util.model.constraints])
+                    ex.reverse_variable for ex in pheno_util.carbon_exchange_list() if ex not in phenoRXNs]), "min")
+                with open("minimize_cInFlux.lp", 'w') as out:
+                    out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
-                for ex in pheno_util.exchange_list():
-                    ex.lower_bound = min(sol.fluxes[ex.id], ex.upper_bound) if ex not in phenoRXNs else -1000
-                print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
+                for ex in pheno_util.carbon_exchange_list():
+                    if ex not in phenoRXNs:
+                        ex.reverse_variable.ub = 0 if sol.fluxes[ex.id] >= 0 else abs(sol.fluxes[ex.id])
+                # print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
                 ## maximize the phenotype influx with the previously defined growth and constraints
                 obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").flux_expression for pheno_cpd in pheno_cpds]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
+                with open("maximize_phenoInFlux.lp", 'w') as out:
+                    out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
+
+                ## minimize flux of the total simulation flux
+                for ex in pheno_util.carbon_exchange_list():
+                    if ex in phenoRXNs:
+                        ex.upper_bound = ex.lower_bound = sol.fluxes[ex.id]
+                sol = pfba(pheno_util.model)
+                sol_dict = FBAHelper.solution_to_variables_dict(sol, pheno_util.model)
+                simulated_growth = sum([flux for var, flux in sol_dict.items() if re.search(r"(^bio\d+$)", var.name)])
+                if not isclose(simulated_growth, min_growth):
+                    raise ObjectiveError(f"The assigned minimal_growth of {min_growth} was not optimized"
+                                         f" during the simulation, where the observed growth was {simulated_growth}.")
                 pheno_influx = sum([sol.fluxes["EX_"+pheno_cpd+"_e0"] for pheno_cpd in pheno_cpds])
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
