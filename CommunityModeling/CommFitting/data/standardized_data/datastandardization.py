@@ -302,7 +302,7 @@ class GrowthData:
             for pheno, pheno_cpds in content['phenotypes'].items():
                 # TODO - determine the minimal media a layer above when media can transfer with models
                 pheno_util = MSModelUtil(org_model)
-                # pheno_util.compatibilize()
+                pheno_util.compatibilize()
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
                 # if base_media:
                 #     # pheno_util.model.medium = {"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds}
@@ -333,13 +333,13 @@ class GrowthData:
                 ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
                 for ex in pheno_util.carbon_exchange_list():
                     if ex not in phenoRXNs:
-                        ex.reverse_variable.ub = 0 if sol.fluxes[ex.id] >= 0 else abs(sol.fluxes[ex.id])
+                        ex.reverse_variable.ub = abs(min(0, sol.fluxes[ex.id]))
                 # print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
                 ## maximize the phenotype influx with the previously defined growth and constraints
-                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").flux_expression for pheno_cpd in pheno_cpds]
+                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable for pheno_cpd in pheno_cpds]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
-                with open("maximize_phenoInFlux.lp", 'w') as out:
+                with open("maximize_phenoYield.lp", 'w') as out:
                     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
@@ -357,11 +357,11 @@ class GrowthData:
                 pheno_influx = sum([sol.fluxes["EX_"+pheno_cpd+"_e0"] for pheno_cpd in pheno_cpds])
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
-                if pheno_influx >= 0:
-                    raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
-                                      f"implausible phenotype specifications.")
+                # if pheno_influx >= 0:
+                #     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
+                #                       f"implausible phenotype specifications.")
                 print(pheno_influx)
-                sol.fluxes = sol.fluxes / abs(pheno_influx)
+                sol.fluxes /= abs(pheno_influx)
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
 
@@ -400,6 +400,8 @@ class GrowthData:
         fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
         fluxes_df.astype(str)
         fluxes_df.to_csv("fluxes.csv")
+        ### export the sub-set of fluxes which denote an influx
+
         return fluxes_df, media_conc
 
     @staticmethod
