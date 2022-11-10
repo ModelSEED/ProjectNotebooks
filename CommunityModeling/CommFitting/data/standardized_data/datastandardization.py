@@ -302,7 +302,7 @@ class GrowthData:
             for pheno, pheno_cpds in content['phenotypes'].items():
                 # TODO - determine the minimal media a layer above when media can transfer with models
                 pheno_util = MSModelUtil(org_model)
-                pheno_util.compatibilize()
+                # pheno_util.compatibilize()
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
                 # if base_media:
                 #     # pheno_util.model.medium = {"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds}
@@ -317,8 +317,20 @@ class GrowthData:
                 ## The default complete media will be used until this method is developed and ready for refinement
                 phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0") for pheno_cpd in pheno_cpds]
                 media = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
-                media.update({"EX_cpd00007_e0": 2}) ; media.update({phenoRXN.id: 1000 for phenoRXN in phenoRXNs})
+                media.update({phenoRXN.id: 1000 for phenoRXN in phenoRXNs})
+                ### eliminate hydrogen absorption
+                media.update({"EX_cpd11640_e0": 0})
                 pheno_util.add_medium(media)
+                if "pf " in content["name"]:
+                    pheno_util.model.reactions.EX_r277_e0.lower_bound = pheno_util.model.reactions.EX_r1423_e0.lower_bound = 0
+                ### define an oxygen absorption relative to the phenotype carbon source
+                # O2_consumption: EX_cpd00007_e0 <= 2 * sum(primary carbon fluxes)
+                coef = {phenoRXN.reverse_variable:1 for phenoRXN in phenoRXNs}
+                # coef.update({phenoRXN.forward_variable: 1 for phenoRXN in phenoRXNs})
+                coef.update({pheno_util.model.reactions.get_by_id("EX_cpd00007_e0").reverse_variable:-0.5})
+                FBAHelper.create_constraint(
+                    pheno_util.model, Constraint(Zero, lb=0, ub=None, name="EX_cpd00007_e0_limitation"), coef=coef)
+
                 col = content["name"] + '_' + pheno
                 ## minimize the influx of all non-phenotype compounds at a fixed biomass growth
                 ### Penalization of only uptake.
@@ -343,12 +355,26 @@ class GrowthData:
                     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
+                for phenoRXN in phenoRXNs:
+                    phenoRXN.lower_bound = phenoRXN.upper_bound = sol.fluxes[phenoRXN.id]
 
-                ## minimize flux of the total simulation flux
-                for ex in pheno_util.carbon_exchange_list():
-                    if ex in phenoRXNs:
-                        ex.upper_bound = ex.lower_bound = sol.fluxes[ex.id]
-                sol = pfba(pheno_util.model)
+                ## cheat with maximizing Acetate excretion for the maltose phenotype
+                # TODO generalize for optimizing the cross-feeding of all phenotypes with an optional parameter
+                if "cpd00179" in pheno_cpds:
+                    FBAHelper.add_objective(pheno_util.model, direction="max",
+                                            objective=pheno_util.model.reactions.get_by_id("EX_cpd00029_e0").flux_expression)
+                    with open("maximize_acetateExcetion.lp", 'w') as out:
+                        out.write(pheno_util.model.solver.to_lp())
+                    sol = pheno_util.model.optimize()
+                    bioFlux_check(pheno_util.model, sol)
+                    acetate = pheno_util.model.reactions.get_by_id("EX_cpd00179_e0")
+                    acetate.lower_bound = acetate.upper_bound = sol.fluxes["EX_cpd00179_e0"]
+
+                ## minimize flux of the total simulation flux through pFBA
+                try:
+                    sol = pfba(pheno_util.model)
+                except Exception as e:
+                    print(f"The model {pheno_util.model} is unable to be simulated with pFBA and yields a < {e} > error.")
                 sol_dict = FBAHelper.solution_to_variables_dict(sol, pheno_util.model)
                 simulated_growth = sum([flux for var, flux in sol_dict.items() if re.search(r"(^bio\d+$)", var.name)])
                 if not isclose(simulated_growth, min_growth):
@@ -361,7 +387,7 @@ class GrowthData:
                 #     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
                 #                       f"implausible phenotype specifications.")
                 print(pheno_influx)
-                sol.fluxes /= abs(pheno_influx)
+                # sol.fluxes /= abs(pheno_influx)
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
 
@@ -401,6 +427,8 @@ class GrowthData:
         fluxes_df.astype(str)
         fluxes_df.to_csv("fluxes.csv")
         ### export the sub-set of fluxes which denote an influx
+
+        ### cheat with the Ecoli -> PF Acetate phenotype superposition
 
         return fluxes_df, media_conc
 
