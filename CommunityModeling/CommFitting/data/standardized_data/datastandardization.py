@@ -302,7 +302,7 @@ class GrowthData:
             for pheno, pheno_cpds in content['phenotypes'].items():
                 # TODO - determine the minimal media a layer above when media can transfer with models
                 pheno_util = MSModelUtil(org_model)
-                # pheno_util.compatibilize()
+                # pheno_util.compatibilize()   only for non-ModelSEED models
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
                 # if base_media:
                 #     # pheno_util.model.medium = {"EX_" + cpd.id + "_e0": abs(cpd.minFlux) for cpd in base_media.mediacompounds}
@@ -315,7 +315,8 @@ class GrowthData:
                 # pheno_util.model.medium = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
 
                 ## The default complete media will be used until this method is developed and ready for refinement
-                phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0") for pheno_cpd in pheno_cpds]
+                phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0")
+                             for pheno_cpd in pheno_cpds["consumed"]]
                 media = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
                 media.update({phenoRXN.id: 1000 for phenoRXN in phenoRXNs})
                 ### eliminate hydrogen absorption
@@ -348,8 +349,9 @@ class GrowthData:
                         ex.reverse_variable.ub = abs(min(0, sol.fluxes[ex.id]))
                 # print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
-                ## maximize the phenotype influx with the previously defined growth and constraints
-                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable for pheno_cpd in pheno_cpds]
+                ## maximize the phenotype yield with the previously defined growth and constraints
+                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable
+                       for pheno_cpd in pheno_cpds["consumed"]]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
                 with open("maximize_phenoYield.lp", 'w') as out:
                     out.write(pheno_util.model.solver.to_lp())
@@ -358,34 +360,36 @@ class GrowthData:
                 for phenoRXN in phenoRXNs:
                     phenoRXN.lower_bound = phenoRXN.upper_bound = sol.fluxes[phenoRXN.id]
 
-                ## cheat with maximizing Acetate excretion for the maltose phenotype
-                # TODO generalize for optimizing the cross-feeding of all phenotypes with an optional parameter
-                if "cpd00179" in pheno_cpds:
-                    FBAHelper.add_objective(pheno_util.model, direction="max",
-                                            objective=pheno_util.model.reactions.get_by_id("EX_cpd00029_e0").flux_expression)
-                    with open("maximize_acetateExcetion.lp", 'w') as out:
+                ## maximize excretion in phenotypes where the excreta is known
+                if "excreted" in pheno_cpds:
+                    obj = sum([pheno_util.model.reactions.get_by_id("EX_"+excreta+"_e0").flux_expression
+                               for excreta in pheno_cpds["excreted"]])
+                    FBAHelper.add_objective(pheno_util.model, direction="max", objective=obj)
+                    with open("maximize_excreta.lp", 'w') as out:
                         out.write(pheno_util.model.solver.to_lp())
                     sol = pheno_util.model.optimize()
                     bioFlux_check(pheno_util.model, sol)
-                    acetate = pheno_util.model.reactions.get_by_id("EX_cpd00179_e0")
-                    acetate.lower_bound = acetate.upper_bound = sol.fluxes["EX_cpd00179_e0"]
+                    for excreta in pheno_cpds["excreted"]:
+                        excretaEX = pheno_util.model.reactions.get_by_id("EX_"+excreta+"_e0")
+                        excretaEX.lower_bound = excretaEX.upper_bound = sol.fluxes["EX_"+excreta+"_e0"]
 
                 ## minimize flux of the total simulation flux through pFBA
-                try:
+                try:   # TODO discover why the Pseudomonas 4HB phenotype fails this assessment
                     sol = pfba(pheno_util.model)
                 except Exception as e:
-                    print(f"The model {pheno_util.model} is unable to be simulated with pFBA and yields a < {e} > error.")
+                    print(f"The model {pheno_util.model} is unable to be simulated "
+                          f"with pFBA and yields a < {e} > error.")
                 sol_dict = FBAHelper.solution_to_variables_dict(sol, pheno_util.model)
                 simulated_growth = sum([flux for var, flux in sol_dict.items() if re.search(r"(^bio\d+$)", var.name)])
                 if not isclose(simulated_growth, min_growth):
                     raise ObjectiveError(f"The assigned minimal_growth of {min_growth} was not optimized"
                                          f" during the simulation, where the observed growth was {simulated_growth}.")
-                pheno_influx = sum([sol.fluxes["EX_"+pheno_cpd+"_e0"] for pheno_cpd in pheno_cpds])
+                pheno_influx = sum([sol.fluxes["EX_"+pheno_cpd+"_e0"] for pheno_cpd in pheno_cpds["consumed"]])
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
-                # if pheno_influx >= 0:
-                #     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
-                #                       f"implausible phenotype specifications.")
+                if pheno_influx >= 0:
+                    raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
+                                      f"implausible phenotype specifications.")
                 print(pheno_influx)
                 # sol.fluxes /= abs(pheno_influx)
                 models[pheno_util.model.id]["solutions"][col] = sol
@@ -600,7 +604,8 @@ class GrowthData:
 
         # define community content
         members = list(mem["name"] for mem in community_members.values())
-        species_mets = {mem["name"]: mets for mem in community_members.values() for mets in mem["phenotypes"].values()}
+        species_mets = {mem["name"]: mets["consumed"] for mem in community_members.values()
+                        for mets in mem["phenotypes"].values()}
 
         # define the strains column
         strains, additional_compounds, experiment_ids = [], [], []
