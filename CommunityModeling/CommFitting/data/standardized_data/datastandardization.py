@@ -339,8 +339,8 @@ class GrowthData:
                 FBAHelper.add_minimal_objective_cons(pheno_util.model, min_growth)
                 FBAHelper.add_objective(pheno_util.model, sum([
                     ex.reverse_variable for ex in pheno_util.carbon_exchange_list() if ex not in phenoRXNs]), "min")
-                with open("minimize_cInFlux.lp", 'w') as out:
-                    out.write(pheno_util.model.solver.to_lp())
+                # with open("minimize_cInFlux.lp", 'w') as out:
+                #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
@@ -353,8 +353,8 @@ class GrowthData:
                 obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable
                        for pheno_cpd in pheno_cpds["consumed"]]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
-                with open("maximize_phenoYield.lp", 'w') as out:
-                    out.write(pheno_util.model.solver.to_lp())
+                # with open("maximize_phenoYield.lp", 'w') as out:
+                #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 for phenoRXN in phenoRXNs:
@@ -365,8 +365,8 @@ class GrowthData:
                     obj = sum([pheno_util.model.reactions.get_by_id("EX_"+excreta+"_e0").flux_expression
                                for excreta in pheno_cpds["excreted"]])
                     FBAHelper.add_objective(pheno_util.model, direction="max", objective=obj)
-                    with open("maximize_excreta.lp", 'w') as out:
-                        out.write(pheno_util.model.solver.to_lp())
+                    # with open("maximize_excreta.lp", 'w') as out:
+                    #     out.write(pheno_util.model.solver.to_lp())
                     sol = pheno_util.model.optimize()
                     bioFlux_check(pheno_util.model, sol)
                     for excreta in pheno_cpds["excreted"]:
