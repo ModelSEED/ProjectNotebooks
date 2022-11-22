@@ -15,6 +15,7 @@ from typing import Union, Iterable
 from pprint import pprint
 from time import sleep, process_time
 from math import inf, isclose
+from deepdiff import DeepDiff
 from icecream import ic
 import numpy as np
 # from cplex import Cplex
@@ -121,42 +122,59 @@ class CommPhitting:
             self.species_phenos_df, self.growth_df, self.experimental_metadata)
         new_simulation.define_problem(parameters, mets_to_track, rel_final_conc, zero_start,
                                       abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_lp, None)
-        new_simulation.compute(primals_export_path="b_primals.json")
+        new_simulation.compute(primals_export_path="b_primals0.json")
         b_values = parse_primals(new_simulation.values, "b_")
         ## create a ghost b_param dictionary to deviate from the primals and enter the while loop
-        b_param = b_values.copy()
+        b_param = {}
         for trial, entities in b_values.items():
+            b_param[trial] = {}
             for entity, times in entities.items():
-                b_param[trial][entity] = {time: value+1 for time, value in times.items()}
+                b_param[trial][entity] = {time:2*float(value) for time, value in times.items()}
+        # iteratively optimize growth rate and biomass until the biomass converges
         count = 1
-        while not any([isclose(b_param[trial][entity][time], b_values[trial][entity][time])
-                       for trial, entities in new_simulation.values.items()
+        while not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time])
+                       for trial, entities in b_param.items()
                        for entity, times in entities.items() for time in times
                        if "b_" in entity]):
             print(f"\nFirst kinetics optimization phase, iteration: {count}")
-            # solve for growth rate v with solved b
-            b_param = parse_primals(new_simulation.values, "b_")
-            new_simulation = CommPhitting(
+            ## solve for growth rate v with solved b
+            b_param = b_values.copy()
+            new_simulation1 = CommPhitting(
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.signal_species,
                 self.species_phenos_df, self.growth_df, self.experimental_metadata)
-            new_simulation.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+            new_simulation1.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
                                           data_timesteps, export_zip_name, export_parameters, export_lp, b_param)
-            new_simulation.compute(primals_export_path=f"v_primals{count}.json")
+            try:
+                new_simulation1.compute(primals_export_path=f"v_primals{count}.json")
+                v_param = parse_primals(new_simulation1.values, "v_")
+            except FeasibilityError as e:
+                print(e)
+                if "new_simulation2" not in locals():
+                    raise ValueError("The kinetic optimization immediately failed with the first optimized biomasses.")
+                simulation = new_simulation2
+                break
 
-            # solve for biomass b with parameterized growth rate
-            v_param = parse_primals(new_simulation.values, "v_")
-            new_simulation = CommPhitting(
+            ## solve for biomass b with parameterized growth rate
+            new_simulation2 = CommPhitting(
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.signal_species,
                 self.species_phenos_df, self.growth_df, self.experimental_metadata)
-            new_simulation.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+            new_simulation2.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
                                           data_timesteps, export_zip_name, export_parameters, export_lp, v_param)
-            new_simulation.compute(primals_export_path=f"b_primals{count}.json")
-            b_values = parse_primals(new_simulation.values, "b_")
-            # track iteration progress
+            try:
+                new_simulation2.compute(primals_export_path=f"b_primals{count}.json")
+                b_values = parse_primals(new_simulation2.values, "b_")
+            except FeasibilityError as e:
+                print(e)
+                simulation = new_simulation1
+                break
+            ## track iteration progress
             count += 1
 
-        # simulate the last problem again except with rendering
-        self.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+        # simulate the last problem with the converged parameters to render the figures
+        simulation.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+        # export the converged growth rates
+        if "v_param" not in locals():
+            raise ValueError(f"The b_param value was not properly overwritten; hence, the while loop was never initiated.")
         return v_param
 
     def fit(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
@@ -262,6 +280,7 @@ class CommPhitting:
         # define growth and biomass variables and constraints
         # self.parameters["v"] = {met_id:{species:_michaelis_menten()}}
         for pheno in self.fluxes_tup.columns:
+            print(f"\n\n{pheno}\n==================\n")
             b_values[pheno], v_values[pheno] = {}, {}
 
             self.variables['cvt_' + pheno] = {}; self.variables['cvf_' + pheno] = {}
@@ -288,9 +307,10 @@ class CommPhitting:
                         b_value = primal_values[short_code]['b_' + pheno][time_hr]
                     else:
                         self.variables['b_' + pheno][short_code][timestep] = tupVariable(
-                            _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 100))
+                            _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
                         variables.append(self.variables['b_' + pheno][short_code][timestep])
                         b_value = self.variables['b_' + pheno][short_code][timestep].name
+                    print(b_value)
                     b_values[pheno][short_code][timestep] = b_value
 
                     ## define the growth rate variable or primal value
@@ -299,12 +319,13 @@ class CommPhitting:
                             v_value = primal_values[short_code]['v_' + pheno][time_hr]
                         elif 'b_' + pheno in primal_values[short_code]:
                             self.variables['v_' + pheno][short_code][timestep] = tupVariable(
-                                _name("v_", pheno, short_code, timestep, self.names), Bounds(0, 50))
+                                _name("v_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
                             variables.append(self.variables['v_' + pheno][short_code][timestep])
                             v_value = self.variables['v_' + pheno][short_code][timestep].name
                     else:
                         species, phenotype = pheno.split("_")
                         v_value = self.parameters["v"][species][phenotype]
+                    print(v_value, "\n\n")
                     v_values[pheno][short_code][timestep] = v_value
 
                     self.variables['g_' + pheno][short_code][timestep] = tupVariable(
@@ -443,8 +464,12 @@ class CommPhitting:
                         val = 1 if 'OD' in signal else self.species_phenos_df.loc[
                             signal.replace("_", " "), pheno]
                         val = val if isnumber(val) else val.values[0]
-                        signal_sum.append({"operation": "Mul", "elements": [
-                            -1, val, b_values[pheno][short_code][timestep]]})
+                        if val == 1:
+                            if not isnumber(b_values[pheno][short_code][timestep]):
+                                signal_sum.append({"operation": "Mul", "elements": [
+                                    -1, b_values[pheno][short_code][timestep]]})
+                            else:
+                                signal_sum.append(-b_values[pheno][short_code][timestep])
                         ### total_biomass.append(self.variables["b_"+pheno][short_code][timestep].name)
                         if all(['OD' not in signal, self.signal_species[signal] in pheno, 'stationary' not in pheno]):
                             from_sum.append({"operation": "Mul", "elements": [
@@ -454,15 +479,15 @@ class CommPhitting:
                     for pheno in self.fluxes_tup.columns:
                         if 'OD' in signal or self.signal_species[signal] not in pheno:
                             continue
+                        print(pheno, timestep, b_values[pheno][short_code][timestep], b_values[pheno][short_code][next_timestep])
                         if "stationary" in pheno:
                             # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) = b+1_{phenotype}
                             self.constraints['dbc_' + pheno][short_code][timestep] = tupConstraint(
                                 name=_name("dbc_", pheno, short_code, timestep, self.names),
                                 expr={
                                     "elements": [
-                                        b_values[pheno][short_code][timestep], *from_sum, *to_sum,
                                         {"elements": [-1, b_values[pheno][short_code][next_timestep]],
-                                         "operation": "Mul"}],
+                                         "operation": "Mul"}, *from_sum, *to_sum],
                                     "operation": "Add"
                                 })
                         else:
@@ -471,18 +496,23 @@ class CommPhitting:
                                 name=_name("dbc_", pheno, short_code, timestep, self.names),
                                 expr={
                                     "elements": [
-                                        b_values[pheno][short_code][timestep],
                                         self.variables['cvf_' + pheno][short_code][timestep].name,
                                         {"elements": [half_dt, self.variables['g_' + pheno][short_code][timestep].name],
                                          "operation": "Mul"},
                                         {"elements": [half_dt, self.variables['g_' + pheno][short_code][next_timestep].name],
                                          "operation": "Mul"},
                                         {"elements": [-1, self.variables['cvt_' + pheno][short_code][timestep].name],
-                                         "operation": "Mul"},
-                                        {"elements": [-1, b_values[pheno][short_code][next_timestep]],
                                          "operation": "Mul"}],
                                     "operation": "Add"
                                 })
+                        if not isnumber(b_values[pheno][short_code][timestep]):
+                            self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].extend([
+                                b_values[pheno][short_code][timestep],
+                                {"elements": [-1, b_values[pheno][short_code][next_timestep]],
+                                 "operation": "Mul"}])
+                        else:
+                            self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].append(
+                                b_values[pheno][short_code][timestep]-b_values[pheno][short_code][next_timestep])
                         constraints.append(self.constraints['dbc_' + pheno][short_code][timestep])
 
                     self.variables[signal + '__bio'][short_code][timestep] = tupVariable(
@@ -513,12 +543,18 @@ class CommPhitting:
                         name=_name(signal, '__diffc', short_code, timestep, self.names),
                         expr={
                             "elements": [
-                                self.variables[signal + '__bio'][short_code][timestep].name, *signal_sum,
+                                self.variables[signal + '__bio'][short_code][timestep].name,
                                 self.variables[signal + '__diffneg'][short_code][timestep].name,
                                 {"elements": [-1, self.variables[signal + '__diffpos'][short_code][timestep].name],
                                  "operation": "Mul"}],
                             "operation": "Add"
                         })
+                    if all([not isnumber(val) for val in signal_sum]):
+                        self.constraints[signal + "__diffc"][short_code][timestep].expr["elements"].extend(signal_sum)
+                    elif all([isnumber(val) for val in signal_sum]):
+                        self.constraints[signal + "__diffc"][short_code][timestep].expr["elements"].append(sum(signal_sum))
+                    else:
+                        raise ValueError(f"The {signal_sum} value has unexpected contents.")
                     constraints.extend([self.constraints[signal + '__bioc'][short_code][timestep],
                                         self.constraints[signal + '__diffc'][short_code][timestep]])
 
