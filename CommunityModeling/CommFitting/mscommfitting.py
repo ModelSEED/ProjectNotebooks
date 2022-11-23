@@ -100,12 +100,14 @@ def parse_primals(primal_values, entity_label):
                 distinguished_primals[trial][entity] = {time:value for time, value in times.items()}
     return distinguished_primals
 
+def signal_species(signal):
+    return signal.split(":")[1].replace(" ", "_")
+
 class CommPhitting:
 
-    def __init__(self, fluxes_df, carbon_conc, media_conc, signal_species, species_phenos_df, growth_df=None, experimental_metadata=None):
+    def __init__(self, fluxes_df, carbon_conc, media_conc, growth_df=None, experimental_metadata=None):
         self.parameters, self.variables, self.constraints, = {}, {}, {}
         self.zipped_output, self.plots = [], []
-        self.signal_species = signal_species; self.species_phenos_df = species_phenos_df
         self.fluxes_tup = FBAHelper.parse_df(fluxes_df)
         self.growth_df = growth_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
@@ -114,14 +116,14 @@ class CommPhitting:
     #################### FITTING PHASE METHODS ####################
     def fit_kinetics(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                     export_zip_name: str = None, export_parameters: bool = True, export_lp: bool = True, figures_zip_name:str=None,
-                     publishing:bool=False):
+                     export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting.lp',
+                     figures_zip_name:str=None, publishing:bool=False):
         # solve for biomass b with parameterized growth rate
         new_simulation = CommPhitting(
-            self.fluxes_tup, self.carbon_conc, self.media_conc, self.signal_species,
-            self.species_phenos_df, self.growth_df, self.experimental_metadata)
+            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
         new_simulation.define_problem(parameters, mets_to_track, rel_final_conc, zero_start,
-                                      abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_lp, None)
+                                      abs_final_conc, data_timesteps, export_zip_name, export_parameters,
+                                      'solveBiomass0.lp', None)
         new_simulation.compute(primals_export_path="b_primals0.json")
         b_values = parse_primals(new_simulation.values, "b_")
         ## create a ghost b_param dictionary to deviate from the primals and enter the while loop
@@ -140,10 +142,10 @@ class CommPhitting:
             ## solve for growth rate v with solved b
             b_param = b_values.copy()
             new_simulation1 = CommPhitting(
-                self.fluxes_tup, self.carbon_conc, self.media_conc, self.signal_species,
-                self.species_phenos_df, self.growth_df, self.experimental_metadata)
+                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
             new_simulation1.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                                          data_timesteps, export_zip_name, export_parameters, export_lp, b_param)
+                                           data_timesteps, export_zip_name, export_parameters,
+                                           f'solveGrowthRates{count}.lp', b_param)
             try:
                 new_simulation1.compute(primals_export_path=f"v_primals{count}.json")
                 v_param = parse_primals(new_simulation1.values, "v_")
@@ -156,10 +158,10 @@ class CommPhitting:
 
             ## solve for biomass b with parameterized growth rate
             new_simulation2 = CommPhitting(
-                self.fluxes_tup, self.carbon_conc, self.media_conc, self.signal_species,
-                self.species_phenos_df, self.growth_df, self.experimental_metadata)
+                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
             new_simulation2.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                                          data_timesteps, export_zip_name, export_parameters, export_lp, v_param)
+                                           data_timesteps, export_zip_name, export_parameters,
+                                           f'solveBiomass{count}.lp', v_param)
             try:
                 new_simulation2.compute(primals_export_path=f"b_primals{count}.json")
                 b_values = parse_primals(new_simulation2.values, "b_")
@@ -179,7 +181,7 @@ class CommPhitting:
 
     def fit(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
             abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-            export_zip_name: str = None, export_parameters: bool = True, export_lp: bool = True, figures_zip_name:str=None,
+            export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting.lp', figures_zip_name:str=None,
             publishing:bool=False):
         self.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc, data_timesteps, export_zip_name,
                             export_parameters, export_lp)
@@ -191,10 +193,11 @@ class CommPhitting:
             self.problem.update()
 
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
-                       data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: bool=True,
+                       data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
                        primal_values=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
+        self.species_list = [signal_species(signal) for signal in growth_tup.columns[3:]]
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
         # TODO - short_codes must be distinguished for different conditions
         unique_short_codes = [f"{growth_tup.index[0][0]}{num}" for num in map(str, num_sorted)]
@@ -219,9 +222,9 @@ class CommPhitting:
         default_carbon_sources = ["cpd00076", "cpd00179", "cpd00027"]  # sucrose, maltose, glucose
         self.rel_final_conc = rel_final_conc or {c:1 for c in default_carbon_sources}
         self.abs_final_conc = abs_final_conc or {}
-        self.mets_to_track = mets_to_track or list(self.rel_final_conc.keys())
+        self.mets_to_track = mets_to_track or self.fluxes_tup.index if not isinstance(
+            rel_final_conc, dict) else list(self.rel_final_conc.keys())
         zero_start = zero_start or []
-
         # define the varying entities
         b_values, v_values = {}, {}
 
@@ -261,8 +264,8 @@ class CommPhitting:
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
                     if timestep == timesteps[-1] and any([
-                        met_id in self.rel_final_conc, met_id in self.abs_final_conc]
-                    ):
+                        met_id in self.rel_final_conc, met_id in self.abs_final_conc
+                    ]):
                         if met_id in self.rel_final_conc:
                             final_bound = self.variables["c_" + met][short_code][1].bounds.lb * self.rel_final_conc[met_id]
                         if met_id in self.abs_final_conc: # this intentionally overwrites rel_final_conc
@@ -272,15 +275,15 @@ class CommPhitting:
                             conc_var = conc_var._replace(bounds=Bounds(final_bound, final_bound))
                     self.variables["c_" + met][short_code][timestep] = conc_var
                     variables.append(self.variables["c_" + met][short_code][timestep])
-        for signal in [signal for signal in growth_tup.columns[3:] if 'OD' not in signal]:
+        for signal in growth_tup.columns[3:]:
             for pheno in self.fluxes_tup.columns:
-                if self.signal_species[signal] in pheno:
+                if signal_species(signal) in pheno:
                     self.constraints['dbc_' + pheno] = {short_code: {} for short_code in unique_short_codes}
 
         # define growth and biomass variables and constraints
         # self.parameters["v"] = {met_id:{species:_michaelis_menten()}}
         for pheno in self.fluxes_tup.columns:
-            print(f"\n\n{pheno}\n==================\n")
+            # print(f"\n\n{pheno}\n==================\n")
             b_values[pheno], v_values[pheno] = {}, {}
 
             self.variables['cvt_' + pheno] = {}; self.variables['cvf_' + pheno] = {}
@@ -310,7 +313,7 @@ class CommPhitting:
                             _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
                         variables.append(self.variables['b_' + pheno][short_code][timestep])
                         b_value = self.variables['b_' + pheno][short_code][timestep].name
-                    print(b_value)
+                    # print(b_value)
                     b_values[pheno][short_code][timestep] = b_value
 
                     ## define the growth rate variable or primal value
@@ -325,7 +328,7 @@ class CommPhitting:
                     else:
                         species, phenotype = pheno.split("_")
                         v_value = self.parameters["v"][species][phenotype]
-                    print(v_value, "\n\n")
+                    # print(v_value, "\n\n")
                     v_values[pheno][short_code][timestep] = v_value
 
                     self.variables['g_' + pheno][short_code][timestep] = tupVariable(
@@ -348,14 +351,14 @@ class CommPhitting:
                     self.constraints['cvc_' + pheno][short_code][timestep] = tupConstraint(
                         _name('cvc_', pheno, short_code, timestep, self.names), (0, None), {
                             "elements": [
-                                self.parameters['cvmin'],
-                                {"elements": [self.parameters['bcv'], b_value],
-                                 "operation": "Mul"},
                                 {"elements": [
                                     -1, self.variables['cvt_' + pheno][short_code][timestep].name],
                                     "operation": "Mul"}],
                             "operation": "Add"
                         })
+                    biomass_term = [self.parameters['bcv']*b_value + self.parameters['cvmin']] if isnumber(b_value) else [
+                        self.parameters['cvmin'], {"elements": [self.parameters['bcv'], b_value], "operation": "Mul"}]
+                    self.constraints['cvc_' + pheno][short_code][timestep].expr["elements"].extend(biomass_term)
 
                     # v_{pheno} = -(Vmax_{met, species} * c_{met}) / (Km_{met, species} + c_{met})
                     # self.constraints['vc_' + pheno][short_code][timestep] = tupConstraint(
@@ -461,25 +464,24 @@ class CommPhitting:
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
                         # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
-                        val = 1 if 'OD' in signal else self.species_phenos_df.loc[
-                            signal.replace("_", " "), pheno]
-                        val = val if isnumber(val) else val.values[0]
-                        if val == 1:
+                        val = 0
+                        if signal.split(":")[0].replace(" ", "_") in pheno:
+                            val = 1
                             if not isnumber(b_values[pheno][short_code][timestep]):
                                 signal_sum.append({"operation": "Mul", "elements": [
                                     -1, b_values[pheno][short_code][timestep]]})
                             else:
                                 signal_sum.append(-b_values[pheno][short_code][timestep])
                         ### total_biomass.append(self.variables["b_"+pheno][short_code][timestep].name)
-                        if all(['OD' not in signal, self.signal_species[signal] in pheno, 'stationary' not in pheno]):
+                        if all(['OD' not in signal,signal_species(signal) in pheno, 'stationary' not in pheno]):
                             from_sum.append({"operation": "Mul", "elements": [
                                 -val, self.variables["cvf_" + pheno][short_code][timestep].name]})
                             to_sum.append({"operation": "Mul", "elements": [
                                 val, self.variables["cvt_" + pheno][short_code][timestep].name]})
                     for pheno in self.fluxes_tup.columns:
-                        if 'OD' in signal or self.signal_species[signal] not in pheno:
+                        if 'OD' in signal or signal_species(signal) not in pheno:
                             continue
-                        print(pheno, timestep, b_values[pheno][short_code][timestep], b_values[pheno][short_code][next_timestep])
+                        # print(pheno, timestep, b_values[pheno][short_code][timestep], b_values[pheno][short_code][next_timestep])
                         if "stationary" in pheno:
                             # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) = b+1_{phenotype}
                             self.constraints['dbc_' + pheno][short_code][timestep] = tupConstraint(
@@ -506,13 +508,12 @@ class CommPhitting:
                                     "operation": "Add"
                                 })
                         if not isnumber(b_values[pheno][short_code][timestep]):
-                            self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].extend([
-                                b_values[pheno][short_code][timestep],
-                                {"elements": [-1, b_values[pheno][short_code][next_timestep]],
-                                 "operation": "Mul"}])
+                            biomass_term = [b_values[pheno][short_code][timestep], {
+                                "elements": [-1, b_values[pheno][short_code][next_timestep]], "operation": "Mul"}]
                         else:
-                            self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].append(
-                                b_values[pheno][short_code][timestep]-b_values[pheno][short_code][next_timestep])
+                            biomass_term = [b_values[pheno][short_code][timestep]-b_values[pheno][short_code][next_timestep]]
+                        # print(biomass_term)
+                        self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].extend(biomass_term)
                         constraints.append(self.constraints['dbc_' + pheno][short_code][timestep])
 
                     self.variables[signal + '__bio'][short_code][timestep] = tupVariable(
@@ -587,8 +588,8 @@ class CommPhitting:
             self.zipped_output.append('parameters.csv')
             DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()), columns=['values']).to_csv('parameters.csv')
         if export_lp:
-            self.zipped_output.extend(['CommPhitting.lp', 'CommPhitting.json'])
-            with open('CommPhitting.lp', 'w') as lp:
+            self.zipped_output.extend([export_lp, 'CommPhitting.json'])
+            with open(export_lp, 'w') as lp:
                 lp.write(self.problem.to_lp())
             _export_model_json(self.problem.to_json(), 'CommPhitting.json')
         if export_zip_name:
@@ -811,11 +812,16 @@ class CommPhitting:
 
         # leverage the newton module for Newton's optimization algorithm
 
-    def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid"):
+    def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid", scatter=False):
         labels.append(label or basename.split('-')[-1])
-        ax.plot(list(self.values[trial][basename].keys()),
-                list(self.values[trial][basename].values()),
-                label=labels[-1], linestyle=linestyle)
+        if scatter:
+            ax.scatter(list(self.values[trial][basename].keys()),
+                       list(self.values[trial][basename].values()),
+                       s=10, label=labels[-1])
+        else:
+            ax.plot(list(self.values[trial][basename].keys()),
+                    list(self.values[trial][basename].values()),
+                    label=labels[-1], linestyle=linestyle)
         x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
         ax.set_xticks(x_ticks[::x_axis_split])
         return ax, labels
@@ -845,9 +851,9 @@ class CommPhitting:
             content = contents.get(graph['content'], graph['content'])
             y_label = 'Variable value'; x_label = 'Time (hr)'
             if any([x in graph['content'] for x in ['biomass', 'OD']]):
-                ys = {name: [] for name in self.signal_species.values()}
+                ys = {name: [] for name in self.species_list}
                 if "species" not in graph:
-                    graph['species'] = list(self.signal_species.values())
+                    graph['species'] = self.species_list
             if "biomass" in graph['content']:
                 y_label = 'Biomass concentration (g/L)'
             elif 'growth' in graph['content']:
@@ -859,11 +865,11 @@ class CommPhitting:
             graph["experimental_data"] = default_dict_values(graph, "experimental_data", False)
             if 'phenotype' in graph and graph['phenotype'] == '*':
                 if "species" not in graph:
-                    graph['species'] = list(self.signal_species.values())
+                    graph['species'] = self.species_list
                 graph['phenotype'] = set([col.split('_')[1] for col in self.fluxes_tup.columns
                                           if col.split('_')[0] in graph["species"]])
-            if 'species' in graph and graph['species'] == '*':
-                graph['species'] = list(self.signal_species.values())
+            if 'species' in graph and graph['species'] == '*':   # TODO - a species-resolved option must be developed for the paper figure
+                graph['species'] = self.species_list
             elif content == "c_" and 'mets' not in graph:
                 graph["mets"] = self.mets_to_track
             elif not any(["species" in graph, "mets" in graph]):
@@ -892,7 +898,7 @@ class CommPhitting:
                             var_name, species, phenotype = basename.split('_')
                             label = f'{species}_biomass (model)'
                             if publishing:
-                                # if any([species == species_name for species_name in self.signal_species.values()]):
+                                # if any([species == species_name for species_name in self.species_list]):
                                 #     break
                                 if species == 'ecoli':
                                     species_name = 'E. coli'
@@ -906,7 +912,7 @@ class CommPhitting:
                             vals = np.array(list(values.values()))
                             ax.set_xticks(xs[::int(3 / data_timestep_hr / timestep_ratio)])
                             if (any([x in graph['content'] for x in ["total", 'OD']]) or
-                                    graph['species'] == list(self.signal_species.values())
+                                    graph['species'] == self.species_list
                             ):
                                 ys['OD'].append(vals)
                                 if "OD" not in graph['content']:
@@ -916,14 +922,14 @@ class CommPhitting:
                             signal = "_".join([x for x in basename.split('_')[:-1] if x])
                             label = basename
                             if publishing:
-                                if self.signal_species[signal] == 'ecoli':
+                                if signal_species(signal) == 'ecoli':
                                     species = 'E. coli'
-                                elif self.signal_species[signal] == 'pf':
+                                elif signal_species(signal) == 'pf':
                                     species = 'P. fluorescens'
                                 label = f'Experimental {species} (from {signal})'
                                 if 'OD' in signal:
                                     label = 'Experimental total biomass (from OD)'
-                            ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split)
+                            ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, scatter=True)
                     # graph an aspect of a specific species across all phenotypes
                     if content not in basename:
                         continue
@@ -975,10 +981,11 @@ class CommPhitting:
                                     if name in label_specie:
                                         label = label_specie[name]
                                         break
+                            # TODO possibly express the modeled conversions of experimental data discretely, reflecting the original data
                             style = "solid" if (len(graph["species"]) < 1 or name not in linestyle
                                                 ) else linestyle[name]
                             style = "dashdot" if "model" in label else style
-                            style = "solid" if ("OD" in name and not graph["experimental_data"]) else style
+                            style = "solid" if ("OD" in name and not graph["experimental_data"] or "total" in graph["content"]) else style
                             ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style)
 
                     phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
@@ -987,7 +994,7 @@ class CommPhitting:
 
                     if "mets" not in graph and content != "c_":
                         species_id = graph["species"] if isinstance(graph["species"], str) else ",".join(graph["species"])
-                        if "species" in graph and graph['species'] == list(self.signal_species.values()):
+                        if "species" in graph and graph['species'] == self.species_list:
                             species_id = 'all species'
                         else:
                             phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
@@ -1049,16 +1056,31 @@ class CommPhitting:
 
 
 class BIOLOGPhitting(CommPhitting):
+    def __init__(self, fluxes_df, carbon_conc, media_conc, biolog_df, experimental_metadata):
+        self.fluxes_df = fluxes_df; self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
+        self.carbon_conc = carbon_conc; self.media_conc = media_conc
 
-    def __init__(self, fluxes_df, carbon_conc, media_conc, signal_species, species_phenos_df,
-                 growth_df, experimental_metadata, msdb_path):
-        CommPhitting.__init__(self, fluxes_df, carbon_conc, media_conc, signal_species, species_phenos_df,
-                              growth_df, experimental_metadata)
-        self.msdb_path = msdb_path
-
-    def simulate(self):
-        for index, condition in enumerate(biolog_data):
-            self.define_problem(parameters, mets_to_track=[condition], rel_final_conc=0.5, zero_start=None,abs_final_conc=None,
-                                data_timesteps=None, export_zip_name=f"BIOLOG_sim{index}_{condition}", export_parameters=True,
-                                export_lp=True)
-            self.compute(graphs, self.msdb_path, )
+    def fit(self, parameters: dict = None, mets_to_track: list = None, rel_final_conc: float = None, zero_start: list = None,
+            abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None, msdb_path: str = None,
+            export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting.lp',
+            figures_zip_name: str = None, publishing: bool = False):
+        # simulate each condition
+        org_rel_final_conc = rel_final_conc
+        display(self.experimental_metadata)
+        for index, experiment in self.experimental_metadata.iterrows():
+            print(index)
+            display(experiment)
+            # TODO - define the fluxes_df and phenotype(s) for each condition in this loop
+            ## define the parameters for each experiment
+            mets_to_track = zero_start = [experiment["ModelSEED_ID"]] if experiment["ModelSEED_ID"] else None
+            rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc} if experiment["ModelSEED_ID"] else None
+            ## define the CommPhitting object and simulate the experiment
+            CommPhitting.__init__(self, self.fluxes_df, self.carbon_conc, self.media_conc,
+                                  self.biolog_df.loc[index,:], self.experimental_metadata)
+            CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, zero_start,
+                                        abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_lp)
+            try:
+                CommPhitting.compute(self, graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+            except (NoFluxError) as e:
+                print(e)
+            print("\n\n\n")
