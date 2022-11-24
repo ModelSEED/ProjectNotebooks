@@ -185,12 +185,14 @@ class CommPhitting:
         self.times = {short_code: trial_contents(short_code, growth_tup.index, full_times) for short_code in unique_short_codes}
 
         # define default values
+        # TODO render bcv and cvmin dependent upon temperature, and possibly trained on Carlson's data
+        # TODO find the lowest cvmin and bcv that fit the experimental data
         parameters, data_timesteps = parameters or {}, data_timesteps or {}
         self.parameters["data_timestep_hr"] = np.mean(np.diff(np.array(list(self.times.values())).flatten())) / hour
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Simulation timestep magnitude in hours
             "cvct": 1, "cvcf": 1,  # Minimization coefficients of the phenotype conversion to and from the stationary phase.
-            "bcv": 0.001,  # The highest fraction of species biomass that can change phenotypes in a timestep
+            "bcv": 0.1,  # The highest fraction of species biomass that can change phenotypes in a timestep
             "cvmin": 0,  # The lowest value the limit on phenotype conversion goes,
             "v": 0.33,  # The kinetics constant that is externally adjusted
             'diffpos': 1, 'diffneg': 1,
