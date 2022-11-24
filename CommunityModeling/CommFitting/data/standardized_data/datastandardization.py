@@ -29,6 +29,9 @@ from pandas import read_csv, DataFrame, ExcelFile, read_excel
 import numpy as np
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 def isnumber(string):
     try:
         float(string)
@@ -90,7 +93,7 @@ def default_dict_values(dic, key, default):
     return default if not key in dic else dic[key]
 
 def trial_contents(short_code, indices_tup, values):
-    matches = [True if ele == short_code else False for ele in indices_tup]
+    matches = [ele == short_code for ele in indices_tup]
     return np.array(values)[matches]
 
 def _spreadsheet_extension_load(path):
@@ -388,7 +391,6 @@ class GrowthData:
                 if pheno_influx >= 0:
                     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
                                       f"implausible phenotype specifications.")
-                print(pheno_influx)
                 # sol.fluxes /= abs(pheno_influx)
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
@@ -521,7 +523,7 @@ class GrowthData:
                 continue
             sheet = org_sheet.replace(' ', '_')
             df_name = f"{name}:{sheet}"
-            if sheet not in dataframes:
+            if df_name not in dataframes:
                 dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
                 dataframes[df_name].columns = dataframes[df_name].iloc[6]
@@ -531,14 +533,14 @@ class GrowthData:
             data_timestep_hr.append(simulation_time / int(dataframes[df_name].columns[-1]))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
+                name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
             # display(data_times_df) ; display(data_values_df)
             for col in plateaued_times:
                 if col in data_times_df.columns:
                     data_times_df.drop(col, axis=1, inplace=True)
                 if col in data_values_df.columns:
                     data_values_df.drop(col, axis=1, inplace=True)
-            dataframes[sheet] = (data_times_df, data_values_df)
+            dataframes[df_name] = (data_times_df, data_values_df)
 
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
@@ -592,9 +594,9 @@ class GrowthData:
         constructed_experiments["base_media"] = [base_media_path] * (column_num*row_num)
 
         # define community content
-        members = list(mem["name"] for mem in community_members.values())
-        species_mets = {mem["name"]: mets["consumed"] for mem in community_members.values()
-                        for mets in mem["phenotypes"].values()}
+        species_mets = {}
+        for mem in community_members.values():
+            species_mets[mem["name"]] = np.array([mets["consumed"] for mets in mem["phenotypes"].values()]).flatten()
 
         # define the strains column
         strains, additional_compounds, experiment_ids = [], [], []
@@ -604,6 +606,7 @@ class GrowthData:
         base_row_conc = [] if '*' not in carbon_conc else [
             ':'.join([met, str(carbon_conc['*'][met][0]), str(carbon_conc['*'][met][1])])
             for met in carbon_conc['*']]
+        members = list(mem["name"] for mem in community_members.values())
         for row in range(1, row_num+1):
             row_conc = base_row_conc[:]
             trial_letter = chr(ord("A") + row)
@@ -638,7 +641,13 @@ class GrowthData:
                         if metID in mets:
                             met_name = list(species_mets.keys())[index]
                             break
-                    experiment_id.append(f"{init}_{met_name}")
+                    if "met_name" not in locals():
+                        logger.critical(f"The specified phenotypes {species_mets} for the {members} members does not "
+                                        f"include the consumption of the available sources {row_conc}; hence, the model cannot grow.")
+                        content = ""
+                    else:
+                        content = f"{init}_{met_name}"
+                    experiment_id.append(content)
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
                 trial_name_conversion[trial_letter][str(col+1)] = (experiment_prefix+str(count), experiment_id)
@@ -666,36 +675,43 @@ class GrowthData:
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):
-        # experimental_ids = {codeIds[0]:codeIds[1]
-        #                     for rowLet, content in trial_name_conversion.items()
-        #                     for colNum, codeIds in content.items()}
         short_codes, trials_list = [], []
         values, times = {}, {}  # The times must be capture upstream
         first = True
-        for sheet, (times_df, values_df) in dataframes.items():
+        for df_name, (times_df, values_df) in dataframes.items():
+            # print(df_name)
+            # display(times_df) ; display(values_df)
             times_tup = FBAHelper.parse_df(times_df)
-            average_times = np.mean(times_tup.values, axis=0)
-            values[sheet], times[sheet] = [], []
-            # print(sheet, set(values_df.index))
+            values[df_name], times[df_name] = [], []
             for trial_code in values_df.index:
                 row_let, col_num = trial_code[0], trial_code[1:]
                 # print(trial_code, row_let, col_num)
-                for row in trial_contents(trial_code, values_df.index, values_df.values):
+                for trial_row_values in trial_contents(trial_code, values_df.index, values_df.values):
                     if first:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
-                    values[sheet].extend(row)
-                    times[sheet].extend(average_times)
+                    values[df_name].extend(trial_row_values)
+                    times[df_name].append(times_tup.values.flatten())
             first = False
-        df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
-        df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
+        # process the data to the smallest dataset, to accommodate heterogeneous data sizes
+        minVal = min(list(map(len, values.values())))
+        for df_name, data in values.items():
+            values[df_name] = data[:minVal]
+        times2 = times.copy()
+        for df_name, data in times2.items():
+            times[df_name] = []
+            for ls in data:
+                times[df_name].append(ls[:minVal])
+        times_set = np.mean(list(times.values()), axis=0).flatten()
+        # construct the growth DataFrame
+        df_data = {"trial_IDs": trials_list[:minVal], "short_codes": short_codes[:minVal]}
+        df_data.update({"Time (s)": times_set})  # element-wise average
         df_data.update({df_name:vals for df_name, vals in values.items()})
         growth_df = DataFrame(df_data)
         growth_df.index = growth_df["short_codes"]
         del growth_df["short_codes"]
         growth_df.to_csv("growth_spectra.csv")
-
         return growth_df
 
 
@@ -732,7 +748,7 @@ class BiologData:
                 continue
             sheet = org_sheet.replace(" ", "_")
             df_name = f"{name}:{sheet}"
-            if sheet not in dataframes:
+            if df_name not in dataframes:
                 dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
                 dataframes[df_name].columns = dataframes[df_name].iloc[8]
@@ -740,7 +756,7 @@ class BiologData:
             # parse the DataFrame for values
             dataframes[df_name].columns = [str(x).strip() for x in dataframes[df_name].columns]
             simulation_time = dataframes[df_name].iloc[0, -1] / hour
-            # display(dataframes[sheet])
+            # display(dataframes[df_name])
             data_timestep_hr.append(simulation_time / int(float(dataframes[df_name].columns[-1])))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
@@ -799,10 +815,10 @@ class BiologData:
         short_codes, trials_list = [], []
         values, times = {}, {}  # The times must capture upstream
         first = True
-        for sheet, (times_df, values_df) in dataframes.items():
+        for df_name, (times_df, values_df) in dataframes.items():
             times_tup = FBAHelper.parse_df(times_df)
             average_times = np.mean(times_tup.values, axis=0)
-            values[sheet], times[sheet] = [], []
+            values[df_name], times[df_name] = [], []
             for exprID in values_df.index:
                 row_let, col_num = exprID[0], exprID[1:]
                 for row in trial_contents(exprID, values_df.index, values_df.values):
@@ -810,8 +826,8 @@ class BiologData:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
-                    values[sheet].extend(row)
-                    times[sheet].extend(average_times)
+                    values[df_name].extend(row)
+                    times[df_name].extend(average_times)
             first = False
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
         df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
