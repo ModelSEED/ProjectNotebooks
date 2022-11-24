@@ -29,6 +29,9 @@ from pandas import read_csv, DataFrame, ExcelFile, read_excel
 import numpy as np
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 def isnumber(string):
     try:
         float(string)
@@ -90,7 +93,7 @@ def default_dict_values(dic, key, default):
     return default if not key in dic else dic[key]
 
 def trial_contents(short_code, indices_tup, values):
-    matches = [True if ele == short_code else False for ele in indices_tup]
+    matches = [ele == short_code for ele in indices_tup]
     return np.array(values)[matches]
 
 def _spreadsheet_extension_load(path):
@@ -204,31 +207,32 @@ def _remove_timesteps(org_df, ignore_timesteps, name, signal):
                                  f"were unsuccessfully dropped for the {name} {signal} data.")
     return dataframe, ignore_timesteps
 
-def _df_construction(name, signal, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num):
+def _df_construction(name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num, buffer_col1=True):
     # refine the DataFrames
-    time_df = _column_reduction(dataframes[signal].iloc[0::2])
-    values_df = _column_reduction(dataframes[signal].iloc[1::2])
+    time_df = _column_reduction(dataframes[df_name].iloc[0::2])
+    values_df = _column_reduction(dataframes[df_name].iloc[1::2])
 
     # remove specified data trials
     if ignore_trials:
         values_df, removed_trials = _remove_trials(
-            values_df, ignore_trials, signal, name, significant_deviation)
+            values_df, ignore_trials, df_name, name, significant_deviation)
         for row in removed_trials:
             time_df.drop(row, axis=0, inplace=True)
 
     # remove specified data timesteps
     if ignore_timesteps:
         values_df, removed_timesteps = _remove_timesteps(
-            values_df, ignore_timesteps, name, signal)
+            values_df, ignore_timesteps, name, df_name)
         for col in list(map(int, removed_timesteps)):
             time_df.drop(col, axis=1, inplace=True)
 
     # remove undefined trials
-    possible_rows = [chr(ord("A")+row) for row in range(1, row_num+1)]
-    for trial_code in values_df.index:
-        if trial_code[0] not in possible_rows:
-            values_df.drop(trial_code, axis=0, inplace=True)
-            time_df.drop(trial_code, axis=0, inplace=True)
+    if buffer_col1:
+        possible_rows = [chr(ord("A")+row) for row in range(1, row_num+1)]
+        for trial_code in values_df.index:
+            if trial_code[0] not in possible_rows:
+                values_df.drop(trial_code, axis=0, inplace=True)
+                time_df.drop(trial_code, axis=0, inplace=True)
 
     # process the data for subsequent operations and optimal efficiency
     values_df.astype(str); time_df.astype(str)
@@ -267,10 +271,7 @@ class GrowthData:
         row_num = len(species_identities_rows)
         if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
             row_num = len(list(carbon_conc_series["rows"].values())[0])
-        (
-            media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
-            dataframes, trials, species_phenos_df, fluxes_df
-        ) = GrowthData.load_data(
+        (media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, fluxes_df) = GrowthData.load_data(
             base_media, community_members, solver, data_paths, ignore_trials,
             ignore_timesteps, significant_deviation, row_num, extract_zip_path
         )
@@ -282,11 +283,11 @@ class GrowthData:
         # for row in trial_name_conversion:
         #     short_code_ID = {contents[0]:contents[1] for contents in trial_name_conversion[row].values()}
         growth_dfs = GrowthData.data_process(dataframes, trial_name_conversion)
-        return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc, signal_species,
-                trial_name_conversion, species_phenos_df, np.mean(data_timestep_hr), simulation_time, media_conc)
+        return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc,
+                trial_name_conversion, np.mean(data_timestep_hr), simulation_time, media_conc)
 
     @staticmethod
-    def phenotypes(base_media, community_members, solver):
+    def phenotypes(base_media, community_members, solver="glpk"):
         # log information of each respective model
         named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
                                    for member, content in community_members.items()}
@@ -300,8 +301,8 @@ class GrowthData:
             models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
                                     "name": content["name"], "phenotypes": named_community_members[content["name"]]}
             for pheno, pheno_cpds in content['phenotypes'].items():
-                # TODO - determine the minimal media a layer above when media can transfer with models
                 pheno_util = MSModelUtil(org_model)
+                pheno_util.model.solver = solver
                 # pheno_util.compatibilize()   only for non-ModelSEED models
                 ## define the media and uptake fluxes, which are 100 except for O_2, where its inclusion is interpreted as an aerobic model
                 # if base_media:
@@ -325,10 +326,10 @@ class GrowthData:
                 if "pf " in content["name"]:
                     pheno_util.model.reactions.EX_r277_e0.lower_bound = pheno_util.model.reactions.EX_r1423_e0.lower_bound = 0
                 ### define an oxygen absorption relative to the phenotype carbon source
-                # O2_consumption: EX_cpd00007_e0 <= 2 * sum(primary carbon fluxes)
+                # O2_consumption: EX_cpd00007_e0 <= sum(primary carbon fluxes)    # formerly <= 2 * sum(primary carbon fluxes)
                 coef = {phenoRXN.reverse_variable:1 for phenoRXN in phenoRXNs}
                 # coef.update({phenoRXN.forward_variable: 1 for phenoRXN in phenoRXNs})
-                coef.update({pheno_util.model.reactions.get_by_id("EX_cpd00007_e0").reverse_variable:-0.5})
+                coef.update({pheno_util.model.reactions.get_by_id("EX_cpd00007_e0").reverse_variable:-1})
                 FBAHelper.create_constraint(
                     pheno_util.model, Constraint(Zero, lb=0, ub=None, name="EX_cpd00007_e0_limitation"), coef=coef)
 
@@ -339,8 +340,8 @@ class GrowthData:
                 FBAHelper.add_minimal_objective_cons(pheno_util.model, min_growth)
                 FBAHelper.add_objective(pheno_util.model, sum([
                     ex.reverse_variable for ex in pheno_util.carbon_exchange_list() if ex not in phenoRXNs]), "min")
-                with open("minimize_cInFlux.lp", 'w') as out:
-                    out.write(pheno_util.model.solver.to_lp())
+                # with open("minimize_cInFlux.lp", 'w') as out:
+                #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
@@ -353,8 +354,8 @@ class GrowthData:
                 obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable
                        for pheno_cpd in pheno_cpds["consumed"]]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
-                with open("maximize_phenoYield.lp", 'w') as out:
-                    out.write(pheno_util.model.solver.to_lp())
+                # with open("maximize_phenoYield.lp", 'w') as out:
+                #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 for phenoRXN in phenoRXNs:
@@ -365,8 +366,8 @@ class GrowthData:
                     obj = sum([pheno_util.model.reactions.get_by_id("EX_"+excreta+"_e0").flux_expression
                                for excreta in pheno_cpds["excreted"]])
                     FBAHelper.add_objective(pheno_util.model, direction="max", objective=obj)
-                    with open("maximize_excreta.lp", 'w') as out:
-                        out.write(pheno_util.model.solver.to_lp())
+                    # with open("maximize_excreta.lp", 'w') as out:
+                    #     out.write(pheno_util.model.solver.to_lp())
                     sol = pheno_util.model.optimize()
                     bioFlux_check(pheno_util.model, sol)
                     for excreta in pheno_cpds["excreted"]:
@@ -390,7 +391,6 @@ class GrowthData:
                 if pheno_influx >= 0:
                     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
                                       f"implausible phenotype specifications.")
-                print(pheno_influx)
                 # sol.fluxes /= abs(pheno_influx)
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
@@ -430,10 +430,6 @@ class GrowthData:
         fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
         fluxes_df.astype(str)
         fluxes_df.to_csv("fluxes.csv")
-        ### export the sub-set of fluxes which denote an influx
-
-        ### cheat with the Ecoli -> PF Acetate phenotype superposition
-
         return fluxes_df, media_conc
 
     @staticmethod
@@ -472,11 +468,10 @@ class GrowthData:
         if removed_phenotypes:
             print(f'The {removed_phenotypes} phenotypes were removed '
                   f'since their species is not among those with data: {modeled_species}.')
-        phenos_tup = FBAHelper.parse_df(fluxes_df)
 
         # import and parse the raw CSV data
         data_timestep_hr = []
-        dataframes, signal_species = {}, {}
+        dataframes = {}
         zipped_output.append(data_paths['path'])
         max_timestep_cols = []
         if min_timesteps:
@@ -485,13 +480,14 @@ class GrowthData:
                     continue
                 ## define the DataFrame
                 sheet = org_sheet.replace(' ', '_')
-                dataframes[sheet] = _spreadsheet_extension_parse(
+                df_name = f"{name}:{sheet}"
+                dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
-                dataframes[sheet].columns = dataframes[sheet].iloc[6]
-                dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
+                dataframes[df_name].columns = dataframes[df_name].iloc[6]
+                dataframes[df_name].drop(dataframes[df_name].index[:7], inplace=True)
                 ## parse the timesteps from the DataFrame
                 drop_timestep_range = GrowthData._min_significant_timesteps(
-                    dataframes[sheet], ignore_timesteps, significant_deviation, ignore_trials, sheet, name)
+                    dataframes[df_name], ignore_timesteps, significant_deviation, ignore_trials, df_name, name)
                 max_timestep_cols.append(drop_timestep_range)
             max_cols = max(list(map(len, max_timestep_cols)))
             ignore_timesteps = [x for x in max_timestep_cols if len(x) == max_cols][0]
@@ -502,14 +498,14 @@ class GrowthData:
                 continue
             ## load the OD DataFrame
             sheet = org_sheet.replace(' ', '_')
-            dataframes[sheet] = _spreadsheet_extension_parse(
+            df_name = f"{name}:{sheet}"
+            dataframes[df_name] = _spreadsheet_extension_parse(
                 data_paths['path'], raw_data, org_sheet)
-            dataframes[sheet].columns = dataframes[sheet].iloc[6]
-            dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
+            dataframes[df_name].columns = dataframes[df_name].iloc[6]
+            dataframes[df_name].drop(dataframes[df_name].index[:7], inplace=True)
             ## process the OD DataFrame
-            signal_species[sheet] = name
             data_times_df, data_values_df = _df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
+                name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
             plateaued_times = _check_plateau(
                 data_values_df, name, name, significant_deviation, 3)
             ## define and store the final DataFrames
@@ -518,7 +514,7 @@ class GrowthData:
                     data_times_df.drop(col, axis=1, inplace=True)
                 if col in data_values_df.columns:
                     data_values_df.drop(col, axis=1, inplace=True)
-            dataframes[sheet] = (data_times_df, data_values_df)
+            dataframes[df_name] = (data_times_df, data_values_df)
             break
 
         # refine the non-OD signals
@@ -526,40 +522,35 @@ class GrowthData:
             if org_sheet == 'path' or "OD" in name:
                 continue
             sheet = org_sheet.replace(' ', '_')
-            if sheet not in dataframes:
-                dataframes[sheet] = _spreadsheet_extension_parse(
+            df_name = f"{name}:{sheet}"
+            if df_name not in dataframes:
+                dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
-                dataframes[sheet].columns = dataframes[sheet].iloc[6]
-                dataframes[sheet].drop(dataframes[sheet].index[:7], inplace=True)
+                dataframes[df_name].columns = dataframes[df_name].iloc[6]
+                dataframes[df_name].drop(dataframes[df_name].index[:7], inplace=True)
             # parse the DataFrame for values
-            signal_species[sheet] = name
-            simulation_time = dataframes[sheet].iloc[0, -1] / hour
-            data_timestep_hr.append(simulation_time / int(dataframes[sheet].columns[-1]))
+            simulation_time = dataframes[df_name].iloc[0, -1] / hour
+            data_timestep_hr.append(simulation_time / int(dataframes[df_name].columns[-1]))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, sheet, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
+                name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
             # display(data_times_df) ; display(data_values_df)
             for col in plateaued_times:
                 if col in data_times_df.columns:
                     data_times_df.drop(col, axis=1, inplace=True)
                 if col in data_values_df.columns:
                     data_values_df.drop(col, axis=1, inplace=True)
-            dataframes[sheet] = (data_times_df, data_values_df)
+            dataframes[df_name] = (data_times_df, data_values_df)
 
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
-        species_phenos_df = DataFrame(columns=phenos_tup.columns, data={pheno: {
-            signal:1 if signal_species[signal.replace(" ", "_")] in pheno else 0
-            for signal in data_paths if signal != "path" and "OD" not in signal
-        } for pheno in phenos_tup.columns})
-        return (media_conc, zipped_output, data_timestep_hr, simulation_time, signal_species,
-                dataframes, trials, species_phenos_df, fluxes_df)
+        return (media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, fluxes_df)
 
     @staticmethod
-    def _min_significant_timesteps(full_df, ignore_timesteps, significant_deviation, ignore_trials, signal, name):
+    def _min_significant_timesteps(full_df, ignore_timesteps, significant_deviation, ignore_trials, df_name, name):
         # refine the DataFrames
         values_df = _column_reduction(full_df.iloc[1::2])
-        values_df = _remove_trials(values_df, ignore_trials, signal, name, significant_deviation)
+        values_df = _remove_trials(values_df, ignore_trials, df_name, name, significant_deviation)
         timestep_range = list(set(list(values_df.columns)) - set(ignore_timesteps))
         start, end = ignore_timesteps[0], ignore_timesteps[-1]
         start_index = list(values_df.columns).index(start)
@@ -603,9 +594,9 @@ class GrowthData:
         constructed_experiments["base_media"] = [base_media_path] * (column_num*row_num)
 
         # define community content
-        members = list(mem["name"] for mem in community_members.values())
-        species_mets = {mem["name"]: mets["consumed"] for mem in community_members.values()
-                        for mets in mem["phenotypes"].values()}
+        species_mets = {}
+        for mem in community_members.values():
+            species_mets[mem["name"]] = np.array([mets["consumed"] for mets in mem["phenotypes"].values()]).flatten()
 
         # define the strains column
         strains, additional_compounds, experiment_ids = [], [], []
@@ -615,6 +606,7 @@ class GrowthData:
         base_row_conc = [] if '*' not in carbon_conc else [
             ':'.join([met, str(carbon_conc['*'][met][0]), str(carbon_conc['*'][met][1])])
             for met in carbon_conc['*']]
+        members = list(mem["name"] for mem in community_members.values())
         for row in range(1, row_num+1):
             row_conc = base_row_conc[:]
             trial_letter = chr(ord("A") + row)
@@ -649,7 +641,13 @@ class GrowthData:
                         if metID in mets:
                             met_name = list(species_mets.keys())[index]
                             break
-                    experiment_id.append(f"{init}_{met_name}")
+                    if "met_name" not in locals():
+                        logger.critical(f"The specified phenotypes {species_mets} for the {members} members does not "
+                                        f"include the consumption of the available sources {row_conc}; hence, the model cannot grow.")
+                        content = ""
+                    else:
+                        content = f"{init}_{met_name}"
+                    experiment_id.append(content)
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
                 trial_name_conversion[trial_letter][str(col+1)] = (experiment_prefix+str(count), experiment_id)
@@ -677,36 +675,43 @@ class GrowthData:
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):
-        # experimental_ids = {codeIds[0]:codeIds[1]
-        #                     for rowLet, content in trial_name_conversion.items()
-        #                     for colNum, codeIds in content.items()}
         short_codes, trials_list = [], []
         values, times = {}, {}  # The times must be capture upstream
         first = True
-        for sheet, (times_df, values_df) in dataframes.items():
+        for df_name, (times_df, values_df) in dataframes.items():
+            # print(df_name)
+            # display(times_df) ; display(values_df)
             times_tup = FBAHelper.parse_df(times_df)
-            average_times = np.mean(times_tup.values, axis=0)
-            values[sheet], times[sheet] = [], []
-            # print(sheet, set(values_df.index))
+            values[df_name], times[df_name] = [], []
             for trial_code in values_df.index:
                 row_let, col_num = trial_code[0], trial_code[1:]
                 # print(trial_code, row_let, col_num)
-                for row in trial_contents(trial_code, values_df.index, values_df.values):
+                for trial_row_values in trial_contents(trial_code, values_df.index, values_df.values):
                     if first:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
-                    values[sheet].extend(row)
-                    times[sheet].extend(average_times)
+                    values[df_name].extend(trial_row_values)
+                    times[df_name].append(times_tup.values.flatten())
             first = False
-        df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
-        df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
-        df_data.update({f"{sheet}":vals for sheet, vals in values.items()})
+        # process the data to the smallest dataset, to accommodate heterogeneous data sizes
+        minVal = min(list(map(len, values.values())))
+        for df_name, data in values.items():
+            values[df_name] = data[:minVal]
+        times2 = times.copy()
+        for df_name, data in times2.items():
+            times[df_name] = []
+            for ls in data:
+                times[df_name].append(ls[:minVal])
+        times_set = np.mean(list(times.values()), axis=0).flatten()
+        # construct the growth DataFrame
+        df_data = {"trial_IDs": trials_list[:minVal], "short_codes": short_codes[:minVal]}
+        df_data.update({"Time (s)": times_set})  # element-wise average
+        df_data.update({df_name:vals for df_name, vals in values.items()})
         growth_df = DataFrame(df_data)
         growth_df.index = growth_df["short_codes"]
         del growth_df["short_codes"]
         growth_df.to_csv("growth_spectra.csv")
-
         return growth_df
 
 
@@ -716,99 +721,24 @@ class BiologData:
     def process(data_paths, trial_conditions_path, community_members,
                 culture=None, date=None, significant_deviation=None, solver="glpk"):
         row_num = 8 ; column_num = 12
-        (fluxes_df, species_phenos_df, zipped_output, data_timestep_hr,
-         simulation_time, signal_species, dataframes, trials, culture, date
-         ) = BiologData.load_data(
+        (fluxes_df, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date) = BiologData.load_data(
             data_paths, community_members, significant_deviation, row_num, culture, date, solver)
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = BiologData.metadata(
             trial_conditions_path, row_num , column_num, culture, date)
-        biolog_df = BiologData.data_process(dataframes, trial_name_conversion, signal_species)
-        return (experimental_metadata, biolog_df, fluxes_df, species_phenos_df, standardized_carbon_conc, signal_species,
+        biolog_df = BiologData.data_process(dataframes, trial_name_conversion)
+        return (experimental_metadata, biolog_df, fluxes_df, standardized_carbon_conc,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
 
     @staticmethod
     def load_data(data_paths, community_members, significant_deviation, row_num, culture, date, solver):
         zipped_output = [data_paths['path']]
         # determine the metabolic fluxes for each member and phenotype
-        named_community_members = {content["name"]: list(content["phenotypes"].keys())+["stationary"]
-                                   for member, content in community_members.items()}
-        models = OrderedDict()
-        solutions = []
-        for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
-            model_util = MSModelUtil(org_model)
-            model_rxns = [rxn.id for rxn in org_model.reactions]
-            models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
-                                    "name": content["name"], "phenotypes": named_community_members[content["name"]]}
-            for pheno, cpds in content['phenotypes'].items():
-                ## copying a new model with each phenotype prevents bleedover
-                # TODO - determine the minimal media a layer above when media can transfer with models
-                model = org_model.copy()
-                model = MSCompatibility.standardize([model], conflicts_file_name="orig_conflicts.json", printing=False)[0]
-                ## constraining compromise of the primary carbon source from extraneous carbon sources
-                ### The selection of a maximum accommodates diauxic phenotypes
-
-                model.medium = minimal_medium(model, minimize_components=True)  # MSMinimalMedia.minimize_components(model_util.model)  #
-                model.medium = {cpd: 100 for cpd, flux in model.medium.items()}
-                model.medium.update({cpd: 2 for cpd, flux in model.medium.items() if cpd == "cpd00007"})
-                model.solver = solver
-                col = content["name"] + '_' + pheno
-                for cpdID, bounds in cpds.items():
-                    rxnID = "EX_" + cpdID + "_e0"
-                    if rxnID not in model_rxns:
-                        model.add_boundary(metabolite=model.metabolites.get_by_id(cpdID), reaction_id=rxnID, type="exchange")
-                    model.reactions.get_by_id(rxnID).bounds = bounds
-                for other_pheno, other_cpds in content['phenotypes'].items():
-                    if pheno != other_pheno:
-                        for cpdID, bounds in cpds.items():
-                            rxnID = "EX_" + cpdID + "_e0"
-                            if rxnID in model_rxns:
-                                model.reactions.get_by_id(rxnID).lb = 0
-                models[model.id]["solutions"][col] = model.optimize()
-                if models[model.id]["solutions"][col].objective_value == 0:
-                    raise NoFluxError(f"The {model.id} yields zero flux with its media: \n{model.medium}")
-                solutions.append(models[model.id]["solutions"][col].objective_value)
-
-        # construct the parsed table of all exchange fluxes for each phenotype
-        cols = {}
-        ## biomass row
-        cols["rxn"] = ["bio"]
-        for content in models.values():
-            for phenotype in content["phenotypes"]:
-                col = content["name"] + '_' + phenotype
-                cols[col] = [0]
-                if col not in content["solutions"]:
-                    continue
-                bio_rxns = [x for x in content["solutions"][col].fluxes.index if "bio" in x]
-                flux = np.mean(
-                    [content["solutions"][col].fluxes[rxn] for rxn in bio_rxns if content["solutions"][col].fluxes[rxn] != 0])
-                cols[col] = [flux]
-        ## exchange reactions rows
-        looped_cols = cols.copy()
-        looped_cols.pop("rxn")
-        for content in models.values():
-            for ex_rxn in content["exchanges"]:
-                cols["rxn"].append(ex_rxn.id)
-                for col in looped_cols:
-                    ### reactions that are not present in the columns are ignored
-                    flux = 0 if col not in content["solutions"] or \
-                                ex_rxn.id not in list(content["solutions"][col].fluxes.index) \
-                                else content["solutions"][col].fluxes[ex_rxn.id]
-                    cols[col].append(flux)
-
-        ## construct the DataFrame
-        fluxes_df = DataFrame(data=cols)
-        fluxes_df.index = fluxes_df['rxn']
-        fluxes_df.drop('rxn', axis=1, inplace=True)
-        fluxes_df = fluxes_df.groupby(fluxes_df.index).sum()
-        fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
-        fluxes_df.astype(str)
-        fluxes_df.to_csv("fluxes.csv")
-        phenos_tup = FBAHelper.parse_df(fluxes_df)
+        fluxes_df, media_conc = GrowthData.phenotypes(None, community_members, solver)
         zipped_output.append("fluxes.csv")
-
         # import and parse the raw CSV data
+        # TODO - this may be capable of emulating leveraged functions from the GrowthData object
         data_timestep_hr = []
-        dataframes, signal_species = {}, {}
+        dataframes = {}
         raw_data = _spreadsheet_extension_load(data_paths['path'])
         significant_deviation = significant_deviation or 2
         culture = culture or  _find_culture(data_paths['path'])
@@ -817,31 +747,27 @@ class BiologData:
             if org_sheet == 'path':
                 continue
             sheet = org_sheet.replace(" ", "_")
-            if sheet not in dataframes:
-                dataframes[sheet] = _spreadsheet_extension_parse(
+            df_name = f"{name}:{sheet}"
+            if df_name not in dataframes:
+                dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
-                dataframes[sheet].columns = dataframes[sheet].iloc[8]
-                dataframes[sheet].drop(dataframes[sheet].index[:9], inplace=True)
+                dataframes[df_name].columns = dataframes[df_name].iloc[8]
+                dataframes[df_name].drop(dataframes[df_name].index[:9], inplace=True)
             # parse the DataFrame for values
-            dataframes[sheet].columns = [str(x).strip() for x in dataframes[sheet].columns]
-            signal_species[sheet] = name
-            simulation_time = dataframes[sheet].iloc[0, -1] / hour
-            # display(dataframes[sheet])
-            data_timestep_hr.append(simulation_time / int(float(dataframes[sheet].columns[-1])))
+            dataframes[df_name].columns = [str(x).strip() for x in dataframes[df_name].columns]
+            simulation_time = dataframes[df_name].iloc[0, -1] / hour
+            # display(dataframes[df_name])
+            data_timestep_hr.append(simulation_time / int(float(dataframes[df_name].columns[-1])))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, sheet, None, None, significant_deviation, dataframes, row_num)
+                name, df_name, None, None, significant_deviation, dataframes, row_num, False)
             # display(data_times_df) ; display(data_values_df)
-            dataframes[sheet] = (data_times_df, data_values_df)
+            dataframes[df_name] = (data_times_df, data_values_df)
 
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
-        species_phenos_df = DataFrame(columns=phenos_tup.columns, data={pheno: {
-            signal:1 if signal_species[signal] in pheno else 0
-            for signal in data_paths if signal != "path" and "OD" not in signal
-        } for pheno in phenos_tup.columns})
-        return (fluxes_df, species_phenos_df, zipped_output, data_timestep_hr,
-                simulation_time, signal_species, dataframes, trials, culture, date)
+        return (fluxes_df, zipped_output, data_timestep_hr,
+                simulation_time, dataframes, trials, culture, date)
 
     @staticmethod
     def metadata(trial_conditions_path, row_num, column_num, culture, date):
@@ -885,27 +811,27 @@ class BiologData:
         return constructed_experiments, trial_mets, trial_name_conversion
 
     @staticmethod
-    def data_process(dataframes, trial_name_conversion, signal_species):
+    def data_process(dataframes, trial_name_conversion):
         short_codes, trials_list = [], []
-        values, times = {}, {}  # The times must be capture upstream
+        values, times = {}, {}  # The times must capture upstream
         first = True
-        for sheet, (times_df, values_df) in dataframes.items():
+        for df_name, (times_df, values_df) in dataframes.items():
             times_tup = FBAHelper.parse_df(times_df)
             average_times = np.mean(times_tup.values, axis=0)
-            values[sheet], times[sheet] = [], []
-            for short_code in values_df.index:
-                row_let, col_num = short_code[0], short_code[1:]
-                for row in trial_contents(short_code, values_df.index, values_df.values):
+            values[df_name], times[df_name] = [], []
+            for exprID in values_df.index:
+                row_let, col_num = exprID[0], exprID[1:]
+                for row in trial_contents(exprID, values_df.index, values_df.values):
                     if first:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
-                    values[sheet].extend(row)
-                    times[sheet].extend(average_times)
+                    values[df_name].extend(row)
+                    times[df_name].extend(average_times)
             first = False
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
         df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
-        df_data.update({f"{signal_species[sheet]}":vals for sheet, vals in values.items()})
+        df_data.update({df_name:vals for df_name, vals in values.items()})
         biolog_df = DataFrame(df_data)
         biolog_df.index = biolog_df["short_codes"]
         del biolog_df["short_codes"]
@@ -965,7 +891,7 @@ class BiologData:
 # growth_data_path="../Jeffs_data/PF-EC 4-29-22 ratios and 4HB changes.xlsx"
 # from time import process_time
 # time1 = process_time()
-# experimental_metadata, growth_df, fluxes_df, standardized_carbon_conc, signal_species, trial_name_conversion, species_phenos_df, data_timestep_hr, simulation_timestep, media_conc = GrowthData.process(
+# experimental_metadata, growth_df, fluxes_df, standardized_carbon_conc, trial_name_conversion, species_phenos_df, data_timestep_hr, simulation_timestep, media_conc = GrowthData.process(
 #     community_members = {
 #         kbase_api.get_from_ws("iML1515",76994): {
 #             'name': 'ecoli',

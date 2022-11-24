@@ -1,0 +1,51 @@
+ cvc_ecoli_acetate~G4~139: - cvt_ecoli_acetate~G4~139 >= -0.1
+ gc_ecoli_acetate~G4~139: + g_ecoli_acetate~G4~139 = 0
+ cvc_ecoli_acetate~G4~140: - cvt_ecoli_acetate~G4~140 >= -0.1
+ gc_ecoli_acetate~G4~140: + g_ecoli_acetate~G4~140 = 0
+ cvc_ecoli_malt~G4~139: - cvt_ecoli_malt~G4~139 >= -0.1
+ gc_ecoli_malt~G4~139: + g_ecoli_malt~G4~139
+ - 5.50387146454762 v_ecoli_malt~G4~139 = 0
+ cvc_ecoli_malt~G4~140: - cvt_ecoli_malt~G4~140 >= -0.1
+ gc_ecoli_malt~G4~140: + g_ecoli_malt~G4~140
+ - 5.89937756979823 v_ecoli_malt~G4~140 = 0
+ gc_pf_acetate~G4~139: + g_pf_acetate~G4~139
+ - 0.528572130070392 v_pf_acetate~G4~139 = 0
+ cvc_pf_acetate~G4~140: - cvt_pf_acetate~G4~140 >= -0.1
+ gc_pf_acetate~G4~140: + g_pf_acetate~G4~140
+ - 0.555330159354294 v_pf_acetate~G4~140 = 0
+ cvc_pf_4HB~G4~139: - cvt_pf_4HB~G4~139 >= -0.1
+ gc_pf_4HB~G4~139: + g_pf_4HB~G4~139 - 0.427799594052685 v_pf_4HB~G4~139
+ = 0
+ cvc_pf_4HB~G4~140: - cvt_pf_4HB~G4~140 >= -0.1
+ gc_pf_4HB~G4~140: + g_pf_4HB~G4~140 - 0.449456191920943 v_pf_4HB~G4~140
+ = 0
+
+ dbc_pf_acetate~G4~139: + cvf_pf_acetate~G4~139
+ + 0.0822891803224087 g_pf_acetate~G4~140
+ + 0.0822891803224087 g_pf_acetate~G4~139 - cvt_pf_acetate~G4~139
+ = 0.0267580292839019
+ dbc_pf_4HB~G4~139: + cvf_pf_4HB~G4~139
+ + 0.0822891803224087 g_pf_4HB~G4~140
+ + 0.0822891803224087 g_pf_4HB~G4~139 - cvt_pf_4HB~G4~139
+ = 0.0216565978682581
+ dbc_pf_stationary~G4~139: + cvt_pf_acetate~G4~139 + cvt_pf_4HB~G4~139
+ - cvf_pf_acetate~G4~139 - cvf_pf_4HB~G4~139 = -0.028336808705849
+ mNeonGreen__bioc~G4~139: + 71751 mNeonGreen__conversion
+ - mNeonGreen__bio~G4~139 = 0
+ mNeonGreen__diffc~G4~139: + mNeonGreen__diffneg~G4~139
+ + mNeonGreen__bio~G4~139 - mNeonGreen__diffpos~G4~139
+ = 1.01304534153477
+ dbc_ecoli_acetate~G4~139: + cvf_ecoli_acetate~G4~139
+ + 0.0822891803224087 g_ecoli_acetate~G4~140
+ + 0.0822891803224087 g_ecoli_acetate~G4~139 - cvt_ecoli_acetate~G4~139
+ = 0
+ dbc_ecoli_malt~G4~139: + cvf_ecoli_malt~G4~139
+ + 0.0822891803224087 g_ecoli_malt~G4~140
+ + 0.0822891803224087 g_ecoli_malt~G4~139 - cvt_ecoli_malt~G4~139
+ = 0.395506105250615
+ dbc_ecoli_stationary~G4~139: + cvt_ecoli_malt~G4~139
+ + cvt_ecoli_acetate~G4~139 - cvf_ecoli_malt~G4~139
+ - cvf_ecoli_acetate~G4~139 = -0.113996900436029
+ mRuby__bioc~G4~139: + 91050 mRuby__conversion - mRuby__bio~G4~139 = 0
+ mRuby__diffc~G4~139: + mRuby__diffneg~G4~139 + mRuby__bio~G4~139
+ - mRuby__diffpos~G4~139 = 5.61786836498365
