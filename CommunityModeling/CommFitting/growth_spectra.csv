@@ -1,4 +1,4 @@
-short_codes,trial_IDs,Time (s),Raw_OD(590),mNeonGreen,mRuby
+short_codes,trial_IDs,Time (s),OD:Raw_OD(590),pf:mNeonGreen,ecoli:mRuby
 G4,r1_ecoli_mRuby-r10_pf-5_ecoli,1.0746666666666667,0.0728860273957253,22506.0,1353.0
 G4,r1_ecoli_mRuby-r10_pf-5_ecoli,597.2086666666668,0.074225777387619,22901.0,1370.0
 G4,r1_ecoli_mRuby-r10_pf-5_ecoli,1189.0866666666668,0.0680086866021156,22250.0,1384.0
