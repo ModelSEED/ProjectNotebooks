@@ -1075,17 +1075,21 @@ class CommPhitting:
 
 
 class BIOLOGPhitting(CommPhitting):
-    def __init__(self, fluxes_df, carbon_conc, media_conc, biolog_df, experimental_metadata):
+    def __init__(self, fluxes_df, carbon_conc, media_conc, biolog_df, experimental_metadata, msdb_path):
         self.fluxes_df = fluxes_df; self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
+        # import os
+        from modelseedpy.biochem import from_local
+        self.msdb = from_local(msdb_path)
 
     def fitAll(self, parameters: dict = None, rel_final_conc: float = None,
-            abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None, msdb_path: str = None,
+            abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None,
             export_zip_name: str = None, export_parameters: bool = True, figures_zip_name: str = None, publishing: bool = False):
-        import os
         # simulate each condition
         org_rel_final_conc = rel_final_conc
         for index, experiment in self.experimental_metadata.iterrows():
+            if not any([re.search(experiment["ModelSEED_ID"], met.id) for met in model.metabolites]):
+                continue
             print(index)
             display(experiment)
             # TODO - define the fluxes_df and phenotype(s) for each condition in this loop
@@ -1099,7 +1103,7 @@ class BIOLOGPhitting(CommPhitting):
             CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, zero_start,
                                         abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path)
             try:
-                CommPhitting.compute(self, graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+                CommPhitting.compute(self, graphs, None, export_zip_name, figures_zip_name, publishing)
             except (NoFluxError) as e:
                 print(e)
             print("\n\n\n")
