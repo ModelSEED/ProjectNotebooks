@@ -124,6 +124,7 @@ venv.bak/
 *.zip
 *.lp
 **/mscommfitting.json
+*C:
 
 # mypy
 .mypy_cache/
