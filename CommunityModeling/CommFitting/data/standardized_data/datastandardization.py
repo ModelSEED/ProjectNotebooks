@@ -718,30 +718,27 @@ class GrowthData:
 class BiologData:
 
     @staticmethod
-    def process(data_paths, trial_conditions_path, community_members,
-                culture=None, date=None, significant_deviation=None, solver="glpk"):
+    def process(data_paths, trial_conditions_path, culture=None, date=None, significant_deviation=None, solver="glpk"):
         row_num = 8 ; column_num = 12
-        (fluxes_df, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date) = BiologData.load_data(
-            data_paths, community_members, significant_deviation, row_num, culture, date, solver)
+        (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date) = BiologData.load_data(
+            data_paths, significant_deviation, row_num, culture, date, solver)
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = BiologData.metadata(
             trial_conditions_path, row_num , column_num, culture, date)
         biolog_df = BiologData.data_process(dataframes, trial_name_conversion)
-        return (experimental_metadata, biolog_df, fluxes_df, standardized_carbon_conc,
+        return (experimental_metadata, biolog_df, standardized_carbon_conc,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
 
     @staticmethod
-    def load_data(data_paths, community_members, significant_deviation, row_num, culture, date, solver):
-        zipped_output = [data_paths['path']]
+    def load_data(data_paths, significant_deviation, row_num, culture, date, solver):
+        zipped_output = [data_paths['path'], "fluxes.csv"]
         # determine the metabolic fluxes for each member and phenotype
-        fluxes_df, media_conc = GrowthData.phenotypes(None, community_members, solver)
-        zipped_output.append("fluxes.csv")
         # import and parse the raw CSV data
         # TODO - this may be capable of emulating leveraged functions from the GrowthData object
         data_timestep_hr = []
         dataframes = {}
         raw_data = _spreadsheet_extension_load(data_paths['path'])
         significant_deviation = significant_deviation or 2
-        culture = culture or  _find_culture(data_paths['path'])
+        culture = culture or _find_culture(data_paths['path'])
         date = date or _findDate(data_paths['path'])
         for org_sheet, name in data_paths.items():
             if org_sheet == 'path':
@@ -766,8 +763,7 @@ class BiologData:
 
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
-        return (fluxes_df, zipped_output, data_timestep_hr,
-                simulation_time, dataframes, trials, culture, date)
+        return (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date)
 
     @staticmethod
     def metadata(trial_conditions_path, row_num, column_num, culture, date):
