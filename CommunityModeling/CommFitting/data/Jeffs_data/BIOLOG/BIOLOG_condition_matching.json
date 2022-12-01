@@ -1,11 +1,5 @@
 {
    "unmatched": [
-      "Negative Control",
-      "Positive Control",
-      "1% NaCl",
-      "4% NaCl",
-      "8% NaCl",
-      "3-Methyl Glucose",
       "D-Glucose-6-PO4",
       "Gelatin",
       "L-Pyroglutamic Acid",
@@ -23,6 +17,10 @@
       {
          "original": "D-Cellobiose",
          "bestMatch": "alpha-Cellobiose"
+      },
+      {
+         "original": "Positive Control",
+         "bestMatch": "Jeff confirmed that the positive control is merely Glucose."
       },
       {
          "original": "D-Raffinose",

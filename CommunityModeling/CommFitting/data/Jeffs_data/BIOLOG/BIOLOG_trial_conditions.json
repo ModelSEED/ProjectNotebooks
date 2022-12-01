@@ -1,7 +1,7 @@
 {
    "A1": {
       "name": "Negative Control",
-      "ModelSEED_ID": "",
+      "ModelSEED_ID": "cpd00001",
       "mM": 0
    },
    "A2": {
@@ -115,17 +115,17 @@
    },
    "B10": {
       "name": "1% NaCl",
-      "ModelSEED_ID": "",
+      "ModelSEED_ID": "cpd00027",
       "mM": 0
    },
    "B11": {
       "name": "4% NaCl",
-      "ModelSEED_ID": "",
+      "ModelSEED_ID": "cpd00027",
       "mM": 0
    },
    "B12": {
       "name": "8% NaCl",
-      "ModelSEED_ID": "",
+      "ModelSEED_ID": "cpd00027",
       "mM": 0
    },
    "C1": {
@@ -151,7 +151,7 @@
    },
    "C5": {
       "name": "3-Methyl Glucose",
-      "ModelSEED_ID": "",
+      "ModelSEED_ID": "cpd26351",
       "mM": 0
    },
    "C6": {

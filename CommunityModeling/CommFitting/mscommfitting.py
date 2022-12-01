@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # from modelseedpy.fbapkg.mspackagemanager import MSPackageManager
+import cobra.io
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
+from data.standardized_data.datastandardization import GrowthData
 from pandas import DataFrame
 from optlang import Model, Objective
 from modelseedpy.core.fbahelper import FBAHelper
@@ -1075,18 +1077,25 @@ class CommPhitting:
 
 
 class BIOLOGPhitting(CommPhitting):
-    def __init__(self, fluxes_df, carbon_conc, media_conc, biolog_df, experimental_metadata, msdb_path):
-        self.fluxes_df = fluxes_df; self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
+    def __init__(self, carbon_conc, media_conc, biolog_df, experimental_metadata, msdb_path):
+        self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
         # import os
         from modelseedpy.biochem import from_local
         self.msdb = from_local(msdb_path)
 
-    def fitAll(self, parameters: dict = None, rel_final_conc: float = None,
-            abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None,
-            export_zip_name: str = None, export_parameters: bool = True, figures_zip_name: str = None, publishing: bool = False):
+    def fitAll(self, models_list:list, parameters: dict = None, rel_final_conc: float = None,
+               abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None,
+               export_zip_name: str = None, export_parameters: bool = True,
+               figures_zip_name: str = None, publishing: bool = False):
         # simulate each condition
         org_rel_final_conc = rel_final_conc
+        models_dict = {}
+        # TODO - exchange the
+        for mdl_json in models_list:
+            model = cobra.io.from_json(mdl_json)
+            models_dict[model.id] = model
+        total_reactions = set(list(chain.from_iterable([model.reactions for model in models_dict.values()])))
         for index, experiment in self.experimental_metadata.iterrows():
             if not any([re.search(experiment["ModelSEED_ID"], met.id) for met in model.metabolites]):
                 continue
@@ -1094,11 +1103,27 @@ class BIOLOGPhitting(CommPhitting):
             display(experiment)
             # TODO - define the fluxes_df and phenotype(s) for each condition in this loop
             ## define the parameters for each experiment
+
+            if not experiment["ModelSEED_ID"] or not experiment["ModelSEED_ID"] in total_reactions:
+                continue
+            # GrowthData.process(
+            #     community_members={
+            #         : {
+            #             'name': 'pf',
+            #             'phenotypes': {
+            #                 : {"consumed": ["cpd00136"]}
+            #             }
+            #         }
+            #     }
+            # )
+            print(index)
+            display(experiment)
+
             mets_to_track = zero_start = [experiment["ModelSEED_ID"]] if experiment["ModelSEED_ID"] else None
             rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc} if experiment["ModelSEED_ID"] else None
             export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs", f"{index}_{mets_to_track}.lp")
             ## define the CommPhitting object and simulate the experiment
-            CommPhitting.__init__(self, self.fluxes_df, self.carbon_conc, self.media_conc,
+            CommPhitting.__init__(self, None, self.carbon_conc, self.media_conc,
                                   self.biolog_df.loc[index,:], self.experimental_metadata)
             CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, zero_start,
                                         abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path)
