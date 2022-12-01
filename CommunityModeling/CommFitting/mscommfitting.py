@@ -612,7 +612,7 @@ class CommPhitting:
         if export_zip_name:
             self.zip_name = export_zip_name
             sleep(2)
-            with ZipFile(self.zip_name, 'w', compression=ZIP_LZMA) as zp:
+            with ZipFile(self.zip_name, 'a', compression=ZIP_LZMA) as zp:
                 for file in self.zipped_output:
                     zp.write(file)
                     os.remove(file)
