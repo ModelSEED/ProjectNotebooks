@@ -1045,7 +1045,7 @@ class CommPhitting:
                     fig_name = f'{"_".join([trial, species_id, phenotype_id, content])}.jpg'
                     if "mets" in graph:
                         fig_name = f"{trial}_{','.join(graph['mets'])}_c.jpg"
-                    fig.savefig(fig_name)
+                    fig.savefig(fig_name, bbox_inches="tight", transparent=True)
                     self.plots.append(fig_name)
 
         # export the figures with other simulation content
