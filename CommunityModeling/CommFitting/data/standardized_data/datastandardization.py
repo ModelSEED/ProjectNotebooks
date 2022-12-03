@@ -637,11 +637,12 @@ class GrowthData:
                 for row2 in row_conc:
                     metID, init, end = row2.split(':')
                     ### get the met_name for the corresponding match in values
+                    met_name = None
                     for index, mets in enumerate(species_mets.values()):
                         if metID in mets:
                             met_name = list(species_mets.keys())[index]
                             break
-                    if "met_name" not in locals():
+                    if "met_name" not in locals() or not met_name:
                         logger.critical(f"The specified phenotypes {species_mets} for the {members} members does not "
                                         f"include the consumption of the available sources {row_conc}; hence, the model cannot grow.")
                         content = ""

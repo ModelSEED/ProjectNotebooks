@@ -136,14 +136,22 @@ class CommPhitting:
                 b_param[trial][entity] = {time:2*float(value) for time, value in times.items()}
         # iteratively optimize growth rate and biomass until the biomass converges
         count = 1
-        while not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time])
+        while not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time], abs_tol=1e-9)
                        for trial, entities in b_param.items()
                        for entity, times in entities.items() for time in times
                        if "b_" in entity]) and count < 11:
             print(f"\nFirst kinetics optimization phase, iteration: {count}")
             ## solve for growth rate v with solved b
             b_param = b_values.copy()
-            print(DeepDiff(b_param, b_values))
+            diff = DeepDiff(b_param, b_values)
+            if diff:
+                if not "values_changed" in diff:
+                    print("\nThe biomass has converged!")
+                else:
+                    print("Unconverged timesteps:")
+                    for root, change in diff["values_changed"].items():
+                        if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9):
+                            print(root, change)
             simulation = new_simulation1 = CommPhitting(
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
             new_simulation1.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
@@ -177,7 +185,16 @@ class CommPhitting:
                 break
             ## track iteration progress
             print("\nComplete biomass optimization")
-            print(DeepDiff(b_param, b_values))
+            diff = DeepDiff(b_param, b_values)
+            if diff:
+                if not "values_changed" in diff:
+                    print("\nThe biomass has converged!")
+                else:
+                    print("Unconverged timesteps:")
+                    for root, change in diff["values_changed"].items():
+                        if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9):
+                            print(root, change)
+
             count += 1
 
         # simulate the last problem with the converged parameters to render the figures
@@ -235,12 +252,16 @@ class CommPhitting:
         default_carbon_sources = ["cpd00076", "cpd00179", "cpd00027"]  # sucrose, maltose, glucose
         self.rel_final_conc = rel_final_conc or {c:1 for c in default_carbon_sources}
         self.abs_final_conc = abs_final_conc or {}
-        self.mets_to_track = mets_to_track or self.fluxes_tup.index if not isinstance(
-            rel_final_conc, dict) else list(self.rel_final_conc.keys())
+        if mets_to_track:
+            self.mets_to_track = mets_to_track
+        elif not isinstance(rel_final_conc, dict):
+            self.mets_to_track = self.fluxes_tup.index
+        else:
+            self.mets_to_track = list(self.rel_final_conc.keys())
         zero_start = zero_start or []
         # define the varying entities
         # b_values = {}
-        v_values = []
+        # v_values = []
 
         # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
         timesteps_to_delete = {}  # {short_code: full_times for short_code in unique_short_codes}
@@ -253,42 +274,38 @@ class CommPhitting:
         objective = tupObjective("minimize variance and phenotypic transitions", [], "min")
         constraints, variables = [], []
         time_1 = process_time()
-        for met in self.fluxes_tup.index:
-            met_id = _met_id_parser(met)
-            if self.mets_to_track and (met_id == 'cpd00001' or met_id not in self.mets_to_track):
-                continue
-            self.variables["c_" + met] = {}; self.constraints['dcc_' + met] = {}
+        for met_id in self.mets_to_track:
+            concID = f"c_{met_id}_e0"
+            self.variables[concID] = {}; self.constraints['dcc_' + met_id] = {}
 
             # define the growth rate for each metabolite and concentrations
             if "Vmax" and "Km" in self.parameters:
                 self.parameters["Vmax"].update(self._universalize(self.parameters["Vmax"], met_id))
                 self.parameters["Km"].update(self._universalize(self.parameters["Km"], met_id))
             for short_code in unique_short_codes:
-                self.variables["c_" + met][short_code] = {}; self.constraints['dcc_' + met][short_code] = {}
+                self.variables[concID][short_code] = {}; self.constraints['dcc_' + met_id][short_code] = {}
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
-                for index, timestep in enumerate(timesteps):
+                for timestep in timesteps:
                     ## define the concentration variables
-                    conc_var = tupVariable(_name("c_", met, short_code, timestep, self.names))
+                    conc_var = tupVariable(_name(concID, "", short_code, timestep, self.names))
                     ## constrain initial time concentrations to the media or a large default
-                    if index == 0 and not 'bio' in met_id:
+                    if timestep == timesteps[0]:
                         initial_val = 100 if not self.media_conc or met_id not in self.media_conc else self.media_conc[met_id]
                         initial_val = 0 if met_id in zero_start else initial_val
                         if dict_keys_exists(self.carbon_conc, met_id, short_code):
                             initial_val = self.carbon_conc[met_id][short_code]
                         conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
-                    if timestep == timesteps[-1] and any([
-                        met_id in self.rel_final_conc, met_id in self.abs_final_conc
-                    ]):
+                    elif timestep == timesteps[-1] and (met_id in self.rel_final_conc or met_id in self.abs_final_conc):
                         if met_id in self.rel_final_conc:
-                            final_bound = self.variables["c_" + met][short_code][1].bounds.lb * self.rel_final_conc[met_id]
-                        if met_id in self.abs_final_conc: # this intentionally overwrites rel_final_conc
+                            final_bound = self.variables[concID][short_code][1].bounds.lb * self.rel_final_conc[met_id]
+                        if met_id in self.abs_final_conc:  # this intentionally overwrites rel_final_conc
                             final_bound = self.abs_final_conc[met_id]
                         conc_var = conc_var._replace(bounds=Bounds(0, final_bound))
                         if met_id in zero_start:
                             conc_var = conc_var._replace(bounds=Bounds(final_bound, final_bound))
-                    self.variables["c_" + met][short_code][timestep] = conc_var
-                    variables.append(self.variables["c_" + met][short_code][timestep])
+                    self.variables[concID][short_code][timestep] = conc_var
+                    variables.append(self.variables[concID][short_code][timestep])
         for signal in growth_tup.columns[3:]:
             for pheno in self.fluxes_tup.columns:
                 if signal_species(signal) in pheno:
@@ -424,6 +441,7 @@ class CommPhitting:
             met_id = _met_id_parser(met)
             if self.mets_to_track and (met_id == 'cpd00001' or met_id not in self.mets_to_track):
                 continue
+            concID = f"c_{met_id}_e0"
             for short_code in unique_short_codes:
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
                 for timestep in timesteps[:-1]:
@@ -431,18 +449,18 @@ class CommPhitting:
                     next_timestep = timestep + 1
                     growth_phenos = [[self.variables['g_' + pheno][short_code][next_timestep].name,
                                       self.variables['g_' + pheno][short_code][timestep].name] for pheno in self.fluxes_tup.columns]
-                    self.constraints['dcc_' + met][short_code][timestep] = tupConstraint(
-                        name=_name("dcc_", met, short_code, timestep, self.names),
+                    self.constraints['dcc_' + met_id][short_code][timestep] = tupConstraint(
+                        name=_name("dcc_", met_id, short_code, timestep, self.names),
                         expr={
                             "elements": [
-                                self.variables["c_" + met][short_code][timestep].name,
-                                {"elements": [-1, self.variables["c_" + met][short_code][next_timestep].name],
+                                self.variables[concID][short_code][timestep].name,
+                                {"elements": [-1, self.variables[concID][short_code][next_timestep].name],
                                  "operation": "Mul"},
                                 *OptlangHelper.dot_product(growth_phenos,
                                                            heuns_coefs=half_dt * self.fluxes_tup.values[r_index])],
                             "operation": "Add"
                         })
-                    constraints.append(self.constraints['dcc_' + met][short_code][timestep])
+                    constraints.append(self.constraints['dcc_' + met_id][short_code][timestep])
 
         #   define the conversion variables of every signal for every phenotype
         # for signal in growth_tup.columns[2:]:
@@ -453,7 +471,8 @@ class CommPhitting:
 
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3 - time_2) / 60} min')
-        for index, signal in enumerate(growth_tup.columns[2:]):
+        for index, org_signal in enumerate(growth_tup.columns[2:]):
+            signal = org_signal.split(":")[1]
             signal_column_index = index + 2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
@@ -478,6 +497,7 @@ class CommPhitting:
                         continue
                     data_timestep += 1
                     if data_timestep > int(self.times[short_code][-1] / self.parameters["data_timestep_hr"]):
+                        print(f"The time from the user-defined exceeds the simulation time, so the DBC & diff loop os terminating.")
                         break
                     next_timestep = int(timestep) + 1
                     ## the phenotype transition terms are aggregated
@@ -485,34 +505,25 @@ class CommPhitting:
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
                         # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
-                        val = 0
-                        if signal.split(":")[0].replace(" ", "_") in pheno:
-                            val = 1
+                        if signal_species(org_signal) in pheno:
                             # if not isnumber(b_values[pheno][short_code][timestep]):
                             signal_sum.append({"operation": "Mul", "elements": [
                                 -1, self.variables['b_' + pheno][short_code][timestep].name]})
                             # else:
                             #     signal_sum.append(-b_values[pheno][short_code][timestep])
-                        ### total_biomass.append(self.variables["b_"+pheno][short_code][timestep].name)
-                        if all(['OD' not in signal,signal_species(signal) in pheno, 'stationary' not in pheno]):
-                            from_sum.append({"operation": "Mul", "elements": [
-                                -val, self.variables["cvf_" + pheno][short_code][timestep].name]})
-                            to_sum.append({"operation": "Mul", "elements": [
-                                val, self.variables["cvt_" + pheno][short_code][timestep].name]})
+                            ### total_biomass.append(self.variables["b_"+pheno][short_code][timestep].name)
+                            if all(['OD' not in signal,signal_species(signal) in pheno, 'stationary' not in pheno]):
+                                from_sum.append(self.variables["cvf_" + pheno][short_code][timestep].name)
+                                to_sum.append(self.variables["cvt_" + pheno][short_code][timestep].name)
                     for pheno in self.fluxes_tup.columns:
-                        if 'OD' in signal or signal_species(signal) not in pheno:
+                        if 'OD' in signal or signal_species(org_signal) not in pheno:
                             continue
                         # print(pheno, timestep, b_values[pheno][short_code][timestep], b_values[pheno][short_code][next_timestep])
                         if "stationary" in pheno:
                             # b_{phenotype} - sum_k^K(es_k*cvf) + sum_k^K(pheno_bool*cvt) = b+1_{phenotype}
                             self.constraints['dbc_' + pheno][short_code][timestep] = tupConstraint(
                                 name=_name("dbc_", pheno, short_code, timestep, self.names),
-                                expr={
-                                    "elements": [
-                                        {"elements": [-1, self.variables['b_' + pheno][short_code][next_timestep].name],
-                                         "operation": "Mul"}, *from_sum, *to_sum],
-                                    "operation": "Add"
-                                })
+                                expr={"elements": [*from_sum, *to_sum], "operation": "Add"})
                         else:
                             # b_{phenotype} + dt/2*(g_{phenotype} + g+1_{phenotype}) + cvf-cvt = b+1_{phenotype}
                             self.constraints['dbc_' + pheno][short_code][timestep] = tupConstraint(
@@ -530,7 +541,8 @@ class CommPhitting:
                                 })
                         # if not isnumber(self.variables['b_' + pheno][short_code][timestep]):
                         biomass_term = [self.variables['b_' + pheno][short_code][timestep].name, {
-                            "elements": [-1, self.variables['b_' + pheno][short_code][next_timestep].name], "operation": "Mul"}]
+                            "elements": [-1, self.variables['b_' + pheno][short_code][next_timestep].name],
+                            "operation": "Mul"}]
                         # else:
                         #     biomass_term = [b_values[pheno][short_code][timestep]-b_values[pheno][short_code][next_timestep]]
                         # print(biomass_term)
@@ -580,6 +592,10 @@ class CommPhitting:
                     constraints.extend([self.constraints[signal + '__bioc'][short_code][timestep],
                                         self.constraints[signal + '__diffc'][short_code][timestep]])
 
+                    # print([self.constraints[signal + '__bioc'][short_code][timestep],
+                    #                     self.constraints[signal + '__diffc'][short_code][timestep]])
+                    # print(self.variables[signal + '__diffneg'][short_code][timestep])
+
                     objective.expr.extend([{
                         "elements": [
                             {"elements": [self.parameters['diffpos'],
@@ -592,7 +608,7 @@ class CommPhitting:
                     }])
 
         time_4 = process_time()
-        print(f'Done with the dbc & diffc loop: {(time_4 - time_3) / 60} min')
+        print(f'Done with the DBC & diffc loop: {(time_4 - time_3) / 60} min')
 
         # construct the problem
         self.problem = OptlangHelper.define_model("CommPhitting model", variables, constraints, objective, True)
@@ -873,16 +889,16 @@ class CommPhitting:
         mM_threshold = 1e-3
         for graph_index, graph in enumerate(graphs):
             content = contents.get(graph['content'], graph['content'])
-            y_label = 'Variable value'; x_label = 'Time (hr)'
+            y_label = 'Variable value'; x_label = r'Time ($hr$)'
             if any([x in graph['content'] for x in ['biomass', 'OD']]):
                 ys = {name: [] for name in self.species_list}
                 ys.update({"OD":[]})
                 if "species" not in graph:
                     graph['species'] = self.species_list
             if "biomass" in graph['content']:
-                y_label = 'Biomass concentration (g/L)'
+                y_label = r'Biomass ($\frac{g}{L}$)'
             elif 'growth' in graph['content']:
-                y_label = 'Biomass growth (g/hr)'
+                y_label = r'Biomass growth (\frac{g}{hr})'
             graph["experimental_data"] = default_dict_values(graph, "experimental_data", False)
             if 'phenotype' in graph and graph['phenotype'] == '*':
                 if "species" not in graph:
@@ -895,13 +911,13 @@ class CommPhitting:
                 graph["mets"] = self.mets_to_track
             elif not any(["species" in graph, "mets" in graph]):
                 raise ValueError(f"The specified graph {graph} must define species for which data will be plotted.")
-            print(f"graph_{graph_index}"); pprint(graph)
+            print(f"graph_{graph_index}") ; pprint(graph)
 
             # define figure specifications
             if publishing:
-                pyplot.rc('axes', titlesize=20, labelsize=20)
-                pyplot.rc('xtick', labelsize=20)
-                pyplot.rc('ytick', labelsize=20)
+                pyplot.rc('axes', titlesize=22, labelsize=28)
+                pyplot.rc('xtick', labelsize=24)
+                pyplot.rc('ytick', labelsize=24)
                 pyplot.rc('legend', fontsize=18)
             fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
             x_ticks = None
@@ -931,10 +947,10 @@ class CommPhitting:
                             labels.append({species: label})
                             xs = np.array(list(values.keys()))
                             vals = np.array(list(values.values()))
+                            # print(basename, values.values())
                             ax.set_xticks(xs[::int(3 / data_timestep_hr / timestep_ratio)])
                             if (any([x in graph['content'] for x in ["total", 'OD']]) or
-                                    graph['species'] == self.species_list
-                            ):
+                                    graph['species'] == self.species_list):
                                 ys['OD'].append(vals)
                                 if "OD" not in graph['content']:
                                     ys[species].append(vals)
@@ -979,35 +995,35 @@ class CommPhitting:
                                 # print('all content over all phenotypes')
                             break
                     # graph media concentration plots
-                    elif "mets" in graph and all([
-                        any([x in basename for x in graph["mets"]]), 'EX_' in basename]
-                    ):
+                    elif "mets" in graph and all([any([x in basename for x in graph["mets"]]), 'c_cpd' in basename]):
                         if not any(np.array(list(self.values[trial][basename].values())) > mM_threshold):
                             continue
                         label=self.msdb.compounds.get_by_id(re.search(r"(cpd\d+)", basename).group()).name
                         ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split)
                         yscale = "log"
-                        y_label = 'Concentration (mM)'
+                        y_label = r'Concentration ($mM$)'
                         # print('media concentration')
 
                 if labels:  # this assesses whether a graph was constructed
-                    if any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
-                        labeled_species = [label for label in labels if isinstance(label, dict)]
-                        for name, vals in ys.items():
-                            if not vals:
-                                continue
-                            label = f'{name}_biomass (model)'
-                            if labeled_species:
-                                for label_specie in labeled_species:
-                                    if name in label_specie:
-                                        label = label_specie[name]
-                                        break
-                            # TODO possibly express the modeled conversions of experimental data discretely, reflecting the original data
-                            style = "solid" if (len(graph["species"]) < 1 or name not in linestyle) else linestyle[name]
-                            style = "dashdot" if "model" in label else style
-                            style = "solid" if ("OD" in name and not graph["experimental_data"]
-                                                or "total" in graph["content"]) else style
-                            ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style)
+                    if not any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
+                        continue
+                    labeled_species = [label for label in labels if isinstance(label, dict)]
+                    for name, vals in ys.items():
+                        # print(name, vals)
+                        if not vals:
+                            continue
+                        label = f'{name}_biomass (model)'
+                        if labeled_species:
+                            for label_specie in labeled_species:
+                                if name in label_specie:
+                                    label = label_specie[name]
+                                    break
+                        # TODO possibly express the modeled conversions of experimental data discretely, reflecting the original data
+                        style = "solid" if (len(graph["species"]) < 1 or name not in linestyle) else linestyle[name]
+                        style = "dashdot" if "model" in label else style
+                        style = "solid" if ("OD" in name and not graph["experimental_data"]
+                                            or "total" in graph["content"]) else style
+                        ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style)
 
                     phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
                     if "phenotype" in graph and not isinstance(graph['phenotype'], str):
