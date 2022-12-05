@@ -120,83 +120,65 @@ class CommPhitting:
                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting.lp',
                      figures_zip_name:str=None, publishing:bool=False):
-        # solve for biomass b with parameterized growth rate
-        simulation = new_simulation = CommPhitting(
-            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-        new_simulation.define_problem(parameters, mets_to_track, rel_final_conc, zero_start,
-                                      abs_final_conc, data_timesteps, export_zip_name, export_parameters,
-                                      'solveBiomass0.lp', None)
-        new_simulation.compute(primals_export_path="b_primals0.json")
-        b_values = parse_primals(new_simulation.values, "b_")
-        ## create a ghost b_param dictionary to deviate from the primals and enter the while loop
-        b_param = {}
-        for trial, entities in b_values.items():
-            b_param[trial] = {}
-            for entity, times in entities.items():
-                b_param[trial][entity] = {time:2*float(value) for time, value in times.items()}
         # iteratively optimize growth rate and biomass until the biomass converges
-        count = 1
-        while not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time], abs_tol=1e-9)
-                       for trial, entities in b_param.items()
-                       for entity, times in entities.items() for time in times
-                       if "b_" in entity]) and count < 11:
-            print(f"\nFirst kinetics optimization phase, iteration: {count}")
+        count = 0
+        first = True
+        while first or (
+            not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time], abs_tol=1e-9)
+                     for trial, entities in b_param.items()
+                     for entity, times in entities.items() for time in times
+                     if "b_" in entity]) and count < 11):
             ## solve for growth rate v with solved b
-            b_param = b_values.copy()
-            diff = DeepDiff(b_param, b_values)
-            if diff:
-                if not "values_changed" in diff:
-                    print("\nThe biomass has converged!")
-                else:
-                    print("Unconverged timesteps:")
-                    for root, change in diff["values_changed"].items():
-                        if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9):
-                            print(root, change)
-            simulation = new_simulation1 = CommPhitting(
-                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-            new_simulation1.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                                           data_timesteps, export_zip_name, export_parameters,
-                                           f'solveGrowthRates{count}.lp', b_param)
-            try:
-                new_simulation1.compute(primals_export_path=f"v_primals{count}.json")
-                ### parse and homogenize the growth rates
-                v_param = {k:val for k,val in new_simulation1.values.items() if "v_" in k}
-            except FeasibilityError as e:
-                print(e)
-                if "new_simulation2" not in locals():
-                    raise ValueError("The kinetic optimization immediately failed with the first optimized biomasses.")
-                simulation = new_simulation2
-                break
-
+            if count != 0:
+                print(f"\nSimple kinetics optimization, iteration: {count}")
+                b_param = b_values.copy()
+                simulation = new_simulation1 = CommPhitting(
+                    self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
+                new_simulation1.define_problem(
+                    parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+                    data_timesteps, export_zip_name, export_parameters, f'solveGrowthRates{count}.lp', b_param)
+                try:
+                    new_simulation1.compute(primals_export_path=f"v_primals{count}.json")
+                    ### parse and homogenize the growth rates
+                    v_param = {k: val for k, val in new_simulation1.values.items() if "v_" in k}
+                except FeasibilityError as e:
+                    print(e)
+                    if "new_simulation2" not in locals():
+                        raise ValueError("The kinetic optimization immediately failed with the first optimized biomasses.")
+                    simulation = new_simulation
+                    break
+                print(v_param) ; print("\nComplete growth rate optimization")
+                first = False
+            else:
+                v_param = None
             ## solve for biomass b with parameterized growth rate
-            print("\nComplete growth rate optimization")
-            print(v_param)
-            simulation = new_simulation2 = CommPhitting(
+            simulation = new_simulation = CommPhitting(
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-            new_simulation2.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                                           data_timesteps, export_zip_name, export_parameters,
-                                           f'solveBiomass{count}.lp', v_param)
+            new_simulation.define_problem(
+                parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+                data_timesteps, export_zip_name, export_parameters, f'solveBiomass{count}.lp', v_param)
             try:
-                new_simulation2.compute(primals_export_path=f"b_primals{count}.json")
-                b_values = parse_primals(new_simulation2.values, "b_")
+                new_simulation.compute(primals_export_path=f"b_primals{count}.json")
+                b_values = parse_primals(new_simulation.values, "b_")
             except FeasibilityError as e:
                 print(e)
                 simulation = new_simulation1
                 break
             ## track iteration progress
             print("\nComplete biomass optimization")
-            diff = DeepDiff(b_param, b_values)
-            if diff:
-                if not "values_changed" in diff:
-                    print("\nThe biomass has converged!")
-                else:
-                    print("Unconverged timesteps:")
-                    for root, change in diff["values_changed"].items():
-                        if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9):
-                            print(root, change)
-
+            if "b_param" in locals():
+                diff = DeepDiff(b_param, b_values)
+                if diff:
+                    if not "values_changed" in diff:
+                        print("\nThe biomass has converged!")
+                    else:
+                        unconverged_timesteps = {root: change for root, change in diff["values_changed"].items()
+                                                 if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9)}
+                        if not unconverged_timesteps:
+                            print("\nThe biomass has converged!")
+                        else:
+                            print("Unconverged timesteps:") ; pprint(unconverged_timesteps)
             count += 1
-
         # simulate the last problem with the converged parameters to render the figures
         if count == 11:
             print("The kinetics optimization reached the iteration limit and exited.")
@@ -339,12 +321,10 @@ class CommPhitting:
                         _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
                     variables.append(self.variables['b_' + pheno][short_code][timestep])
                     time_hr = timestep * self.parameters['data_timestep_hr']
-                    b_value = self.variables['b_' + pheno][short_code][timestep].name
-                    # print(b_value)
-                    # b_values[pheno][short_code][timestep] = b_value
 
                     ## define the growth rate variable or primal value
                     species, phenotype = pheno.split("_")
+                    b_value = self.variables['b_' + pheno][short_code][timestep].name
                     v_value = self.parameters["v"][species][phenotype]
                     if primal_values:
                         if 'v_' + pheno in primal_values:
@@ -353,7 +333,7 @@ class CommPhitting:
                         elif 'b_' + pheno in primal_values[short_code]:
                             if 'v_' + pheno not in self.variables:
                                 self.variables['v_' + pheno] = tupVariable(
-                                    _name("v_", pheno, "", "", self.names), Bounds(0, 1000))
+                                    _name("v_", pheno, "", "", self.names), Bounds(0, 10))
                                 variables.append(self.variables['v_' + pheno])
                             v_value = self.variables['v_' + pheno].name
                             # v_values.append(v_value)
@@ -813,6 +793,7 @@ class CommPhitting:
                         "linestyle": "dotted",
                         "name": "P. fluorescens"
                     }}
+            graph["parsed"] = False if "parsed" not in graph else graph["parsed"]
             if 'phenotype' in graph and graph['phenotype'] == '*':
                 if "species" not in graph:
                     graph['species'] = self.species_list
@@ -857,7 +838,7 @@ class CommPhitting:
                             vals = np.array(list(values.values()))
                             # print(basename, values.values())
                             ax.set_xticks(xs[::int(3 / data_timestep_hr / timestep_ratio)])
-                            if (any([x in graph['content'] for x in ["total", 'OD']]) or
+                            if (any([x in graph['content'] for x in ["total", "biomass", 'OD']]) or
                                     graph['species'] == self.species_list):
                                 ys['OD'].append(vals)
                                 if "OD" not in graph['content']:
@@ -889,7 +870,7 @@ class CommPhitting:
                                 label = re.sub(r"(^[a-b]+\_)", "", basename)
                                 style = graph["painting"][specie]["linestyle"]
                             if graph['phenotype'] == '*':
-                                if 'total' in graph["content"]:  # TODO - this logic appears erroneous by not using _add_plot()
+                                if 'total' in graph["content"]:
                                     labels = [label]
                                     xs = np.array(list(values.keys()))
                                     ys.append(np.array(list(values.values())))
@@ -915,6 +896,8 @@ class CommPhitting:
                     if any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
                         labeled_species = [label for label in labels if isinstance(label, dict)]
                         for name, vals in ys.items():
+                            # TODO - append parantheses of the lone species in the OD plot for monocultural simulations
+                            #  where these biomasses are equivalent
                             # print(name, vals)
                             if not vals:
                                 continue
@@ -924,19 +907,34 @@ class CommPhitting:
                                     if name in label_specie:
                                         label = label_specie[name]
                                         break
-                            # TODO possibly express the modeled conversions of experimental data discretely, reflecting the original data
                             style = "solid" if (len(graph["species"]) < 1 or name not in graph["painting"]
                                                 ) else graph["painting"][name]["linestyle"]
                             style = "dashdot" if "model" in label else style
                             style = "solid" if ("OD" in name and not graph["experimental_data"]
                                                 or "total" in graph["content"]) else style
-                            color = None if not "color" in graph["painting"][name] else graph["painting"][name]["color"]
-                            ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
+                            color = None if "color" not in graph["painting"][name] else graph["painting"][name]["color"]
+                            if not graph["parsed"]:
+                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
+                            else:
+                                # TODO - the phenotypes of each respective species must be added to these developed plots.
+                                fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
+                                ax.set_xlabel(x_label) ; ax.set_ylabel(y_label) ; ax.grid(axis="y") ; ax.legend()
+                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
+                                phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
+                                if "phenotype" in graph and not isinstance(graph['phenotype'], str):
+                                    phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
+                                fig_name = f'{"_".join([trial, name, phenotype_id, content])}.jpg'
+                                if "mets" in graph:
+                                    fig_name = f"{trial}_{','.join(graph['mets'])}_c.jpg"
+                                fig.savefig(fig_name, bbox_inches="tight", transparent=True)
+                    if graph["parsed"]:
+                        break
 
                     phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
                     if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                         phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
 
+                    species_id = ""
                     if "mets" not in graph and content != "c_":
                         species_id = graph["species"] if isinstance(graph["species"], str) else ",".join(graph["species"])
                         if "species" in graph and graph['species'] == self.species_list:

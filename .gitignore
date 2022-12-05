@@ -124,7 +124,8 @@ venv.bak/
 *.zip
 *.lp
 **/mscommfitting.json
-*C:
+*/C:/*
+CommunityModeling/CommFitting/simple_kinetics_loop/*
 
 # mypy
 .mypy_cache/

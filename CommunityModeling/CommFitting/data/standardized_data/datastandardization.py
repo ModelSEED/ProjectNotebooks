@@ -188,7 +188,7 @@ def _check_plateau(org_df, signal, name, significant_deviation, timesteps_len):
     if dropped:
         content = f"{name} {signal}" if name != signal else signal
         print(f"The {dropped} timesteps (with {row_array[index-len(values)+1:]} values) were removed "
-              f"for the {content} data since the OD plateaued and is no longer valid.")
+              f"from the {content} data since the OD plateaued and is no longer valid.")
     return dropped
 
 
