@@ -296,6 +296,7 @@ class GrowthData:
         media_conc = set()
         # calculate all phenotype profiles for all members
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
+            org_model.solver = solver
             model_util = MSModelUtil(org_model)
             model_util.standard_exchanges()
             models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},

@@ -21,7 +21,7 @@ from deepdiff import DeepDiff
 from icecream import ic
 import numpy as np
 # from cplex import Cplex
-import logging, json, os, re
+import warnings, logging, json, os, re
 
 logger = logging.getLogger(__name__)
 
@@ -118,8 +118,10 @@ class CommPhitting:
     #################### FITTING PHASE METHODS ####################
     def fit_kinetics(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                     export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting.lp',
+                     export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
                      figures_zip_name:str=None, publishing:bool=False):
+        if export_zip_name and os.path.exists(export_zip_name):
+            os.remove(export_zip_name)
         # iteratively optimize growth rate and biomass until the biomass converges
         count = 0
         first = True
@@ -127,8 +129,11 @@ class CommPhitting:
             not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time], abs_tol=1e-9)
                      for trial, entities in b_param.items()
                      for entity, times in entities.items() for time in times
-                     if "b_" in entity]) and count < 11):
+                     if "b_" in entity])
+            and count < 11
+        ):
             ## solve for growth rate v with solved b
+            v_param = None
             if count != 0:
                 print(f"\nSimple kinetics optimization, iteration: {count}")
                 b_param = b_values.copy()
@@ -149,8 +154,6 @@ class CommPhitting:
                     break
                 print(v_param) ; print("\nComplete growth rate optimization")
                 first = False
-            else:
-                v_param = None
             ## solve for biomass b with parameterized growth rate
             simulation = new_simulation = CommPhitting(
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
@@ -457,7 +460,7 @@ class CommPhitting:
             signal_column_index = index + 2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
-            self.variables[signal + '|conversion'] = tupVariable(signal + '|conversion')
+            self.variables[signal + '|conversion'] = tupVariable(signal + '|conversion', bounds=Bounds(1e-5, 10))
             variables.append(self.variables[signal + '|conversion'])
 
             self.variables[signal + '|bio'] = {}; self.variables[signal + '|diffpos'] = {}
@@ -637,6 +640,9 @@ class CommPhitting:
                 self.values[short_code][basename][time_hr] = value
             elif 'conversion' in variable:
                 self.values[short_code].update({variable: value})
+                if value in [1e-6, 100]:
+                    warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
+                                  f"indicative of an error, such as improper kinetic rates.")
 
         # export the processed primal values for graphing
         with open(primals_export_path, 'w') as out:
@@ -732,6 +738,9 @@ class CommPhitting:
     def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid", scatter=False, color=None):
         labels.append(label or basename.split('-')[-1])
         if scatter:
+            # print(label)
+            # pprint(list(self.values[trial][basename].keys()))
+            # pprint(list(self.values[trial][basename].values()))
             ax.scatter(list(self.values[trial][basename].keys()),
                        list(self.values[trial][basename].values()),
                        s=10, label=labels[-1], color=color or None)
@@ -781,7 +790,7 @@ class CommPhitting:
                     "OD": {
                         "color": "blue",
                         "linestyle": "solid",
-                        "name": "Total"
+                        "name": "Total biomass"
                     },
                     "ecoli": {
                         "color": "red",
@@ -852,7 +861,7 @@ class CommPhitting:
                                 species_name = graph["painting"][species]["name"]
                                 label = f'Experimental {species_name} (from {signal})'
                                 if 'OD' in signal:
-                                    label = 'Experimental total biomass (from OD)'
+                                    label = f'Experimental total (from {signal})'
                             # print(basename, label, self.values[trial][basename].values())
                             ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, scatter=True,
                                                         color=self.adjust_color(graph["painting"][species]["color"], 1.5))
@@ -896,17 +905,18 @@ class CommPhitting:
                     if any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
                         labeled_species = [label for label in labels if isinstance(label, dict)]
                         for name, vals in ys.items():
-                            # TODO - append parantheses of the lone species in the OD plot for monocultural simulations
-                            #  where these biomasses are equivalent
-                            # print(name, vals)
-                            if not vals:
+                            if not vals or (len(ys) == 2 and "OD" not in name):
                                 continue
-                            label = f'{name}_biomass (model)'
-                            if labeled_species:
-                                for label_specie in labeled_species:
-                                    if name in label_specie:
-                                        label = label_specie[name]
-                                        break
+                            if len(ys) == 2:
+                                specie_label = [graph["painting"][name]["name"] for name in ys if "OD" not in name][0]
+                                label = f"{graph['painting'][name]['name']} ({specie_label})"
+                            else:
+                                label = f'{name}_biomass (model)'
+                                if labeled_species:
+                                    for label_specie in labeled_species:
+                                        if name in label_specie:
+                                            label = label_specie[name]
+                                            break
                             style = "solid" if (len(graph["species"]) < 1 or name not in graph["painting"]
                                                 ) else graph["painting"][name]["linestyle"]
                             style = "dashdot" if "model" in label else style
