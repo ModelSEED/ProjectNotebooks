@@ -71,6 +71,7 @@ def _name(name, suffix, short_code, timestep, names):
         names.append(name)
         return name
     else:
+        pprint(names)
         raise ObjectAlreadyDefinedError(f"The object {name} is already defined for the problem.")
 
 def _export_model_json(json_model, path):
@@ -93,12 +94,13 @@ def _michaelis_menten(conc, vmax, km):
     return -(conc*vmax)/(km+conc)
 
 # parse primal values for use in the optimization loops
-def parse_primals(primal_values, entity_label):
+def parse_primals(primal_values, entity_labels):
     distinguished_primals = {}
     for trial, entities in primal_values.items():
         distinguished_primals[trial] = {}
         for entity, times in entities.items():
-            if entity_label in entity:
+            if any([label in entity for label in entity_labels]):
+                print(entity, times)
                 distinguished_primals[trial][entity] = {time:value for time, value in times.items()}
     return distinguished_primals
 
@@ -116,6 +118,32 @@ class CommPhitting:
         self.names = []
 
     #################### FITTING PHASE METHODS ####################
+    def fit_kinetics2(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
+                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
+                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
+                      figures_zip_name:str=None, publishing:bool=False):
+        if export_zip_name and os.path.exists(export_zip_name):
+            os.remove(export_zip_name)
+        # solve for biomass b with parameterized growth rate constant
+        simple_simulation = CommPhitting(
+            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
+        simple_simulation.define_problem(
+            parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+            data_timesteps, export_zip_name, export_parameters, f'solveBiomass.lp')
+        simple_simulation.compute(primals_export_path=f"b_primals.json")
+        b_values = parse_primals(simple_simulation.values, ["b_", "|bio"])
+        print("Done solving for biomass with the parameterized growth rate constants")
+
+        # solve for growth rate constants with the previously solved biomasses
+        new_simulation = CommPhitting(
+            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
+        new_simulation.define_problem(
+            parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+            data_timesteps, export_zip_name, export_parameters, f'solveGrowthRates.lp', b_values)
+        new_simulation.compute(primals_export_path=f"v_primals.json")
+        print("Done solving for growth rate constants with the parameterized biomasses")
+        return {k: val for k, val in new_simulation.values.items() if "v_" in k}
+
     def fit_kinetics(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
@@ -244,11 +272,7 @@ class CommPhitting:
         else:
             self.mets_to_track = list(self.rel_final_conc.keys())
         zero_start = zero_start or []
-        # define the varying entities
-        # b_values = {}
-        # v_values = []
 
-        # TODO - this must be replaced with the algorithmic assessment of bad timesteps that Chris originally used
         timesteps_to_delete = {}  # {short_code: full_times for short_code in unique_short_codes}
         if data_timesteps:  # {short_code:[times]}
             for short_code, times in data_timesteps.items():
@@ -454,9 +478,12 @@ class CommPhitting:
 
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3 - time_2) / 60} min')
+        species_phenos = {}
         for index, org_signal in enumerate(growth_tup.columns[2:]):
             # signal = org_signal.split(":")[1]
             signal = org_signal.replace(":", "|")
+            species = signal_species(org_signal)
+            species_phenos[species] = {None if "OD" in species else f"{species}_stationary"}
             signal_column_index = index + 2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
@@ -464,14 +491,18 @@ class CommPhitting:
             variables.append(self.variables[signal + '|conversion'])
 
             self.variables[signal + '|bio'] = {}; self.variables[signal + '|diffpos'] = {}
-            self.variables[signal + '|diffneg'] = {}
+            self.variables[signal + '|diffneg'] = {}; self.variables['g_' + species] = {}
             self.constraints[signal + '|bioc'] = {}; self.constraints[signal + '|diffc'] = {}
+            self.constraints["gc_" + species] = {}; self.constraints["totVc" + species] = {}
             for short_code in unique_short_codes:
                 self.variables[signal + '|bio'][short_code] = {}
                 self.variables[signal + '|diffpos'][short_code] = {}
                 self.variables[signal + '|diffneg'][short_code] = {}
+                self.variables['g_' + species][short_code] = {}
                 self.constraints[signal + '|bioc'][short_code] = {}
                 self.constraints[signal + '|diffc'][short_code] = {}
+                self.constraints["gc_" + species][short_code] = {}
+                self.constraints["totVc" + species][short_code] = {}
                 # the value entries are matched to only the timesteps that are condoned by data_timesteps
                 values_slice = trial_contents(short_code, growth_tup.index, growth_tup.values)
                 if timesteps_to_delete:
@@ -490,19 +521,20 @@ class CommPhitting:
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
                         # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
-                        if signal_species(org_signal) in pheno or "OD" in signal:
+                        if species in pheno or "OD" in signal:
                             # if not isnumber(b_values[pheno][short_code][timestep]):
                             signal_sum.append({"operation": "Mul", "elements": [
                                 -1, self.variables['b_' + pheno][short_code][timestep].name]})
                             # else:
                             #     signal_sum.append(-b_values[pheno][short_code][timestep])
                             ### total_biomass.append(self.variables["b_"+pheno][short_code][timestep].name)
-                            if all(['OD' not in signal, signal_species(org_signal) in pheno, 'stationary' not in pheno]):
+                            if all(['OD' not in signal, species in pheno, 'stationary' not in pheno]):
+                                species_phenos[species].add(pheno)
                                 from_sum.append({"operation": "Mul", "elements": [
                                     -1, self.variables["cvf_" + pheno][short_code][timestep].name]})
                                 to_sum.append(self.variables["cvt_" + pheno][short_code][timestep].name)
-                    for pheno in self.fluxes_tup.columns:
-                        if 'OD' in signal or signal_species(org_signal) not in pheno:
+                    for pheno in species_phenos[species]:
+                        if "OD" in signal:
                             continue
                         # print(pheno, timestep, b_values[pheno][short_code][timestep], b_values[pheno][short_code][next_timestep])
                         if "stationary" in pheno:
@@ -557,6 +589,49 @@ class CommPhitting:
                                  "operation": "Mul"}],
                             "operation": "Add"
                         })
+
+                    # species growth rate
+                    if primal_values and "OD" not in species:
+                        # TODO accommodation for determining the growth and rate of the OD would be intriguing
+                        time_hr = timestep*self.parameters['data_timestep_hr']
+                        print(primal_values[short_code].keys())
+                        b_species = primal_values[short_code][signal + '|bio'][time_hr]
+                        if 'v_' + species not in self.variables:
+                            self.variables['v_' + species] = tupVariable(
+                                _name("v_", species, "", "", self.names), Bounds(0, 10))
+                            variables.append(self.variables['v_' + species])
+                        self.variables['g_' + species][short_code][timestep] = tupVariable(
+                            _name("g_", species, short_code, timestep, self.names))
+                        variables.append(self.variables['g_' + species][short_code][timestep])
+                        v_species = self.variables['v_' + species].name
+                        # v_values.append(v_value)
+                        self.constraints['gc_' + species][short_code][timestep] = tupConstraint(
+                            name=_name('gc_', species, short_code, timestep, self.names),
+                            expr={
+                                "elements": [
+                                    self.variables['g_' + species][short_code][timestep].name,
+                                    {"elements": [-1, v_species, b_species],
+                                     "operation": "Mul"}],
+                                "operation": "Add"
+                            })
+                        # constrain the total growth rate to the weighted sum of the phenotype growth rates
+                        # self.constraints["totGc" + species][short_code][timestep] = tupConstraint(
+                        #     name=_name("totGc_", species, short_code, timestep, self.names),
+                        #     expr={"elements": [{"elements":[-1, self.variables['g_' + species][short_code][timestep].name],
+                        #                         "operation":"Mul"}],
+                        #           "operation": "Add"})
+                        self.constraints["totVc" + species][short_code][timestep] = tupConstraint(
+                            name=_name("totVc_", species, short_code, timestep, self.names),
+                            expr={"elements": [{"elements":[-1, self.variables['v_' + species].name], "operation":"Mul"}],
+                                  "operation": "Add"})
+                        for pheno in species_phenos[species]:
+                            self.constraints["totVc" + species][short_code][timestep].expr["elements"].append({
+                                "elements": [self.variables["v_"+pheno].name,
+                                             primal_values[short_code]['b_'+pheno][time_hr] / b_species],
+                                "operation": "Mul"})
+
+                        constraints.extend([self.constraints['gc_' + species][short_code][timestep],
+                                            self.constraints["totVc" + species][short_code][timestep]])
 
                     # {speces}_bio + {signal}_diffneg-{signal}_diffpos = sum_k^K(es_k*b_{phenotype})
                     self.constraints[signal + '|diffc'][short_code][timestep] = tupConstraint(
@@ -632,17 +707,17 @@ class CommPhitting:
         for variable, value in self.problem.primal_values.items():
             if "v_" in variable:
                 self.values[variable] = value
-            elif 'conversion' not in variable:
-                basename, short_code, timestep = variable.split('-')
-                time_hr = int(timestep) * self.parameters['data_timestep_hr']
-                self.values[short_code] = default_dict_values(self.values, short_code, {})
-                self.values[short_code][basename] = default_dict_values(self.values[short_code], basename, {})
-                self.values[short_code][basename][time_hr] = value
             elif 'conversion' in variable:
                 self.values[short_code].update({variable: value})
                 if value in [1e-6, 100]:
                     warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
                                   f"indicative of an error, such as improper kinetic rates.")
+            else:
+                basename, short_code, timestep = variable.split('-')
+                time_hr = int(timestep) * self.parameters['data_timestep_hr']
+                self.values[short_code] = default_dict_values(self.values, short_code, {})
+                self.values[short_code][basename] = default_dict_values(self.values[short_code], basename, {})
+                self.values[short_code][basename][time_hr] = value
 
         # export the processed primal values for graphing
         with open(primals_export_path, 'w') as out:
