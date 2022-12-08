@@ -1,7 +1,7 @@
 {
    "A1": {
       "name": "Negative Control",
-      "ModelSEED_ID": "cpd00001",
+      "ModelSEED_ID": null,
       "mM": 0
    },
    "A2": {

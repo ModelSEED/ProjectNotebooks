@@ -5,6 +5,6 @@ cvct,1
 cvcf,1
 bcv,0.0001
 cvmin,0.1
-v,"{'pf': {'acetate': 0.3, '4HB': 0.3, 'stationary': 0.3}}"
+v,"{'pf': {'D=Maltose': 0.3, 'stationary': 0.3}}"
 diffpos,100
 diffneg,100

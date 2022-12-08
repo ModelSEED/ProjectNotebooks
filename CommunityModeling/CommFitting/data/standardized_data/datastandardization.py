@@ -296,11 +296,13 @@ class GrowthData:
         media_conc = set()
         # calculate all phenotype profiles for all members
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
+            org_model.solver = solver
             model_util = MSModelUtil(org_model)
             model_util.standard_exchanges()
             models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
                                     "name": content["name"], "phenotypes": named_community_members[content["name"]]}
             for pheno, pheno_cpds in content['phenotypes'].items():
+                print(pheno, pheno_cpds)
                 pheno_util = MSModelUtil(org_model)
                 pheno_util.model.solver = solver
                 # pheno_util.compatibilize()   only for non-ModelSEED models
@@ -739,7 +741,8 @@ class BiologData:
         dataframes = {}
         raw_data = _spreadsheet_extension_load(data_paths['path'])
         significant_deviation = significant_deviation or 2
-        culture = culture or _find_culture(data_paths['path'])
+        # culture = culture or _find_culture(data_paths['path'])
+        culture = culture or ",".join([x for x in data_paths.values() if (x not in ["OD"] and not re.search(r"\w\.\w", x))])
         date = date or _findDate(data_paths['path'])
         for org_sheet, name in data_paths.items():
             if org_sheet == 'path':
