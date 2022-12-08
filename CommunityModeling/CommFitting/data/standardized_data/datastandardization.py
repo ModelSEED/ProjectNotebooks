@@ -391,6 +391,7 @@ class GrowthData:
 
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
                 if pheno_influx >= 0:
+                    pprint({rxn:flux for rxn, flux in sol.fluxes.items() if flux != 0})
                     raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
                                       f"implausible phenotype specifications.")
                 # sol.fluxes /= abs(pheno_influx)

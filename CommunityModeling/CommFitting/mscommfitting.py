@@ -480,6 +480,7 @@ class CommPhitting:
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3 - time_2) / 60} min')
         species_phenos = {}
+        self.conversion_bounds = [0, 50] #1e-5, 50))
         for index, org_signal in enumerate(growth_tup.columns[2:]):
             # signal = org_signal.split(":")[1]
             signal = org_signal.replace(":", "|")
@@ -488,7 +489,8 @@ class CommPhitting:
             signal_column_index = index + 2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
-            self.variables[signal + '|conversion'] = tupVariable(signal + '|conversion', bounds=Bounds(0, 50)) #1e-5, 50))
+            self.variables[signal + '|conversion'] = tupVariable(signal + '|conversion',
+                                                                 bounds=Bounds(*self.conversion_bounds))
             variables.append(self.variables[signal + '|conversion'])
 
             self.variables[signal + '|bio'] = {}; self.variables[signal + '|diffpos'] = {}
@@ -688,10 +690,11 @@ class CommPhitting:
             self.zipped_output.append('parameters.csv')
             DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()), columns=['values']).to_csv('parameters.csv')
         if export_lp:
-            self.zipped_output.extend([export_lp, 'CommPhitting.json'])
+            os.makedirs(os.path.dirname(export_lp), exist_ok=True)
             with open(export_lp, 'w') as lp:
                 lp.write(self.problem.to_lp())
             _export_model_json(self.problem.to_json(), 'CommPhitting.json')
+            self.zipped_output.extend([export_lp, 'CommPhitting.json'])
         if export_zip_name:
             self.zip_name = export_zip_name
             sleep(2)
@@ -715,7 +718,7 @@ class CommPhitting:
                 self.values[variable] = value
             elif 'conversion' in variable:
                 self.values[short_code].update({variable: value})
-                if value in [1e-6, 100]:
+                if value in self.conversion_bounds:
                     warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
                                   f"indicative of an error, such as improper kinetic rates.")
             else:
@@ -1106,31 +1109,43 @@ class BIOLOGPhitting(CommPhitting):
         org_rel_final_conc = rel_final_conc
         # total_reactions = set(list(chain.from_iterable([model.reactions for model in models_dict.values()])))
         community_members = {model: {"name": name} for name, model in models_list.items()}
+        model_abbreviations = ','.join([model_abbrev for model_abbrev in models_list])
         for index, experiment in self.experimental_metadata.iterrows():
-            print(index)
+            print(f"\n{index}")
             display(experiment)
-            valid_condition = True
+            if not experiment["ModelSEED_ID"]:
+                print("The BIOLOG condition is not defined.")
+                continue
             for model in models_list.values():
-                if not experiment["ModelSEED_ID"] or not any([re.search(experiment["ModelSEED_ID"], met.id)
-                                                              for met in model.metabolites]):
-                    valid_condition = False ; break
                 cpd = self.msdb.compounds.get_by_id(experiment["ModelSEED_ID"])
-                if "C" not in cpd.elements:
-                    valid_condition = False ; break
-                print(experiment["ModelSEED_ID"], cpd.formula)
+                if ("C" not in cpd.elements or not any([
+                        re.search(experiment["ModelSEED_ID"], rxn.id) for rxn in model.reactions])):
+                    if "valid_condition" not in locals():
+                        valid_condition = False
+                    continue
                 exp_list = [experiment["ModelSEED_ID"]] if isinstance(
                     experiment["ModelSEED_ID"], str) else experiment["ModelSEED_ID"]
                 community_members[model].update({"phenotypes": {
-                    experiment["condition"].replace("-", "="): {"consumed": exp_list}}})
+                    re.sub(r"(-|\s)", "", experiment["condition"]): {"consumed": exp_list}}})
+                valid_condition = True
             if not valid_condition:
+                print(f"The BIOLOG condition with {experiment['ModelSEED_ID']} is not"
+                      f" absorbed by the {model_abbreviations} model(s).")
                 continue
-            print("passed")
-            # TODO - define the fluxes_df and phenotype(s) for each condition in this loop
-            ## define the parameters for each experiment
-            fluxes_df, media_conc = GrowthData.phenotypes(None, community_members)
+            print(f"The {experiment['ModelSEED_ID']} ({cpd.formula}) metabolite of the "
+                  f"{experiment['condition']} condition may feed the {model_abbreviations} model(s).")
+            try:
+                fluxes_df, media_conc = GrowthData.phenotypes(None, community_members)
+            except (NoFluxError) as e:
+                print(e)
+                print(f"The {experiment['ModelSEED_ID']} ({cpd.formula}) metabolite of the "
+                      f"{experiment['condition']} condition is not a suitable phenotype for "
+                      f"the {model_abbreviations} model(s).")
+                continue
             mets_to_track = zero_start = exp_list
             rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc}
-            export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs", f"{index}_{mets_to_track}.lp")
+            export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs",
+                                       f"{index}_{','.join(mets_to_track)}.lp")
             ## define the CommPhitting object and simulate the experiment
             CommPhitting.__init__(self, fluxes_df, self.carbon_conc, self.media_conc,
                                   self.biolog_df.loc[index,:], self.experimental_metadata)
