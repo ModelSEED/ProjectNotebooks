@@ -232,6 +232,267 @@ class CommPhitting:
             self.problem.add(content)
             self.problem.update()
 
+    def define_b_vars(self, pheno, short_code, timestep, variables):
+        self.variables['b_' + pheno][short_code][timestep] = tupVariable(
+            _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        self.variables['b1_' + pheno][short_code][timestep] = tupVariable(
+            _name("b1_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        self.variables['b2_' + pheno][short_code][timestep] = tupVariable(
+            _name("b2_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        self.variables['b3_' + pheno][short_code][timestep] = tupVariable(
+            _name("b3_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        self.variables['b4_' + pheno][short_code][timestep] = tupVariable(
+            _name("b4_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        self.variables['b5_' + pheno][short_code][timestep] = tupVariable(
+            _name("b5_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
+        variables.extend([self.variables['b_' + pheno][short_code][timestep],
+                          self.variables['b1_' + pheno][short_code][timestep],
+                          self.variables['b2_' + pheno][short_code][timestep],
+                          self.variables['b3_' + pheno][short_code][timestep],
+                          self.variables['b4_' + pheno][short_code][timestep],
+                          self.variables['b5_' + pheno][short_code][timestep]])
+        if short_code not in self.variables["bin1_" + pheno]:
+            self.variables['bin1_' + pheno][short_code] = tupVariable(
+                _name("bin1_", pheno, short_code, "", self.names), Bounds(0, 1), "binary")
+            self.variables['bin2_' + pheno][short_code] = tupVariable(
+                _name("bin2_", pheno, short_code, "", self.names), Bounds(0, 1), "binary")
+            self.variables['bin3_' + pheno][short_code] = tupVariable(
+                _name("bin3_", pheno, short_code, "", self.names), Bounds(0, 1), "binary")
+            self.variables['bin4_' + pheno][short_code] = tupVariable(
+                _name("bin4_", pheno, short_code, "", self.names), Bounds(0, 1), "binary")
+            self.variables['bin5_' + pheno][short_code] = tupVariable(
+                _name("bin5_", pheno, short_code, "", self.names), Bounds(0, 1), "binary")
+            variables.extend([self.variables['bin1_' + pheno][short_code], self.variables['bin2_' + pheno][short_code],
+                              self.variables['bin3_' + pheno][short_code], self.variables['bin4_' + pheno][short_code],
+                              self.variables['bin5_' + pheno][short_code]])
+        return variables
+
+    def define_b_cons(self, pheno, short_code, timestep, constraints):
+        # define the partitioned biomass groups
+        self.constraints['b1c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b1c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    {"elements": [0.5, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b1_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b2c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b2c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    {"elements": [0.25, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b2_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b3c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b3c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    {"elements": [0.125, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b3_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b4c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b4c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    {"elements": [0.0625, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b4_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b5c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b5c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    {"elements": [0.03125, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b5_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+
+        ## define the comprehensive biomass constraints
+        self.constraints['b1c_control_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b1c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
+                "elements": [
+                    {"elements": [0.5, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b1_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin1_' + pheno][short_code].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b2c_control_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b2c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
+                "elements": [
+                    {"elements": [0.25, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b2_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin2_' + pheno][short_code].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b3c_control_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b3c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
+                "elements": [
+                    {"elements": [0.125, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b3_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin3_' + pheno][short_code].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b4c_control_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b4c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
+                "elements": [
+                    {"elements": [0.0625, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b4_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin4_' + pheno][short_code].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+        self.constraints['b5c_control_' + pheno][short_code][timestep] = tupConstraint(
+            _name("b5c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
+                "elements": [
+                    {"elements": [0.03125, self.variables['b_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1, self.variables['b5_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin5_' + pheno][short_code].name],
+                     "operation": "Mul"},
+                ],
+                "operation": "Add"
+            })
+
+        # define the binary constraints
+        self.constraints['bin1c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("bin1c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    1000,
+                    {"elements": [-1, self.variables['b1_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin1_' + pheno][short_code].name],
+                     "operation": "Mul"}
+                ],
+                "operation": "Add"
+            })
+        self.constraints['bin2c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("bin2c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    1000,
+                    {"elements": [-1, self.variables['b2_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin2_' + pheno][short_code].name],
+                     "operation": "Mul"}
+                ],
+                "operation": "Add"
+            })
+        self.constraints['bin3c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("bin3c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    1000,
+                    {"elements": [-1, self.variables['b3_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin3_' + pheno][short_code].name],
+                     "operation": "Mul"}
+                ],
+                "operation": "Add"
+            })
+        self.constraints['bin4c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("bin4c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    1000,
+                    {"elements": [-1, self.variables['b4_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin4_' + pheno][short_code].name],
+                     "operation": "Mul"}
+                ],
+                "operation": "Add"
+            })
+        self.constraints['bin5c_' + pheno][short_code][timestep] = tupConstraint(
+            _name("bin5c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
+                "elements": [
+                    1000,
+                    {"elements": [-1, self.variables['b5_' + pheno][short_code][timestep].name],
+                     "operation": "Mul"},
+                    {"elements": [-1000, self.variables['bin5_' + pheno][short_code].name],
+                     "operation": "Mul"}
+                ],
+                "operation": "Add"
+            })
+
+        # load the constraints to the model
+        constraints.extend([self.constraints['b1c_' + pheno][short_code][timestep],
+                            self.constraints['b2c_' + pheno][short_code][timestep],
+                            self.constraints['b3c_' + pheno][short_code][timestep],
+                            self.constraints['b4c_' + pheno][short_code][timestep],
+                            self.constraints['b5c_' + pheno][short_code][timestep],
+                            self.constraints['b1c_control_' + pheno][short_code][timestep],
+                            self.constraints['b2c_control_' + pheno][short_code][timestep],
+                            self.constraints['b3c_control_' + pheno][short_code][timestep],
+                            self.constraints['b4c_control_' + pheno][short_code][timestep],
+                            self.constraints['b5c_control_' + pheno][short_code][timestep],
+                            self.constraints['bin1c_' + pheno][short_code][timestep],
+                            self.constraints['bin2c_' + pheno][short_code][timestep],
+                            self.constraints['bin3c_' + pheno][short_code][timestep],
+                            self.constraints['bin4c_' + pheno][short_code][timestep],
+                            self.constraints['bin5c_' + pheno][short_code][timestep]])
+        return constraints
+
+    def initialize_vars_cons(self, pheno, short_code):
+        # cvt and cvf
+        self.variables['cvt_' + pheno] = {}; self.variables['cvf_' + pheno] = {}
+        self.variables['cvt_' + pheno][short_code] = {}; self.variables['cvf_' + pheno][short_code] = {}
+        # total biomass and growth
+        self.variables['b_' + pheno] = {}; self.variables['g_' + pheno] = {}
+        self.variables['b_' + pheno][short_code] = {}; self.variables['g_' + pheno][short_code] = {}
+        self.constraints['gc_' + pheno] = {}; self.constraints['cvc_' + pheno] = {}
+        self.constraints['gc_' + pheno][short_code] = {}; self.constraints['cvc_' + pheno][short_code] = {}
+        # partitioned biomasses
+        self.variables['b1_' + pheno] = {}; self.variables['b2_' + pheno] = {};  self.variables['b3_' + pheno] = {}
+        self.variables['b4_' + pheno] = {}; self.variables['b5_' + pheno] = {}
+        self.variables['b1_' + pheno][short_code] = {}; self.variables['b2_' + pheno][short_code] = {}
+        self.variables['b3_' + pheno][short_code] = {}; self.variables['b4_' + pheno][short_code] = {}
+        self.variables['b5_' + pheno][short_code] = {}
+        ## biomass binary variables
+        self.variables['bin1_' + pheno] = {}; self.variables['bin2_' + pheno] = {};  self.variables['bin3_' + pheno] = {}
+        self.variables['bin4_' + pheno] = {}; self.variables['bin5_' + pheno] = {}
+        ## biomass partition constraints
+        self.constraints['b1c_' + pheno] = {}; self.constraints['b2c_' + pheno] = {}; self.constraints['b3c_' + pheno] = {}
+        self.constraints['b4c_' + pheno] = {}; self.constraints['b5c_' + pheno] = {}
+        self.constraints['b1c_' + pheno][short_code] = {}; self.constraints['b2c_' + pheno][short_code] = {}
+        self.constraints['b3c_' + pheno][short_code] = {}; self.constraints['b4c_' + pheno][short_code] = {}
+        self.constraints['b5c_' + pheno][short_code] = {}
+        self.constraints['b1c_control_' + pheno] = {}; self.constraints['b2c_control_' + pheno] = {}
+        self.constraints['b3c_control_' + pheno] = {}; self.constraints['b4c_control_' + pheno] = {}
+        self.constraints['b5c_control_' + pheno] = {}
+        self.constraints['b1c_control_' + pheno][short_code] = {}; self.constraints['b2c_control_' + pheno][short_code] = {}
+        self.constraints['b3c_control_' + pheno][short_code] = {}; self.constraints['b4c_control_' + pheno][short_code] = {}
+        self.constraints['b5c_control_' + pheno][short_code] = {}
+        self.constraints['bin1c_' + pheno] = {}; self.constraints['bin2c_' + pheno] = {};  self.constraints['bin3c_' + pheno] = {}
+        self.constraints['bin4c_' + pheno] = {}; self.constraints['bin5c_' + pheno] = {}
+        self.constraints['bin1c_' + pheno][short_code] = {}; self.constraints['bin2c_' + pheno][short_code] = {}
+        self.constraints['bin3c_' + pheno][short_code] = {}; self.constraints['bin4c_' + pheno][short_code] = {}
+        self.constraints['bin5c_' + pheno][short_code] = {}
+
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
                        primal_values=None):
@@ -324,57 +585,22 @@ class CommPhitting:
         # define growth and biomass variables and constraints
         # self.parameters["v"] = {met_id:{species:_michaelis_menten()}}
         for pheno in self.fluxes_tup.columns:
-            # print(f"\n\n{pheno}\n==================\n")
-            # b_values[pheno], v_values[pheno] = {}, {}
-
-            self.variables['cvt_' + pheno] = {}; self.variables['cvf_' + pheno] = {}
-            self.variables['b_' + pheno] = {}; self.variables['g_' + pheno] = {}
-            # self.variables['v_' + pheno] = {}
-            self.constraints['gc_' + pheno] = {}; self.constraints['cvc_' + pheno] = {}
-            # self.constraints['vc_' + pheno] = {}
             for short_code in unique_short_codes:
-                # b_values[pheno][short_code], v_values[pheno][short_code] = {}, {}
-
-                self.variables['cvt_' + pheno][short_code] = {}; self.variables['cvf_' + pheno][short_code] = {}
-                self.variables['b_' + pheno][short_code] = {}; self.variables['g_' + pheno][short_code] = {}
-                # self.variables['v_' + pheno][short_code] = {}
-                self.constraints['gc_' + pheno][short_code] = {}
-                self.constraints['cvc_' + pheno][short_code] = {}
+                self.initialize_vars_cons(pheno, short_code)
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
                 for timestep in timesteps:
                     timestep = int(timestep)
-                    # predicted biomass abundance and biomass growth
-                    ## define the biomass variable or primal value
-                    self.variables['b_' + pheno][short_code][timestep] = tupVariable(
-                        _name("b_", pheno, short_code, timestep, self.names), Bounds(0, 1000))
-                    variables.append(self.variables['b_' + pheno][short_code][timestep])
-                    time_hr = timestep * self.parameters['data_timestep_hr']
+                    variables = self.define_b_vars(pheno, short_code, timestep, variables)
+                    constraints = self.define_b_cons(pheno, short_code, timestep, constraints)
 
                     ## define the growth rate variable or primal value
                     species, phenotype = pheno.split("_")
-                    b_value = self.variables['b_' + pheno][short_code][timestep].name
-                    v_value = self.parameters["v"][species][phenotype]
-                    if primal_values:
-                        if 'v_' + pheno in primal_values:
-                            ## universalize the phenotype growth rates for all codes and timesteps
-                            v_value = primal_values['v_' + pheno]
-                        elif 'b_' + pheno in primal_values[short_code]:
-                            if 'v_' + pheno not in self.variables:
-                                self.variables['v_' + pheno] = tupVariable(
-                                    _name("v_", pheno, "", "", self.names), Bounds(0, 10))
-                                variables.append(self.variables['v_' + pheno])
-                            v_value = self.variables['v_' + pheno].name
-                            # v_values.append(v_value)
-                            b_value = primal_values[short_code]['b_' + pheno][time_hr]
-
                     self.variables['g_' + pheno][short_code][timestep] = tupVariable(
                         _name("g_", pheno, short_code, timestep, self.names))
                     variables.append(self.variables['g_' + pheno][short_code][timestep])
 
                     if 'stationary' in pheno:
                         continue
-                    # if "pf" and "4HB" in pheno:
-                        # ic(pheno, v_value, b_value)
                     # the conversion rates to and from the stationary phase
                     self.variables['cvt_' + pheno][short_code][timestep] = tupVariable(
                         _name("cvt_", pheno, short_code, timestep, self.names), Bounds(0, 100))
@@ -393,43 +619,42 @@ class CommPhitting:
                             "operation": "Add"
                         })
                     # biomass_term = [self.parameters['bcv']*b_value + self.parameters['cvmin']] if isnumber(b_value) else [
-                    biomass_term = [
-                        self.parameters['cvmin'], {"elements": [self.parameters['bcv'], b_value], "operation": "Mul"}]
+                    biomass_term = [self.parameters['cvmin'],
+                                    {"elements": [self.parameters['bcv'],
+                                                  self.variables["b_"+pheno][short_code][timestep].name],
+                                     "operation": "Mul"}]
                     self.constraints['cvc_' + pheno][short_code][timestep].expr["elements"].extend(biomass_term)
 
-                    # v_{pheno} = -(Vmax_{met, species} * c_{met}) / (Km_{met, species} + c_{met})
-                    # self.constraints['vc_' + pheno][short_code][timestep] = tupConstraint(
-                    #     name=_name('vc_', pheno, short_code, timestep, self.names),
-                    #     expr={
-                    #         "elements": [
-                    #             self.variables['v_' + pheno][short_code][timestep].name,
-                    #             {"elements": [-1, self.parameters['v'],
-                    #                           self.variables['b_' + pheno][short_code][timestep].name],
-                    #              "operation": "Mul"}],
-                    #         "operation": "Add"
-                    #     })
-
                     # g_{pheno} = b_{pheno}*v_{pheno}
+                    b_values = [self.variables['b1_' + pheno][short_code][timestep].name,
+                                self.variables['b2_' + pheno][short_code][timestep].name,
+                                self.variables['b3_' + pheno][short_code][timestep].name,
+                                self.variables['b4_' + pheno][short_code][timestep].name,
+                                self.variables['b5_' + pheno][short_code][timestep].name]
+                    b_terms = [{"elements": [-self.parameters["v"][species][phenotype], b], "operation": "Mul"} for b in b_values]
                     self.constraints['gc_' + pheno][short_code][timestep] = tupConstraint(
                         name=_name('gc_', pheno, short_code, timestep, self.names),
                         expr={
-                            "elements": [
-                                self.variables['g_' + pheno][short_code][timestep].name,
-                                {"elements": [-1, v_value, b_value],
-                                 "operation": "Mul"}],
+                            "elements": [*b_terms, self.variables['g_' + pheno][short_code][timestep].name],
                             "operation": "Add"
                         })
 
-                    # v_{pheno}_t,i = v_{pheno}_(t+1),(i+1), for all t in T and i in I
-                    # self.constraints['vc_' + pheno][short_code][timestep] = tupConstraint(
-                    #     name=_name('vc_', pheno, short_code, timestep, self.names),
-                    #     expr={
-                    #         "elements": [v_values],
-                    #         "operation": "Add"
-                    #     })
+                    # exploratory biomass constraints
+                    # self.constraints["bTot_"+pheno] = {}; self.constraints["bTot_"+pheno][short_code] = {}
+                    # self.constraints["bTot_" + pheno][short_code][timestep] = tupConstraint(
+                    #     name=_name('bTot_', pheno, short_code, timestep, self.names),
+                    #     expr={"elements": b_values, "operation": "Add"})
+                    # bin_terms = [self.variables['bin1_' + pheno][short_code].name, self.variables['bin2_' + pheno][short_code].name,
+                    #              self.variables['bin3_' + pheno][short_code].name, self.variables['bin4_' + pheno][short_code].name,
+                    #              self.variables['bin5_' + pheno][short_code].name]
+                    # self.constraints["binTot_"+pheno] = {}
+                    # self.constraints["binTot_" + pheno][short_code] = tupConstraint(
+                    #     _name('binTot_', pheno, short_code, timestep, self.names), Bounds(1, None),
+                    #     {"elements": bin_terms, "operation": "Add"})
 
                     constraints.extend([self.constraints['cvc_' + pheno][short_code][timestep],
-                                        self.constraints['gc_' + pheno][short_code][timestep]])
+                                        self.constraints['gc_' + pheno][short_code][timestep],])
+                                        # self.constraints["binTot_" + pheno][short_code]])
                     objective.expr.extend([{
                         "elements": [
                             {"elements": [self.parameters['cvcf'],
@@ -690,7 +915,8 @@ class CommPhitting:
             self.zipped_output.append('parameters.csv')
             DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()), columns=['values']).to_csv('parameters.csv')
         if export_lp:
-            os.makedirs(os.path.dirname(export_lp), exist_ok=True)
+            if re.search(r"(\\\\/)", export_lp):
+                os.makedirs(os.path.dirname(export_lp), exist_ok=True)
             with open(export_lp, 'w') as lp:
                 lp.write(self.problem.to_lp())
             _export_model_json(self.problem.to_json(), 'CommPhitting.json')
@@ -716,7 +942,7 @@ class CommPhitting:
         for variable, value in self.problem.primal_values.items():
             if "v_" in variable:
                 self.values[variable] = value
-            elif 'conversion' in variable:
+            elif 'conversion' in variable or re.search(r"(bin\d)", variable):
                 self.values[short_code].update({variable: value})
                 if value in self.conversion_bounds:
                     warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
