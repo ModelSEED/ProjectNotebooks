@@ -279,6 +279,7 @@ class GrowthData:
             base_media, community_members, species_abundances, carbon_conc_series,
             species_identities_rows, row_num, _findDate(data_paths["path"])
         )
+        GrowthData.biomass_growth(carbon_conc_series, fluxes_df)
         # invert the trial_name_conversion keys and values
         # for row in trial_name_conversion:
         #     short_code_ID = {contents[0]:contents[1] for contents in trial_name_conversion[row].values()}
@@ -620,6 +621,7 @@ class GrowthData:
                     row_conc.append(':'.join([
                         met, str(conc_dict[sorted(list(conc_dict.keys()))[row-1]]),
                         str(conc_dict[sorted(list(conc_dict.keys()), reverse=True)[-row]])]))
+
             row_concentration = ';'.join(row_conc)
             composition = {}
             for col in range(1, column_num+1):
@@ -676,6 +678,11 @@ class GrowthData:
         constructed_experiments["date"] = [date] * (column_num*row_num)
         constructed_experiments.to_csv("growth_metadata.csv")
         return constructed_experiments, standardized_carbon_conc, trial_name_conversion
+
+    @staticmethod
+    def biomass_growth(carbon_conc, fluxes_df):
+        # TODO calculate the requisite bimomass to consume 90% of this substrate concentration
+        return
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):

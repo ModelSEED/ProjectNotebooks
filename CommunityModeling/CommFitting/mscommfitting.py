@@ -94,7 +94,28 @@ def _michaelis_menten(conc, vmax, km):
     return (conc*vmax)/(km+conc)
 
 # parse primal values for use in the optimization loops
-def parse_primals(primal_values, entity_labels):
+def parse_primals(primal_values, entity_labels, coefs=None, kcat_vals=None):
+    if entity_labels == "kcat":
+        kcat_primal = {}
+        for trial, content in primal_values.items():
+            for primal, value in content.items():
+                if "bin" not in primal:
+                    continue
+                name, trial = primal.split("-")
+                number = re.search(r"(\d)", name).group()
+                species, pheno = re.sub(r"(bin\d_)", "", name).split("_")
+                if "stationary" in pheno:
+                    continue
+                if species not in kcat_primal:
+                    kcat_primal[species] = {}
+                if pheno not in kcat_primal[species]:
+                    kcat_primal[species][pheno] = 0
+                print(name, value)
+                if value == 0:
+                    print(coefs[int(number)-1], kcat_vals[species][pheno])
+                    kcat_primal[species][pheno] += coefs[int(number)-1]*kcat_vals[species][pheno]
+
+        return kcat_primal
     distinguished_primals = {}
     for trial, entities in primal_values.items():
         distinguished_primals[trial] = {}
@@ -105,6 +126,9 @@ def parse_primals(primal_values, entity_labels):
 
 def signal_species(signal):
     return signal.split(":")[0].replace(" ", "_")
+
+def _partition_coefs(initial_val):
+    return (initial_val, initial_val/2, initial_val/4, initial_val/8, initial_val/16)
 
 class CommPhitting:
 
@@ -117,6 +141,27 @@ class CommPhitting:
         self.names = []
 
     #################### FITTING PHASE METHODS ####################
+    def fit_kinetics3(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
+                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
+                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
+                      figures_zip_name:str=None, publishing:bool=False):
+        if export_zip_name and os.path.exists(export_zip_name):
+            os.remove(export_zip_name)
+        biomass_partition_coefs = [(100, 10, 1, 0.1, 0.01), _partition_coefs(4), _partition_coefs(0.5)]
+        kcat_primal = None
+        for index, coefs in enumerate(biomass_partition_coefs):
+            # solve for growth rate constants with the previously solved biomasses
+            new_simulation = CommPhitting(
+                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
+            new_simulation.define_problem(
+                parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
+                data_timesteps, export_zip_name, export_parameters, f'solveKcat.lp', kcat_primal, coefs)
+            new_simulation.compute(graphs, msdb_path, publishing=True, primals_export_path=f"kcat_primals.json")
+            kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
+            print(f"Done simulating with the coefficients for biomass partitions: {index}")
+            pprint(kcat_primal)
+        return {k: val for k, val in new_simulation.values.items() if "v_" in k}
+
     def fit_kinetics2(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                       abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
                       export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
@@ -267,12 +312,12 @@ class CommPhitting:
                               self.variables['bin5_' + pheno][short_code]])
         return variables
 
-    def define_b_cons(self, pheno, short_code, timestep, constraints):
+    def define_b_cons(self, pheno, short_code, timestep, constraints, biomass_coefs):
         # define the partitioned biomass groups
         self.constraints['b1c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b1c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
                 "elements": [
-                    {"elements": [0.5, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[0], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b1_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -282,7 +327,7 @@ class CommPhitting:
         self.constraints['b2c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b2c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
                 "elements": [
-                    {"elements": [0.25, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[1], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b2_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -292,7 +337,7 @@ class CommPhitting:
         self.constraints['b3c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b3c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
                 "elements": [
-                    {"elements": [0.125, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[2], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b3_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -302,7 +347,7 @@ class CommPhitting:
         self.constraints['b4c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b4c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
                 "elements": [
-                    {"elements": [0.0625, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[3], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b4_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -312,7 +357,7 @@ class CommPhitting:
         self.constraints['b5c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b5c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
                 "elements": [
-                    {"elements": [0.03125, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[4], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b5_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -324,7 +369,7 @@ class CommPhitting:
         self.constraints['b1c_control_' + pheno][short_code][timestep] = tupConstraint(
             _name("b1c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
                 "elements": [
-                    {"elements": [0.5, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[0], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b1_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -336,7 +381,7 @@ class CommPhitting:
         self.constraints['b2c_control_' + pheno][short_code][timestep] = tupConstraint(
             _name("b2c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
                 "elements": [
-                    {"elements": [0.25, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[1], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b2_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -348,7 +393,7 @@ class CommPhitting:
         self.constraints['b3c_control_' + pheno][short_code][timestep] = tupConstraint(
             _name("b3c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
                 "elements": [
-                    {"elements": [0.125, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[2], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b3_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -360,7 +405,7 @@ class CommPhitting:
         self.constraints['b4c_control_' + pheno][short_code][timestep] = tupConstraint(
             _name("b4c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
                 "elements": [
-                    {"elements": [0.0625, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[3], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b4_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -372,7 +417,7 @@ class CommPhitting:
         self.constraints['b5c_control_' + pheno][short_code][timestep] = tupConstraint(
             _name("b5c_control_", pheno, short_code, timestep, self.names), Bounds(None, 0), {
                 "elements": [
-                    {"elements": [0.03125, self.variables['b_' + pheno][short_code][timestep].name],
+                    {"elements": [biomass_coefs[4], self.variables['b_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
                     {"elements": [-1, self.variables['b5_' + pheno][short_code][timestep].name],
                      "operation": "Mul"},
@@ -487,15 +532,15 @@ class CommPhitting:
         self.constraints['b1c_control_' + pheno][short_code] = {}; self.constraints['b2c_control_' + pheno][short_code] = {}
         self.constraints['b3c_control_' + pheno][short_code] = {}; self.constraints['b4c_control_' + pheno][short_code] = {}
         self.constraints['b5c_control_' + pheno][short_code] = {}
-        self.constraints['bin1c_' + pheno] = {}; self.constraints['bin2c_' + pheno] = {};  self.constraints['bin3c_' + pheno] = {}
-        self.constraints['bin4c_' + pheno] = {}; self.constraints['bin5c_' + pheno] = {}
+        self.constraints['binc_' + pheno] = {}; self.constraints['bin1c_' + pheno] = {}; self.constraints['bin2c_' + pheno] = {}
+        self.constraints['bin3c_' + pheno] = {}; self.constraints['bin4c_' + pheno] = {}; self.constraints['bin5c_' + pheno] = {}
         self.constraints['bin1c_' + pheno][short_code] = {}; self.constraints['bin2c_' + pheno][short_code] = {}
         self.constraints['bin3c_' + pheno][short_code] = {}; self.constraints['bin4c_' + pheno][short_code] = {}
         self.constraints['bin5c_' + pheno][short_code] = {}
 
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
-                       primal_values=None):
+                       primal_values=None, biomass_coefs=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         self.species_list = [signal_species(signal) for signal in growth_tup.columns if ":" in signal]
@@ -513,15 +558,25 @@ class CommPhitting:
         self.parameters["data_timestep_hr"] = np.mean(np.diff(np.array(list(self.times.values())).flatten())) / hour
         self.parameters.update({
             "timestep_hr": self.parameters['data_timestep_hr'],  # Simulation timestep magnitude in hours
-            "cvct": 1, "cvcf": 1,  # Minimization coefficients of the phenotype conversion to and from the stationary phase.
+            "cvct": 0.01, "cvcf": 0.01,  # Minimization coefficients of the phenotype conversion to and from the stationary phase.
             "bcv": 0.1,  # The highest fraction of species biomass that can change phenotypes in a timestep
             "cvmin": 0,  # The lowest value the limit on phenotype conversion goes,
-            "v": 0.33,  # The kinetics constant that is externally adjusted
+            "kcat": 0.33,  # The kinetics constant that is externally adjusted
             'diffpos': 1, 'diffneg': 1,
+            "stationary": 0.075,
             # diffpos and diffneg coefficients that weight difference between experimental and predicted biomass
         })
         self.parameters.update(parameters)
-        self.parameters.update(self._universalize(self.parameters,"v"))
+        # define the appropriate kcat values
+        self.parameters.update(self._universalize(self.parameters,"kcat", exclude=["stationary"]))
+        if primal_values:
+            for species, content in self.parameters["kcat"].items():
+                if species not in primal_values:
+                    continue
+                for pheno in content:
+                    if pheno not in primal_values[species]:
+                        continue
+                    self.parameters["kcat"][species][pheno] = primal_values[species][pheno]
         default_carbon_sources = ["cpd00076", "cpd00179", "cpd00027"]  # sucrose, maltose, glucose
         self.rel_final_conc = rel_final_conc or {c:1 for c in default_carbon_sources}
         self.abs_final_conc = abs_final_conc or {}
@@ -583,15 +638,29 @@ class CommPhitting:
                             short_code: {} for short_code in unique_short_codes}
 
         # define growth and biomass variables and constraints
-        # self.parameters["v"] = {met_id:{species:_michaelis_menten()}}
+        # self.parameters["kcat"] = {met_id:{species:_michaelis_menten()}}
         for pheno in self.fluxes_tup.columns:
             for short_code in unique_short_codes:
                 self.initialize_vars_cons(pheno, short_code)
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
+                ninetieth_percentile_timestep = timesteps[int(0.9*len(timesteps))]
+                penalty_range = np.linspace(self.parameters['stationary'], 0, len(timesteps[ninetieth_percentile_timestep:]))
+                timestep_excess_count = 0
                 for timestep in timesteps:
                     timestep = int(timestep)
                     variables = self.define_b_vars(pheno, short_code, timestep, variables)
-                    constraints = self.define_b_cons(pheno, short_code, timestep, constraints)
+                    if short_code not in self.constraints["binc_" + pheno]:
+                        self.constraints['binc_' + pheno][short_code] = tupConstraint(
+                            _name("binc_", pheno, short_code, timestep, self.names), Bounds(0, 4), {
+                                "elements": [self.variables['bin1_' + pheno][short_code].name,
+                                             self.variables['bin2_' + pheno][short_code].name,
+                                             self.variables['bin3_' + pheno][short_code].name,
+                                             self.variables['bin4_' + pheno][short_code].name,
+                                             self.variables['bin5_' + pheno][short_code].name],
+                                "operation": "Add"
+                            })
+                        constraints.append(self.constraints['binc_' + pheno][short_code])
+                    constraints = self.define_b_cons(pheno, short_code, timestep, constraints, biomass_coefs)
 
                     ## define the growth rate variable or primal value
                     species, phenotype = pheno.split("_")
@@ -600,6 +669,16 @@ class CommPhitting:
                     variables.append(self.variables['g_' + pheno][short_code][timestep])
 
                     if 'stationary' in pheno:
+                        weight = self.parameters['stationary']
+                        if timestep > ninetieth_percentile_timestep:
+                            weight = penalty_range[timestep_excess_count]
+                            timestep_excess_count += 1
+                        objective.expr.extend([{
+                            "elements": [
+                                {"elements": [weight, self.variables['b_' + pheno][short_code][timestep].name],
+                                 "operation": "Mul"}],
+                            "operation": "Add"
+                        }])
                         continue
                     # the conversion rates to and from the stationary phase
                     self.variables['cvt_' + pheno][short_code][timestep] = tupVariable(
@@ -631,7 +710,7 @@ class CommPhitting:
                                 self.variables['b3_' + pheno][short_code][timestep].name,
                                 self.variables['b4_' + pheno][short_code][timestep].name,
                                 self.variables['b5_' + pheno][short_code][timestep].name]
-                    b_terms = [{"elements": [-self.parameters["v"][species][phenotype], b], "operation": "Mul"} for b in b_values]
+                    b_terms = [{"elements": [-self.parameters["kcat"][species][phenotype], b], "operation": "Mul"} for b in b_values]
                     self.constraints['gc_' + pheno][short_code][timestep] = tupConstraint(
                         name=_name('gc_', pheno, short_code, timestep, self.names),
                         expr={
@@ -655,16 +734,16 @@ class CommPhitting:
                     constraints.extend([self.constraints['cvc_' + pheno][short_code][timestep],
                                         self.constraints['gc_' + pheno][short_code][timestep],])
                                         # self.constraints["binTot_" + pheno][short_code]])
-                    objective.expr.extend([{
-                        "elements": [
-                            {"elements": [self.parameters['cvcf'],
-                                          self.variables['cvf_' + pheno][short_code][timestep].name],
-                             "operation": "Mul"},
-                            {"elements": [self.parameters['cvct'],
-                                          self.variables['cvt_' + pheno][short_code][timestep].name],
-                             "operation": "Mul"}],
-                        "operation": "Add"
-                    }])
+                    # objective.expr.extend([{
+                    #     "elements": [
+                    #         {"elements": [self.parameters['cvcf'],
+                    #                       self.variables['cvf_' + pheno][short_code][timestep].name],
+                    #          "operation": "Mul"},
+                    #         {"elements": [self.parameters['cvct'],
+                    #                       self.variables['cvt_' + pheno][short_code][timestep].name],
+                    #          "operation": "Mul"}],
+                    #     "operation": "Add"
+                    # }])
 
         # define the concentration constraint
         half_dt = self.parameters['data_timestep_hr'] / 2
@@ -705,7 +784,7 @@ class CommPhitting:
         time_3 = process_time()
         print(f'Done with DCC loop: {(time_3 - time_2) / 60} min')
         species_phenos = {}
-        self.conversion_bounds = [0, 50] #1e-5, 50))
+        self.conversion_bounds = [5e-6, 50]
         for index, org_signal in enumerate(growth_tup.columns[2:]):
             # signal = org_signal.split(":")[1]
             signal = org_signal.replace(":", "|")
@@ -820,40 +899,40 @@ class CommPhitting:
                         })
 
                     # species growth rate
-                    if primal_values and "OD" not in species:
-                        # TODO accommodation for determining the growth and rate of the OD would be intriguing
-                        time_hr = timestep*self.parameters['data_timestep_hr']
-                        # print(primal_values[short_code].keys())
-                        b_species = primal_values[short_code][signal + '|bio'][time_hr]
-                        if 'v_' + species not in self.variables:
-                            self.variables['v_' + species] = tupVariable(
-                                _name("v_", species, "", "", self.names))
-                            variables.append(self.variables['v_' + species])
-                        self.variables['g_' + species][short_code][timestep] = tupVariable(
-                            _name("g_", species, short_code, timestep, self.names))
-                        variables.append(self.variables['g_' + species][short_code][timestep])
-                        v_species = self.variables['v_' + species].name
-                        # v_values.append(v_value)
-                        self.constraints['gc_' + species][short_code][timestep] = tupConstraint(
-                            name=_name('gc_', species, short_code, timestep, self.names),
-                            expr={
-                                "elements": [
-                                    self.variables['g_' + species][short_code][timestep].name,
-                                    {"elements": [-1, v_species, b_species],
-                                     "operation": "Mul"}],
-                                "operation": "Add"
-                            })
-                        constraints.append(self.constraints['gc_' + species][short_code][timestep])
-
-                        # constrain the total growth rate to the weighted sum of the phenotype growth rates
-                        self.constraints["totGc_" + species][short_code][timestep] = tupConstraint(
-                            name=_name("totGc_", species, short_code, timestep, self.names),
-                            expr={"elements": [{"elements":[-1, self.variables['g_' + species][short_code][timestep].name],
-                                                "operation":"Mul"}],
-                                  "operation": "Add"})
-                        self.constraints["totGc_" + species][short_code][timestep].expr["elements"].extend([
-                            self.variables['g_' + pheno][short_code][timestep].name for pheno in species_phenos[species]])
-                        constraints.append(self.constraints["totGc_" + species][short_code][timestep])
+                    # if primal_values and "OD" not in species:
+                    #     # TODO accommodation for determining the growth and rate of the OD would be intriguing
+                    #     time_hr = timestep*self.parameters['data_timestep_hr']
+                    #     # print(primal_values[short_code].keys())
+                    #     b_species = primal_values[short_code][signal + '|bio'][time_hr]
+                    #     if 'v_' + species not in self.variables:
+                    #         self.variables['v_' + species] = tupVariable(
+                    #             _name("v_", species, "", "", self.names))
+                    #         variables.append(self.variables['v_' + species])
+                    #     self.variables['g_' + species][short_code][timestep] = tupVariable(
+                    #         _name("g_", species, short_code, timestep, self.names))
+                    #     variables.append(self.variables['g_' + species][short_code][timestep])
+                    #     v_species = self.variables['v_' + species].name
+                    #     # v_values.append(v_value)
+                    #     self.constraints['gc_' + species][short_code][timestep] = tupConstraint(
+                    #         name=_name('gc_', species, short_code, timestep, self.names),
+                    #         expr={
+                    #             "elements": [
+                    #                 self.variables['g_' + species][short_code][timestep].name,
+                    #                 {"elements": [-1, v_species, b_species],
+                    #                  "operation": "Mul"}],
+                    #             "operation": "Add"
+                    #         })
+                    #     constraints.append(self.constraints['gc_' + species][short_code][timestep])
+                    #
+                    #     # constrain the total growth rate to the weighted sum of the phenotype growth rates
+                    #     self.constraints["totGc_" + species][short_code][timestep] = tupConstraint(
+                    #         name=_name("totGc_", species, short_code, timestep, self.names),
+                    #         expr={"elements": [{"elements":[-1, self.variables['g_' + species][short_code][timestep].name],
+                    #                             "operation":"Mul"}],
+                    #               "operation": "Add"})
+                    #     self.constraints["totGc_" + species][short_code][timestep].expr["elements"].extend([
+                    #         self.variables['g_' + pheno][short_code][timestep].name for pheno in species_phenos[species]])
+                    #     constraints.append(self.constraints["totGc_" + species][short_code][timestep])
 
                         # self.constraints["totVc_" + species][short_code][timestep] = tupConstraint(
                         #     name=_name("totVc_", species, short_code, timestep, self.names),
@@ -937,6 +1016,8 @@ class CommPhitting:
         self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
+        if "optimal" not in solution:
+            raise FeasibilityError(f'The solution is sub-optimal, with a(n) {solution} status.')
         if all(np.array(list(self.problem.primal_values.values())) == 0):
             raise NoFluxError("The simulation lacks any flux.")
         for variable, value in self.problem.primal_values.items():
@@ -965,8 +1046,6 @@ class CommPhitting:
             with ZipFile(export_zip_name, 'a', compression=ZIP_LZMA) as zp:
                 zp.write(primals_export_path)
                 os.remove(primals_export_path)
-        if "optimal" not in solution:
-            raise FeasibilityError(f'The solution is sub-optimal, with a(n) {solution} status.')
 
         # visualize the specified information
         if graphs:
@@ -1004,11 +1083,13 @@ class CommPhitting:
             dic[var][dim1] = {dim2: param for dim2 in dim2_list}
         return dic
 
-    def _universalize(self, param, var, next_dimension=None):
+    def _universalize(self, param, var, next_dimension=None, exclude=None):
         if not next_dimension:
             next_dimension = {}
             for organism in self.fluxes_tup.columns:
                 species, pheno = organism.split("_")
+                if pheno in exclude:
+                    continue
                 if species in next_dimension:
                     next_dimension[species].append(pheno)
                 else:
