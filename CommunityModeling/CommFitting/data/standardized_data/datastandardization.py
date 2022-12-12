@@ -268,9 +268,11 @@ class GrowthData:
                 data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                 ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
                 significant_deviation: float = 2, extract_zip_path: str = None):
+        # define the number of rows in the experimental data
         row_num = len(species_identities_rows)
         if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
             row_num = len(list(carbon_conc_series["rows"].values())[0])
+        # load and parse data and metadata
         (media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, fluxes_df) = GrowthData.load_data(
             base_media, community_members, solver, data_paths, ignore_trials,
             ignore_timesteps, significant_deviation, row_num, extract_zip_path
@@ -279,12 +281,10 @@ class GrowthData:
             base_media, community_members, species_abundances, carbon_conc_series,
             species_identities_rows, row_num, _findDate(data_paths["path"])
         )
-        GrowthData.biomass_growth(carbon_conc_series, fluxes_df)
-        # invert the trial_name_conversion keys and values
-        # for row in trial_name_conversion:
-        #     short_code_ID = {contents[0]:contents[1] for contents in trial_name_conversion[row].values()}
         growth_dfs = GrowthData.data_process(dataframes, trial_name_conversion)
-        return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc,
+        requisite_biomass = GrowthData.biomass_growth(
+            carbon_conc_series, fluxes_df, growth_dfs.index.unique(), trial_name_conversion, data_paths)
+        return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc, requisite_biomass,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time, media_conc)
 
     @staticmethod
@@ -680,9 +680,40 @@ class GrowthData:
         return constructed_experiments, standardized_carbon_conc, trial_name_conversion
 
     @staticmethod
-    def biomass_growth(carbon_conc, fluxes_df):
-        # TODO calculate the requisite bimomass to consume 90% of this substrate concentration
-        return
+    def biomass_growth(carbon_conc, fluxes_df, growth_df_trials, trial_name_conversion, data_paths):
+        # invert the trial_name_conversion and data_paths keys and values
+        short_code_trials = {}
+        for row in trial_name_conversion:
+            for col, contents in trial_name_conversion[row].items():
+                short_code_trials[contents[0]] = row+col
+            # short_code_trials = {contents[0]:contents[1] for contents in trial_name_conversion[row].values()}
+        name_signal = {}
+        for signal, name in data_paths.items():
+            name_signal[name] = signal
+
+        # calculate the 90% concentration for each carbon source
+        requisite_biomass = {}
+        for trial in [short_code_trials[ID] for ID in growth_df_trials]:
+            row_letter = trial[0] ; col_number = trial[1]
+            ## add rows where the initial concentration in the first trial is non-zero
+            short_code = trial_name_conversion[row_letter][col_number][0]
+            requisite_biomass[short_code] = {}
+            consuming_ratio = inf
+            utilized_phenos = {}
+            for met, conc_dict in carbon_conc["rows"].items():
+                if conc_dict[row_letter] == 0:
+                    continue
+                for col, val in fluxes_df.loc[f"EX_{met}_e0"].items():
+                    if val < 0:
+                        utilized_phenos[col] = val
+                        consuming_ratio = min(consuming_ratio, conc_dict[row_letter]*0.9 / val)
+            total_consumed = sum([absorption for absorption in utilized_phenos.values()])
+            for pheno, absorption in utilized_phenos.items():
+                species, phenotype = pheno.split("_")
+                fractional_biomass_contribution = fluxes_df.at["bio", pheno]*absorption/total_consumed
+                requisite_biomass[short_code][f"{species}|{name_signal[species]}"] = abs(
+                    consuming_ratio)*fractional_biomass_contribution
+        return requisite_biomass
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):

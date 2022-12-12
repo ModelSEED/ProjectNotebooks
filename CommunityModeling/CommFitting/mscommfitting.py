@@ -49,9 +49,6 @@ def find_dic_number(dic):
         num = find_dic_number(dic[k])
     return num
 
-def default_dict_values(dic, key, default):
-    return default if not key in dic else dic[key]
-
 def trial_contents(short_code, indices_tup, values):
     matches = [ele == short_code for ele in indices_tup]
     return np.array(values)[matches]
@@ -127,8 +124,8 @@ def parse_primals(primal_values, entity_labels, coefs=None, kcat_vals=None):
 def signal_species(signal):
     return signal.split(":")[0].replace(" ", "_")
 
-def _partition_coefs(initial_val):
-    return (initial_val, initial_val/2, initial_val/4, initial_val/8, initial_val/16)
+def _partition_coefs(initial_val, divisor):
+    return (initial_val, initial_val/divisor, initial_val/divisor**2, initial_val/divisor**3, initial_val/divisor**4)
 
 class CommPhitting:
 
@@ -143,11 +140,11 @@ class CommPhitting:
     #################### FITTING PHASE METHODS ####################
     def fit_kinetics3(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                       abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
-                      figures_zip_name:str=None, publishing:bool=False):
+                      export_zip_name: str = None, export_parameters: bool = True, requisite_biomass:dict=None,
+                      export_lp: str = 'CommPhitting_kinetics.lp', figures_zip_name:str=None, publishing:bool=False):
         if export_zip_name and os.path.exists(export_zip_name):
             os.remove(export_zip_name)
-        biomass_partition_coefs = [(100, 10, 1, 0.1, 0.01), _partition_coefs(4), _partition_coefs(0.5)]
+        biomass_partition_coefs = [_partition_coefs(100, 10), _partition_coefs(4, 2), _partition_coefs(0.5, 2)]
         kcat_primal = None
         for index, coefs in enumerate(biomass_partition_coefs):
             # solve for growth rate constants with the previously solved biomasses
@@ -155,12 +152,12 @@ class CommPhitting:
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
             new_simulation.define_problem(
                 parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                data_timesteps, export_zip_name, export_parameters, f'solveKcat.lp', kcat_primal, coefs)
+                data_timesteps, export_zip_name, export_parameters, f'solveKcat.lp', kcat_primal, coefs, requisite_biomass)
             new_simulation.compute(graphs, msdb_path, publishing=True, primals_export_path=f"kcat_primals.json")
             kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
             print(f"Done simulating with the coefficients for biomass partitions: {index}")
             pprint(kcat_primal)
-        return {k: val for k, val in new_simulation.values.items() if "v_" in k}
+        return {k: val for k, val in new_simulation.values.items() if "kcat" in k}
 
     def fit_kinetics2(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
                       abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
@@ -540,7 +537,7 @@ class CommPhitting:
 
     def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
-                       primal_values=None, biomass_coefs=None):
+                       primal_values=None, biomass_coefs=None, requisite_biomass:dict=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df)
         self.species_list = [signal_species(signal) for signal in growth_tup.columns if ":" in signal]
@@ -562,9 +559,8 @@ class CommPhitting:
             "bcv": 0.1,  # The highest fraction of species biomass that can change phenotypes in a timestep
             "cvmin": 0,  # The lowest value the limit on phenotype conversion goes,
             "kcat": 0.33,  # The kinetics constant that is externally adjusted
-            'diffpos': 1, 'diffneg': 1,
-            "stationary": 0.075,
-            # diffpos and diffneg coefficients that weight difference between experimental and predicted biomass
+            'diffpos': 1, 'diffneg': 1,  # coefficients that weight difference between experimental and predicted biomass
+            "stationary": 0.075,  # the penalty coefficient for the stationary phenotype
         })
         self.parameters.update(parameters)
         # define the appropriate kcat values
@@ -649,17 +645,17 @@ class CommPhitting:
                 for timestep in timesteps:
                     timestep = int(timestep)
                     variables = self.define_b_vars(pheno, short_code, timestep, variables)
-                    if short_code not in self.constraints["binc_" + pheno]:
-                        self.constraints['binc_' + pheno][short_code] = tupConstraint(
-                            _name("binc_", pheno, short_code, timestep, self.names), Bounds(0, 4), {
-                                "elements": [self.variables['bin1_' + pheno][short_code].name,
-                                             self.variables['bin2_' + pheno][short_code].name,
-                                             self.variables['bin3_' + pheno][short_code].name,
-                                             self.variables['bin4_' + pheno][short_code].name,
-                                             self.variables['bin5_' + pheno][short_code].name],
-                                "operation": "Add"
-                            })
-                        constraints.append(self.constraints['binc_' + pheno][short_code])
+                    # if short_code not in self.constraints["binc_" + pheno]:
+                    #     self.constraints['binc_' + pheno][short_code] = tupConstraint(
+                    #         _name("binc_", pheno, short_code, "", self.names), Bounds(0, 4), {
+                    #             "elements": [self.variables['bin1_' + pheno][short_code].name,
+                    #                          self.variables['bin2_' + pheno][short_code].name,
+                    #                          self.variables['bin3_' + pheno][short_code].name,
+                    #                          self.variables['bin4_' + pheno][short_code].name,
+                    #                          self.variables['bin5_' + pheno][short_code].name],
+                    #             "operation": "Add"
+                    #         })
+                    #     constraints.append(self.constraints['binc_' + pheno][short_code])
                     constraints = self.define_b_cons(pheno, short_code, timestep, constraints, biomass_coefs)
 
                     ## define the growth rate variable or primal value
@@ -793,14 +789,15 @@ class CommPhitting:
             signal_column_index = index + 2
             data_timestep = 1
             # TODO - The conversion must be defined per phenotype
-            self.variables[signal + '|conversion'] = tupVariable(signal + '|conversion',
-                                                                 bounds=Bounds(*self.conversion_bounds))
+            self.variables[signal + '|conversion'] = tupVariable(
+                signal + '|conversion', bounds=Bounds(*self.conversion_bounds))
             variables.append(self.variables[signal + '|conversion'])
 
             self.variables[signal + '|bio'] = {}; self.variables[signal + '|diffpos'] = {}
             self.variables[signal + '|diffneg'] = {}; self.variables['g_' + species] = {}
             self.constraints[signal + '|bioc'] = {}; self.constraints[signal + '|diffc'] = {}
-            self.constraints["gc_" + species] = {}; self.constraints["totVc_" + species] = {} ; self.constraints["totGc_" + species] = {}
+            self.constraints["gc_" + species] = {}; self.constraints["totVc_" + species] = {}
+            self.constraints["totGc_" + species] = {}; self.constraints[signal + '|bio_finalc'] = {}
             for short_code in unique_short_codes:
                 self.variables[signal + '|bio'][short_code] = {}
                 self.variables[signal + '|diffpos'][short_code] = {}
@@ -811,11 +808,13 @@ class CommPhitting:
                 self.constraints["gc_" + species][short_code] = {}
                 self.constraints["totVc_" + species][short_code] = {}
                 self.constraints["totGc_" + species][short_code] = {}
+                self.constraints[signal + '|bio_finalc'][short_code] = {}
                 # the value entries are matched to only the timesteps that are condoned by data_timesteps
                 values_slice = trial_contents(short_code, growth_tup.index, growth_tup.values)
                 if timesteps_to_delete:
                     values_slice = np.delete(values_slice, list(timesteps_to_delete[short_code]), axis=0)
-                for timestep in list(range(1, len(values_slice) + 1))[:-1]:
+                timesteps = list(range(1, len(values_slice) + 1))
+                for timestep in timesteps[:-1]:
                     ## the user timestep and data timestep must be synchronized
                     if int(timestep) * self.parameters['timestep_hr'] < data_timestep * self.parameters['data_timestep_hr']:
                         continue
@@ -828,7 +827,6 @@ class CommPhitting:
                     total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
                     for pheno_index, pheno in enumerate(self.fluxes_tup.columns):
                         ### define the collections of signal and pheno terms
-                        # TODO - The BIOLOG species_pheno_df index seems to misalign with the following calls
                         if species in pheno or "OD" in signal:
                             # if not isnumber(b_values[pheno][short_code][timestep]):
                             signal_sum.append({"operation": "Mul", "elements": [
@@ -886,17 +884,35 @@ class CommPhitting:
                                       self.variables[signal + '|diffneg'][short_code][timestep]])
 
                     # {signal}__conversion*datum = {signal}__bio
-                    self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
-                        name=_name(signal, '|bioc', short_code, timestep, self.names),
-                        expr={
-                            "elements": [
-                                {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
-                                 "operation": "Mul"},
-                                {"elements": [self.variables[signal + '|conversion'].name,
-                                              values_slice[timestep, signal_column_index]],
-                                 "operation": "Mul"}],
-                            "operation": "Add"
-                        })
+                    if timestep != timesteps[-2] or signal not in requisite_biomass[short_code]:
+                        self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
+                            name=_name(signal, '|bioc', short_code, timestep, self.names),
+                            expr={
+                                "elements": [
+                                    {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
+                                     "operation": "Mul"},
+                                    {"elements": [self.variables[signal + '|conversion'].name,
+                                                  values_slice[timestep, signal_column_index]],
+                                     "operation": "Mul"}],
+                                "operation": "Add"
+                            })
+                    if timestep == timesteps[-2] and signal in requisite_biomass[short_code]:
+                        estimated_biomass = requisite_biomass[short_code][signal
+                                            ] * int(timestep) * self.parameters['data_timestep_hr']
+                        self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
+                            _name(signal, '|bioc', short_code, timestep, self.names),
+                            Bounds(estimated_biomass*0.9, estimated_biomass*1.1),
+                            {
+                                "elements": [
+                                    {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
+                                     "operation": "Mul"},
+                                    {"elements": [self.variables[signal + '|conversion'].name,
+                                                  values_slice[timestep, signal_column_index]],
+                                     "operation": "Mul"}],
+                                "operation": "Add"
+                            })
+                        print(self.constraints[signal + '|bioc'][short_code][timestep])
+                    constraints.append(self.constraints[signal + '|bioc'][short_code][timestep])
 
                     # species growth rate
                     # if primal_values and "OD" not in species:
@@ -962,8 +978,7 @@ class CommPhitting:
                         self.constraints[signal + "|diffc"][short_code][timestep].expr["elements"].append(sum(signal_sum))
                     else:
                         raise ValueError(f"The {signal_sum} value has unexpected contents.")
-                    constraints.extend([self.constraints[signal + '|bioc'][short_code][timestep],
-                                        self.constraints[signal + '|diffc'][short_code][timestep]])
+                    constraints.append(self.constraints[signal + '|diffc'][short_code][timestep])
 
                     # print([self.constraints[signal + '__bioc'][short_code][timestep],
                     #                     self.constraints[signal + '__diffc'][short_code][timestep]])
@@ -1013,6 +1028,7 @@ class CommPhitting:
 
     def compute(self, graphs: list = None, msdb_path:str=None, export_zip_name=None, figures_zip_name=None, publishing=False,
                 primals_export_path:str = "primal_values.json"):
+        print("starting optimization")
         self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
@@ -1032,8 +1048,8 @@ class CommPhitting:
                 # print(variable, value)
                 basename, short_code, timestep = variable.split('-')
                 time_hr = int(timestep) * self.parameters['data_timestep_hr']
-                self.values[short_code] = default_dict_values(self.values, short_code, {})
-                self.values[short_code][basename] = default_dict_values(self.values[short_code], basename, {})
+                self.values[short_code] = self.values.get(short_code, {})
+                self.values[short_code][basename] = self.values[short_code].get(basename, {})
                 self.values[short_code][basename][time_hr] = value
 
         # export the processed primal values for graphing
@@ -1176,7 +1192,7 @@ class CommPhitting:
                 y_label = r'Biomass ($\frac{g}{L}$)'
             elif 'growth' in graph['content']:
                 y_label = r'Biomass growth ($\frac{g}{hr}$)'
-            graph["experimental_data"] = default_dict_values(graph, "experimental_data", False)
+            graph["experimental_data"] = graph.get("experimental_data", False)
             if "painting" not in graph:
                 graph["painting"] = {
                     "OD": {
@@ -1194,7 +1210,7 @@ class CommPhitting:
                         "linestyle": "dotted",
                         "name": "P. fluorescens"
                     }}
-            graph["parsed"] = False if "parsed" not in graph else graph["parsed"]
+            graph["parsed"] = graph.get("parsed", False)
             if 'phenotype' in graph and graph['phenotype'] == '*':
                 if "species" not in graph:
                     graph['species'] = self.species_list
@@ -1314,7 +1330,7 @@ class CommPhitting:
                             style = "dashdot" if "model" in label else style
                             style = "solid" if ("OD" in name and not graph["experimental_data"]
                                                 or "total" in graph["content"]) else style
-                            color = None if "color" not in graph["painting"][name] else graph["painting"][name]["color"]
+                            color = graph["painting"][name].get("color", None)
                             if not graph["parsed"]:
                                 ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
                             else:
@@ -1322,7 +1338,7 @@ class CommPhitting:
                                 fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
                                 ax.set_xlabel(x_label) ; ax.set_ylabel(y_label) ; ax.grid(axis="y") ; ax.legend()
                                 ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
-                                phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
+                                phenotype_id = graph.get('phenotype', "")
                                 if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                                     phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
                                 fig_name = f'{"_".join([trial, name, phenotype_id, content])}.jpg'
@@ -1332,7 +1348,7 @@ class CommPhitting:
                     if graph["parsed"]:
                         break
 
-                    phenotype_id = "" if "phenotype" not in graph else graph['phenotype']
+                    phenotype_id = graph.get('phenotype', "")
                     if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                         phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
 
