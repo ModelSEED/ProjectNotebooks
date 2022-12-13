@@ -153,9 +153,12 @@ class CommPhitting:
             new_simulation.define_problem(
                 parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
                 data_timesteps, export_zip_name, export_parameters, f'solveKcat.lp', kcat_primal, coefs, requisite_biomass)
+            time1 = process_time()
             new_simulation.compute(graphs, msdb_path, publishing=True, primals_export_path=f"kcat_primals.json")
             kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
-            print(f"Done simulating with the coefficients for biomass partitions: {index}")
+            time2 = process_time()
+            print(f"Done simulating with the coefficients for biomass partitions: {index}"
+                  f"\n{(time2-time1)/60} minutes")
             pprint(kcat_primal)
         return {k: val for k, val in new_simulation.values.items() if "kcat" in k}
 
@@ -645,17 +648,17 @@ class CommPhitting:
                 for timestep in timesteps:
                     timestep = int(timestep)
                     variables = self.define_b_vars(pheno, short_code, timestep, variables)
-                    # if short_code not in self.constraints["binc_" + pheno]:
-                    #     self.constraints['binc_' + pheno][short_code] = tupConstraint(
-                    #         _name("binc_", pheno, short_code, "", self.names), Bounds(0, 4), {
-                    #             "elements": [self.variables['bin1_' + pheno][short_code].name,
-                    #                          self.variables['bin2_' + pheno][short_code].name,
-                    #                          self.variables['bin3_' + pheno][short_code].name,
-                    #                          self.variables['bin4_' + pheno][short_code].name,
-                    #                          self.variables['bin5_' + pheno][short_code].name],
-                    #             "operation": "Add"
-                    #         })
-                    #     constraints.append(self.constraints['binc_' + pheno][short_code])
+                    if short_code not in self.constraints["binc_" + pheno]:
+                        self.constraints['binc_' + pheno][short_code] = tupConstraint(
+                            _name("binc_", pheno, short_code, "", self.names), Bounds(0, 4), {
+                                "elements": [self.variables['bin1_' + pheno][short_code].name,
+                                             self.variables['bin2_' + pheno][short_code].name,
+                                             self.variables['bin3_' + pheno][short_code].name,
+                                             self.variables['bin4_' + pheno][short_code].name,
+                                             self.variables['bin5_' + pheno][short_code].name],
+                                "operation": "Add"
+                            })
+                        constraints.append(self.constraints['binc_' + pheno][short_code])
                     constraints = self.define_b_cons(pheno, short_code, timestep, constraints, biomass_coefs)
 
                     ## define the growth rate variable or primal value
@@ -808,7 +811,7 @@ class CommPhitting:
                 self.constraints["gc_" + species][short_code] = {}
                 self.constraints["totVc_" + species][short_code] = {}
                 self.constraints["totGc_" + species][short_code] = {}
-                self.constraints[signal + '|bio_finalc'][short_code] = {}
+                # self.constraints[signal + '|bio_finalc'][short_code] = {}
                 # the value entries are matched to only the timesteps that are condoned by data_timesteps
                 values_slice = trial_contents(short_code, growth_tup.index, growth_tup.values)
                 if timesteps_to_delete:
@@ -873,8 +876,15 @@ class CommPhitting:
                         self.constraints['dbc_' + pheno][short_code][timestep].expr["elements"].extend(biomass_term)
                         constraints.append(self.constraints['dbc_' + pheno][short_code][timestep])
 
-                    self.variables[signal + '|bio'][short_code][timestep] = tupVariable(
-                        _name(signal, '|bio', short_code, timestep, self.names))
+                    if timestep != timesteps[-2] or signal not in requisite_biomass[short_code]:
+                        self.variables[signal + '|bio'][short_code][timestep] = tupVariable(
+                            _name(signal, '|bio', short_code, timestep, self.names))
+                    else:
+                        biomass_flux = requisite_biomass[short_code][signal]["bio"]
+                        estimated_biomass = biomass_flux * int(timestep)*self.parameters['data_timestep_hr']
+                        self.variables[signal + '|bio'][short_code][timestep] = tupVariable(
+                            _name(signal, '|bio', short_code, timestep, self.names),
+                            Bounds(estimated_biomass * 0.7, estimated_biomass * 1.3))
                     self.variables[signal + '|diffpos'][short_code][timestep] = tupVariable(
                         _name(signal, '|diffpos', short_code, timestep, self.names), Bounds(0, 100))
                     self.variables[signal + '|diffneg'][short_code][timestep] = tupVariable(
@@ -884,34 +894,29 @@ class CommPhitting:
                                       self.variables[signal + '|diffneg'][short_code][timestep]])
 
                     # {signal}__conversion*datum = {signal}__bio
-                    if timestep != timesteps[-2] or signal not in requisite_biomass[short_code]:
-                        self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
-                            name=_name(signal, '|bioc', short_code, timestep, self.names),
-                            expr={
-                                "elements": [
-                                    {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
-                                     "operation": "Mul"},
-                                    {"elements": [self.variables[signal + '|conversion'].name,
-                                                  values_slice[timestep, signal_column_index]],
-                                     "operation": "Mul"}],
-                                "operation": "Add"
-                            })
-                    if timestep == timesteps[-2] and signal in requisite_biomass[short_code]:
-                        estimated_biomass = requisite_biomass[short_code][signal
-                                            ] * int(timestep) * self.parameters['data_timestep_hr']
-                        self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
-                            _name(signal, '|bioc', short_code, timestep, self.names),
-                            Bounds(estimated_biomass*0.9, estimated_biomass*1.1),
-                            {
-                                "elements": [
-                                    {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
-                                     "operation": "Mul"},
-                                    {"elements": [self.variables[signal + '|conversion'].name,
-                                                  values_slice[timestep, signal_column_index]],
-                                     "operation": "Mul"}],
-                                "operation": "Add"
-                            })
-                        print(self.constraints[signal + '|bioc'][short_code][timestep])
+                    self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
+                        name=_name(signal, '|bioc', short_code, timestep, self.names),
+                        expr={
+                            "elements": [
+                                {"elements": [-1, self.variables[signal + '|bio'][short_code][timestep].name],
+                                 "operation": "Mul"},
+                                {"elements": [self.variables[signal + '|conversion'].name,
+                                              values_slice[timestep, signal_column_index]],
+                                 "operation": "Mul"}],
+                            "operation": "Add"
+                        })
+                    # if timestep == timesteps[-2] and signal in requisite_biomass[short_code]:
+                    #     estimated_biomass = requisite_biomass[short_code][signal] * int(
+                    #         timestep) * self.parameters['data_timestep_hr']
+                    #     self.constraints[signal + '|bio_finalc'][short_code] = tupConstraint(
+                    #         _name(signal, '|bio_finalc', short_code, timestep, self.names),
+                    #         Bounds(estimated_biomass*0.7, estimated_biomass*1.3),
+                    #         {"elements": [self.variables[signal + '|conversion'].name,
+                    #                       values_slice[timestep, signal_column_index]],
+                    #          "operation": "Mul"}
+                    #         )
+                    #     print(self.constraints[signal + '|bio_finalc'][short_code])
+                    #     constraints.append(self.constraints[signal + '|bio_finalc'][short_code])
                     constraints.append(self.constraints[signal + '|bioc'][short_code][timestep])
 
                     # species growth rate

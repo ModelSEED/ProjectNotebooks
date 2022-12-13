@@ -267,7 +267,7 @@ class GrowthData:
     def process(community_members: dict, base_media=None, solver: str = 'glpk',
                 data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                 ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
-                significant_deviation: float = 2, extract_zip_path: str = None):
+                significant_deviation: float = 2, extract_zip_path: str = None, msdb_path:str=None):
         # define the number of rows in the experimental data
         row_num = len(species_identities_rows)
         if "rows" in carbon_conc_series and carbon_conc_series["rows"]:
@@ -283,7 +283,7 @@ class GrowthData:
         )
         growth_dfs = GrowthData.data_process(dataframes, trial_name_conversion)
         requisite_biomass = GrowthData.biomass_growth(
-            carbon_conc_series, fluxes_df, growth_dfs.index.unique(), trial_name_conversion, data_paths)
+            carbon_conc_series, fluxes_df, growth_dfs.index.unique(), trial_name_conversion, data_paths, msdb_path, community_members)
         return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc, requisite_biomass,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time, media_conc)
 
@@ -680,7 +680,15 @@ class GrowthData:
         return constructed_experiments, standardized_carbon_conc, trial_name_conversion
 
     @staticmethod
-    def biomass_growth(carbon_conc, fluxes_df, growth_df_trials, trial_name_conversion, data_paths):
+    def biomass_growth(carbon_conc, fluxes_df, growth_df_trials, trial_name_conversion, data_paths, msdb_path, community_members):
+        # parse inputs
+        if msdb_path:
+            from modelseedpy.biochem import from_local
+            msdb = from_local(msdb_path)
+        pheno_info = {}
+        for model, content in community_members.items():
+            for pheno, mets in content["phenotypes"].items():
+                pheno_info[f"{content['name']}_{pheno}"] = mets
         # invert the trial_name_conversion and data_paths keys and values
         short_code_trials = {}
         for row in trial_name_conversion:
@@ -692,28 +700,82 @@ class GrowthData:
             name_signal[name] = signal
 
         # calculate the 90% concentration for each carbon source
-        requisite_biomass = {}
+        requisite_fluxes = {}
         for trial in [short_code_trials[ID] for ID in growth_df_trials]:
             row_letter = trial[0] ; col_number = trial[1]
             ## add rows where the initial concentration in the first trial is non-zero
             short_code = trial_name_conversion[row_letter][col_number][0]
-            requisite_biomass[short_code] = {}
-            consuming_ratio = inf
+            requisite_fluxes[short_code] = {}
             utilized_phenos = {}
             for met, conc_dict in carbon_conc["rows"].items():
                 if conc_dict[row_letter] == 0:
                     continue
-                for col, val in fluxes_df.loc[f"EX_{met}_e0"].items():
+                for pheno, val in fluxes_df.loc[f"EX_{met}_e0"].items():
                     if val < 0:
-                        utilized_phenos[col] = val
-                        consuming_ratio = min(consuming_ratio, conc_dict[row_letter]*0.9 / val)
+                        utilized_phenos[pheno] = conc_dict[row_letter]*0.9 / val
             total_consumed = sum([absorption for absorption in utilized_phenos.values()])
+            excreta = {}
             for pheno, absorption in utilized_phenos.items():
                 species, phenotype = pheno.split("_")
-                fractional_biomass_contribution = fluxes_df.at["bio", pheno]*absorption/total_consumed
-                requisite_biomass[short_code][f"{species}|{name_signal[species]}"] = abs(
-                    consuming_ratio)*fractional_biomass_contribution
-        return requisite_biomass
+                fluxes = fluxes_df.loc[:, pheno] * abs(utilized_phenos[pheno])*(absorption/total_consumed)
+                requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = fluxes[fluxes != 0]
+                if "excreted" in pheno_info[pheno]:
+                    for met in pheno_info[pheno]["excreted"]:
+                        excreta[met] = fluxes.loc[f"EX_{met}_e0"]
+            ## determine the fluxes for the other members of the community through cross-feeding
+            # excreta_rxns = {rxn:flux for pheno, ratio in utilized_phenos.items()
+            #                 for rxn, flux in fluxes_df[pheno].items() if flux > 0}
+            # excreta_rxns = [f"EX_{met}_e0" for met in excreta]
+            participated_species = []
+            for pheno, mets in pheno_info.items():
+                species, phenotype = pheno.split("_")
+                if any([species in phenotype for phenotype in utilized_phenos]) or species in participated_species:
+                    continue
+                requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = 0
+                for met in mets["consumed"]:
+                    print(met, excreta)
+                    if met not in excreta:
+                        continue
+                    fluxes = abs(excreta[met] * 0.99 / fluxes_df.loc[f"EX_{met}_e0", pheno]) * fluxes_df.loc[:, pheno]
+                    requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = fluxes[fluxes != 0]
+                    participated_species.append(species)
+                # cross_feeding_rxns = {rxn:flux for rxn, flux in fluxes_df[pheno].items()
+                #                       if (flux < 0 and rxn in excreta_rxns)}
+                # if not cross_feeding_rxns or f"{species}|{name_signal[species]}" in requisite_fluxes[short_code]:
+                #     continue
+                ### determine the largest carbon excreta
+                # for rxn, flux in excreta_rxns.items():
+                #     if rxn not in cross_feeding_rxns.keys():
+                #         print(rxn)
+                #         continue
+                #     if flux <= largest_c_consumption[0]:
+                #         continue
+                #     if "msdb" in locals():
+                #         met = msdb.compounds.get_by_id(re.search(r"(cpd\d{5})", rxn).group())
+                #         if "C" not in met.elements:
+                #             continue
+                #     largest_c_consumption = (flux, rxn)
+                ### calculate the fluxes of the corresponding member to consume 90% of the excreta source
+                # c_flux, c_rxn = largest_c_consumption
+                # print(largest_c_consumption)
+
+                #### select the most veracious phenotype from each signal, since flux disribution cannot be determined a posteriori
+
+
+            # normalize the results to prefer interspecies instead of interphenotype exchanges 9:1
+            # for signal in requisite_fluxes[short_code]:
+            #     if len(requisite_fluxes[short_code][signal].keys()) == 1:
+            #         continue
+            #     print(requisite_fluxes[short_code][signal], requisite_fluxes[short_code][signal][1:])
+            #     for pheno in requisite_fluxes[short_code][signal].keys():
+            #         print(pheno)
+            #         species, phenotype = pheno.split("_")
+            #         other_signals = [sig for sig in requisite_fluxes[short_code] if sig != signal]
+            #         for sig in other_signals:
+            #             for ph in requisite_fluxes[short_code][sig]:
+            #                 if phenotype in ph:
+            #                     requisite_fluxes[short_code][signal][pheno] *= 0.1
+        return requisite_fluxes
 
     @staticmethod
     def data_process(dataframes, trial_name_conversion):
