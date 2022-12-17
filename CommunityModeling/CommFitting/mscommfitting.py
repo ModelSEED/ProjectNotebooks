@@ -126,17 +126,21 @@ def _partition_coefs(initial_val, divisor):
 
 class CommPhitting:
 
-    def __init__(self, fluxes_df, carbon_conc, media_conc, growth_df=None, experimental_metadata=None):
+    def __init__(self, fluxes_df, carbon_conc, media_conc, growth_df=None, experimental_metadata=None, msdb_path=None):
         self.parameters, self.variables, self.constraints, = {}, {}, {}
         self.zipped_output, self.plots = [], []
         self.fluxes_tup = FBAHelper.parse_df(fluxes_df)
         self.growth_df = growth_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
         self.names = []
+        if msdb_path:
+            from modelseedpy.biochem import from_local
+            self.msdb = from_local(msdb_path)
 
     #################### FITTING PHASE METHODS ####################
+
     def fit_kcat(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
-                 abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
+                 abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None,
                  export_zip_name: str = None, export_parameters: bool = True, requisite_biomass:dict=None,
                  export_lp: str = f'solveKcat.lp', publishing=True, primals_export_path=None):
         if export_zip_name and os.path.exists(export_zip_name):
@@ -152,7 +156,7 @@ class CommPhitting:
                 data_timesteps, export_zip_name, export_parameters, export_lp, kcat_primal, coefs, requisite_biomass)
             time1 = process_time()
             primals_export_path = primals_export_path or re.sub(r"(.lp)", ".json", export_lp)
-            new_simulation.compute(graphs, msdb_path, export_zip_name, None, publishing, primals_export_path)
+            new_simulation.compute(graphs, export_zip_name, None, publishing, primals_export_path)
             kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
             time2 = process_time()
             print(f"Done simulating with the coefficients for biomass partitions: {index}"
@@ -166,7 +170,7 @@ class CommPhitting:
             publishing:bool=False):
         self.define_problem(parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc, data_timesteps, export_zip_name,
                             export_parameters, export_lp)
-        self.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
+        self.compute(graphs, export_zip_name, figures_zip_name, publishing)
 
     def _update_problem(self, contents: Iterable):
         for content in contents:
@@ -491,10 +495,15 @@ class CommPhitting:
 
         # construct the problem
         objective = tupObjective("minimize variance and phenotypic transitions", [], "min")
-        constraints, variables = [], []
+        constraints, variables, simulated_mets = [], [], []
         time_1 = process_time()
-        for met_id in self.mets_to_track:
+        for exID in self.fluxes_tup.index:
+            met_id = re.search(r"(cpd\d{5})", exID)
+            met = self.msdb.compounds.get_by_id(met_id)
+            if "C" not in met.elements:
+                continue
             concID = f"c_{met_id}_e0"
+            simulated_mets.append(concID)
             self.variables[concID] = {}; self.constraints['dcc_' + met_id] = {}
 
             # define the growth rate for each metabolite and concentrations
@@ -623,7 +632,7 @@ class CommPhitting:
         print(f'Done with concentrations and biomass loops: {(time_2 - time_1) / 60} min')
         for r_index, met in enumerate(self.fluxes_tup.index):
             met_id = _met_id_parser(met)
-            if self.mets_to_track and (met_id == 'cpd00001' or met_id not in self.mets_to_track):
+            if met_id not in simulated_mets:
                 continue
             concID = f"c_{met_id}_e0"
             for short_code in unique_short_codes:
@@ -841,7 +850,7 @@ class CommPhitting:
         time_6 = process_time()
         print(f'Done exporting the content: {(time_6 - time_5) / 60} min')
 
-    def compute(self, graphs: list = None, msdb_path:str=None, export_zip_name=None, figures_zip_name=None, publishing=False,
+    def compute(self, graphs: list = None, export_zip_name=None, figures_zip_name=None, publishing=False,
                 primals_export_path:str = "primal_values.json"):
         print("starting optimization")
         self.values = {}
@@ -880,7 +889,7 @@ class CommPhitting:
 
         # visualize the specified information
         if graphs:
-            self.graph(graphs, msdb_path=msdb_path, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing)
+            self.graph(graphs, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing)
 
     def load_model(self, mscomfit_json_path: str = None, zip_name: str = None, model_to_load: dict = None):
         if zip_name:
@@ -960,7 +969,7 @@ class CommPhitting:
         ax.set_xticks(x_ticks[::x_axis_split])
         return ax, labels
 
-    def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None, msdb_path:str=None,
+    def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None,
               export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None):
         print(export_zip_name)
         # define the default timestep ratio as 1
@@ -974,9 +983,6 @@ class CommPhitting:
                 self.values = json.load(primal)
 
         # plot the content for desired trials
-        if msdb_path and not hasattr(self, "msdb"):
-            from modelseedpy.biochem import from_local
-            self.msdb = from_local(msdb_path)
         x_axis_split = int(2 / data_timestep_hr / timestep_ratio)
         self.plots = set()
         contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_', "conc": "c_"}
@@ -1281,7 +1287,7 @@ class BIOLOGPhitting(CommPhitting):
                 graph["trial"] = index
                 new_graphs.append(graph)
             try:
-                CommPhitting.compute(self, new_graphs, None, export_zip_name, figures_zip_name, publishing)
+                CommPhitting.compute(self, new_graphs, export_zip_name, figures_zip_name, publishing)
                 break
             except (NoFluxError) as e:
                 print(e)
