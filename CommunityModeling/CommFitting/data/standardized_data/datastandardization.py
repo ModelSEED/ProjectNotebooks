@@ -702,13 +702,13 @@ class GrowthData:
         # calculate the 90% concentration for each carbon source
         requisite_fluxes = {}
         for trial in [short_code_trials[ID] for ID in growth_df_trials]:
-            row_letter = trial[0] ; col_number = trial[1]
+            row_letter = trial[0] ; col_number = trial[1:]
             ## add rows where the initial concentration in the first trial is non-zero
             short_code = trial_name_conversion[row_letter][col_number][0]
             requisite_fluxes[short_code] = {}
             utilized_phenos = {}
             for met, conc_dict in carbon_conc["rows"].items():
-                if conc_dict[row_letter] == 0:
+                if conc_dict[row_letter] == 0 or f"EX_{met}_e0" not in fluxes_df.index:
                     continue
                 for pheno, val in fluxes_df.loc[f"EX_{met}_e0"].items():
                     if val < 0:
@@ -723,58 +723,18 @@ class GrowthData:
                     for met in pheno_info[pheno]["excreted"]:
                         excreta[met] = fluxes.loc[f"EX_{met}_e0"]
             ## determine the fluxes for the other members of the community through cross-feeding
-            # excreta_rxns = {rxn:flux for pheno, ratio in utilized_phenos.items()
-            #                 for rxn, flux in fluxes_df[pheno].items() if flux > 0}
-            # excreta_rxns = [f"EX_{met}_e0" for met in excreta]
             participated_species = []
             for pheno, mets in pheno_info.items():
                 species, phenotype = pheno.split("_")
-                if any([species in phenotype for phenotype in utilized_phenos]) or species in participated_species:
+                if any([species in ph for ph in utilized_phenos]) or species in participated_species:
                     continue
                 requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = 0
                 for met in mets["consumed"]:
-                    print(met, excreta)
                     if met not in excreta:
                         continue
                     fluxes = abs(excreta[met] * 0.99 / fluxes_df.loc[f"EX_{met}_e0", pheno]) * fluxes_df.loc[:, pheno]
                     requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = fluxes[fluxes != 0]
                     participated_species.append(species)
-                # cross_feeding_rxns = {rxn:flux for rxn, flux in fluxes_df[pheno].items()
-                #                       if (flux < 0 and rxn in excreta_rxns)}
-                # if not cross_feeding_rxns or f"{species}|{name_signal[species]}" in requisite_fluxes[short_code]:
-                #     continue
-                ### determine the largest carbon excreta
-                # for rxn, flux in excreta_rxns.items():
-                #     if rxn not in cross_feeding_rxns.keys():
-                #         print(rxn)
-                #         continue
-                #     if flux <= largest_c_consumption[0]:
-                #         continue
-                #     if "msdb" in locals():
-                #         met = msdb.compounds.get_by_id(re.search(r"(cpd\d{5})", rxn).group())
-                #         if "C" not in met.elements:
-                #             continue
-                #     largest_c_consumption = (flux, rxn)
-                ### calculate the fluxes of the corresponding member to consume 90% of the excreta source
-                # c_flux, c_rxn = largest_c_consumption
-                # print(largest_c_consumption)
-
-                #### select the most veracious phenotype from each signal, since flux disribution cannot be determined a posteriori
-
-
-            # normalize the results to prefer interspecies instead of interphenotype exchanges 9:1
-            # for signal in requisite_fluxes[short_code]:
-            #     if len(requisite_fluxes[short_code][signal].keys()) == 1:
-            #         continue
-            #     print(requisite_fluxes[short_code][signal], requisite_fluxes[short_code][signal][1:])
-            #     for pheno in requisite_fluxes[short_code][signal].keys():
-            #         print(pheno)
-            #         species, phenotype = pheno.split("_")
-            #         other_signals = [sig for sig in requisite_fluxes[short_code] if sig != signal]
-            #         for sig in other_signals:
-            #             for ph in requisite_fluxes[short_code][sig]:
-            #                 if phenotype in ph:
-            #                     requisite_fluxes[short_code][signal][pheno] *= 0.1
         return requisite_fluxes
 
     @staticmethod
@@ -939,101 +899,3 @@ class BiologData:
         biolog_df.to_csv("growth_spectra.csv")
 
         return biolog_df
-
-
-
-#
-# # define the environment path
-# import os
-#
-# # local_cobrakbase_path = os.path.join('/Users/afreiburger/Documents')
-# local_cobrakbase_path = os.path.join('C:', 'Users', 'Andrew Freiburger', 'Documents', 'Argonne', 'cobrakbase')
-# os.environ["HOME"] = local_cobrakbase_path
-#
-# # import the models
-# import cobrakbase
-#
-# # with open("/Users/afreiburger/Documents/kbase_token.txt") as token_file:
-# with open("C:/Users/Andrew Freiburger/Documents/Argonne/kbase_token.txt") as token_file:
-#     kbase_api = cobrakbase.KBaseAPI(token_file.readline())
-# ecoli = kbase_api.get_from_ws("iML1515", 76994)
-#
-# import warnings
-#
-# warnings.filterwarnings(action='once')
-#
-# from pandas import set_option
-#
-# set_option("display.max_rows", None)
-# graphs_list = [
-#     {
-#         'trial':'G48',
-#         "phenotype": '*',
-#         'content': 'biomass',
-#         'experimental_data': False
-#     },
-#     {
-#         'trial':'G48',
-#         'content': "conc",
-#     },
-#     {
-#         'trial':'G48',
-#         "phenotype": '*',
-#         "species":["ecoli"],
-#         'content': 'biomass'
-#     },
-#     {
-#         'trial':'G48',
-#         'content': 'total_biomass',
-#         'experimental_data': True
-#     }
-# ]
-#
-# growth_data_path="../Jeffs_data/PF-EC 4-29-22 ratios and 4HB changes.xlsx"
-# from time import process_time
-# time1 = process_time()
-# experimental_metadata, growth_df, fluxes_df, standardized_carbon_conc, trial_name_conversion, species_phenos_df, data_timestep_hr, simulation_timestep, media_conc = GrowthData.process(
-#     community_members = {
-#         kbase_api.get_from_ws("iML1515",76994): {
-#             'name': 'ecoli',
-#             'phenotypes': {'acetate': {"cpd00029":[-1,-1]}, #kbase_api.get_from_ws('93465/13/1'),
-#                         'malt': {"cpd00179":[-1,-1]} #kbase_api.get_from_ws("93465/23/1")} #'93465/9/1')}   # !!! The phenotype name must align with the experimental IDs for the graphs to find the appropriate data
-#             }
-#         },
-#         kbase_api.get_from_ws("iSB1139.kb.gf",30650): {
-#             'name': 'pf',
-#             'phenotypes': {'acetate': {"cpd00029":[-1,-1]}, # kbase_api.get_from_ws("93465/25/1"), #'93465/11/1'),
-#                         '4HB': {"cpd00136":[-1,-1]} # kbase_api.get_from_ws('	93465/27/1')} #93465/15/1')}
-#             }
-#         }
-#     },
-#     data_paths = {'path':growth_data_path, 'Raw OD(590)':'OD', 'mNeonGreen':'pf', 'mRuby':'ecoli'},
-#     species_abundances = {
-#         1:{"ecoli":0, "pf":1},
-#         2:{"ecoli":1, "pf":50},
-#         3:{"ecoli":1, "pf":20},
-#         4:{"ecoli":1, "pf":10},
-#         5:{"ecoli":1, "pf":3},
-#         6:{"ecoli":1, "pf":1},
-#         7:{"ecoli":3, "pf":1},
-#         8:{"ecoli":10, "pf":1},
-#         9:{"ecoli":20, "pf":1},
-#         10:{"ecoli":1, "pf":0},
-#         11:{"ecoli":0, "pf":0}
-#       },
-#     carbon_conc_series = {'rows': {
-#         'cpd00136': {'B':0, 'C': 0, 'D': 1, 'E': 1, 'F': 4, 'G': 4},
-#         'cpd00179': {'B':5, 'C': 5, 'D':5, 'E': 5, 'F': 5, 'G': 5},
-#     }},
-#     ignore_trials = {'rows': ['C', 'D', 'E', 'F', 'G'], 'columns': [1,2,3,5,6,7,8,9,10,11,12]},
-#     # ignore_timesteps="10:",  # The
-#     species_identities_rows = {
-#         1:{"ecoli":"mRuby"},
-#         2:{"ecoli":"ACS"},
-#         3:{"ecoli":"mRuby"},
-#         4:{"ecoli":"ACS"},
-#         5:{"ecoli":"mRuby"},
-#         6:{"ecoli":"ACS"}
-#     }
-# )
-# print(f"{(process_time()-time1)/60} minutes")

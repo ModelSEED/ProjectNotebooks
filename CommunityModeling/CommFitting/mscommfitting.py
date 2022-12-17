@@ -10,7 +10,6 @@ from scipy.constants import hour, minute
 from scipy.optimize import newton
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
-from itertools import chain
 from matplotlib import pyplot
 from typing import Union, Iterable
 from pprint import pprint
@@ -107,9 +106,7 @@ def parse_primals(primal_values, entity_labels, coefs=None, kcat_vals=None):
                     kcat_primal[species] = {}
                 if pheno not in kcat_primal[species]:
                     kcat_primal[species][pheno] = 0
-                print(name, value)
                 if value == 0:
-                    print(coefs[int(number)-1], kcat_vals[species][pheno])
                     kcat_primal[species][pheno] += coefs[int(number)-1]*kcat_vals[species][pheno]
 
         return kcat_primal
@@ -138,10 +135,10 @@ class CommPhitting:
         self.names = []
 
     #################### FITTING PHASE METHODS ####################
-    def fit_kinetics3(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
-                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                      export_zip_name: str = None, export_parameters: bool = True, requisite_biomass:dict=None,
-                      export_lp: str = 'CommPhitting_kinetics.lp', figures_zip_name:str=None, publishing:bool=False):
+    def fit_kcat(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
+                 abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
+                 export_zip_name: str = None, export_parameters: bool = True, requisite_biomass:dict=None,
+                 export_lp: str = f'solveKcat.lp', publishing=True, primals_export_path=None):
         if export_zip_name and os.path.exists(export_zip_name):
             os.remove(export_zip_name)
         biomass_partition_coefs = [_partition_coefs(100, 10), _partition_coefs(4, 2), _partition_coefs(0.5, 2)]
@@ -152,117 +149,16 @@ class CommPhitting:
                 self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
             new_simulation.define_problem(
                 parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                data_timesteps, export_zip_name, export_parameters, f'solveKcat.lp', kcat_primal, coefs, requisite_biomass)
+                data_timesteps, export_zip_name, export_parameters, export_lp, kcat_primal, coefs, requisite_biomass)
             time1 = process_time()
-            new_simulation.compute(graphs, msdb_path, publishing=True, primals_export_path=f"kcat_primals.json")
+            primals_export_path = primals_export_path or re.sub(r"(.lp)", ".json", export_lp)
+            new_simulation.compute(graphs, msdb_path, export_zip_name, None, publishing, primals_export_path)
             kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
             time2 = process_time()
             print(f"Done simulating with the coefficients for biomass partitions: {index}"
                   f"\n{(time2-time1)/60} minutes")
             pprint(kcat_primal)
         return {k: val for k, val in new_simulation.values.items() if "kcat" in k}
-
-    def fit_kinetics2(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
-                      abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                      export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
-                      figures_zip_name:str=None, publishing:bool=False):
-        if export_zip_name and os.path.exists(export_zip_name):
-            os.remove(export_zip_name)
-        # solve for biomass b with parameterized growth rate constant
-        simple_simulation = CommPhitting(
-            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-        simple_simulation.define_problem(
-            parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-            data_timesteps, export_zip_name, export_parameters, f'solveBiomass.lp')
-        simple_simulation.compute(primals_export_path=f"b_primals.json")
-        b_values = parse_primals(simple_simulation.values, ["b_", "|bio"])
-        print("Done solving for biomass with the parameterized growth rate constants")
-
-        # solve for growth rate constants with the previously solved biomasses
-        new_simulation = CommPhitting(
-            self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-        new_simulation.define_problem(
-            parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-            data_timesteps, export_zip_name, export_parameters, f'solveGrowthRates.lp', b_values)
-        new_simulation.compute(graphs, msdb_path, publishing=True, primals_export_path=f"v_primals.json")
-        print("Done solving for growth rate constants with the parameterized biomasses")
-        return {k: val for k, val in new_simulation.values.items() if "v_" in k}
-
-    def fit_kinetics(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
-                     abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
-                     export_zip_name: str = None, export_parameters: bool = True, export_lp: str = 'CommPhitting_kinetics.lp',
-                     figures_zip_name:str=None, publishing:bool=False):
-        if export_zip_name and os.path.exists(export_zip_name):
-            os.remove(export_zip_name)
-        # iteratively optimize growth rate and biomass until the biomass converges
-        count = 0
-        first = True
-        while first or (
-            not all([isclose(b_param[trial][entity][time], b_values[trial][entity][time], abs_tol=1e-9)
-                     for trial, entities in b_param.items()
-                     for entity, times in entities.items() for time in times
-                     if "b_" in entity])
-            and count < 11
-        ):
-            ## solve for growth rate v with solved b
-            v_param = None
-            if count != 0:
-                print(f"\nSimple kinetics optimization, iteration: {count}")
-                b_param = b_values.copy()
-                simulation = new_simulation1 = CommPhitting(
-                    self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-                new_simulation1.define_problem(
-                    parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                    data_timesteps, export_zip_name, export_parameters, f'solveGrowthRates{count}.lp', b_param)
-                try:
-                    new_simulation1.compute(primals_export_path=f"v_primals{count}.json")
-                    ### parse and homogenize the growth rates
-                    v_param = {k: val for k, val in new_simulation1.values.items() if "v_" in k}
-                except FeasibilityError as e:
-                    print(e)
-                    if "new_simulation2" not in locals():
-                        raise ValueError("The kinetic optimization immediately failed with the first optimized biomasses.")
-                    simulation = new_simulation
-                    break
-                print(v_param) ; print("\nComplete growth rate optimization")
-                first = False
-            ## solve for biomass b with parameterized growth rate
-            simulation = new_simulation = CommPhitting(
-                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
-            new_simulation.define_problem(
-                parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
-                data_timesteps, export_zip_name, export_parameters, f'solveBiomass{count}.lp', v_param)
-            try:
-                new_simulation.compute(primals_export_path=f"b_primals{count}.json")
-                b_values = parse_primals(new_simulation.values, "b_")
-            except FeasibilityError as e:
-                print(e)
-                simulation = new_simulation1
-                break
-            ## track iteration progress
-            print("\nComplete biomass optimization")
-            if "b_param" in locals():
-                diff = DeepDiff(b_param, b_values)
-                if diff:
-                    if not "values_changed" in diff:
-                        print("\nThe biomass has converged!")
-                    else:
-                        unconverged_timesteps = {root: change for root, change in diff["values_changed"].items()
-                                                 if not isclose(change["new_value"], change["old_value"], abs_tol=1e-9)}
-                        if not unconverged_timesteps:
-                            print("\nThe biomass has converged!")
-                        else:
-                            print("Unconverged timesteps:") ; pprint(unconverged_timesteps)
-            count += 1
-        # simulate the last problem with the converged parameters to render the figures
-        if count == 11:
-            print("The kinetics optimization reached the iteration limit and exited.")
-        simulation.compute(graphs, msdb_path, export_zip_name, figures_zip_name, publishing)
-        # export the converged growth rates
-        if "v_param" not in locals():
-            raise ValueError(f"The b_param value was not properly overwritten; "
-                             f"hence, the while loop was never initiated.")
-        return v_param
 
     def fit(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
             abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None, msdb_path:str=None,
@@ -717,32 +613,9 @@ class CommPhitting:
                             "operation": "Add"
                         })
 
-                    # exploratory biomass constraints
-                    # self.constraints["bTot_"+pheno] = {}; self.constraints["bTot_"+pheno][short_code] = {}
-                    # self.constraints["bTot_" + pheno][short_code][timestep] = tupConstraint(
-                    #     name=_name('bTot_', pheno, short_code, timestep, self.names),
-                    #     expr={"elements": b_values, "operation": "Add"})
-                    # bin_terms = [self.variables['bin1_' + pheno][short_code].name, self.variables['bin2_' + pheno][short_code].name,
-                    #              self.variables['bin3_' + pheno][short_code].name, self.variables['bin4_' + pheno][short_code].name,
-                    #              self.variables['bin5_' + pheno][short_code].name]
-                    # self.constraints["binTot_"+pheno] = {}
-                    # self.constraints["binTot_" + pheno][short_code] = tupConstraint(
-                    #     _name('binTot_', pheno, short_code, timestep, self.names), Bounds(1, None),
-                    #     {"elements": bin_terms, "operation": "Add"})
-
                     constraints.extend([self.constraints['cvc_' + pheno][short_code][timestep],
                                         self.constraints['gc_' + pheno][short_code][timestep],])
                                         # self.constraints["binTot_" + pheno][short_code]])
-                    # objective.expr.extend([{
-                    #     "elements": [
-                    #         {"elements": [self.parameters['cvcf'],
-                    #                       self.variables['cvf_' + pheno][short_code][timestep].name],
-                    #          "operation": "Mul"},
-                    #         {"elements": [self.parameters['cvct'],
-                    #                       self.variables['cvt_' + pheno][short_code][timestep].name],
-                    #          "operation": "Mul"}],
-                    #     "operation": "Add"
-                    # }])
 
         # define the concentration constraint
         half_dt = self.parameters['data_timestep_hr'] / 2
@@ -905,66 +778,7 @@ class CommPhitting:
                                  "operation": "Mul"}],
                             "operation": "Add"
                         })
-                    # if timestep == timesteps[-2] and signal in requisite_biomass[short_code]:
-                    #     estimated_biomass = requisite_biomass[short_code][signal] * int(
-                    #         timestep) * self.parameters['data_timestep_hr']
-                    #     self.constraints[signal + '|bio_finalc'][short_code] = tupConstraint(
-                    #         _name(signal, '|bio_finalc', short_code, timestep, self.names),
-                    #         Bounds(estimated_biomass*0.7, estimated_biomass*1.3),
-                    #         {"elements": [self.variables[signal + '|conversion'].name,
-                    #                       values_slice[timestep, signal_column_index]],
-                    #          "operation": "Mul"}
-                    #         )
-                    #     print(self.constraints[signal + '|bio_finalc'][short_code])
-                    #     constraints.append(self.constraints[signal + '|bio_finalc'][short_code])
                     constraints.append(self.constraints[signal + '|bioc'][short_code][timestep])
-
-                    # species growth rate
-                    # if primal_values and "OD" not in species:
-                    #     # TODO accommodation for determining the growth and rate of the OD would be intriguing
-                    #     time_hr = timestep*self.parameters['data_timestep_hr']
-                    #     # print(primal_values[short_code].keys())
-                    #     b_species = primal_values[short_code][signal + '|bio'][time_hr]
-                    #     if 'v_' + species not in self.variables:
-                    #         self.variables['v_' + species] = tupVariable(
-                    #             _name("v_", species, "", "", self.names))
-                    #         variables.append(self.variables['v_' + species])
-                    #     self.variables['g_' + species][short_code][timestep] = tupVariable(
-                    #         _name("g_", species, short_code, timestep, self.names))
-                    #     variables.append(self.variables['g_' + species][short_code][timestep])
-                    #     v_species = self.variables['v_' + species].name
-                    #     # v_values.append(v_value)
-                    #     self.constraints['gc_' + species][short_code][timestep] = tupConstraint(
-                    #         name=_name('gc_', species, short_code, timestep, self.names),
-                    #         expr={
-                    #             "elements": [
-                    #                 self.variables['g_' + species][short_code][timestep].name,
-                    #                 {"elements": [-1, v_species, b_species],
-                    #                  "operation": "Mul"}],
-                    #             "operation": "Add"
-                    #         })
-                    #     constraints.append(self.constraints['gc_' + species][short_code][timestep])
-                    #
-                    #     # constrain the total growth rate to the weighted sum of the phenotype growth rates
-                    #     self.constraints["totGc_" + species][short_code][timestep] = tupConstraint(
-                    #         name=_name("totGc_", species, short_code, timestep, self.names),
-                    #         expr={"elements": [{"elements":[-1, self.variables['g_' + species][short_code][timestep].name],
-                    #                             "operation":"Mul"}],
-                    #               "operation": "Add"})
-                    #     self.constraints["totGc_" + species][short_code][timestep].expr["elements"].extend([
-                    #         self.variables['g_' + pheno][short_code][timestep].name for pheno in species_phenos[species]])
-                    #     constraints.append(self.constraints["totGc_" + species][short_code][timestep])
-
-                        # self.constraints["totVc_" + species][short_code][timestep] = tupConstraint(
-                        #     name=_name("totVc_", species, short_code, timestep, self.names),
-                        #     expr={"elements": [{"elements":[-1, self.variables['v_' + species].name], "operation":"Mul"}],
-                        #           "operation": "Add"})
-                        # for pheno in species_phenos[species]:
-                        #     self.constraints["totVc_" + species][short_code][timestep].expr["elements"].append({
-                        #         "elements": [self.variables["v_"+pheno].name,
-                        #                      primal_values[short_code]['b_'+pheno][time_hr] / b_species],
-                        #         "operation": "Mul"})
-                        # constraints.append(self.constraints["totVc_" + species][short_code][timestep])
 
                     # {speces}_bio + {signal}_diffneg-{signal}_diffpos = sum_k^K(es_k*b_{phenotype})
                     self.constraints[signal + '|diffc'][short_code][timestep] = tupConstraint(
@@ -984,10 +798,6 @@ class CommPhitting:
                     else:
                         raise ValueError(f"The {signal_sum} value has unexpected contents.")
                     constraints.append(self.constraints[signal + '|diffc'][short_code][timestep])
-
-                    # print([self.constraints[signal + '__bioc'][short_code][timestep],
-                    #                     self.constraints[signal + '__diffc'][short_code][timestep]])
-                    # print(self.variables[signal + '__diffneg'][short_code][timestep])
 
                     objective.expr.extend([{
                         "elements": [
@@ -1082,21 +892,6 @@ class CommPhitting:
         if model_to_load:
             self.problem = Model.from_json(model_to_load)
 
-    # def _change_param(self, param, param_time, param_trial):
-    #     if not isinstance(param, dict):
-    #         return param
-    #     if param_time in param:
-    #         if param_trial in param[param_time]:
-    #             return param[param_time][param_trial]
-    #         return param[param_time]
-    #     return param['default']
-
-    # def _change_v(self, new_v, mscomfit_json):
-    #     for v_arg in mscomfit_json['constraints']:  # TODO - specify as phenotype-specific, as well as the Km
-    #         v_name, v_time, v_trial = v_arg['name'].split('-')
-    #         if 'gc' in v_name:  # gc = growth constraint
-    #             v_arg['expression']['args'][1]['args'][0]['value'] = self._change_param(new_v, v_time, v_trial)
-
     @staticmethod
     def assign_values(param, var, next_dimension):
         dic = {var: {}}
@@ -1167,6 +962,7 @@ class CommPhitting:
 
     def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None, msdb_path:str=None,
               export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None):
+        print(export_zip_name)
         # define the default timestep ratio as 1
         data_timestep_hr = self.parameters.get('data_timestep_hr', data_timestep_hr)
         timestep_ratio = data_timestep_hr / self.parameters.get('timestep_hr', data_timestep_hr)
@@ -1182,7 +978,7 @@ class CommPhitting:
             from modelseedpy.biochem import from_local
             self.msdb = from_local(msdb_path)
         x_axis_split = int(2 / data_timestep_hr / timestep_ratio)
-        self.plots = []
+        self.plots = set()
         contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_', "conc": "c_"}
         mM_threshold = 1e-3
         for graph_index, graph in enumerate(graphs):
@@ -1391,7 +1187,8 @@ class CommPhitting:
                     if "mets" in graph:
                         fig_name = f"{trial}_{','.join(graph['mets'])}_c.jpg"
                     fig.savefig(fig_name, bbox_inches="tight", transparent=True)
-                    self.plots.append(fig_name)
+
+                    self.plots.add(fig_name)
 
         # export the figures with other simulation content
         if export_zip_name:

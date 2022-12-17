@@ -1,0 +1,11 @@
+,values
+data_timestep_hr,0.16457978883219954
+timestep_hr,0.16457978883219954
+cvct,0.01
+cvcf,0.01
+bcv,0.0001
+cvmin,0.1
+kcat,"{'ecoli': {'acetate': 4.129125, 'malt': 0.8250000000000001}}"
+diffpos,1
+diffneg,1
+stationary,0.001
