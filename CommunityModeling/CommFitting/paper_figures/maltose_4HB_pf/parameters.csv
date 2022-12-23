@@ -5,7 +5,7 @@ cvct,0.01
 cvcf,0.01
 bcv,0.0001
 cvmin,0.1
-kcat,"{'pf': {'acetate': 0.33, '4HB': 0.33}}"
+kcat,"{'pf': {'acetate': 125.12362500000002, '4HB': 0.3663}}"
 diffpos,1
 diffneg,1
-stationary,0.005
+stationary,1

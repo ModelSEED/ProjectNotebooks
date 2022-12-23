@@ -3,6 +3,7 @@
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
 from data.standardized_data.datastandardization import GrowthData
+from modelseedpy.biochem import from_local
 from pandas import DataFrame
 from optlang import Model, Objective
 from modelseedpy.core.fbahelper import FBAHelper
@@ -126,22 +127,20 @@ def _partition_coefs(initial_val, divisor):
 
 class CommPhitting:
 
-    def __init__(self, fluxes_df, carbon_conc, media_conc, growth_df=None, experimental_metadata=None, msdb_path=None):
+    def __init__(self, fluxes_df, carbon_conc, media_conc, msdb_path, growth_df=None, experimental_metadata=None):
         self.parameters, self.variables, self.constraints, = {}, {}, {}
         self.zipped_output, self.plots = [], []
         self.fluxes_tup = FBAHelper.parse_df(fluxes_df)
         self.growth_df = growth_df; self.experimental_metadata = experimental_metadata
         self.carbon_conc = carbon_conc; self.media_conc = media_conc
         self.names = []
-        if msdb_path:
-            from modelseedpy.biochem import from_local
-            self.msdb = from_local(msdb_path)
+        self.msdb = from_local(msdb_path) ; self.msdb_path = msdb_path
 
     #################### FITTING PHASE METHODS ####################
 
-    def fit_kcat(self, parameters:dict=None, mets_to_track: list = None, rel_final_conc:dict=None, zero_start:list=None,
-                 abs_final_conc:dict=None, graphs: list = None, data_timesteps: dict = None,
-                 export_zip_name: str = None, export_parameters: bool = True, requisite_biomass:dict=None,
+    def fit_kcat(self, parameters: dict = None, mets_to_track: list = None, rel_final_conc: dict = None, zero_start: list = None,
+                 abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None,
+                 export_zip_name: str = None, export_parameters: bool = True, requisite_biomass: dict = None,
                  export_lp: str = f'solveKcat.lp', publishing=True, primals_export_path=None):
         if export_zip_name and os.path.exists(export_zip_name):
             os.remove(export_zip_name)
@@ -149,8 +148,8 @@ class CommPhitting:
         kcat_primal = None
         for index, coefs in enumerate(biomass_partition_coefs):
             # solve for growth rate constants with the previously solved biomasses
-            new_simulation = CommPhitting(
-                self.fluxes_tup, self.carbon_conc, self.media_conc, self.growth_df, self.experimental_metadata)
+            new_simulation = CommPhitting(self.fluxes_tup, self.carbon_conc, self.media_conc,
+                                          self.msdb_path, self.growth_df, self.experimental_metadata)
             new_simulation.define_problem(
                 parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
                 data_timesteps, export_zip_name, export_parameters, export_lp, kcat_primal, coefs, requisite_biomass)
@@ -498,12 +497,14 @@ class CommPhitting:
         constraints, variables, simulated_mets = [], [], []
         time_1 = process_time()
         for exID in self.fluxes_tup.index:
-            met_id = re.search(r"(cpd\d{5})", exID)
+            if exID == "bio":
+                continue
+            met_id = re.search(r"(cpd\d{5})", exID).group()
             met = self.msdb.compounds.get_by_id(met_id)
             if "C" not in met.elements:
                 continue
             concID = f"c_{met_id}_e0"
-            simulated_mets.append(concID)
+            simulated_mets.append(met_id)
             self.variables[concID] = {}; self.constraints['dcc_' + met_id] = {}
 
             # define the growth rate for each metabolite and concentrations
@@ -518,11 +519,15 @@ class CommPhitting:
                     conc_var = tupVariable(_name(concID, "", short_code, timestep, self.names))
                     ## constrain initial time concentrations to the media or a large default
                     if timestep == timesteps[0]:
-                        initial_val = 100 if not self.media_conc or met_id not in self.media_conc else self.media_conc[met_id]
-                        initial_val = 0 if met_id in zero_start else initial_val
+                        initial_val = None
+                        if met_id in self.media_conc:
+                            initial_val = self.media_conc[met_id]
+                        if met_id in zero_start:
+                            initial_val = 0
                         if dict_keys_exists(self.carbon_conc, met_id, short_code):
                             initial_val = self.carbon_conc[met_id][short_code]
-                        conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
+                        if initial_val is not None:
+                            conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
                     ## mandate complete carbon consumption
                     elif timestep == timesteps[-1] and (met_id in self.rel_final_conc or met_id in self.abs_final_conc):
                         if met_id in self.rel_final_conc:
@@ -534,6 +539,7 @@ class CommPhitting:
                             conc_var = conc_var._replace(bounds=Bounds(final_bound, final_bound))
                     self.variables[concID][short_code][timestep] = conc_var
                     variables.append(self.variables[concID][short_code][timestep])
+                    # print(variables[-1])
         for signal in growth_tup.columns:
             if ":" in signal:
                 for pheno in self.fluxes_tup.columns:
@@ -1137,14 +1143,15 @@ class CommPhitting:
                             style = "dashdot" if "model" in label else style
                             style = "solid" if ("OD" in name and not graph["experimental_data"]
                                                 or "total" in graph["content"]) else style
-                            color = graph["painting"][name].get("color", None)
                             if not graph["parsed"]:
-                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
+                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style,
+                                        color=self.adjust_color(graph["painting"][name].get("color", None), 1.5))
                             else:
                                 # TODO - the phenotypes of each respective species must be added to these developed plots.
                                 fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
                                 ax.set_xlabel(x_label) ; ax.set_ylabel(y_label) ; ax.grid(axis="y") ; ax.legend()
-                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style, color=color)
+                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style,
+                                        color=self.adjust_color(graph["painting"][name].get("color", None), 1.5))
                                 phenotype_id = graph.get('phenotype', "")
                                 if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                                     phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"

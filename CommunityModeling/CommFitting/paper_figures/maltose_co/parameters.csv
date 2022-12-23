@@ -5,7 +5,7 @@ cvct,0.01
 cvcf,0.01
 bcv,0.0001
 cvmin,0.1
-kcat,"{'ecoli': {'acetate': 0.2475, 'malt': 0.2475}, 'pf': {'acetate': 0.04125, '4HB': 27.499724999999998}}"
+kcat,"{'ecoli': {'acetate': 2.502225, 'malt': 0.2475}, 'pf': {'acetate': 0.33, '4HB': 9.166575}}"
 diffpos,1
 diffneg,1
 stationary,0.005
