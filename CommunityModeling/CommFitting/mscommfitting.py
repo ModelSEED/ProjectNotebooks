@@ -857,7 +857,7 @@ class CommPhitting:
         print(f'Done exporting the content: {(time_6 - time_5) / 60} min')
 
     def compute(self, graphs: list = None, export_zip_name=None, figures_zip_name=None, publishing=False,
-                primals_export_path:str = "primal_values.json"):
+                primals_export_path:str = "primal_values.json", remove_empty_plots=False):
         print("starting optimization")
         self.values = {}
         solution = self.problem.optimize()
@@ -895,7 +895,8 @@ class CommPhitting:
 
         # visualize the specified information
         if graphs:
-            self.graph(graphs, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing)
+            self.graph(graphs, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing,
+                       remove_empty_plots=remove_empty_plots)
 
     def load_model(self, mscomfit_json_path: str = None, zip_name: str = None, model_to_load: dict = None):
         if zip_name:
@@ -976,7 +977,8 @@ class CommPhitting:
         return ax, labels
 
     def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None,
-              export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None):
+              export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None,
+              remove_empty_plots:bool = False):
         print(export_zip_name)
         # define the default timestep ratio as 1
         data_timestep_hr = self.parameters.get('data_timestep_hr', data_timestep_hr)
@@ -1066,6 +1068,8 @@ class CommPhitting:
                             labels.append({species: label})
                             xs = np.array(list(values.keys()))
                             vals = np.array(list(values.values()))
+                            if remove_empty_plots and all(vals == 0):
+                                continue
                             # print(basename, values.values())
                             ax.set_xticks(xs[::int(3 / data_timestep_hr / timestep_ratio)])
                             if (any([x in graph['content'] for x in ["total", "biomass", 'OD']]) or
@@ -1084,6 +1088,8 @@ class CommPhitting:
                                 if 'OD' in signal:
                                     label = f'Experimental total (from {signal})'
                             # print(basename, label, self.values[trial][basename].values())
+                            if remove_empty_plots and all(self.values[trial][basename].values() == 0):
+                                continue
                             ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, scatter=True,
                                                         color=self.adjust_color(graph["painting"][species]["color"], 1.5))
                     # graph an aspect of a specific species across all phenotypes
@@ -1104,18 +1110,26 @@ class CommPhitting:
                                     labels = [label]
                                     xs = np.array(list(values.keys()))
                                     ys.append(np.array(list(values.values())))
+                                    if remove_empty_plots and all(ys == 0):
+                                        continue
                                     ax.set_xticks(x_ticks[::int(3 / data_timestep_hr / timestep_ratio)])
                                 else:
+                                    if remove_empty_plots and all(self.values[trial][basename].values() == 0):
+                                        continue
                                     ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
                                 # print('species content of all phenotypes')
                             # graph all phenotypes
                             elif any([x in basename for x in graph['phenotype']]):
+                                if remove_empty_plots and all(self.values[trial][basename].values() == 0):
+                                    continue
                                 ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
                                 # print('all content over all phenotypes')
                             break
                     # graph media concentration plots
                     elif "mets" in graph and all([any([x in basename for x in graph["mets"]]), 'c_cpd' in basename]):
                         if not any(np.array(list(self.values[trial][basename].values())) > mM_threshold):
+                            continue
+                        if remove_empty_plots and all(self.values[trial][basename].values() == 0):
                             continue
                         label=self.msdb.compounds.get_by_id(re.search(r"(cpd\d+)", basename).group()).name
                         ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split)
@@ -1232,9 +1246,9 @@ class CommPhitting:
 
 
 class BIOLOGPhitting(CommPhitting):
-    def __init__(self, carbon_conc, media_conc, biolog_df, experimental_metadata, msdb_path):
+    def __init__(self, carbon_conc, media_conc, biolog_df, fluxes_df, experimental_metadata, msdb_path):
         self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
-        self.carbon_conc = carbon_conc; self.media_conc = media_conc
+        self.carbon_conc = carbon_conc; self.media_conc = media_conc; self.fluxes_df = fluxes_df
         # import os
         from modelseedpy.biochem import from_local
         self.msdb = from_local(msdb_path)
@@ -1264,7 +1278,7 @@ class BIOLOGPhitting(CommPhitting):
                 exp_list = [experiment["ModelSEED_ID"]] if isinstance(
                     experiment["ModelSEED_ID"], str) else experiment["ModelSEED_ID"]
                 community_members[model].update({"phenotypes": {
-                    re.sub(r"(-|\s)", "", experiment["condition"]): {"consumed": exp_list}}})
+                    re.sub(r"(-|\s)", "", experiment["condition"]): {"consumed": exp_list} }})
                 valid_condition = True
             if not valid_condition:
                 print(f"The BIOLOG condition with {experiment['ModelSEED_ID']} is not"
@@ -1272,29 +1286,27 @@ class BIOLOGPhitting(CommPhitting):
                 continue
             print(f"The {experiment['ModelSEED_ID']} ({cpd.formula}) metabolite of the "
                   f"{experiment['condition']} condition may feed the {model_abbreviations} model(s).")
-            try:
-                fluxes_df, media_conc = GrowthData.phenotypes(None, community_members)
-            except (NoFluxError) as e:
+            if not any([experiment["ModelSEED_ID"] in pheno for pheno in self.fluxes_df]):
                 print(e)
                 print(f"The {experiment['ModelSEED_ID']} ({cpd.formula}) metabolite of the "
                       f"{experiment['condition']} condition is not a suitable phenotype for "
                       f"the {model_abbreviations} model(s).")
                 continue
-            mets_to_track = zero_start = exp_list
+            mets_to_track = exp_list
             rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc}
-            export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs",
-                                       f"{index}_{','.join(mets_to_track)}.lp")
+            export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs", f"{index}_{','.join(mets_to_track)}.lp")
             ## define the CommPhitting object and simulate the experiment
-            CommPhitting.__init__(self, fluxes_df, self.carbon_conc, self.media_conc,
+            CommPhitting.__init__(self, self.fluxes_df, self.carbon_conc, self.media_conc,
                                   self.biolog_df.loc[index,:], self.experimental_metadata)
-            CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, zero_start,
+            CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, None,
                                         abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path)
             new_graphs = []
             for graph in graphs:
                 graph["trial"] = index
                 new_graphs.append(graph)
             try:
-                CommPhitting.compute(self, new_graphs, export_zip_name, figures_zip_name, publishing)
+                CommPhitting.compute(self, new_graphs, export_zip_name, figures_zip_name, publishing,
+                                     f"BIOLOG_{experiment['ModelSEED_ID']}.json", remove_empty_plots=True)
                 break
             except (NoFluxError) as e:
                 print(e)

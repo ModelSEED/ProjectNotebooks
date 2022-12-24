@@ -326,8 +326,8 @@ class GrowthData:
                 ### eliminate hydrogen absorption
                 media.update({"EX_cpd11640_e0": 0})
                 pheno_util.add_medium(media)
-                if "pf " in content["name"]:
-                    pheno_util.model.reactions.EX_r277_e0.lower_bound = pheno_util.model.reactions.EX_r1423_e0.lower_bound = 0
+                # if "pf " in content["name"]:
+                #     pheno_util.model.reactions.EX_r277_e0.lower_bound = pheno_util.model.reactions.EX_r1423_e0.lower_bound = 0
                 ### define an oxygen absorption relative to the phenotype carbon source
                 # O2_consumption: EX_cpd00007_e0 <= sum(primary carbon fluxes)    # formerly <= 2 * sum(primary carbon fluxes)
                 coef = {phenoRXN.reverse_variable:1 for phenoRXN in phenoRXNs}
@@ -354,8 +354,7 @@ class GrowthData:
                 # print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
                 ## maximize the phenotype yield with the previously defined growth and constraints
-                obj = [pheno_util.model.reactions.get_by_id("EX_"+pheno_cpd+"_e0").reverse_variable
-                       for pheno_cpd in pheno_cpds["consumed"]]
+                obj = [ex.reverse_variable for ex in phenoRXNs]
                 FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
                 # with open("maximize_phenoYield.lp", 'w') as out:
                 #     out.write(pheno_util.model.solver.to_lp())
@@ -404,8 +403,7 @@ class GrowthData:
         ## biomass row
         cols["rxn"] = ["bio"]
         for content in models.values():
-            for phenotype in content["phenotypes"]:
-                col = content["name"] + '_' + phenotype
+            for col in content["solutions"]:
                 cols[col] = [0]
                 if col not in content["solutions"]:
                     continue
@@ -790,22 +788,24 @@ class GrowthData:
 class BiologData:
 
     @staticmethod
-    def process(data_paths, trial_conditions_path, culture=None, date=None, significant_deviation=None, solver="glpk"):
+    def process(data_paths, trial_conditions_path, community_members,
+                culture=None, date=None, significant_deviation=None, solver="glpk"):
         row_num = 8 ; column_num = 12
-        (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date) = BiologData.load_data(
-            data_paths, significant_deviation, row_num, culture, date, solver)
+        (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date, fluxes_df) = BiologData.load_data(
+            data_paths, significant_deviation, community_members, row_num, culture, date, solver)
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = BiologData.metadata(
             trial_conditions_path, row_num , column_num, culture, date)
         biolog_df = BiologData.data_process(dataframes, trial_name_conversion)
-        return (experimental_metadata, biolog_df, standardized_carbon_conc,
+        return (experimental_metadata, biolog_df, standardized_carbon_conc, fluxes_df,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
 
     @staticmethod
-    def load_data(data_paths, significant_deviation, row_num, culture, date, solver):
+    def load_data(data_paths, significant_deviation, community_members, row_num, culture, date, solver):
         zipped_output = [data_paths['path'], "fluxes.csv"]
         # determine the metabolic fluxes for each member and phenotype
         # import and parse the raw CSV data
         # TODO - this may be capable of emulating leveraged functions from the GrowthData object
+        fluxes_df = BiologData.phenotypes(community_members, solver)
         data_timestep_hr = []
         dataframes = {}
         raw_data = _spreadsheet_extension_load(data_paths['path'])
@@ -836,78 +836,72 @@ class BiologData:
 
         # differentiate the phenotypes for each species
         trials = set(chain.from_iterable([list(df.index) for df, times in dataframes.values()]))
-        return (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date)
+        return (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date, fluxes_df)
 
     @staticmethod
-    def phenotypes(community_members, excretions:dict=None, solver:str="glpk"):
+    def phenotypes(community_members, solver:str="glpk"):
         # log information of each respective model
-        named_community_members = {content["name"]: list(content["phenotypes"].keys()) + ["stationary"]
-                                   for member, content in community_members.items()}
         models = OrderedDict()
         solutions = []
         media_conc = set()
         # calculate all phenotype profiles for all members
         for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
+            print(org_model.id)
             org_model.solver = solver
             model_util = MSModelUtil(org_model)
             model_util.standard_exchanges()
-            models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {},
-                                    "name": content["name"], "phenotypes": named_community_members[content["name"]]}
-            for met in model_util.carbon_exchange_list(include_unknown=False):
+            models[org_model.id] = {"exchanges": model_util.exchange_list(), "solutions": {}, "name": content["name"]}
+            for phenoRXN in model_util.carbon_exchange_list(include_unknown=False):
+                print("\n", phenoRXN.id)
                 pheno_util = MSModelUtil(org_model)
                 pheno_util.model.solver = solver
-                phenoRXNs = [pheno_util.model.reactions.get_by_id("EX_" + met.id + "_e0")]
                 media = {cpd: 100 for cpd, flux in pheno_util.model.medium.items()}
-                media.update({phenoRXN.id: 1000 for phenoRXN in phenoRXNs})
+                media.update({phenoRXN.id: 1000})
                 ### eliminate hydrogen absorption
                 media.update({"EX_cpd11640_e0": 0})
                 pheno_util.add_medium(media)
-                if "pf " in content["name"]:
-                    pheno_util.model.reactions.EX_r277_e0.lower_bound = pheno_util.model.reactions.EX_r1423_e0.lower_bound = 0
                 ### define an oxygen absorption relative to the phenotype carbon source
                 # O2_consumption: EX_cpd00007_e0 <= sum(primary carbon fluxes)    # formerly <= 2 * sum(primary carbon fluxes)
-                coef = {phenoRXN.reverse_variable: 1 for phenoRXN in phenoRXNs}
+                coef = {phenoRXN.reverse_variable: 1}
                 coef.update({pheno_util.model.reactions.get_by_id("EX_cpd00007_e0").reverse_variable: -1})
                 FBAHelper.create_constraint(
                     pheno_util.model, Constraint(Zero, lb=0, ub=None, name="EX_cpd00007_e0_limitation"), coef=coef)
 
-                col = content["name"] + '_' + met.id
                 ## minimize the influx of all non-phenotype compounds at a fixed biomass growth
                 ### Penalization of only uptake.
                 min_growth = .1
                 FBAHelper.add_minimal_objective_cons(pheno_util.model, min_growth)
                 FBAHelper.add_objective(pheno_util.model, sum([
-                    ex.reverse_variable for ex in pheno_util.carbon_exchange_list() if ex not in phenoRXNs]), "min")
+                    ex.reverse_variable for ex in pheno_util.carbon_exchange_list() if ex != phenoRXN]), "min")
                 # with open("minimize_cInFlux.lp", 'w') as out:
                 #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
                 ### parameterize the optimization fluxes as lower bounds of the net flux, without exceeding the upper_bound
                 for ex in pheno_util.carbon_exchange_list():
-                    if ex not in phenoRXNs:
+                    if ex != phenoRXN:
                         ex.reverse_variable.ub = abs(min(0, sol.fluxes[ex.id]))
                 # print(sol.status, sol.objective_value, [(ex.id, ex.bounds) for ex in pheno_util.exchange_list()])
 
                 ## maximize the phenotype yield with the previously defined growth and constraints
-                obj = [pheno_util.model.reactions.get_by_id("EX_" + met.id + "_e0").reverse_variable]
-                FBAHelper.add_objective(pheno_util.model, sum(obj), "min")
+                FBAHelper.add_objective(pheno_util.model, phenoRXN.reverse_variable, "min")
                 # with open("maximize_phenoYield.lp", 'w') as out:
                 #     out.write(pheno_util.model.solver.to_lp())
                 sol = pheno_util.model.optimize()
                 bioFlux_check(pheno_util.model, sol)
-                for phenoRXN in phenoRXNs:
-                    phenoRXN.lower_bound = phenoRXN.upper_bound = sol.fluxes[phenoRXN.id]
+                phenoRXN.lower_bound = phenoRXN.upper_bound = sol.fluxes[phenoRXN.id]
 
                 ## maximize excretion in phenotypes where the excreta is known
-                if excretions and met.id in excretions:
+                met = re.search(r"(cpd\d{5})", phenoRXN.id).group()
+                if content["excretions"] and met in content["excretions"]:
                     obj = sum([pheno_util.model.reactions.get_by_id("EX_" + excreta + "_e0").flux_expression
-                               for excreta in excretions[met.id]])
+                               for excreta in content["excretions"][met]])
                     FBAHelper.add_objective(pheno_util.model, direction="max", objective=obj)
                     # with open("maximize_excreta.lp", 'w') as out:
                     #     out.write(pheno_util.model.solver.to_lp())
                     sol = pheno_util.model.optimize()
                     bioFlux_check(pheno_util.model, sol)
-                    for excreta in excretions[met.id]:
+                    for excreta in content["excretions"][met]:
                         excretaEX = pheno_util.model.reactions.get_by_id("EX_" + excreta + "_e0")
                         excretaEX.lower_bound = excretaEX.upper_bound = sol.fluxes["EX_" + excreta + "_e0"]
 
@@ -923,12 +917,14 @@ class BiologData:
                     raise ObjectiveError(f"The assigned minimal_growth of {min_growth} was not optimized"
                                          f" during the simulation, where the observed growth was {simulated_growth}.")
                 ## normalize the fluxes to -1 for the influx of each phenotype's respective source
-                pheno_influx = sol.fluxes["EX_" + met.id + "_e0"]
+                pheno_influx = sol.fluxes[phenoRXN.id]
                 if pheno_influx >= 0:
-                    pprint({rxn: flux for rxn, flux in sol.fluxes.items() if flux != 0})
-                    raise NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
-                                      f"implausible phenotype specifications.")
+                    # pprint({rxn: flux for rxn, flux in sol.fluxes.items() if flux != 0})
+                    logger.critical(NoFluxError(f"The (+) net phenotype flux of {pheno_influx} indicates "
+                                    f"implausible phenotype specifications."))
+                    continue
                 # sol.fluxes /= abs(pheno_influx)
+                col = content["name"] + '_' + met
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
 
@@ -937,8 +933,7 @@ class BiologData:
         ## biomass row
         cols["rxn"] = ["bio"]
         for content in models.values():
-            for phenotype in content["phenotypes"]:
-                col = content["name"] + '_' + phenotype
+            for col in content["solutions"]:
                 cols[col] = [0]
                 if col not in content["solutions"]:
                     continue
@@ -967,7 +962,7 @@ class BiologData:
         fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
         fluxes_df.astype(str)
         fluxes_df.to_csv("fluxes.csv")
-        return fluxes_df, media_conc
+        return fluxes_df
 
     @staticmethod
     def metadata(trial_conditions_path, row_num, column_num, culture, date):
