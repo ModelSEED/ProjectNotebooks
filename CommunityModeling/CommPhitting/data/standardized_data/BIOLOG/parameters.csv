@@ -1,0 +1,10 @@
+,values
+data_timestep_hr,0.1645709135251323
+timestep_hr,0.1645709135251323
+cvct,1
+cvcf,1
+bcv,0.0001
+cvmin,0.1
+v,"{'pf': {'NAcetylDGlucosamine': 0.3, 'stationary': 0.3}}"
+diffpos,100
+diffneg,100

@@ -1,0 +1,505 @@
+{
+   "A1": {
+      "name": "Negative Control",
+      "ModelSEED_ID": null,
+      "mM": 0
+   },
+   "A2": {
+      "name": "Dextrin",
+      "ModelSEED_ID": "cpd11594",
+      "mM": 0
+   },
+   "A3": {
+      "name": "D-Maltose",
+      "ModelSEED_ID": "cpd00179",
+      "mM": 0
+   },
+   "A4": {
+      "name": "D-Trehalose",
+      "ModelSEED_ID": "cpd00523",
+      "notes": "The ID technically corresponds with Trehalose 6-phosphate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "A5": {
+      "name": "D-Cellobiose",
+      "ModelSEED_ID": "cpd03844",
+      "notes": "The ID technically corresponds with alpha-Cellobiose, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "A6": {
+      "name": "Gentiobiose",
+      "ModelSEED_ID": "cpd05158",
+      "mM": 0
+   },
+   "A7": {
+      "name": "Sucrose",
+      "ModelSEED_ID": "cpd00076",
+      "mM": 0
+   },
+   "A8": {
+      "name": "D-Turanose",
+      "ModelSEED_ID": "cpd20885",
+      "mM": 0
+   },
+   "A9": {
+      "name": "Stachyose",
+      "ModelSEED_ID": "cpd01133",
+      "mM": 0
+   },
+   "A10": {
+      "name": "Positive Control",
+      "ModelSEED_ID": "cpd00027",
+      "notes": "Jeff confirmed that the positive control is merely Glucose.",
+      "mM": 0
+   },
+   "A11": {
+      "name": "pH 6",
+      "ModelSEED_ID": "cpd00067",
+      "mM": 0.001
+   },
+   "A12": {
+      "name": "pH 5",
+      "ModelSEED_ID": "cpd00067",
+      "mM": 0.01
+   },
+   "B1": {
+      "name": "D-Raffinose",
+      "ModelSEED_ID": "cpd30716",
+      "notes": "The ID technically corresponds with D-Raffinose pentahydrate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B2": {
+      "name": "alpha-D-Lactose",
+      "ModelSEED_ID": "cpd01354",
+      "notes": "The ID technically corresponds with beta-Lactose, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B3": {
+      "name": "D-Melibiose",
+      "ModelSEED_ID": "cpd03198",
+      "mM": 0
+   },
+   "B4": {
+      "name": "beta-Methyl-D-Glucoside",
+      "ModelSEED_ID": "cpd00710",
+      "notes": "The ID technically corresponds with beta-D-Glucoside, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B5": {
+      "name": "D-Salicin",
+      "ModelSEED_ID": "cpd01030",
+      "notes": "The ID technically corresponds with Salicin, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B6": {
+      "name": "N-Acetyl-D-Glucosamine",
+      "ModelSEED_ID": "cpd00122",
+      "mM": 0
+   },
+   "B7": {
+      "name": "N-Acetyl-beta-Mannosamine",
+      "ModelSEED_ID": "cpd00492",
+      "mM": 0
+   },
+   "B8": {
+      "name": "N-Acetyl-D-Galactosamine",
+      "ModelSEED_ID": "cpd00175",
+      "notes": "The ID technically corresponds with UDP-N-acetyl-D-galactosamine, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B9": {
+      "name": "N-Acetyl-Neuraminic Acid",
+      "ModelSEED_ID": "cpd03885",
+      "notes": "The ID technically corresponds with Neuraminic acid, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "B10": {
+      "name": "1% NaCl",
+      "ModelSEED_ID": "cpd00027",
+      "mM": 0
+   },
+   "B11": {
+      "name": "4% NaCl",
+      "ModelSEED_ID": "cpd00027",
+      "mM": 0
+   },
+   "B12": {
+      "name": "8% NaCl",
+      "ModelSEED_ID": "cpd00027",
+      "mM": 0
+   },
+   "C1": {
+      "name": "alpha-D-Glucose",
+      "ModelSEED_ID": "cpd00190",
+      "notes": "The ID technically corresponds with beta-D-Glucose, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "C2": {
+      "name": "D-Mannose",
+      "ModelSEED_ID": "cpd00138",
+      "mM": 0
+   },
+   "C3": {
+      "name": "D-Fructose",
+      "ModelSEED_ID": "cpd00082",
+      "mM": 0
+   },
+   "C4": {
+      "name": "D-Galactose",
+      "ModelSEED_ID": "cpd00709",
+      "mM": 0
+   },
+   "C5": {
+      "name": "3-Methyl Glucose",
+      "ModelSEED_ID": "cpd26351",
+      "mM": 0
+   },
+   "C6": {
+      "name": "D-Fucose",
+      "ModelSEED_ID": "cpd00750",
+      "mM": 0
+   },
+   "C7": {
+      "name": "L-Fucose",
+      "ModelSEED_ID": "cpd00751",
+      "mM": 0
+   },
+   "C8": {
+      "name": "L-Rhamnose",
+      "ModelSEED_ID": "cpd00396",
+      "mM": 0
+   },
+   "C9": {
+      "name": "Inosine",
+      "ModelSEED_ID": "cpd00246",
+      "mM": 0
+   },
+   "C10": {
+      "name": "1% Sodium Lactate",
+      "ModelSEED_ID": "cpd00159",
+      "notes": "The ID corresponds with L-Lactate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "C11": {
+      "name": "Fusidic Acid",
+      "ModelSEED_ID": "cpd04095",
+      "mM": 0
+   },
+   "C12": {
+      "name": "D-Serine",
+      "ModelSEED_ID": "cpd00550",
+      "mM": 0
+   },
+   "D1": {
+      "name": "D-Sorbitol",
+      "ModelSEED_ID": "cpd00588",
+      "mM": 0
+   },
+   "D2": {
+      "name": "D-Mannitol",
+      "ModelSEED_ID": "cpd00314",
+      "mM": 0
+   },
+   "D3": {
+      "name": "D-Arabitol",
+      "ModelSEED_ID": "cpd23223",
+      "notes": "The ID technically corresponds with D-arabitol 5-phosphate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "D4": {
+      "name": "myo-Inositol",
+      "ModelSEED_ID": "cpd02296",
+      "notes": "The ID technically corresponds with 1-O-Methyl-myo-inositol, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "D5": {
+      "name": "Glycerol",
+      "ModelSEED_ID": "cpd00100",
+      "mM": 0
+   },
+   "D6": {
+      "name": "D-Glucose-6-PO4",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "D7": {
+      "name": "D-Fructose-6-PO4",
+      "ModelSEED_ID": "cpd00079",
+      "mM": 0
+   },
+   "D8": {
+      "name": "D-Aspartic Acid",
+      "ModelSEED_ID": "cpd00320",
+      "notes": "The ID technically corresponds with D-Aspartate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "D9": {
+      "name": "D-Serine",
+      "ModelSEED_ID": "cpd00550",
+      "mM": 0
+   },
+   "D10": {
+      "name": "Troleandomycin",
+      "ModelSEED_ID": "cpd09300",
+      "mM": 0
+   },
+   "D11": {
+      "name": "Rifamycin SV",
+      "ModelSEED_ID": "cpd08835",
+      "mM": 0
+   },
+   "D12": {
+      "name": "Minocycline",
+      "ModelSEED_ID": "cpd04461",
+      "mM": 0
+   },
+   "E1": {
+      "name": "Gelatin",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "E2": {
+      "name": "Glycyl-L-Proline",
+      "ModelSEED_ID": "cpd00129",
+      "notes": "The ID technically corresponds with L-Proline, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "E3": {
+      "name": "L-Alanine",
+      "ModelSEED_ID": "cpd00035",
+      "mM": 0
+   },
+   "E4": {
+      "name": "L-Arginine",
+      "ModelSEED_ID": "cpd00051",
+      "mM": 0
+   },
+   "E5": {
+      "name": "L-Aspartic Acid",
+      "ModelSEED_ID": "cpd00041",
+      "notes": "The ID technically corresponds with L-Aspartate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "E6": {
+      "name": "L-Glutamic Acid",
+      "ModelSEED_ID": "cpd00023",
+      "notes": "The ID technically corresponds with L-Glutamate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "E7": {
+      "name": "L-Histidine",
+      "ModelSEED_ID": "cpd00119",
+      "mM": 0
+   },
+   "E8": {
+      "name": "L-Pyroglutamic Acid",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "E9": {
+      "name": "L-Serine",
+      "ModelSEED_ID": "cpd00054",
+      "mM": 0
+   },
+   "E10": {
+      "name": "Lincomycin",
+      "ModelSEED_ID": "cpd04183",
+      "mM": 0
+   },
+   "E11": {
+      "name": "Guanidine HCl",
+      "ModelSEED_ID": "cpd19240",
+      "notes": "The ID technically corresponds with Guanidine, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "E12": {
+      "name": "Niaproof 4",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "F1": {
+      "name": "Pectin",
+      "ModelSEED_ID": "cpd11601",
+      "mM": 0
+   },
+   "F2": {
+      "name": "D-Galacturonic Acid",
+      "ModelSEED_ID": "cpd17605",
+      "notes": "The ID technically corresponds with D-Galacturonic acid calcium salt, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "F3": {
+      "name": "L-Galactonic Acid Lactone",
+      "ModelSEED_ID": "cpd14659",
+      "notes": "The ID technically corresponds with L-Galactonate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "F4": {
+      "name": "D-Gluconic Acid",
+      "ModelSEED_ID": "cpd32827",
+      "mM": 0
+   },
+   "F5": {
+      "name": "D-Glucuronic Acid",
+      "ModelSEED_ID": "cpd00164",
+      "mM": 0
+   },
+   "F6": {
+      "name": "Glucuronamide",
+      "ModelSEED_ID": "cpd26269",
+      "mM": 0
+   },
+   "F7": {
+      "name": "Mucic Acid",
+      "ModelSEED_ID": "cpd00652",
+      "notes": "The ID technically corresponds with D-Mucic Acid, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "F8": {
+      "name": "Quinic Acid",
+      "ModelSEED_ID": "cpd00248",
+      "mM": 0
+   },
+   "F9": {
+      "name": "D-Saccharic Acid",
+      "ModelSEED_ID": "cpd00571",
+      "mM": 0
+   },
+   "F10": {
+      "name": "Vancomycin",
+      "ModelSEED_ID": "cpd04090",
+      "mM": 0
+   },
+   "F11": {
+      "name": "Tetrazolium Violet",
+      "ModelSEED_ID": "cpd22643",
+      "mM": 0
+   },
+   "F12": {
+      "name": "Tetrazolium Blue",
+      "ModelSEED_ID": "cpd09447",
+      "mM": 0
+   },
+   "G1": {
+      "name": "p-Hydroxy-Phenylacetic Acid",
+      "ModelSEED_ID": "cpd19069",
+      "notes": "The ID technically corresponds with Phenylacetic acid, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "G2": {
+      "name": "Methyl Pyruvate",
+      "ModelSEED_ID": "cpd24420",
+      "mM": 0
+   },
+   "G3": {
+      "name": "D-Lactic Acid Methyl Ester",
+      "ModelSEED_ID": "cpd24428",
+      "mM": 0
+   },
+   "G4": {
+      "name": "L-Lactic Acid",
+      "ModelSEED_ID": "cpd00159",
+      "mM": 0
+   },
+   "G5": {
+      "name": "Citric Acid",
+      "ModelSEED_ID": "cpd00137",
+      "mM": 0
+   },
+   "G6": {
+      "name": "alpha-Keto-Glutaric Acid",
+      "ModelSEED_ID": "cpd00024",
+      "mM": 0
+   },
+   "G7": {
+      "name": "D-Malic Acid",
+      "ModelSEED_ID": "cpd00386",
+      "mM": 0
+   },
+   "G8": {
+      "name": "L-Malic Acid",
+      "ModelSEED_ID": "cpd00130",
+      "mM": 0
+   },
+   "G9": {
+      "name": "Bromo-Succinic Acid",
+      "ModelSEED_ID": "cpd23859",
+      "mM": 0
+   },
+   "G10": {
+      "name": "Nalidixic Acid",
+      "ModelSEED_ID": "cpd03031",
+      "mM": 0
+   },
+   "G11": {
+      "name": "Lithium Chloride",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "G12": {
+      "name": "Potassium Tellurite",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "H1": {
+      "name": "Tween 40",
+      "ModelSEED_ID": "cpd24417",
+      "mM": 0
+   },
+   "H2": {
+      "name": "gamma-Amino-Butyric Acid",
+      "ModelSEED_ID": "cpd00281",
+      "mM": 0
+   },
+   "H3": {
+      "name": "alpha-Hydroxy-D,L-Butyric Acid",
+      "ModelSEED_ID": "cpd03561",
+      "mM": 0
+   },
+   "H4": {
+      "name": "beta-Hydroxy-D,L-Butyric Acid",
+      "ModelSEED_ID": "cpd29193",
+      "mM": 0
+   },
+   "H5": {
+      "name": "alpha-Keto-Butyric Acid",
+      "ModelSEED_ID": "cpd26078",
+      "notes": "The ID technically corresponds with 2-keto-4-hydroxybutyrate, which is the closest options in MS Biochemistry.",
+      "mM": 0
+   },
+   "H6": {
+      "name": "Acetoacetic Acid",
+      "ModelSEED_ID": "cpd00142",
+      "mM": 0
+   },
+   "H7": {
+      "name": "Propionic Acid",
+      "ModelSEED_ID": "cpd00141",
+      "mM": 0
+   },
+   "H8": {
+      "name": "Acetic Acid",
+      "ModelSEED_ID": "cpd00029",
+      "mM": 0
+   },
+   "H9": {
+      "name": "Formic Acid",
+      "ModelSEED_ID": "cpd00047",
+      "mM": 0
+   },
+   "H10": {
+      "name": "Aztreonam",
+      "ModelSEED_ID": "cpd04201",
+      "mM": 0
+   },
+   "H11": {
+      "name": "Sodium Butyrate",
+      "ModelSEED_ID": "",
+      "mM": 0
+   },
+   "H12": {
+      "name": "Sodium Bromate",
+      "ModelSEED_ID": "",
+      "mM": 0
+   }
+}

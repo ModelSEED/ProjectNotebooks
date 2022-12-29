@@ -1,0 +1,266 @@
+{
+   "B2": [
+      "Y1",
+      "r1_pf-5_malt"
+   ],
+   "B3": [
+      "Y2",
+      "r1_ecoli_mRuby-r50_pf-5_malt"
+   ],
+   "B4": [
+      "Y3",
+      "r1_ecoli_mRuby-r20_pf-5_malt"
+   ],
+   "B5": [
+      "Y4",
+      "r1_ecoli_mRuby-r10_pf-5_malt"
+   ],
+   "B6": [
+      "Y5",
+      "r1_ecoli_mRuby-r3_pf-5_malt"
+   ],
+   "B7": [
+      "Y6",
+      "r1_ecoli_mRuby-r1_pf-5_malt"
+   ],
+   "B8": [
+      "Y7",
+      "r3_ecoli_mRuby-r1_pf-5_malt"
+   ],
+   "B9": [
+      "Y8",
+      "r10_ecoli_mRuby-r1_pf-5_malt"
+   ],
+   "B10": [
+      "Y9",
+      "r20_ecoli_mRuby-r1_pf-5_malt"
+   ],
+   "B11": [
+      "Y10",
+      "r1_ecoli_mRuby-5_malt"
+   ],
+   "B12": [
+      "Y11",
+      "5_malt"
+   ],
+   "C2": [
+      "Y12",
+      "r1_pf-5_malt-0.5_4HB"
+   ],
+   "C3": [
+      "Y13",
+      "r1_ecoli_ACS-r50_pf-5_malt-0.5_4HB"
+   ],
+   "C4": [
+      "Y14",
+      "r1_ecoli_ACS-r20_pf-5_malt-0.5_4HB"
+   ],
+   "C5": [
+      "Y15",
+      "r1_ecoli_ACS-r10_pf-5_malt-0.5_4HB"
+   ],
+   "C6": [
+      "Y16",
+      "r1_ecoli_ACS-r3_pf-5_malt-0.5_4HB"
+   ],
+   "C7": [
+      "Y17",
+      "r1_ecoli_ACS-r1_pf-5_malt-0.5_4HB"
+   ],
+   "C8": [
+      "Y18",
+      "r3_ecoli_ACS-r1_pf-5_malt-0.5_4HB"
+   ],
+   "C9": [
+      "Y19",
+      "r10_ecoli_ACS-r1_pf-5_malt-0.5_4HB"
+   ],
+   "C10": [
+      "Y20",
+      "r20_ecoli_ACS-r1_pf-5_malt-0.5_4HB"
+   ],
+   "C11": [
+      "Y21",
+      "r1_ecoli_ACS-5_malt-0.5_4HB"
+   ],
+   "C12": [
+      "Y22",
+      "5_malt-0.5_4HB"
+   ],
+   "D2": [
+      "Y23",
+      "r1_pf-5_malt-1_4HB"
+   ],
+   "D3": [
+      "Y24",
+      "r1_ecoli_mRuby-r50_pf-5_malt-1_4HB"
+   ],
+   "D4": [
+      "Y25",
+      "r1_ecoli_mRuby-r20_pf-5_malt-1_4HB"
+   ],
+   "D5": [
+      "Y26",
+      "r1_ecoli_mRuby-r10_pf-5_malt-1_4HB"
+   ],
+   "D6": [
+      "Y27",
+      "r1_ecoli_mRuby-r3_pf-5_malt-1_4HB"
+   ],
+   "D7": [
+      "Y28",
+      "r1_ecoli_mRuby-r1_pf-5_malt-1_4HB"
+   ],
+   "D8": [
+      "Y29",
+      "r3_ecoli_mRuby-r1_pf-5_malt-1_4HB"
+   ],
+   "D9": [
+      "Y30",
+      "r10_ecoli_mRuby-r1_pf-5_malt-1_4HB"
+   ],
+   "D10": [
+      "Y31",
+      "r20_ecoli_mRuby-r1_pf-5_malt-1_4HB"
+   ],
+   "D11": [
+      "Y32",
+      "r1_ecoli_mRuby-5_malt-1_4HB"
+   ],
+   "D12": [
+      "Y33",
+      "5_malt-1_4HB"
+   ],
+   "E2": [
+      "Y34",
+      "r1_pf-5_malt-2_4HB"
+   ],
+   "E3": [
+      "Y35",
+      "r1_ecoli_ACS-r50_pf-5_malt-2_4HB"
+   ],
+   "E4": [
+      "Y36",
+      "r1_ecoli_ACS-r20_pf-5_malt-2_4HB"
+   ],
+   "E5": [
+      "Y37",
+      "r1_ecoli_ACS-r10_pf-5_malt-2_4HB"
+   ],
+   "E6": [
+      "Y38",
+      "r1_ecoli_ACS-r3_pf-5_malt-2_4HB"
+   ],
+   "E7": [
+      "Y39",
+      "r1_ecoli_ACS-r1_pf-5_malt-2_4HB"
+   ],
+   "E8": [
+      "Y40",
+      "r3_ecoli_ACS-r1_pf-5_malt-2_4HB"
+   ],
+   "E9": [
+      "Y41",
+      "r10_ecoli_ACS-r1_pf-5_malt-2_4HB"
+   ],
+   "E10": [
+      "Y42",
+      "r20_ecoli_ACS-r1_pf-5_malt-2_4HB"
+   ],
+   "E11": [
+      "Y43",
+      "r1_ecoli_ACS-5_malt-2_4HB"
+   ],
+   "E12": [
+      "Y44",
+      "5_malt-2_4HB"
+   ],
+   "F2": [
+      "Y45",
+      "r1_pf-5_malt-4_4HB"
+   ],
+   "F3": [
+      "Y46",
+      "r1_ecoli_mRuby-r50_pf-5_malt-4_4HB"
+   ],
+   "F4": [
+      "Y47",
+      "r1_ecoli_mRuby-r20_pf-5_malt-4_4HB"
+   ],
+   "F5": [
+      "Y48",
+      "r1_ecoli_mRuby-r10_pf-5_malt-4_4HB"
+   ],
+   "F6": [
+      "Y49",
+      "r1_ecoli_mRuby-r3_pf-5_malt-4_4HB"
+   ],
+   "F7": [
+      "Y50",
+      "r1_ecoli_mRuby-r1_pf-5_malt-4_4HB"
+   ],
+   "F8": [
+      "Y51",
+      "r3_ecoli_mRuby-r1_pf-5_malt-4_4HB"
+   ],
+   "F9": [
+      "Y52",
+      "r10_ecoli_mRuby-r1_pf-5_malt-4_4HB"
+   ],
+   "F10": [
+      "Y53",
+      "r20_ecoli_mRuby-r1_pf-5_malt-4_4HB"
+   ],
+   "F11": [
+      "Y54",
+      "r1_ecoli_mRuby-5_malt-4_4HB"
+   ],
+   "F12": [
+      "Y55",
+      "5_malt-4_4HB"
+   ],
+   "G2": [
+      "Y56",
+      "r1_pf-5_malt-8_4HB"
+   ],
+   "G3": [
+      "Y57",
+      "r1_ecoli_ACS-r50_pf-5_malt-8_4HB"
+   ],
+   "G4": [
+      "Y58",
+      "r1_ecoli_ACS-r20_pf-5_malt-8_4HB"
+   ],
+   "G5": [
+      "Y59",
+      "r1_ecoli_ACS-r10_pf-5_malt-8_4HB"
+   ],
+   "G6": [
+      "Y60",
+      "r1_ecoli_ACS-r3_pf-5_malt-8_4HB"
+   ],
+   "G7": [
+      "Y61",
+      "r1_ecoli_ACS-r1_pf-5_malt-8_4HB"
+   ],
+   "G8": [
+      "Y62",
+      "r3_ecoli_ACS-r1_pf-5_malt-8_4HB"
+   ],
+   "G9": [
+      "Y63",
+      "r10_ecoli_ACS-r1_pf-5_malt-8_4HB"
+   ],
+   "G10": [
+      "Y64",
+      "r20_ecoli_ACS-r1_pf-5_malt-8_4HB"
+   ],
+   "G11": [
+      "Y65",
+      "r1_ecoli_ACS-5_malt-8_4HB"
+   ],
+   "G12": [
+      "Y66",
+      "5_malt-8_4HB"
+   ]
+}
