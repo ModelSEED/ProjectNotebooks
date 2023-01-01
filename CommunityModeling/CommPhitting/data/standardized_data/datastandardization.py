@@ -207,10 +207,12 @@ def _remove_timesteps(org_df, ignore_timesteps, name, signal):
                                  f"were unsuccessfully dropped for the {name} {signal} data.")
     return dataframe, ignore_timesteps
 
-def _df_construction(name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num, buffer_col1=True):
+def _df_construction(name, df_name, ignore_trials, ignore_timesteps,
+                     significant_deviation, dataframe, row_num, buffer_col1=True):
     # refine the DataFrames
-    time_df = _column_reduction(dataframes[df_name].iloc[0::2])
-    values_df = _column_reduction(dataframes[df_name].iloc[1::2])
+    time_df = _column_reduction(dataframe.iloc[0::2])
+    values_df = _column_reduction(dataframe.iloc[1::2])
+    # display(name, time_df, values_df)
 
     # remove specified data trials
     if ignore_trials:
@@ -507,7 +509,8 @@ class GrowthData:
             dataframes[df_name].drop(dataframes[df_name].index[:7], inplace=True)
             ## process the OD DataFrame
             data_times_df, data_values_df = _df_construction(
-                name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
+                name, df_name, ignore_trials, ignore_timesteps, significant_deviation,
+                dataframes[df_name], row_num)
             plateaued_times = _check_plateau(
                 data_values_df, name, name, significant_deviation, 3)
             ## define and store the final DataFrames
@@ -535,7 +538,8 @@ class GrowthData:
             data_timestep_hr.append(simulation_time / int(dataframes[df_name].columns[-1]))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, df_name, ignore_trials, ignore_timesteps, significant_deviation, dataframes, row_num)
+                name, df_name, ignore_trials, ignore_timesteps, significant_deviation,
+                dataframes[df_name], row_num)
             # display(data_times_df) ; display(data_values_df)
             for col in plateaued_times:
                 if col in data_times_df.columns:
@@ -746,12 +750,13 @@ class GrowthData:
     @staticmethod
     def data_process(dataframes, trial_name_conversion):
         short_codes, trials_list = [], []
-        values, times = {}, {}  # The times must be capture upstream
+        values, times = {}, {}  # The times must capture upstream
         first = True
         for df_name, (times_df, values_df) in dataframes.items():
             # print(df_name)
             # display(times_df) ; display(values_df)
             times_tup = FBAHelper.parse_df(times_df)
+            average_times = np.mean(times_tup.values, axis=0)
             values[df_name], times[df_name] = [], []
             for trial_code in values_df.index:
                 row_let, col_num = trial_code[0], trial_code[1:]
@@ -762,7 +767,7 @@ class GrowthData:
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
                     values[df_name].extend(trial_row_values)
-                    times[df_name].append(times_tup.values.flatten())
+                    times[df_name].extend(average_times)
             first = False
         # process the data to the smallest dataset, to accommodate heterogeneous data sizes
         minVal = min(list(map(len, values.values())))
@@ -770,13 +775,10 @@ class GrowthData:
             values[df_name] = data[:minVal]
         times2 = times.copy()
         for df_name, data in times2.items():
-            times[df_name] = []
-            for ls in data:
-                times[df_name].append(ls[:minVal])
-        times_set = np.mean(list(times.values()), axis=0).flatten()
+            times[df_name] = data[:minVal]
         # construct the growth DataFrame
         df_data = {"trial_IDs": trials_list[:minVal], "short_codes": short_codes[:minVal]}
-        df_data.update({"Time (s)": times_set})  # element-wise average
+        df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
         df_data.update({df_name:vals for df_name, vals in values.items()})
         growth_df = DataFrame(df_data)
         growth_df.index = growth_df["short_codes"]
@@ -791,10 +793,10 @@ class BiologData:
     def process(data_paths, trial_conditions_path, community_members,
                 culture=None, date=None, significant_deviation=None, solver="glpk"):
         row_num = 8 ; column_num = 12
-        (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date, fluxes_df) = BiologData.load_data(
-            data_paths, significant_deviation, community_members, row_num, culture, date, solver)
+        (zipped_output, data_timestep_hr, simulation_time, dataframes, trials, culture, date, fluxes_df
+         ) = BiologData.load_data(data_paths, significant_deviation, community_members, row_num, culture, date, solver)
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = BiologData.metadata(
-            trial_conditions_path, row_num , column_num, culture, date)
+            trial_conditions_path, row_num, column_num, culture, date)
         biolog_df = BiologData.data_process(dataframes, trial_name_conversion)
         return (experimental_metadata, biolog_df, standardized_carbon_conc, fluxes_df,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time)
@@ -821,8 +823,9 @@ class BiologData:
             if df_name not in dataframes:
                 dataframes[df_name] = _spreadsheet_extension_parse(
                     data_paths['path'], raw_data, org_sheet)
-                dataframes[df_name].columns = dataframes[df_name].iloc[8]
-                dataframes[df_name].drop(dataframes[df_name].index[:9], inplace=True)
+                dataframes[df_name].columns = dataframes[df_name].iloc[6]
+                dataframes[df_name].drop(dataframes[df_name].index[:7], inplace=True)
+                dataframes[df_name].dropna(inplace=True)
             # parse the DataFrame for values
             dataframes[df_name].columns = [str(x).strip() for x in dataframes[df_name].columns]
             simulation_time = dataframes[df_name].iloc[0, -1] / hour
@@ -830,7 +833,8 @@ class BiologData:
             data_timestep_hr.append(simulation_time / int(float(dataframes[df_name].columns[-1])))
             # define the times and data
             data_times_df, data_values_df = _df_construction(
-                name, df_name, None, None, significant_deviation, dataframes, row_num, False)
+                name, df_name, None, None, significant_deviation,
+                dataframes[df_name], row_num, False)
             # display(data_times_df) ; display(data_values_df)
             dataframes[df_name] = (data_times_df, data_values_df)
 
@@ -1011,21 +1015,36 @@ class BiologData:
         values, times = {}, {}  # The times must capture upstream
         first = True
         for df_name, (times_df, values_df) in dataframes.items():
+            # display(df_name, times_df, values_df)
             times_tup = FBAHelper.parse_df(times_df)
-            average_times = np.mean(times_tup.values, axis=0)
+            # display(DataFrame(times_tup.values))
+            average_times = list(np.mean(times_tup.values, axis=0))
+            # print(average_times)
+            # print(len(average_times))
             values[df_name], times[df_name] = [], []
             for exprID in values_df.index:
                 row_let, col_num = exprID[0], exprID[1:]
-                for row in trial_contents(exprID, values_df.index, values_df.values):
+                for trial_row_values in trial_contents(exprID, values_df.index, values_df.values):
                     if first:
                         short_code, experimentalID = trial_name_conversion[row_let][col_num]
                         trials_list.extend([experimentalID] * len(values_df.columns))
                         short_codes.extend([short_code] * len(values_df.columns))
-                    values[df_name].extend(row)
+                    if len(trial_row_values) != len(average_times):
+                        print(f"The length of the trial data {len(trial_row_values)} "
+                              f"exceeds that of the timesteps {len(average_times)} "
+                              f"which creates an incompatible DataFrame.")
+                    values[df_name].extend(trial_row_values)
                     times[df_name].extend(average_times)
             first = False
+        # process the data to the smallest dataset, to accommodate heterogeneous data sizes
+        minVal = min(list(map(len, values.values())))
+        for df_name, data in values.items():
+            values[df_name] = data[:minVal]
+        times2 = times.copy()
+        for df_name, data in times2.items():
+            times[df_name] = data[:minVal]
         df_data = {"trial_IDs": trials_list, "short_codes": short_codes}
-        df_data.update({"Time (s)": np.mean(list(times.values()), axis=0)})  # element-wise average
+        df_data.update({"Time (s)": list(np.mean(list(times.values()), axis=0))})  # element-wise average
         df_data.update({df_name:vals for df_name, vals in values.items()})
         biolog_df = DataFrame(df_data)
         biolog_df.index = biolog_df["short_codes"]

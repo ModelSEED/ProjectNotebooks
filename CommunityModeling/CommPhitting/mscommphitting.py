@@ -12,6 +12,7 @@ from scipy.optimize import newton
 from zipfile import ZipFile, ZIP_LZMA
 from optlang.symbolics import Zero
 from matplotlib import pyplot
+from itertools import chain
 from typing import Union, Iterable
 from pprint import pprint
 from time import sleep, process_time
@@ -107,6 +108,7 @@ def parse_primals(primal_values, entity_labels, coefs=None, kcat_vals=None):
                     kcat_primal[species] = {}
                 if pheno not in kcat_primal[species]:
                     kcat_primal[species][pheno] = 0
+                print(kcat_primal[species][pheno], value)
                 if value == 0:
                     kcat_primal[species][pheno] += coefs[int(number)-1]*kcat_vals[species][pheno]
 
@@ -124,6 +126,10 @@ def signal_species(signal):
 
 def _partition_coefs(initial_val, divisor):
     return (initial_val, initial_val/divisor, initial_val/divisor**2, initial_val/divisor**3, initial_val/divisor**4)
+
+
+biomass_partition_coefs = [_partition_coefs(100, 10), _partition_coefs(4, 2), _partition_coefs(1, 2)]
+
 
 class CommPhitting:
 
@@ -144,7 +150,6 @@ class CommPhitting:
                  export_lp: str = f'solveKcat.lp', publishing=True, primals_export_path=None):
         if export_zip_name and os.path.exists(export_zip_name):
             os.remove(export_zip_name)
-        biomass_partition_coefs = [_partition_coefs(100, 10), _partition_coefs(4, 2), _partition_coefs(0.5, 2)]
         kcat_primal = None
         for index, coefs in enumerate(biomass_partition_coefs):
             # solve for growth rate constants with the previously solved biomasses
@@ -212,6 +217,7 @@ class CommPhitting:
         return variables
 
     def define_b_cons(self, pheno, short_code, timestep, constraints, biomass_coefs):
+        biomass_coefs = biomass_coefs or biomass_partition_coefs[-1]
         # define the partitioned biomass groups
         self.constraints['b1c_' + pheno][short_code][timestep] = tupConstraint(
             _name("b1c_", pheno, short_code, timestep, self.names), Bounds(0, None), {
@@ -437,14 +443,14 @@ class CommPhitting:
         self.constraints['bin3c_' + pheno][short_code] = {}; self.constraints['bin4c_' + pheno][short_code] = {}
         self.constraints['bin5c_' + pheno][short_code] = {}
 
-    def define_problem(self, parameters=None, mets_to_track = None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
+    def define_problem(self, parameters=None, mets_to_track=None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
                        primal_values=None, biomass_coefs=None, requisite_biomass:dict=None):
         # parse the growth data
-        growth_tup = FBAHelper.parse_df(self.growth_df)
+        growth_tup = FBAHelper.parse_df(self.growth_df, False)
         phenotypes = list(self.fluxes_tup.columns)
-        phenotypes.extend([signal_species(signal)+"_stationary"
-                           for signal in growth_tup.columns if ":" in signal])
+        phenotypes.extend([signal_species(signal)+"_stationary" for signal in growth_tup.columns if (
+                ":" in signal and "OD" not in signal)])
         self.species_list = [signal_species(signal) for signal in growth_tup.columns if ":" in signal]
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
         # TODO - short_codes must be distinguished for different conditions
@@ -647,7 +653,8 @@ class CommPhitting:
                     # c_{met} + dt/2*sum_k^K(n_{k,met} * (g_{pheno}+g+1_{pheno})) = c+1_{met}
                     next_timestep = timestep + 1
                     growth_phenos = [[self.variables['g_' + pheno][short_code][next_timestep].name,
-                                      self.variables['g_' + pheno][short_code][timestep].name] for pheno in phenotypes]
+                                      self.variables['g_' + pheno][short_code][timestep].name]
+                                     for pheno in self.fluxes_tup.columns]
                     self.constraints['dcc_' + met_id][short_code][timestep] = tupConstraint(
                         name=_name("dcc_", met_id, short_code, timestep, self.names),
                         expr={
@@ -1246,33 +1253,35 @@ class CommPhitting:
 
 
 class BIOLOGPhitting(CommPhitting):
-    def __init__(self, carbon_conc, media_conc, biolog_df, fluxes_df, experimental_metadata, msdb_path):
+    def __init__(self, carbon_conc, media_conc, biolog_df, fluxes_df,
+                 experimental_metadata, msdb_path, community_members):
         self.biolog_df = biolog_df; self.experimental_metadata = experimental_metadata
-        self.carbon_conc = carbon_conc; self.media_conc = media_conc; self.fluxes_df = fluxes_df
-        biolog_tup = FBAHelper.parse_df(self.biolog_df)
-        self.phenotypes = list(self.fluxes_tup.columns)
+        self.carbon_conc = carbon_conc; self.media_conc = media_conc or []
+        self.fluxes_df = fluxes_df ; self.phenotypes = list(self.fluxes_df.columns)
         self.phenotypes.extend([signal_species(signal)+"_stationary"
-                           for signal in biolog_tup.columns if ":" in signal])
+                                for signal in self.biolog_df if ":" in signal])
+        self.community_members = community_members
         # import os
         from modelseedpy.biochem import from_local
-        self.msdb = from_local(msdb_path)
+        self.msdb_path = msdb_path ; self.msdb = from_local(msdb_path)
 
-    def fitAll(self, models_list:list, parameters: dict = None, rel_final_conc: float = None,
+    def fitAll(self, parameters: dict = None, rel_final_conc: float = None,
                abs_final_conc: dict = None, graphs: list = None, data_timesteps: dict = None,
-               export_zip_name: str = None, export_parameters: bool = True,
+               export_zip_name: str = None, export_parameters: bool = True, requisite_biomass: dict = None,
                figures_zip_name: str = None, publishing: bool = False):
         # simulate each condition
+        if export_zip_name and os.path.exists(export_zip_name):
+            os.remove(export_zip_name)
         org_rel_final_conc = rel_final_conc
         # total_reactions = set(list(chain.from_iterable([model.reactions for model in models_dict.values()])))
-        community_members = {model: {"name": name} for name, model in models_list.items()}
-        model_abbreviations = ','.join([model_abbrev for model_abbrev in models_list])
-        for index, experiment in self.experimental_metadata.iterrows():
-            print(f"\n{index}")
+        model_abbreviations = ','.join([content["name"] for content in self.community_members.values()])
+        for exp_index, experiment in self.experimental_metadata.iterrows():
+            print(f"\n{exp_index} {experiment}")
             display(experiment)
             if not experiment["ModelSEED_ID"]:
                 print("The BIOLOG condition is not defined.")
                 continue
-            for model in models_list.values():
+            for model in self.community_members:
                 cpd = self.msdb.compounds.get_by_id(experiment["ModelSEED_ID"])
                 if ("C" not in cpd.elements or not any([
                         re.search(experiment["ModelSEED_ID"], rxn.id) for rxn in model.reactions])):
@@ -1281,9 +1290,10 @@ class BIOLOGPhitting(CommPhitting):
                     continue
                 exp_list = [experiment["ModelSEED_ID"]] if isinstance(
                     experiment["ModelSEED_ID"], str) else experiment["ModelSEED_ID"]
-                community_members[model].update({"phenotypes": {
+                self.community_members[model].update({"phenotypes": {
                     re.sub(r"(-|\s)", "", experiment["condition"]): {"consumed": exp_list} }})
                 valid_condition = True
+            # proceed if none of the members can utilize the phenotype condition
             if not valid_condition:
                 print(f"The BIOLOG condition with {experiment['ModelSEED_ID']} is not"
                       f" absorbed by the {model_abbreviations} model(s).")
@@ -1296,22 +1306,31 @@ class BIOLOGPhitting(CommPhitting):
                       f"{experiment['condition']} condition is not a suitable phenotype for "
                       f"the {model_abbreviations} model(s).")
                 continue
-            mets_to_track = exp_list
+            # simulate through the kinetics ranges with conditions that can be used by one of members
             rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc}
-            export_path = os.path.join(os.getcwd(), f"BIOLOG_LPs", f"{index}_{','.join(mets_to_track)}.lp")
-            ## define the CommPhitting object and simulate the experiment
-            CommPhitting.__init__(self, self.fluxes_df, self.carbon_conc, self.media_conc,
-                                  self.biolog_df.loc[index,:], self.experimental_metadata)
-            CommPhitting.define_problem(self, parameters, mets_to_track, rel_final_conc, None,
-                                        abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path)
-            new_graphs = []
-            for graph in graphs:
-                graph["trial"] = index
-                new_graphs.append(graph)
-            try:
-                CommPhitting.compute(self, new_graphs, export_zip_name, figures_zip_name, publishing,
-                                     f"BIOLOG_{experiment['ModelSEED_ID']}.json", remove_empty_plots=True)
-                break
-            except (NoFluxError) as e:
-                print(e)
+            export_path = os.path.join(os.getcwd(), "BIOLOG_LPs", f"{exp_index}_{','.join(exp_list)}.lp")
+            kcat_primal = None
+            for coef_index, coefs in enumerate(biomass_partition_coefs):
+                # solve for growth rate constants with the previously solved biomasses
+                new_simulation = CommPhitting(self.fluxes_df, self.carbon_conc, self.media_conc,
+                                              self.msdb_path, self.biolog_df.loc[exp_index,:],
+                                              self.experimental_metadata)
+                new_simulation.define_problem(
+                    parameters, exp_list, rel_final_conc,
+                    set(list(chain.from_iterable([
+                        content["excretions"] for content in self.community_members.values()]))),
+                    abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path,
+                    kcat_primal, coefs, requisite_biomass)
+                time1 = process_time()
+                primals_export_path = primals_export_path or f"BIOLOG_{experiment['ModelSEED_ID']}.json"
+                try:
+                    new_simulation.compute(graphs, export_zip_name, None, publishing, primals_export_path, True)
+                except (NoFluxError) as e:
+                    print(e)
+                kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
+                time2 = process_time()
+                print(f"Done simulating with the coefficients for biomass partitions: {coef_index}"
+                      f"\n{(time2 - time1) / 60} minutes")
+                pprint(kcat_primal)
             print("\n\n\n")
+        return {k: val for k, val in new_simulation.values.items() if "kcat" in k}
