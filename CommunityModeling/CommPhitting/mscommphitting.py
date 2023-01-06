@@ -448,8 +448,8 @@ class CommPhitting:
                        primal_values=None, biomass_coefs=None, requisite_biomass:dict=None):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df, False)
-        phenotypes = list(self.fluxes_tup.columns)
-        phenotypes.extend([signal_species(signal)+"_stationary" for signal in growth_tup.columns if (
+        self.phenotypes = list(self.fluxes_tup.columns)
+        self.phenotypes.extend([signal_species(signal)+"_stationary" for signal in growth_tup.columns if (
                 ":" in signal and "OD" not in signal)])
         self.species_list = [signal_species(signal) for signal in growth_tup.columns if ":" in signal]
         num_sorted = np.sort(np.array([int(obj[1:]) for obj in set(growth_tup.index)]))
@@ -475,7 +475,7 @@ class CommPhitting:
         })
         self.parameters.update(parameters)
         # define the appropriate kcat values
-        self.parameters.update(self._universalize(self.parameters,"kcat", exclude=["stationary"]))
+        self.parameters.update(self._universalize(self.parameters, "kcat", exclude=["stationary"]))
         if primal_values:
             for species, content in self.parameters["kcat"].items():
                 if species not in primal_values:
@@ -549,13 +549,13 @@ class CommPhitting:
                     self.variables[concID][short_code][timestep] = conc_var
                     variables.append(self.variables[concID][short_code][timestep])
                     # print(variables[-1])
-        for pheno in phenotypes:
+        for pheno in self.phenotypes:
             self.constraints['dbc_' + pheno] = {
                 short_code: {} for short_code in unique_short_codes}
 
         # define growth and biomass variables and constraints
         # self.parameters["kcat"] = {met_id:{species:_michaelis_menten()}}
-        for pheno in phenotypes:
+        for pheno in self.phenotypes:
             for short_code in unique_short_codes:
                 self.initialize_vars_cons(pheno, short_code)
                 timesteps = list(range(1, len(self.times[short_code]) + 1))
@@ -723,7 +723,7 @@ class CommPhitting:
                     next_timestep = int(timestep) + 1
                     ## the phenotype transition terms are aggregated
                     total_biomass, signal_sum, from_sum, to_sum = [], [], [], []
-                    for pheno_index, pheno in enumerate(phenotypes):
+                    for pheno_index, pheno in enumerate(self.phenotypes):
                         ### define the collections of signal and pheno terms
                         if species in pheno or "OD" in signal:
                             # if not isnumber(b_values[pheno][short_code][timestep]):
@@ -866,6 +866,7 @@ class CommPhitting:
     def compute(self, graphs: list = None, export_zip_name=None, figures_zip_name=None, publishing=False,
                 primals_export_path:str = "primal_values.json", remove_empty_plots=False):
         print("starting optimization")
+        time1 = process_time()
         self.values = {}
         solution = self.problem.optimize()
         # categorize the primal values by trial and time
@@ -901,9 +902,13 @@ class CommPhitting:
                 os.remove(primals_export_path)
 
         # visualize the specified information
+        time2 = process_time()
         if graphs:
             self.graph(graphs, export_zip_name=figures_zip_name or export_zip_name, publishing=publishing,
                        remove_empty_plots=remove_empty_plots)
+        time3 = process_time()
+        print(f"Optimization completed in {(time2-time1)/60} minutes")
+        print(f"Graphing completed in {(time3-time2)/60} minutes")
 
     def load_model(self, mscomfit_json_path: str = None, zip_name: str = None, model_to_load: dict = None):
         if zip_name:
@@ -966,26 +971,21 @@ class CommPhitting:
         c = colorsys.rgb_to_hls(*mc.to_rgb(c))
         return colorsys.hls_to_rgb(c[0], max(0, min(1, amount * c[1])), c[2])
 
-    def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid", scatter=False, color=None):
+    def _add_plot(self, ax, labels, label, basename, trial, x_axis_split, linestyle="solid",
+                  scatter=False, color=None, xs=None, ys=None):
         labels.append(label or basename.split('-')[-1])
+        xs = xs if xs is not None else list(map(float, self.values[trial][basename].keys()))
+        ys = ys if ys is not None else list(map(float, self.values[trial][basename].values()))
         if scatter:
-            # print(label)
-            # pprint(list(self.values[trial][basename].keys()))
-            # pprint(list(self.values[trial][basename].values()))
-            ax.scatter(list(self.values[trial][basename].keys()),
-                       list(self.values[trial][basename].values()),
-                       s=10, label=labels[-1], color=color or None)
+            ax.scatter(xs, ys, s=10, label=labels[-1], color=color or None)
         else:
-            ax.plot(list(self.values[trial][basename].keys()),
-                    list(self.values[trial][basename].values()),
-                    label=labels[-1], linestyle=linestyle)
-        x_ticks = np.around(np.array(list(self.values[trial][basename].keys())), 0)
-        ax.set_xticks(x_ticks[::x_axis_split])
+            ax.plot(xs, ys, label=labels[-1], linestyle=linestyle, color=color or None)
+        ax.set_xticks(list(map(int, xs))[::x_axis_split])
         return ax, labels
 
     def graph(self, graphs, primal_values_filename: str = None, primal_values_zip_path: str = None,
-              export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False, title: str = None,
-              remove_empty_plots:bool = False):
+              export_zip_name: str = None, data_timestep_hr: float = 0.163, publishing: bool = False,
+              title: str = None, remove_empty_plots:bool = False):
         print(export_zip_name)
         # define the default timestep ratio as 1
         data_timestep_hr = self.parameters.get('data_timestep_hr', data_timestep_hr)
@@ -998,7 +998,7 @@ class CommPhitting:
                 self.values = json.load(primal)
 
         # plot the content for desired trials
-        x_axis_split = int(2 / data_timestep_hr / timestep_ratio)
+        x_axis_split = int(3 / data_timestep_hr / timestep_ratio)
         self.plots = set()
         contents = {"biomass": 'b_', "all_biomass": 'b_', "growth": 'g_', "conc": "c_"}
         mM_threshold = 1e-3
@@ -1006,8 +1006,8 @@ class CommPhitting:
             content = contents.get(graph['content'], graph['content'])
             y_label = 'Variable value'; x_label = r'Time ($hr$)'
             if any([x in graph['content'] for x in ['biomass', 'OD']]):
-                ys = {name: [] for name in self.species_list}
-                ys.update({"OD":[]})
+                total_biomasses = {name: [] for name in self.species_list}
+                total_biomasses.update({"OD":[]})
                 if "species" not in graph:
                     graph['species'] = self.species_list
             if "biomass" in graph['content']:
@@ -1036,8 +1036,8 @@ class CommPhitting:
             if 'phenotype' in graph and graph['phenotype'] == '*':
                 if "species" not in graph:
                     graph['species'] = self.species_list
-                graph['phenotype'] = set([col.split('_')[1] for col in self.fluxes_tup.columns
-                                          if col.split('_')[0] in graph["species"]])
+                graph['phenotype'] = set([pheno.split("_")[-1] for pheno in self.phenotypes
+                                          if pheno.split("_")[0] in graph["species"]])
             if 'species' in graph and graph['species'] == '*':   # TODO - a species-resolved option must be developed for the paper figure
                 graph['species'] = self.species_list
             elif content == "c_" and 'mets' not in graph:
@@ -1052,42 +1052,42 @@ class CommPhitting:
                 pyplot.rc('xtick', labelsize=24)
                 pyplot.rc('ytick', labelsize=24)
                 pyplot.rc('legend', fontsize=18)
-            fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
-            x_ticks = None
+            if graph["parsed"]:
+                parsed_graphs = {}
+                for species in graph["species"]:
+                    parsed_graphs[species] = pyplot.subplots(dpi=200, figsize=(11, 7))
+            else:
+                fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
             yscale = "linear"
 
-            # define the figure contents
+            # populate the figures
             for trial, basenames in self.values.items():
                 if trial not in graph['trial']:
                     continue
                 labels = []
                 for basename, values in basenames.items():
-                    # graph comprehensive overlaid figures of biomass plots
+                    # graph experimental and total simulated biomasses
                     if any([x in graph['content'] for x in ['biomass', 'OD']]):
                         if 'b_' in basename:
+                            vals = list(map(float, values.values()))
                             var_name, species, phenotype = basename.split('_')
+                            ic(basename)
                             label = f'{species}_biomass (model)'
                             if publishing:
-                                # if any([species == species_name for species_name in self.species_list]):
-                                #     break
                                 species_name = graph["painting"][species]["name"]
                                 label = f'{species_name} total (model)'
                             labels.append({species: label})
-                            xs = np.array(list(values.keys()))
-                            vals = np.array(list(values.values()))
-                            if remove_empty_plots and all(vals == 0):
+                            if remove_empty_plots and all([v == 0 for v in vals]):
+                                print(f"The {basename} is empty and thus is removed.")
                                 continue
-                            # print(basename, values.values())
-                            ax.set_xticks(xs[::int(3 / data_timestep_hr / timestep_ratio)])
                             if (any([x in graph['content'] for x in ["total", "biomass", 'OD']]) or
-                                    graph['species'] == self.species_list):
-                                ys['OD'].append(vals)
+                                    graph['species'] == self.species_list): # and not graph["parsed"]:
+                                total_biomasses['OD'].append(vals)
                                 if "OD" not in graph['content']:
-                                    ys[species].append(vals)
+                                    total_biomasses[species].append(vals)
                         if all([graph['experimental_data'], '|bio' in basename, ]):
                             # any([content in basename])]):  # TODO - any() must include all_biomass and total
                             species, signal, phenotype = basename.split('|')
-                            # signal = "_".join([x for x in basename.split('_')[:-1] if x])
                             label = basename
                             if publishing:
                                 species_name = graph["painting"][species]["name"]
@@ -1096,42 +1096,36 @@ class CommPhitting:
                                     label = f'Experimental total (from {signal})'
                             # print(basename, label, self.values[trial][basename].values())
                             if remove_empty_plots and all(self.values[trial][basename].values() == 0):
+                                print(f"The {basename} is empty and thus is removed.")
                                 continue
                             ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, scatter=True,
                                                         color=self.adjust_color(graph["painting"][species]["color"], 1.5))
-                    # graph an aspect of a specific species across all phenotypes
+
                     if content not in basename:
                         continue
+                    # graph individual phenotypes
                     if "phenotype" in graph:
+                        print(graph['phenotype'])
                         for specie in graph["species"]:
                             if specie not in basename:
                                 continue
+                            if not any([p in basename for p in graph['phenotype']]):
+                                print(f"{basename} data with unknown phenotype.")
+                                continue
+                            if remove_empty_plots and all(self.values[trial][basename].values() == 0):
+                                print(f"The {specie} is empty and thus is removed.")
+                                continue
+                            if graph["parsed"]:
+                                fig, ax = parsed_graphs[specie]
+                            ## define graph characteristics
                             label = basename.split("_")[-1]
                             style = "solid"
-                            # multi-species figures
                             if len(graph["species"]) > 1:
                                 label = re.sub(r"(^[a-b]+\_)", "", basename)
                                 style = graph["painting"][specie]["linestyle"]
-                            if graph['phenotype'] == '*':
-                                if 'total' in graph["content"]:
-                                    labels = [label]
-                                    xs = np.array(list(values.keys()))
-                                    ys.append(np.array(list(values.values())))
-                                    if remove_empty_plots and all(ys == 0):
-                                        continue
-                                    ax.set_xticks(x_ticks[::int(3 / data_timestep_hr / timestep_ratio)])
-                                else:
-                                    if remove_empty_plots and all(self.values[trial][basename].values() == 0):
-                                        continue
-                                    ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
-                                # print('species content of all phenotypes')
-                            # graph all phenotypes
-                            elif any([x in basename for x in graph['phenotype']]):
-                                if remove_empty_plots and all(self.values[trial][basename].values() == 0):
-                                    continue
-                                ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
-                                # print('all content over all phenotypes')
-                            break
+                            ax, labels = self._add_plot(ax, labels, label, basename, trial, x_axis_split, style)
+                            if graph["parsed"]:
+                                parsed_graphs[specie] = (fig, ax)
                     # graph media concentration plots
                     elif "mets" in graph and all([any([x in basename for x in graph["mets"]]), 'c_cpd' in basename]):
                         if not any(np.array(list(self.values[trial][basename].values())) > mM_threshold):
@@ -1143,14 +1137,17 @@ class CommPhitting:
                         yscale = "log"
                         y_label = r'Concentration ($mM$)'
 
-                if labels:  # this assesses whether a graph was constructed
+                if labels:  # assesses whether graph(s) were created
+                    ## graph all of the total biomasses
                     if any([x in graph['content'] for x in ['OD', 'biomass', 'total']]):
                         labeled_species = [label for label in labels if isinstance(label, dict)]
-                        for name, vals in ys.items():
-                            if not vals or (len(ys) == 2 and "OD" not in name):
+                        for name, vals in total_biomasses.items():
+                            ic(name)
+                            if not vals or (len(total_biomasses) == 2 and "OD" not in name):
                                 continue
-                            if len(ys) == 2:
-                                specie_label = [graph["painting"][name]["name"] for name in ys if "OD" not in name][0]
+                            if len(total_biomasses) == 2:
+                                specie_label = [graph["painting"][name]["name"] for name in total_biomasses
+                                                if "OD" not in name][0]
                                 label = f"{graph['painting'][name]['name']} ({specie_label})"
                             else:
                                 label = f'{name}_biomass (model)'
@@ -1164,25 +1161,26 @@ class CommPhitting:
                             style = "dashdot" if "model" in label else style
                             style = "solid" if ("OD" in name and not graph["experimental_data"]
                                                 or "total" in graph["content"]) else style
-                            if not graph["parsed"]:
-                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style,
-                                        color=self.adjust_color(graph["painting"][name].get("color", None), 1.5))
-                            else:
-                                # TODO - the phenotypes of each respective species must be added to these developed plots.
-                                fig, ax = pyplot.subplots(dpi=200, figsize=(11, 7))
-                                ax.set_xlabel(x_label) ; ax.set_ylabel(y_label) ; ax.grid(axis="y") ; ax.legend()
-                                ax.plot(xs.astype(np.float32), sum(vals), label=label, linestyle=style,
-                                        color=self.adjust_color(graph["painting"][name].get("color", None), 1.5))
+                            total_biomass = sum(np.array(vals))[:-1]
+                            xs = list(map(float, values.keys()))
+                            if graph["parsed"]:
+                                fig, ax = parsed_graphs[name]
+                            self._add_plot(ax, labels, label, None, None, x_axis_split, style, False,
+                                           graph["painting"][name]["color"], xs, total_biomass)
+                            if graph["parsed"]:
+                                ## process and export the parsed figures
+                                ax.set_xlabel(x_label) ; ax.set_ylabel(y_label) ; ax.grid(axis="y")
+                                ax.set_yscale(yscale) ; ax.legend()
                                 phenotype_id = graph.get('phenotype', "")
                                 if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                                     phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
                                 fig_name = f'{"_".join([trial, name, phenotype_id, content])}.jpg'
-                                if "mets" in graph:
-                                    fig_name = f"{trial}_{','.join(graph['mets'])}_c.jpg"
                                 fig.savefig(fig_name, bbox_inches="tight", transparent=True)
-                    if graph["parsed"]:
-                        break
+                                self.plots.add(fig_name)
 
+                    if graph["parsed"]:
+                        continue
+                    ## process and export the non-parsed figures
                     phenotype_id = graph.get('phenotype', "")
                     if "phenotype" in graph and not isinstance(graph['phenotype'], str):
                         phenotype_id = f"{','.join(graph['phenotype'])} phenotypes"
@@ -1197,8 +1195,7 @@ class CommPhitting:
                         if species_id == "all species" and not phenotype_id:
                             phenotype_id = ','.join(graph['species'])
 
-                    ax.set_xlabel(x_label)
-                    ax.set_ylabel(y_label)
+                    ax.set_xlabel(x_label) ; ax.set_ylabel(y_label)
                     if "mets" in graph:
                         ax.set_ylim(mM_threshold)
                     ax.grid(axis="y")
