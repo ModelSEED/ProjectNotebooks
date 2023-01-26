@@ -445,7 +445,7 @@ class CommPhitting:
 
     def define_problem(self, parameters=None, mets_to_track=None, rel_final_conc=None, zero_start=None, abs_final_conc=None,
                        data_timesteps=None, export_zip_name: str=None, export_parameters: bool=True, export_lp: str='CommPhitting.lp',
-                       primal_values=None, biomass_coefs=None, requisite_biomass:dict=None):
+                       primal_values=None, biomass_coefs=None, requisite_biomass:dict=None, biolog_simulation=False):
         # parse the growth data
         growth_tup = FBAHelper.parse_df(self.growth_df, False)
         self.phenotypes = list(self.fluxes_tup.columns)
@@ -537,6 +537,8 @@ class CommPhitting:
                             initial_val = self.carbon_conc[met_id][short_code]
                         if initial_val is not None:
                             conc_var = conc_var._replace(bounds=Bounds(initial_val, initial_val))
+                            if biolog_simulation:
+                                conc_var = conc_var._replace(bounds=Bounds(1, None))
                     ## mandate complete carbon consumption
                     elif timestep == timesteps[-1] and (met_id in self.rel_final_conc or met_id in self.abs_final_conc):
                         if met_id in self.rel_final_conc:
@@ -550,8 +552,7 @@ class CommPhitting:
                     variables.append(self.variables[concID][short_code][timestep])
                     # print(variables[-1])
         for pheno in self.phenotypes:
-            self.constraints['dbc_' + pheno] = {
-                short_code: {} for short_code in unique_short_codes}
+            self.constraints['dbc_' + pheno] = {short_code: {} for short_code in unique_short_codes}
 
         # define growth and biomass variables and constraints
         # self.parameters["kcat"] = {met_id:{species:_michaelis_menten()}}
@@ -789,6 +790,7 @@ class CommPhitting:
                                       self.variables[signal + '|diffneg'][short_code][timestep]])
 
                     # {signal}__conversion*datum = {signal}__bio
+                    # TODO - the conversion variable must be flexible for a constant for BIOLOG conditions
                     self.constraints[signal + '|bioc'][short_code][timestep] = tupConstraint(
                         name=_name(signal, '|bioc', short_code, timestep, self.names),
                         expr={
@@ -844,7 +846,8 @@ class CommPhitting:
         # print contents
         if export_parameters:
             self.zipped_output.append('parameters.csv')
-            DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()), columns=['values']).to_csv('parameters.csv')
+            DataFrame(data=list(self.parameters.values()), index=list(self.parameters.keys()),
+                      columns=['values']).to_csv('parameters.csv')
         if export_lp:
             if re.search(r"(\\\\/)", export_lp):
                 os.makedirs(os.path.dirname(export_lp), exist_ok=True)
@@ -883,7 +886,7 @@ class CommPhitting:
                     warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
                                   f"indicative of an error, such as improper kinetic rates.")
             else:
-                # print(variable, value)
+                print(variable, value)
                 basename, short_code, timestep = variable.split('-')
                 time_hr = int(timestep) * self.parameters['data_timestep_hr']
                 self.values[short_code] = self.values.get(short_code, {})
@@ -1275,20 +1278,20 @@ class BIOLOGPhitting(CommPhitting):
         for exp_index, experiment in self.experimental_metadata.iterrows():
             print(f"\n{exp_index} {experiment}")
             display(experiment)
-            if not experiment["ModelSEED_ID"]:
+            pheno = experiment["ModelSEED_ID"]
+            if not pheno:
                 print("The BIOLOG condition is not defined.")
                 continue
             for model in self.community_members:
-                cpd = self.msdb.compounds.get_by_id(experiment["ModelSEED_ID"])
-                if ("C" not in cpd.elements or not any([
-                        re.search(experiment["ModelSEED_ID"], rxn.id) for rxn in model.reactions])):
+                cpd = self.msdb.compounds.get_by_id(pheno)
+                if "C" not in cpd.elements or not any([re.search(pheno, rxn.id) for rxn in model.reactions]):
                     if "valid_condition" not in locals():
                         valid_condition = False
                     continue
-                exp_list = [experiment["ModelSEED_ID"]] if isinstance(
-                    experiment["ModelSEED_ID"], str) else experiment["ModelSEED_ID"]
+                exp_list = [pheno] if isinstance(pheno, str) else pheno
                 self.community_members[model].update({"phenotypes": {
                     re.sub(r"(-|\s)", "", experiment["condition"]): {"consumed": exp_list} }})
+                # determine the requisite biomass for each condition based on which member consumes the compound
                 valid_condition = True
             # proceed if none of the members can utilize the phenotype condition
             if not valid_condition:
@@ -1303,6 +1306,9 @@ class BIOLOGPhitting(CommPhitting):
                       f"{experiment['condition']} condition is not a suitable phenotype for "
                       f"the {model_abbreviations} model(s).")
                 continue
+
+            # for exp_index, experiment in self.experimental_metadata.iterrows():
+            # the model(s) for which the condition is a suitable carbon source must be defined here
             # simulate through the kinetics ranges with conditions that can be used by one of members
             rel_final_conc = {experiment["ModelSEED_ID"]: org_rel_final_conc}
             export_path = os.path.join(os.getcwd(), "BIOLOG_LPs", f"{exp_index}_{','.join(exp_list)}.lp")
@@ -1317,7 +1323,7 @@ class BIOLOGPhitting(CommPhitting):
                     set(list(chain.from_iterable([
                         content["excretions"] for content in self.community_members.values()]))),
                     abs_final_conc, data_timesteps, export_zip_name, export_parameters, export_path,
-                    kcat_primal, coefs, requisite_biomass)
+                    kcat_primal, coefs, requisite_biomass, True)
                 time1 = process_time()
                 primals_export_path = primals_export_path or f"BIOLOG_{experiment['ModelSEED_ID']}.json"
                 try:
