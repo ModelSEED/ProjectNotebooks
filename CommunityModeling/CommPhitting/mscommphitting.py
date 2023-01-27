@@ -886,7 +886,7 @@ class CommPhitting:
                     warnings.warn(f"The conversion factor {value} optimized to a bound, which may be "
                                   f"indicative of an error, such as improper kinetic rates.")
             else:
-                print(variable, value)
+                # print(variable, value)
                 basename, short_code, timestep = variable.split('-')
                 time_hr = int(timestep) * self.parameters['data_timestep_hr']
                 self.values[short_code] = self.values.get(short_code, {})

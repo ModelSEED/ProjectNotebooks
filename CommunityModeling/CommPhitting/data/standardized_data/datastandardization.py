@@ -249,6 +249,9 @@ def strip_comp(ID):
     ID = ID.replace("-", "~")
     return re.sub("(\_\w\d)", "", ID)
 
+def reverse_strip_comp(ID):
+    return ID.replace("~", "-")
+
 def _process_csv(self, csv_path, index_col):
     self.zipped_output.append(csv_path)
     csv = read_csv(csv_path) ; csv.index = csv[index_col]
@@ -271,7 +274,7 @@ def add_rel_flux_cons(model, ex, phenoRXN, carbon_ratio, rel_flux=0.2):
 class GrowthData:
 
     @staticmethod
-    def process(community_members: dict, base_media=None, solver: str = 'glpk',
+    def process(community_members: dict, base_media=None, solver: str = 'glpk', all_phenotypes=True,
                 data_paths: dict = None, species_abundances: str = None, carbon_conc_series: dict = None,
                 ignore_trials: Union[dict, list] = None, ignore_timesteps: list = None, species_identities_rows=None,
                 significant_deviation: float = 2, extract_zip_path: str = None):  #, msdb_path:str=None):
@@ -281,7 +284,7 @@ class GrowthData:
             row_num = len(list(carbon_conc_series["rows"].values())[0])
         # load and parse data and metadata
         (media_conc, zipped_output, data_timestep_hr, simulation_time, dataframes, trials, fluxes_df) = GrowthData.load_data(
-            base_media, community_members, solver, data_paths, ignore_trials,
+            base_media, community_members, solver, data_paths, ignore_trials, all_phenotypes,
             ignore_timesteps, significant_deviation, row_num, extract_zip_path
         )
         experimental_metadata, standardized_carbon_conc, trial_name_conversion = GrowthData.metadata(
@@ -292,20 +295,21 @@ class GrowthData:
         # display(fluxes_df)
         requisite_biomass = GrowthData.biomass_growth(
             carbon_conc_series, fluxes_df, growth_dfs.index.unique(), trial_name_conversion, data_paths,
-            community_members if "phenotypes" not in community_members else None)
+            community_members if all_phenotypes else None)
         return (experimental_metadata, growth_dfs, fluxes_df, standardized_carbon_conc, requisite_biomass,
                 trial_name_conversion, np.mean(data_timestep_hr), simulation_time, media_conc)
 
 
     @staticmethod
-    def phenotypes(community_members, solver:str="glpk"):
+    def phenotypes(community_members, all_phenotypes=True, solver:str="glpk"):
         # log information of each respective model
         models = OrderedDict()
         solutions = []
         media_conc = set()
         # calculate all phenotype profiles for all members
         comm_members = community_members.copy()
-        for org_model, content in comm_members.items():  # community_members excludes the stationary phenotype
+        # print(community_members)
+        for org_model, content in community_members.items():  # community_members excludes the stationary phenotype
             print("\n", org_model.id)
             org_model.solver = solver
             model_util = MSModelUtil(org_model, True)
@@ -359,9 +363,12 @@ class GrowthData:
                 bioFlux_check(pheno_util.model, sol)
                 pheno_influx = sol.fluxes[phenoRXN.id]
                 if pheno_influx >= 0:
-                    pprint({rxn: flux for rxn, flux in sol.fluxes.items() if flux != 0})
-                    raise NoFluxError(f"The (+) net flux of {pheno_influx} for the {phenoRXN.id} phenotype"
-                                      f" indicates that it is an implausible phenotype.")
+                    if not all_phenotypes:
+                        pprint({rxn: flux for rxn, flux in sol.fluxes.items() if flux != 0})
+                        raise NoFluxError(f"The (+) net flux of {pheno_influx} for the {phenoRXN.id} phenotype"
+                                          f" indicates that it is an implausible phenotype.")
+                    print(f"NoFluxError: The (+) net flux of {pheno_influx} for the {phenoRXN.id}"
+                          " phenotype indicates that it is an implausible phenotype.")
                 phenoRXN.lower_bound = phenoRXN.upper_bound = sol.fluxes[phenoRXN.id]
 
                 ## maximize excretion in phenotypes where the excreta is known
@@ -396,14 +403,20 @@ class GrowthData:
                 models[pheno_util.model.id]["solutions"][col] = sol
                 solutions.append(models[pheno_util.model.id]["solutions"][col].objective_value)
 
-                ## update the community_members object with all phenotypes for use in subsequent analyses
+                ## update the community_members dictionary the defined phenotypes, being either all or a specified few
+                # print(community_members)
                 met_name = met_name.replace("_", "-").replace("~", "-")
-                if "phenotypes" not in community_members[org_model]:
-                    community_members[org_model]["phenotypes"] = {met_name: {"consumed": [strip_comp(met.id)]}}
-                community_members[org_model]["phenotypes"][met_name]["consumed"] = [strip_comp(met.id)]
-                if "excretions" in content and strip_comp(met.id) in content["excretions"]:
-                    community_members[org_model]["phenotypes"][met_name].update(
-                        {"excreted": [content["excretions"][strip_comp(met.id)]]})
+                if all_phenotypes:
+                    if "phenotypes" not in comm_members[org_model]:
+                        comm_members[org_model]["phenotypes"] = {met_name: {"consumed": [strip_comp(met.id)]}}
+                    if met_name not in comm_members[org_model]["phenotypes"]:
+                        comm_members[org_model]["phenotypes"].update({met_name: {"consumed": [strip_comp(met.id)]}})
+                    else:
+                        comm_members[org_model]["phenotypes"][met_name]["consumed"] = [strip_comp(met.id)]
+                    if "excretions" in content and strip_comp(met.id) in content["excretions"]:
+                        comm_members[org_model]["phenotypes"][met_name].update(
+                            {"excreted": content["excretions"][strip_comp(met.id)]})
+                # print(community_members)
 
         # construct the parsed table of all exchange fluxes for each phenotype
         cols = {}
@@ -438,11 +451,11 @@ class GrowthData:
         fluxes_df = fluxes_df.loc[(fluxes_df != 0).any(axis=1)]
         fluxes_df.astype(str)
         fluxes_df.to_csv("fluxes.csv")
-        return fluxes_df, community_members
+        return fluxes_df, comm_members
 
     @staticmethod
-    def load_data(base_media, community_members, solver, data_paths, ignore_trials, ignore_timesteps,
-                  significant_deviation, row_num, extract_zip_path, min_timesteps=False):
+    def load_data(base_media, community_members, solver, data_paths, ignore_trials, all_phenotypes,
+                  ignore_timesteps, significant_deviation, row_num, extract_zip_path, min_timesteps=False):
         # define default values
         significant_deviation = significant_deviation or 0
         data_paths = data_paths or {}
@@ -467,7 +480,7 @@ class GrowthData:
                 zp.extractall()
 
         # define only species for which data is defined
-        fluxes_df, comm_members = GrowthData.phenotypes(community_members, solver)
+        fluxes_df, comm_members = GrowthData.phenotypes(community_members, all_phenotypes, solver)
         zipped_output.append("fluxes.csv")
         modeled_species = list(v for v in data_paths.values() if ("OD" not in v and " " not in v))
         removed_phenotypes = [col for col in fluxes_df if not any([species in col for species in modeled_species])]
@@ -725,16 +738,19 @@ class GrowthData:
                         source_conc = conc_dict[int(col_number)]
                     for pheno, val in fluxes_df.loc[f"EX_{met}_e0"].items():
                         # pheno = strip_comp(pheno)
-                        species, phenotype = pheno.split("_", 1)
+                        # species, phenotype = pheno.split("_", 1)
                         if val < 0:
                             utilized_phenos[pheno] = source_conc*0.9 / val
-            total_consumed = sum([absorption for absorption in utilized_phenos.values()])
+            total_consumed = sum(list(utilized_phenos.values()))
             excreta = {}
+            # display(fluxes_df)
             for pheno, absorption in utilized_phenos.items():
                 species, phenotype = pheno.split("_", 1)
                 fluxes = fluxes_df.loc[:, pheno] * abs(utilized_phenos[pheno])*(absorption/total_consumed)
                 requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = fluxes[fluxes != 0]
+                pheno = reverse_strip_comp(pheno)
                 if "excreted" in pheno_info[pheno]:
+                    # print(pheno_info[pheno]["excreted"])
                     for met in pheno_info[pheno]["excreted"]:
                         excreta[met] = fluxes.loc[f"EX_{met}_e0"]
             ## determine the fluxes for the other members of the community through cross-feeding
