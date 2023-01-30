@@ -108,7 +108,7 @@ def parse_primals(primal_values, entity_labels, coefs=None, kcat_vals=None):
                     kcat_primal[species] = {}
                 if pheno not in kcat_primal[species]:
                     kcat_primal[species][pheno] = 0
-                print(kcat_primal[species][pheno], value)
+                print(name, kcat_primal[species][pheno], value)
                 if value == 0:
                     kcat_primal[species][pheno] += coefs[int(number)-1]*kcat_vals[species][pheno]
 
@@ -158,13 +158,13 @@ class CommPhitting:
             new_simulation.define_problem(
                 parameters, mets_to_track, rel_final_conc, zero_start, abs_final_conc,
                 data_timesteps, export_zip_name, export_parameters, export_lp, kcat_primal, coefs, requisite_biomass)
-            time1 = process_time()
+            # time1 = process_time()
             primals_export_path = primals_export_path or re.sub(r"(.lp)", ".json", export_lp)
             new_simulation.compute(graphs, export_zip_name, None, publishing, primals_export_path)
             kcat_primal = parse_primals(new_simulation.values, "kcat", coefs, new_simulation.parameters["kcat"])
-            time2 = process_time()
-            print(f"Done simulating with the coefficients for biomass partitions: {index}"
-                  f"\n{(time2-time1)/60} minutes")
+            # time2 = process_time()
+            # print(f"Done simulating with the coefficients for biomass partitions: {index}"
+            #       f"\n{(time2-time1)/60} minutes")
             pprint(kcat_primal)
         return {k: val for k, val in new_simulation.values.items() if "kcat" in k}
 
@@ -1074,7 +1074,7 @@ class CommPhitting:
                         if 'b_' in basename:
                             vals = list(map(float, values.values()))
                             var_name, species, phenotype = basename.split('_')
-                            ic(basename)
+                            # ic(basename)
                             label = f'{species}_biomass (model)'
                             if publishing:
                                 species_name = graph["painting"][species]["name"]
@@ -1108,7 +1108,7 @@ class CommPhitting:
                         continue
                     # graph individual phenotypes
                     if "phenotype" in graph:
-                        print(graph['phenotype'])
+                        # print(graph['phenotype'])
                         for specie in graph["species"]:
                             if specie not in basename:
                                 continue

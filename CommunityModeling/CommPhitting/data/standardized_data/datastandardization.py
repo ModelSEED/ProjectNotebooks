@@ -759,7 +759,6 @@ class GrowthData:
                 species, phenotype = pheno.split("_", 1)
                 if any([species in ph for ph in utilized_phenos]) or species in participated_species:
                     continue
-                requisite_fluxes[short_code][f"{species}|{name_signal[species]}"] = 0
                 for met in mets["consumed"]:
                     if met not in excreta:
                         continue
