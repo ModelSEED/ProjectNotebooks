@@ -612,8 +612,8 @@ class GrowthData:
 
         # define the metadata DataFrame and a few columns
         constructed_experiments = DataFrame()
-        experiment_prefix = "G"
-        constructed_experiments["short_code"] = [f"{experiment_prefix}{x+1}" for x in list(range(column_num*row_num))]
+        ex_prefix = "G"
+        constructed_experiments["short_code"] = [f"{ex_prefix}{x+1}" for x in list(range(column_num*row_num))]
         base_media_path = "minimal components media" if not base_media else base_media.path[0]
         constructed_experiments["base_media"] = [base_media_path] * (column_num*row_num)
 
@@ -668,15 +668,16 @@ class GrowthData:
                             met_name = list(species_mets.keys())[index]
                             break
                     if "met_name" not in locals() or not met_name:
-                        logger.critical(f"The specified phenotypes {species_mets} for the {members} members does not "
-                                        f"include the consumption of the available sources {row_conc}; hence, the model cannot grow.")
+                        logger.critical(f"The specified phenotypes {species_mets} for the {members} members"
+                                        f" does not include the consumption of the available sources"
+                                        f" {row_conc}; hence, the model cannot grow.")
                         content = ""
                     else:
                         content = f"{init}_{met_name}"
                     experiment_id.append(content)
                 experiment_id = '-'.join(experiment_id)
                 experiment_ids.append(experiment_id)
-                trial_name_conversion[trial_letter][str(col+1)] = (experiment_prefix+str(count), experiment_id)
+                trial_name_conversion[trial_letter][str(col+1)] = (ex_prefix+str(count), experiment_id)
                 count += 1
 
         # convert the variable concentrations to short codes
@@ -684,7 +685,8 @@ class GrowthData:
         for met, conc in carbon_conc["rows"].items():
             standardized_carbon_conc[met] = {}
             for row, val in conc.items():
-                standardized_carbon_conc[met].update({short_code:val for short_code, expID in trial_name_conversion[row].values()})
+                standardized_carbon_conc[met].update({short_code:val for (
+                    short_code, expID) in trial_name_conversion[row].values()})
         for met, conc in carbon_conc["columns"].items():
             standardized_carbon_conc[met] = default_dict_values(standardized_carbon_conc, met, {})
             for col, val in conc.items():
@@ -874,8 +876,8 @@ class BiologData:
 
         # define the metadata DataFrame and a few columns
         constructed_experiments = DataFrame()
-        experiment_prefix = "B"
-        constructed_experiments.index = [f"{experiment_prefix}{x+1}" for x in list(range(row_num*column_num))]
+        ex_prefix = "B"
+        constructed_experiments.index = [f"{ex_prefix}{x+1}" for x in list(range(row_num*column_num))]
         constructed_experiments.index.name = "short_code"
 
         # define the strains column
@@ -891,7 +893,7 @@ class BiologData:
                 ## construct the columns of information
                 dataID = trial_letter+str(col)
                 MSID = trial_conditions[dataID]["ModelSEED_ID"]
-                short_code = experiment_prefix+str(count)
+                short_code = ex_prefix+str(count)
 
                 experiment_ids.append(MSID)
                 trial_names.append(trial_conditions[dataID]["name"])
