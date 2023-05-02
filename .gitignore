@@ -118,6 +118,8 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
+*DS_Store
+*/*.DS_Store
 /site
 
 # MSCommfitting
