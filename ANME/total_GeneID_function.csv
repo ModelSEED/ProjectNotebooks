@@ -1,0 +1,2110 @@
+,GeneID,Function,OrganismID
+0,-,HmcA,Desulfobacterales_sp._PC51MH44
+1,OEU67172.1 (atypical),HmcA,Desulfobacterales_sp._S5133MH16
+2,-,HmcA,Desulfosarcina_sp._BuS5
+3,2512526948,HmcA,Desulfococcus_biacutus_KMRActS
+4,2502442176,HmcA,Desulfonema_limicola_Jadebusen_DSM_2076
+5,-,HmcA,Desulfosarcina_variabilis_Montpellier
+6,2524232589,HmcA,Desulfatirhabdium_butyrativorans_DSM_18734
+7,-,HmcA,Desulfobacter_postgatei_2ac9
+8,2524511883,HmcA,Desulfobacula_toluolica_Tol2
+9,2523439073,HmcA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+10,2503698079,HmcA,Desulfococcus_oleovorans_Hxd3
+11,-,HmcA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+12,-,HmcA,Desulfatibacillum_alkenivorans_DSM_16219
+13,-,HmcA,Desulfobacterium_anilini_DSM_4660
+14,-,HmcA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+15,-,HmcA,Desulfocapsa_sulfexigens_DSM_10523
+16,-,HmcA,Desulfobulbus_propionicus_1pr3_DSM_2032
+17,-,HmcA,Desulfobulbus_elongatus_DSM_2908
+18,-,HmcA,Desulfobulbus_mediterraneus_DSM_13871
+19,2541189014,HmcA,Desulfocurvus_vexinensis_DSM_17965
+20,2646273964,HmcA,Desulfovibrio_vulgaris_RCH1
+21,2595078332,HmcA,Desulfonatronum_thioautotrophicum_ASO4_1
+22,2524273893,HmcA,Desulfomicrobium_escambiense_DSM_10707
+23,-,HmcA,Shewanella_oneidensis_MR_1
+24,-,HmcA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+25,-,HmcA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+26,-,HmcA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+27,-,HmcA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+28,,HmcA,Desulfococcus_sp._C00003104
+29,-,HmcA,Desulfococcus_sp._C00003106
+30,-,HmcA,Desulfococcus_sp._Cons3730e01UFb1
+31,-,HmcA,Desulfobulbaceae_bacterium_C00003063
+32,-,HmcA,Desulfobulbaceae_bacterium_S3730MH12
+33,-,HmcA,Desulfobulbaceae_bacterium_S5133MH15
+34,-,HmcA,E20 SRB2
+35,-,HmcA,G37 SRB2
+36,-,HmcA,Candidatus Desulfofervidus auxilli
+37,-,HmcA,HotSeep1 E37
+38,-,HmcA,HotSeep1 E50
+39,-,HmcA,Seep-SRB1g_Ga0402010_bin2
+40,-,HmcA,Seep-SRB1g_Ga0402030_bin2
+41,-,HmcA,Seep-SRB1a_Ga0402057_bin2
+42,-,HmcA,Seep-SRB1a_Ga0402054_bin3
+43,-,HmcA,Seep-SRB1a_Ga0402080_bin2
+44,-,HmcC,Desulfobacterales_sp._PC51MH44
+45,"OEU65005.1, OEU67173.1",HmcC,Desulfobacterales_sp._S5133MH16
+46,-,HmcC,Desulfosarcina_sp._BuS5
+47,2512526946,HmcC,Desulfococcus_biacutus_KMRActS
+48,2502442174,HmcC,Desulfonema_limicola_Jadebusen_DSM_2076
+49,-,HmcC,Desulfosarcina_variabilis_Montpellier
+50,2524232591,HmcC,Desulfatirhabdium_butyrativorans_DSM_18734
+51,-,HmcC,Desulfobacter_postgatei_2ac9
+52,2524511881,HmcC,Desulfobacula_toluolica_Tol2
+53,2523439071,HmcC,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+54,2503698081,HmcC,Desulfococcus_oleovorans_Hxd3
+55,-,HmcC,Desulfatibacillum_aliphaticivorans_DSM_15576_
+56,-,HmcC,Desulfatibacillum_alkenivorans_DSM_16219
+57,-,HmcC,Desulfobacterium_anilini_DSM_4660
+58,-,HmcC,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+59,-,HmcC,Desulfocapsa_sulfexigens_DSM_10523
+60,-,HmcC,Desulfobulbus_propionicus_1pr3_DSM_2032
+61,-,HmcC,Desulfobulbus_elongatus_DSM_2908
+62,-,HmcC,Desulfobulbus_mediterraneus_DSM_13871
+63,2541189012,HmcC,Desulfocurvus_vexinensis_DSM_17965
+64,2646273962,HmcC,Desulfovibrio_vulgaris_RCH1
+65,2595078330,HmcC,Desulfonatronum_thioautotrophicum_ASO4_1
+66,2524273891,HmcC,Desulfomicrobium_escambiense_DSM_10707
+67,-,HmcC,Shewanella_oneidensis_MR_1
+68,-,HmcC,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+69,-,HmcC,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+70,-,HmcC,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+71,-,HmcC,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+72,,HmcC,Desulfococcus_sp._C00003104
+73,-,HmcC,Desulfococcus_sp._C00003106
+74,-,HmcC,Desulfococcus_sp._Cons3730e01UFb1
+75,-,HmcC,Desulfobulbaceae_bacterium_C00003063
+76,-,HmcC,Desulfobulbaceae_bacterium_S3730MH12
+77,-,HmcC,Desulfobulbaceae_bacterium_S5133MH15
+78,-,HmcC,E20 SRB2
+79,-,HmcC,G37 SRB2
+80,-,HmcC,Candidatus Desulfofervidus auxilli
+81,-,HmcC,HotSeep1 E37
+82,-,HmcC,HotSeep1 E50
+83,-,HmcC,Seep-SRB1g_Ga0402010_bin2
+84,-,HmcC,Seep-SRB1g_Ga0402030_bin2
+85,-,HmcC,Seep-SRB1a_Ga0402057_bin2
+86,-,HmcC,Seep-SRB1a_Ga0402054_bin3
+87,-,HmcC,Seep-SRB1a_Ga0402080_bin2
+88,,HmcE,Desulfobacterales_sp._PC51MH44
+89,"OEU65006.1, OEU67174.1",HmcE,Desulfobacterales_sp._S5133MH16
+90,,HmcE,Desulfosarcina_sp._BuS5
+91,2512526944,HmcE,Desulfococcus_biacutus_KMRActS
+92,2502442171,HmcE,Desulfonema_limicola_Jadebusen_DSM_2076
+93,-,HmcE,Desulfosarcina_variabilis_Montpellier
+94,2524232693,HmcE,Desulfatirhabdium_butyrativorans_DSM_18734
+95,-,HmcE,Desulfobacter_postgatei_2ac9
+96,2524511879,HmcE,Desulfobacula_toluolica_Tol2
+97,2523439069,HmcE,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+98,2503698083,HmcE,Desulfococcus_oleovorans_Hxd3
+99,,HmcE,Desulfatibacillum_aliphaticivorans_DSM_15576_
+100,,HmcE,Desulfatibacillum_alkenivorans_DSM_16219
+101,,HmcE,Desulfobacterium_anilini_DSM_4660
+102,,HmcE,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+103,,HmcE,Desulfocapsa_sulfexigens_DSM_10523
+104,,HmcE,Desulfobulbus_propionicus_1pr3_DSM_2032
+105,,HmcE,Desulfobulbus_elongatus_DSM_2908
+106,,HmcE,Desulfobulbus_mediterraneus_DSM_13871
+107,2541189010,HmcE,Desulfocurvus_vexinensis_DSM_17965
+108,2646273960,HmcE,Desulfovibrio_vulgaris_RCH1
+109,,HmcE,Desulfonatronum_thioautotrophicum_ASO4_1
+110,,HmcE,Desulfomicrobium_escambiense_DSM_10707
+111,,HmcE,Shewanella_oneidensis_MR_1
+112,,HmcE,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+113,,HmcE,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+114,,HmcE,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+115,OEU44649.1,HmcE,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+116,,HmcE,Desulfococcus_sp._C00003104
+117,,HmcE,Desulfococcus_sp._C00003106
+118,,HmcE,Desulfococcus_sp._Cons3730e01UFb1
+119,,HmcE,Desulfobulbaceae_bacterium_C00003063
+120,,HmcE,Desulfobulbaceae_bacterium_S3730MH12
+121,,HmcE,Desulfobulbaceae_bacterium_S5133MH15
+122,,HmcE,E20 SRB2
+123,,HmcE,G37 SRB2
+124,-,HmcE,Candidatus Desulfofervidus auxilli
+125,-,HmcE,HotSeep1 E37
+126,-,HmcE,HotSeep1 E50
+127,-,HmcE,Seep-SRB1g_Ga0402010_bin2
+128,-,HmcE,Seep-SRB1g_Ga0402030_bin2
+129,-,HmcE,Seep-SRB1a_Ga0402057_bin2
+130,-,HmcE,Seep-SRB1a_Ga0402054_bin3
+131,-,HmcE,Seep-SRB1a_Ga0402080_bin2
+132,,HmcF,Desulfobacterales_sp._PC51MH44
+133,"OEU65007.1, OEU67175.1",HmcF,Desulfobacterales_sp._S5133MH16
+134,,HmcF,Desulfosarcina_sp._BuS5
+135,2512526943,HmcF,Desulfococcus_biacutus_KMRActS
+136,2502442170,HmcF,Desulfonema_limicola_Jadebusen_DSM_2076
+137,-,HmcF,Desulfosarcina_variabilis_Montpellier
+138,2524232694,HmcF,Desulfatirhabdium_butyrativorans_DSM_18734
+139,-,HmcF,Desulfobacter_postgatei_2ac9
+140,2524511878,HmcF,Desulfobacula_toluolica_Tol2
+141,2523439068,HmcF,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+142,2503698084,HmcF,Desulfococcus_oleovorans_Hxd3
+143,,HmcF,Desulfatibacillum_aliphaticivorans_DSM_15576_
+144,,HmcF,Desulfatibacillum_alkenivorans_DSM_16219
+145,,HmcF,Desulfobacterium_anilini_DSM_4660
+146,,HmcF,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+147,,HmcF,Desulfocapsa_sulfexigens_DSM_10523
+148,,HmcF,Desulfobulbus_propionicus_1pr3_DSM_2032
+149,,HmcF,Desulfobulbus_elongatus_DSM_2908
+150,,HmcF,Desulfobulbus_mediterraneus_DSM_13871
+151,2541189009,HmcF,Desulfocurvus_vexinensis_DSM_17965
+152,2646273959,HmcF,Desulfovibrio_vulgaris_RCH1
+153,,HmcF,Desulfonatronum_thioautotrophicum_ASO4_1
+154,,HmcF,Desulfomicrobium_escambiense_DSM_10707
+155,,HmcF,Shewanella_oneidensis_MR_1
+156,,HmcF,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+157,,HmcF,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+158,,HmcF,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+159,OEU44650.1,HmcF,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+160,,HmcF,Desulfococcus_sp._C00003104
+161,,HmcF,Desulfococcus_sp._C00003106
+162,,HmcF,Desulfococcus_sp._Cons3730e01UFb1
+163,,HmcF,Desulfobulbaceae_bacterium_C00003063
+164,,HmcF,Desulfobulbaceae_bacterium_S3730MH12
+165,,HmcF,Desulfobulbaceae_bacterium_S5133MH15
+166,,HmcF,E20 SRB2
+167,,HmcF,G37 SRB2
+168,-,HmcF,Candidatus Desulfofervidus auxilli
+169,-,HmcF,HotSeep1 E37
+170,-,HmcF,HotSeep1 E50
+171,-,HmcF,Seep-SRB1g_Ga0402010_bin2
+172,-,HmcF,Seep-SRB1g_Ga0402030_bin2
+173,-,HmcF,Seep-SRB1a_Ga0402057_bin2
+174,-,HmcF,Seep-SRB1a_Ga0402054_bin3
+175,-,HmcF,Seep-SRB1a_Ga0402080_bin2
+176,-,TmcA,Desulfobacterales_sp._PC51MH44
+177,OEU63921.1,TmcA,Desulfobacterales_sp._S5133MH16
+178,-,TmcA,Desulfosarcina_sp._BuS5
+179,2512526955,TmcA,Desulfococcus_biacutus_KMRActS
+180,2502446827,TmcA,Desulfonema_limicola_Jadebusen_DSM_2076
+181,2502441046,TmcA,Desulfosarcina_variabilis_Montpellier
+182,2524232697,TmcA,Desulfatirhabdium_butyrativorans_DSM_18734
+183,-,TmcA,Desulfobacter_postgatei_2ac9
+184,2524510082,TmcA,Desulfobacula_toluolica_Tol2
+185,-,TmcA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+186,2503696114,TmcA,Desulfococcus_oleovorans_Hxd3
+187,-,TmcA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+188,-,TmcA,Desulfatibacillum_alkenivorans_DSM_16219
+189,-,TmcA,Desulfobacterium_anilini_DSM_4660
+190,-,TmcA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+191,-,TmcA,Desulfocapsa_sulfexigens_DSM_10523
+192,-,TmcA,Desulfobulbus_propionicus_1pr3_DSM_2032
+193,-,TmcA,Desulfobulbus_elongatus_DSM_2908
+194,-,TmcA,Desulfobulbus_mediterraneus_DSM_13871
+195,"2541188576, 2541189290",TmcA,Desulfocurvus_vexinensis_DSM_17965
+196,2646273699,TmcA,Desulfovibrio_vulgaris_RCH1
+197,"2595078289, 2595078313",TmcA,Desulfonatronum_thioautotrophicum_ASO4_1
+198,2524273894,TmcA,Desulfomicrobium_escambiense_DSM_10707
+199,-,TmcA,Shewanella_oneidensis_MR_1
+200,-,TmcA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+201,-,TmcA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+202,-,TmcA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+203,-,TmcA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+204,-,TmcA,Desulfococcus_sp._C00003104
+205,-,TmcA,Desulfococcus_sp._C00003106
+206,-,TmcA,Desulfococcus_sp._Cons3730e01UFb1
+207,-,TmcA,Desulfobulbaceae_bacterium_C00003063
+208,-,TmcA,Desulfobulbaceae_bacterium_S3730MH12
+209,-,TmcA,Desulfobulbaceae_bacterium_S5133MH15
+210,-,TmcA,E20 SRB2
+211,-,TmcA,G37 SRB2
+212,AMM41048.1,TmcA,Candidatus Desulfofervidus auxilli
+213,CAD7776331.1,TmcA,HotSeep1 E37
+214,CAD7777601.1,TmcA,HotSeep1 E50
+215,-,TmcA,Seep-SRB1g_Ga0402010_bin2
+216,-,TmcA,Seep-SRB1g_Ga0402030_bin2
+217,Ga0402057_bin2_2568,TmcA,Seep-SRB1a_Ga0402057_bin2
+218,-,TmcA,Seep-SRB1a_Ga0402054_bin3
+219,-,TmcA,Seep-SRB1a_Ga0402080_bin2
+220,,TmcB,Desulfobacterales_sp._PC51MH44
+221,OEU63922.1,TmcB,Desulfobacterales_sp._S5133MH16
+222,,TmcB,Desulfosarcina_sp._BuS5
+223,2512526956,TmcB,Desulfococcus_biacutus_KMRActS
+224,2502446826,TmcB,Desulfonema_limicola_Jadebusen_DSM_2076
+225,2502441047,TmcB,Desulfosarcina_variabilis_Montpellier
+226,2524232698,TmcB,Desulfatirhabdium_butyrativorans_DSM_18734
+227,,TmcB,Desulfobacter_postgatei_2ac9
+228,2524510081,TmcB,Desulfobacula_toluolica_Tol2
+229,,TmcB,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+230,2503696113,TmcB,Desulfococcus_oleovorans_Hxd3
+231,,TmcB,Desulfatibacillum_aliphaticivorans_DSM_15576_
+232,,TmcB,Desulfatibacillum_alkenivorans_DSM_16219
+233,,TmcB,Desulfobacterium_anilini_DSM_4660
+234,,TmcB,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+235,,TmcB,Desulfocapsa_sulfexigens_DSM_10523
+236,,TmcB,Desulfobulbus_propionicus_1pr3_DSM_2032
+237,,TmcB,Desulfobulbus_elongatus_DSM_2908
+238,,TmcB,Desulfobulbus_mediterraneus_DSM_13871
+239,,TmcB,Desulfocurvus_vexinensis_DSM_17965
+240,2646273700,TmcB,Desulfovibrio_vulgaris_RCH1
+241,,TmcB,Desulfonatronum_thioautotrophicum_ASO4_1
+242,,TmcB,Desulfomicrobium_escambiense_DSM_10707
+243,,TmcB,Shewanella_oneidensis_MR_1
+244,,TmcB,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+245,,TmcB,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+246,,TmcB,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+247,-,TmcB,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+248,-,TmcB,Desulfococcus_sp._C00003104
+249,OEU55939.1,TmcB,Desulfococcus_sp._C00003106
+250,Ga0123269_10246,TmcB,Desulfococcus_sp._Cons3730e01UFb1
+251,,TmcB,Desulfobulbaceae_bacterium_C00003063
+252,,TmcB,Desulfobulbaceae_bacterium_S3730MH12
+253,,TmcB,Desulfobulbaceae_bacterium_S5133MH15
+254,,TmcB,E20 SRB2
+255,,TmcB,G37 SRB2
+256,AMM41049.1,TmcB,Candidatus Desulfofervidus auxilli
+257,CAD7776337.1,TmcB,HotSeep1 E37
+258,CAD7777605.1,TmcB,HotSeep1 E50
+259,Ga0402010_bin2_329,TmcB,Seep-SRB1g_Ga0402010_bin2
+260,Ga0402030_bin2_572,TmcB,Seep-SRB1g_Ga0402030_bin2
+261,Ga0402057_bin2_2567,TmcB,Seep-SRB1a_Ga0402057_bin2
+262,Ga0402054_bin3_415,TmcB,Seep-SRB1a_Ga0402054_bin3
+263,Ga0402080_bin2_1223,TmcB,Seep-SRB1a_Ga0402080_bin2
+264,-,TmcC,Desulfobacterales_sp._PC51MH44
+265,OEU63923.1,TmcC,Desulfobacterales_sp._S5133MH16
+266,-,TmcC,Desulfosarcina_sp._BuS5
+267,2512526957,TmcC,Desulfococcus_biacutus_KMRActS
+268,2502446825,TmcC,Desulfonema_limicola_Jadebusen_DSM_2076
+269,2502441048,TmcC,Desulfosarcina_variabilis_Montpellier
+270,2524232699,TmcC,Desulfatirhabdium_butyrativorans_DSM_18734
+271,-,TmcC,Desulfobacter_postgatei_2ac9
+272,2524510080,TmcC,Desulfobacula_toluolica_Tol2
+273,-,TmcC,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+274,2503696112,TmcC,Desulfococcus_oleovorans_Hxd3
+275,-,TmcC,Desulfatibacillum_aliphaticivorans_DSM_15576_
+276,-,TmcC,Desulfatibacillum_alkenivorans_DSM_16219
+277,-,TmcC,Desulfobacterium_anilini_DSM_4660
+278,-,TmcC,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+279,-,TmcC,Desulfocapsa_sulfexigens_DSM_10523
+280,-,TmcC,Desulfobulbus_propionicus_1pr3_DSM_2032
+281,-,TmcC,Desulfobulbus_elongatus_DSM_2908
+282,-,TmcC,Desulfobulbus_mediterraneus_DSM_13871
+283,"2541188574, 2541189288",TmcC,Desulfocurvus_vexinensis_DSM_17965
+284,2646273701,TmcC,Desulfovibrio_vulgaris_RCH1
+285,"2595078291, 2595078311",TmcC,Desulfonatronum_thioautotrophicum_ASO4_1
+286,2524273896,TmcC,Desulfomicrobium_escambiense_DSM_10707
+287,-,TmcC,Shewanella_oneidensis_MR_1
+288,-,TmcC,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+289,-,TmcC,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+290,-,TmcC,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+291,OEU44478.1,TmcC,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+292,OEU57700.1,TmcC,Desulfococcus_sp._C00003104
+293,OEU55938.1,TmcC,Desulfococcus_sp._C00003106
+294,Ga0123269_10245,TmcC,Desulfococcus_sp._Cons3730e01UFb1
+295,-,TmcC,Desulfobulbaceae_bacterium_C00003063
+296,-,TmcC,Desulfobulbaceae_bacterium_S3730MH12
+297,-,TmcC,Desulfobulbaceae_bacterium_S5133MH15
+298,-,TmcC,E20 SRB2
+299,-,TmcC,G37 SRB2
+300,AMM41050.1,TmcC,Candidatus Desulfofervidus auxilli
+301,CAD7776343.1,TmcC,HotSeep1 E37
+302,CAD7777609.1,TmcC,HotSeep1 E50
+303,Ga0402010_bin2_330,TmcC,Seep-SRB1g_Ga0402010_bin2
+304,Ga0402030_bin2_573,TmcC,Seep-SRB1g_Ga0402030_bin2
+305,Ga0402057_bin2_2566,TmcC,Seep-SRB1a_Ga0402057_bin2
+306,Ga0402054_bin3_416,TmcC,Seep-SRB1a_Ga0402054_bin3
+307,Ga0402080_bin2_1224,TmcC,Seep-SRB1a_Ga0402080_bin2
+308,,TmcD,Desulfobacterales_sp._PC51MH44
+309,OEU63924.1 (atypical),TmcD,Desulfobacterales_sp._S5133MH16
+310,,TmcD,Desulfosarcina_sp._BuS5
+311,2512526958,TmcD,Desulfococcus_biacutus_KMRActS
+312,2502446824,TmcD,Desulfonema_limicola_Jadebusen_DSM_2076
+313,2502441049,TmcD,Desulfosarcina_variabilis_Montpellier
+314,2524232700,TmcD,Desulfatirhabdium_butyrativorans_DSM_18734
+315,,TmcD,Desulfobacter_postgatei_2ac9
+316,2524510079,TmcD,Desulfobacula_toluolica_Tol2
+317,,TmcD,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+318,2503696111,TmcD,Desulfococcus_oleovorans_Hxd3
+319,,TmcD,Desulfatibacillum_aliphaticivorans_DSM_15576_
+320,,TmcD,Desulfatibacillum_alkenivorans_DSM_16219
+321,,TmcD,Desulfobacterium_anilini_DSM_4660
+322,,TmcD,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+323,,TmcD,Desulfocapsa_sulfexigens_DSM_10523
+324,,TmcD,Desulfobulbus_propionicus_1pr3_DSM_2032
+325,,TmcD,Desulfobulbus_elongatus_DSM_2908
+326,,TmcD,Desulfobulbus_mediterraneus_DSM_13871
+327,,TmcD,Desulfocurvus_vexinensis_DSM_17965
+328,2646273702,TmcD,Desulfovibrio_vulgaris_RCH1
+329,,TmcD,Desulfonatronum_thioautotrophicum_ASO4_1
+330,,TmcD,Desulfomicrobium_escambiense_DSM_10707
+331,,TmcD,Shewanella_oneidensis_MR_1
+332,,TmcD,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+333,,TmcD,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+334,,TmcD,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+335,OEU44477.1,TmcD,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+336,OEU57699.1,TmcD,Desulfococcus_sp._C00003104
+337,OEU55937.1,TmcD,Desulfococcus_sp._C00003106
+338,Ga0123269_10244,TmcD,Desulfococcus_sp._Cons3730e01UFb1
+339,,TmcD,Desulfobulbaceae_bacterium_C00003063
+340,,TmcD,Desulfobulbaceae_bacterium_S3730MH12
+341,,TmcD,Desulfobulbaceae_bacterium_S5133MH15
+342,,TmcD,E20 SRB2
+343,,TmcD,G37 SRB2
+344,AMM41051.1,TmcD,Candidatus Desulfofervidus auxilli
+345,CAD7776349.1,TmcD,HotSeep1 E37
+346,CAD7777621.1,TmcD,HotSeep1 E50
+347,Ga0402010_bin2_331,TmcD,Seep-SRB1g_Ga0402010_bin2
+348,Ga0402030_bin2_574,TmcD,Seep-SRB1g_Ga0402030_bin2
+349,Ga0402057_bin2_2565,TmcD,Seep-SRB1a_Ga0402057_bin2
+350,Ga0402054_bin3_417,TmcD,Seep-SRB1a_Ga0402054_bin3
+351,Ga0402080_bin2_1225,TmcD,Seep-SRB1a_Ga0402080_bin2
+352,-,OhcA,Desulfobacterales_sp._PC51MH44
+353,-,OhcA,Desulfobacterales_sp._S5133MH16
+354,-,OhcA,Desulfosarcina_sp._BuS5
+355,2512528126,OhcA,Desulfococcus_biacutus_KMRActS
+356,2502445609,OhcA,Desulfonema_limicola_Jadebusen_DSM_2076
+357,2502439774,OhcA,Desulfosarcina_variabilis_Montpellier
+358,2524233090,OhcA,Desulfatirhabdium_butyrativorans_DSM_18734
+359,2508602329,OhcA,Desulfobacter_postgatei_2ac9
+360,2524509933,OhcA,Desulfobacula_toluolica_Tol2
+361,-,OhcA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+362,2503698843,OhcA,Desulfococcus_oleovorans_Hxd3
+363,"2523113869, 2523114660",OhcA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+364,"2588102372, 2588101452",OhcA,Desulfatibacillum_alkenivorans_DSM_16219
+365,2527181462,OhcA,Desulfobacterium_anilini_DSM_4660
+366,-,OhcA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+367,2562336282,OhcA,Desulfocapsa_sulfexigens_DSM_10523
+368,-,OhcA,Desulfobulbus_propionicus_1pr3_DSM_2032
+369,-,OhcA,Desulfobulbus_elongatus_DSM_2908
+370,-,OhcA,Desulfobulbus_mediterraneus_DSM_13871
+371,2541189167,OhcA,Desulfocurvus_vexinensis_DSM_17965
+372,2646276432,OhcA,Desulfovibrio_vulgaris_RCH1
+373,-,OhcA,Desulfonatronum_thioautotrophicum_ASO4_1
+374,1.12e-106,OhcA,Desulfomicrobium_escambiense_DSM_10707
+375,-,OhcA,Shewanella_oneidensis_MR_1
+376,-,OhcA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+377,-,OhcA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+378,-,OhcA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+379,OEU45386.1,OhcA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+380,-,OhcA,Desulfococcus_sp._C00003104
+381,-,OhcA,Desulfococcus_sp._C00003106
+382,-,OhcA,Desulfococcus_sp._Cons3730e01UFb1
+383,-,OhcA,Desulfobulbaceae_bacterium_C00003063
+384,-,OhcA,Desulfobulbaceae_bacterium_S3730MH12
+385,-,OhcA,Desulfobulbaceae_bacterium_S5133MH15
+386,-,OhcA,E20 SRB2
+387,-,OhcA,G37 SRB2
+388,-,OhcA,Candidatus Desulfofervidus auxilli
+389,-,OhcA,HotSeep1 E37
+390,-,OhcA,HotSeep1 E50
+391,-,OhcA,Seep-SRB1g_Ga0402010_bin2
+392,-,OhcA,Seep-SRB1g_Ga0402030_bin2
+393,-,OhcA,Seep-SRB1a_Ga0402057_bin2
+394,-,OhcA,Seep-SRB1a_Ga0402054_bin3
+395,-,OhcA,Seep-SRB1a_Ga0402080_bin2
+396,-,OhcC,Desulfobacterales_sp._PC51MH44
+397,-,OhcC,Desulfobacterales_sp._S5133MH16
+398,-,OhcC,Desulfosarcina_sp._BuS5
+399,2512528127,OhcC,Desulfococcus_biacutus_KMRActS
+400,2502445610,OhcC,Desulfonema_limicola_Jadebusen_DSM_2076
+401,2502439773,OhcC,Desulfosarcina_variabilis_Montpellier
+402,2524233089,OhcC,Desulfatirhabdium_butyrativorans_DSM_18734
+403,2508602330,OhcC,Desulfobacter_postgatei_2ac9
+404,2524509932,OhcC,Desulfobacula_toluolica_Tol2
+405,-,OhcC,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+406,2503698844,OhcC,Desulfococcus_oleovorans_Hxd3
+407,2523113870,OhcC,Desulfatibacillum_aliphaticivorans_DSM_15576_
+408,2588102371,OhcC,Desulfatibacillum_alkenivorans_DSM_16219
+409,2527181461,OhcC,Desulfobacterium_anilini_DSM_4660
+410,-,OhcC,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+411,-,OhcC,Desulfocapsa_sulfexigens_DSM_10523
+412,-,OhcC,Desulfobulbus_propionicus_1pr3_DSM_2032
+413,-,OhcC,Desulfobulbus_elongatus_DSM_2908
+414,-,OhcC,Desulfobulbus_mediterraneus_DSM_13871
+415,2541189168,OhcC,Desulfocurvus_vexinensis_DSM_17965
+416,2646276433,OhcC,Desulfovibrio_vulgaris_RCH1
+417,-,OhcC,Desulfonatronum_thioautotrophicum_ASO4_1
+418,-,OhcC,Desulfomicrobium_escambiense_DSM_10707
+419,-,OhcC,Shewanella_oneidensis_MR_1
+420,-,OhcC,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+421,-,OhcC,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+422,-,OhcC,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+423,-,OhcC,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+424,-,OhcC,Desulfococcus_sp._C00003104
+425,-,OhcC,Desulfococcus_sp._C00003106
+426,-,OhcC,Desulfococcus_sp._Cons3730e01UFb1
+427,-,OhcC,Desulfobulbaceae_bacterium_C00003063
+428,-,OhcC,Desulfobulbaceae_bacterium_S3730MH12
+429,-,OhcC,Desulfobulbaceae_bacterium_S5133MH15
+430,-,OhcC,E20 SRB2
+431,-,OhcC,G37 SRB2
+432,-,OhcC,Candidatus Desulfofervidus auxilli
+433,-,OhcC,HotSeep1 E37
+434,-,OhcC,HotSeep1 E50
+435,-,OhcC,Seep-SRB1g_Ga0402010_bin2
+436,-,OhcC,Seep-SRB1g_Ga0402030_bin2
+437,-,OhcC,Seep-SRB1a_Ga0402057_bin2
+438,-,OhcC,Seep-SRB1a_Ga0402054_bin3
+439,-,OhcC,Seep-SRB1a_Ga0402080_bin2
+440,-,NhcA,Desulfobacterales_sp._PC51MH44
+441,-,NhcA,Desulfobacterales_sp._S5133MH16
+442,-,NhcA,Desulfosarcina_sp._BuS5
+443,-,NhcA,Desulfococcus_biacutus_KMRActS
+444,-,NhcA,Desulfonema_limicola_Jadebusen_DSM_2076
+445,2502436055,NhcA,Desulfosarcina_variabilis_Montpellier
+446,-,NhcA,Desulfatirhabdium_butyrativorans_DSM_18734
+447,-,NhcA,Desulfobacter_postgatei_2ac9
+448,-,NhcA,Desulfobacula_toluolica_Tol2
+449,-,NhcA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+450,-,NhcA,Desulfococcus_oleovorans_Hxd3
+451,-,NhcA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+452,-,NhcA,Desulfatibacillum_alkenivorans_DSM_16219
+453,-,NhcA,Desulfobacterium_anilini_DSM_4660
+454,-,NhcA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+455,2562336769,NhcA,Desulfocapsa_sulfexigens_DSM_10523
+456,649925482,NhcA,Desulfobulbus_propionicus_1pr3_DSM_2032
+457,2558014992,NhcA,Desulfobulbus_elongatus_DSM_2908
+458,2523915479,NhcA,Desulfobulbus_mediterraneus_DSM_13871
+459,-,NhcA,Desulfocurvus_vexinensis_DSM_17965
+460,-,NhcA,Desulfovibrio_vulgaris_RCH1
+461,-,NhcA,Desulfonatronum_thioautotrophicum_ASO4_1
+462,-,NhcA,Desulfomicrobium_escambiense_DSM_10707
+463,-,NhcA,Shewanella_oneidensis_MR_1
+464,-,NhcA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+465,-,NhcA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+466,-,NhcA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+467,OEU44548.1,NhcA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+468,-,NhcA,Desulfococcus_sp._C00003104
+469,-,NhcA,Desulfococcus_sp._C00003106
+470,-,NhcA,Desulfococcus_sp._Cons3730e01UFb1
+471,-,NhcA,Desulfobulbaceae_bacterium_C00003063
+472,-,NhcA,Desulfobulbaceae_bacterium_S3730MH12
+473,-,NhcA,Desulfobulbaceae_bacterium_S5133MH15
+474,-,NhcA,E20 SRB2
+475,-,NhcA,G37 SRB2
+476,-,NhcA,Candidatus Desulfofervidus auxilli
+477,-,NhcA,HotSeep1 E37
+478,-,NhcA,HotSeep1 E50
+479,-,NhcA,Seep-SRB1g_Ga0402010_bin2
+480,-,NhcA,Seep-SRB1g_Ga0402030_bin2
+481,-,NhcA,Seep-SRB1a_Ga0402057_bin2
+482,-,NhcA,Seep-SRB1a_Ga0402054_bin3
+483,-,NhcA,Seep-SRB1a_Ga0402080_bin2
+484,-,NhcC,Desulfobacterales_sp._PC51MH44
+485,-,NhcC,Desulfobacterales_sp._S5133MH16
+486,-,NhcC,Desulfosarcina_sp._BuS5
+487,-,NhcC,Desulfococcus_biacutus_KMRActS
+488,-,NhcC,Desulfonema_limicola_Jadebusen_DSM_2076
+489,2502436057,NhcC,Desulfosarcina_variabilis_Montpellier
+490,-,NhcC,Desulfatirhabdium_butyrativorans_DSM_18734
+491,-,NhcC,Desulfobacter_postgatei_2ac9
+492,-,NhcC,Desulfobacula_toluolica_Tol2
+493,-,NhcC,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+494,-,NhcC,Desulfococcus_oleovorans_Hxd3
+495,2523114661,NhcC,Desulfatibacillum_aliphaticivorans_DSM_15576_
+496,2588101451,NhcC,Desulfatibacillum_alkenivorans_DSM_16219
+497,-,NhcC,Desulfobacterium_anilini_DSM_4660
+498,-,NhcC,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+499,2562336771,NhcC,Desulfocapsa_sulfexigens_DSM_10523
+500,649925480,NhcC,Desulfobulbus_propionicus_1pr3_DSM_2032
+501,2558014990,NhcC,Desulfobulbus_elongatus_DSM_2908
+502,2523915477,NhcC,Desulfobulbus_mediterraneus_DSM_13871
+503,-,NhcC,Desulfocurvus_vexinensis_DSM_17965
+504,-,NhcC,Desulfovibrio_vulgaris_RCH1
+505,-,NhcC,Desulfonatronum_thioautotrophicum_ASO4_1
+506,-,NhcC,Desulfomicrobium_escambiense_DSM_10707
+507,-,NhcC,Shewanella_oneidensis_MR_1
+508,-,NhcC,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+509,-,NhcC,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+510,-,NhcC,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+511,-,NhcC,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+512,-,NhcC,Desulfococcus_sp._C00003104
+513,-,NhcC,Desulfococcus_sp._C00003106
+514,-,NhcC,Desulfococcus_sp._Cons3730e01UFb1
+515,-,NhcC,Desulfobulbaceae_bacterium_C00003063
+516,-,NhcC,Desulfobulbaceae_bacterium_S3730MH12
+517,-,NhcC,Desulfobulbaceae_bacterium_S5133MH15
+518,-,NhcC,E20 SRB2
+519,-,NhcC,G37 SRB2
+520,-,NhcC,Candidatus Desulfofervidus auxilli
+521,-,NhcC,HotSeep1 E37
+522,-,NhcC,HotSeep1 E50
+523,-,NhcC,Seep-SRB1g_Ga0402010_bin2
+524,-,NhcC,Seep-SRB1g_Ga0402030_bin2
+525,-,NhcC,Seep-SRB1a_Ga0402057_bin2
+526,-,NhcC,Seep-SRB1a_Ga0402054_bin3
+527,-,NhcC,Seep-SRB1a_Ga0402080_bin2
+528,0,TmcA,Seep-SRB1a_sp013792055
+529,,TmcA,
+530,0,TmcA,Eth-SRB1_sp004193555
+531,0,TmcA,Eth-SRB2_sp004193595
+532,0,TmcA,Seep-SRB2_sp00364560
+533,0,TmcA,HotSeep1_E37_DN
+534,0,TmcA,HotSeep1_E50_DN
+535,0,TmcA,HotSeep1_sp001577525
+536,0,TmcA,Seep-SRB2_G37_sp003194485
+537,0,TmcA,Seep-SRB2_sp003194495
+538,0,TmcA,HotSeep1_B50
+539,0,TmcA,Seep-SRB2_sp002367355
+540,OEU63921.1,TmcA,Eth-SRB2_sp00175005
+541,0,TmcA,Seep-SRB1a_sp_PC51MH44
+542,0,TmcA,Seep-SRB1g_sp001751015_a
+543,0,TmcA,Seep-SRB1g_sp001751015_b
+544,0,TmcA,Seep-SRB1a_sp014237365
+545,0,TmcA,Seep-SRB1a_sp014237365a
+546,0,TmcA,Seep-SRB1a_sp._S7142MS3
+547,,TmcA,
+548,0,TmcA,Seep-SRB1g_sp._S7142MS4
+549,0,TmcA,Desulfofervidaceae_sp._PB11946FWG155
+550,0,TmcA,DesulfofervidalesDG60_sp._PB11719FWG156
+551,0,TmcA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+552,0,TmcA,Seep-SRB1a_sp._SM14434AFWG171
+553,0,TmcA,Seep-SRB1a_sp._SM14434BFWG172
+554,0,TmcA,Seep-SRB2_sp._PB10259FWG173
+555,0,TmcA,Seep-SRB2_sp._PBNA091R45FWG174
+556,0,TmcA,Desulfofervidaceae sp. PB_NA091.008_B6
+557,0,TmcA,Seep-SRB1a_sp._SM7147A
+558,0,TmcA,Seep-SRB1a_sp._SM7147B
+559,0,TmcA,Seep-SRB1a_sp._CR9063A
+560,0,TmcA,Seep-SRB1a_sp._CR9063B
+561,0,TmcA,Seep-SRB1a_sp._CR9063C
+562,0,TmcA,Seep-SRB1a_sp._SM7059A
+563,0,TmcA,Seep-SRB1g_sp._CR10073A
+564,0,TmcA,Seep-SRB1g_sp._CR10073B
+565,0,TmcA,Desulfofervidales_sp._DG-60
+566,0,TmcA,Dissulfurirhabdus_thermomarina_ASM1049943v1
+567,0,TmcA,Dissulfurirhabdus_thermomarina_ASM1297923v1
+568,0,TmcA,UBA5754 sp002419025
+569,0,TmcA,S7086C20 sp001751075
+570,0,TmcA,C00003060 sp001751085
+571,0,TmcA,B60-G16 sp003647275
+572,0,TmcA,B23-G16 sp003647435
+573,0,TmcA,B23-G16 sp003647435
+574,HID58488.1,TmcA,DTYH01 sp012961955
+575,NVL91104.1,TmcA,JABXJX01 sp013375375
+576,NVL91100.1,TmcA,
+577,NVL90552.1,TmcA,
+578,NVM21706.1,TmcA,JABXJW01 sp013375395
+579,MBA3019353.1,TmcA_DSC,Seep-SRB1a_sp013792055
+580,MBA3017486.1,TmcA_DSC,
+581,RZB29850.1,TmcA_DSC,Eth-SRB1_sp004193555
+582,0,TmcA_DSC,Eth-SRB2_sp004193595
+583,0,TmcA_DSC,Seep-SRB2_sp00364560
+584,0,TmcA_DSC,HotSeep1_E37_DN
+585,0,TmcA_DSC,HotSeep1_E50_DN
+586,0,TmcA_DSC,HotSeep1_sp001577525
+587,0,TmcA_DSC,Seep-SRB2_G37_sp003194485
+588,0,TmcA_DSC,Seep-SRB2_sp003194495
+589,0,TmcA_DSC,HotSeep1_B50
+590,0,TmcA_DSC,Seep-SRB2_sp002367355
+591,0,TmcA_DSC,Eth-SRB2_sp00175005
+592,0,TmcA_DSC,Seep-SRB1a_sp_PC51MH44
+593,OEU59080.1,TmcA_DSC,Seep-SRB1g_sp001751015_a
+594,0,TmcA_DSC,Seep-SRB1g_sp001751015_b
+595,MBC2696693.1,TmcA_DSC,Seep-SRB1a_sp014237365
+596,MBC2721007.1,TmcA_DSC,Seep-SRB1a_sp014237365a
+597,MBT9438709.1 (2842056935),TmcA_DSC,Seep-SRB1a_sp._S7142MS3
+598,MBT9437608.1 (2842055713),TmcA_DSC,
+599,0,TmcA_DSC,Seep-SRB1g_sp._S7142MS4
+600,0,TmcA_DSC,Desulfofervidaceae_sp._PB11946FWG155
+601,0,TmcA_DSC,DesulfofervidalesDG60_sp._PB11719FWG156
+602,0,TmcA_DSC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+603,DHEMDEKC_02231,TmcA_DSC,Seep-SRB1a_sp._SM14434AFWG171
+604,EOKBJDCF_01648,TmcA_DSC,Seep-SRB1a_sp._SM14434BFWG172
+605,0,TmcA_DSC,Seep-SRB2_sp._PB10259FWG173
+606,0,TmcA_DSC,Seep-SRB2_sp._PBNA091R45FWG174
+607,0,TmcA_DSC,Desulfofervidaceae sp. PB_NA091.008_B6
+608,0,TmcA_DSC,Seep-SRB1a_sp._SM7147A
+609,LCGKHOPJ_00384,TmcA_DSC,Seep-SRB1a_sp._SM7147B
+610,Ga0402054_bin3_2140,TmcA_DSC,Seep-SRB1a_sp._CR9063A
+611,Ga0402057_bin2_1469,TmcA_DSC,Seep-SRB1a_sp._CR9063B
+612,0,TmcA_DSC,Seep-SRB1a_sp._CR9063C
+613,"Ga0402080_bin2_671,Ga0402080_bin2_1188",TmcA_DSC,Seep-SRB1a_sp._SM7059A
+614,Ga0402010_bin2_324,TmcA_DSC,Seep-SRB1g_sp._CR10073A
+615,Ga0402030_bin2_566,TmcA_DSC,Seep-SRB1g_sp._CR10073B
+616,0,TmcA_DSC,Desulfofervidales_sp._DG-60
+617,0,TmcA_DSC,Dissulfurirhabdus_thermomarina_ASM1049943v1
+618,0,TmcA_DSC,Dissulfurirhabdus_thermomarina_ASM1297923v1
+619,0,TmcA_DSC,UBA5754 sp002419025
+620,0,TmcA_DSC,S7086C20 sp001751075
+621,0,TmcA_DSC,C00003060 sp001751085
+622,0,TmcA_DSC,B60-G16 sp003647275
+623,0,TmcA_DSC,B23-G16 sp003647435
+624,0,TmcA_DSC,B23-G16 sp003647435
+625,0,TmcA_DSC,DTYH01 sp012961955
+626,0,TmcA_DSC,JABXJX01 sp013375375
+627,,TmcA_DSC,
+628,,TmcA_DSC,
+629,0,TmcA_DSC,JABXJW01 sp013375395
+630,MBA3019352.1,TmcB,Seep-SRB1a_sp013792055
+631,,TmcB,
+632,RZB29847.1,TmcB,Eth-SRB1_sp004193555
+633,0,TmcB,Eth-SRB2_sp004193595
+634,0,TmcB,Seep-SRB2_sp00364560
+635,CAD7777605.1,TmcB,HotSeep1_E37_DN
+636,CAD7776337.1,TmcB,HotSeep1_E50_DN
+637,AMM41049.1,TmcB,HotSeep1_sp001577525
+638,0,TmcB,Seep-SRB2_G37_sp003194485
+639,0,TmcB,Seep-SRB2_sp003194495
+640,IEOPGEAI_00707,TmcB,HotSeep1_B50
+641,0,TmcB,Seep-SRB2_sp002367355
+642,OEU63922.1,TmcB,Eth-SRB2_sp00175005
+643,0,TmcB,Seep-SRB1a_sp_PC51MH44
+644,0,TmcB,Seep-SRB1g_sp001751015_a
+645,OEU55939.1,TmcB,Seep-SRB1g_sp001751015_b
+646,MBC2694438.1,TmcB,Seep-SRB1a_sp014237365
+647,MBC2718748.1,TmcB,Seep-SRB1a_sp014237365a
+648,MBT9438708.1 (2842056934),TmcB,Seep-SRB1a_sp._S7142MS3
+649,MBT9438296.1 (2842056471),TmcB,
+650,0,TmcB,Seep-SRB1g_sp._S7142MS4
+651,OLHCEBFO_01509,TmcB,Desulfofervidaceae_sp._PB11946FWG155
+652,0,TmcB,DesulfofervidalesDG60_sp._PB11719FWG156
+653,0,TmcB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+654,DHEMDEKC_00936,TmcB,Seep-SRB1a_sp._SM14434AFWG171
+655,EOKBJDCF_00667,TmcB,Seep-SRB1a_sp._SM14434BFWG172
+656,0,TmcB,Seep-SRB2_sp._PB10259FWG173
+657,0,TmcB,Seep-SRB2_sp._PBNA091R45FWG174
+658,GLOGJPLJ_01214,TmcB,Desulfofervidaceae sp. PB_NA091.008_B6
+659,0,TmcB,Seep-SRB1a_sp._SM7147A
+660,LCGKHOPJ_00971,TmcB,Seep-SRB1a_sp._SM7147B
+661,Ga0402054_bin3_415,TmcB,Seep-SRB1a_sp._CR9063A
+662,Ga0402057_bin2_2567,TmcB,Seep-SRB1a_sp._CR9063B
+663,0,TmcB,Seep-SRB1a_sp._CR9063C
+664,"Ga0402080_bin2_670,Ga0402080_bin2_1223",TmcB,Seep-SRB1a_sp._SM7059A
+665,Ga0402010_bin2_329,TmcB,Seep-SRB1g_sp._CR10073A
+666,Ga0402030_bin2_572,TmcB,Seep-SRB1g_sp._CR10073B
+667,0,TmcB,Desulfofervidales_sp._DG-60
+668,0,TmcB,Dissulfurirhabdus_thermomarina_ASM1049943v1
+669,0,TmcB,Dissulfurirhabdus_thermomarina_ASM1297923v1
+670,0,TmcB,UBA5754 sp002419025
+671,OEU44650.1,TmcB,S7086C20 sp001751075
+672,0,TmcB,C00003060 sp001751085
+673,0,TmcB,B60-G16 sp003647275
+674,0,TmcB,B23-G16 sp003647435
+675,0,TmcB,B23-G16 sp003647435
+676,HID58489.1,TmcB,DTYH01 sp012961955
+677,NVL91105.1,TmcB,JABXJX01 sp013375375
+678,NVL91101.1,TmcB,
+679,NVL90553.1,TmcB,
+680,"NVM21707.1,",TmcB,JABXJW01 sp013375395
+681,MBA3019351.1,TmcC,Seep-SRB1a_sp013792055
+682,,TmcC,
+683,RZB29848.1,TmcC,Eth-SRB1_sp004193555
+684,0,TmcC,Eth-SRB2_sp004193595
+685,0,TmcC,Seep-SRB2_sp00364560
+686,CAD7777609.1,TmcC,HotSeep1_E37_DN
+687,CAD7776343.1,TmcC,HotSeep1_E50_DN
+688,AMM41050.1,TmcC,HotSeep1_sp001577525
+689,0,TmcC,Seep-SRB2_G37_sp003194485
+690,0,TmcC,Seep-SRB2_sp003194495
+691,IEOPGEAI_00706,TmcC,HotSeep1_B50
+692,0,TmcC,Seep-SRB2_sp002367355
+693,OEU63923.1,TmcC,Eth-SRB2_sp00175005
+694,0,TmcC,Seep-SRB1a_sp_PC51MH44
+695,OEU57700.1,TmcC,Seep-SRB1g_sp001751015_a
+696,OEU55938.1,TmcC,Seep-SRB1g_sp001751015_b
+697,MBC2694439.1,TmcC,Seep-SRB1a_sp014237365
+698,MBC2718749.1,TmcC,Seep-SRB1a_sp014237365a
+699,MBT9438295.1 (2842056470),TmcC,Seep-SRB1a_sp._S7142MS3
+700,,TmcC,
+701,0,TmcC,Seep-SRB1g_sp._S7142MS4
+702,OLHCEBFO_01508,TmcC,Desulfofervidaceae_sp._PB11946FWG155
+703,0,TmcC,DesulfofervidalesDG60_sp._PB11719FWG156
+704,BEFNOMPG_00678,TmcC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+705,DHEMDEKC_00935,TmcC,Seep-SRB1a_sp._SM14434AFWG171
+706,0,TmcC,Seep-SRB1a_sp._SM14434BFWG172
+707,0,TmcC,Seep-SRB2_sp._PB10259FWG173
+708,0,TmcC,Seep-SRB2_sp._PBNA091R45FWG174
+709,GLOGJPLJ_01213,TmcC,Desulfofervidaceae sp. PB_NA091.008_B6
+710,0,TmcC,Seep-SRB1a_sp._SM7147A
+711,LCGKHOPJ_00970,TmcC,Seep-SRB1a_sp._SM7147B
+712,Ga0402054_bin3_416,TmcC,Seep-SRB1a_sp._CR9063A
+713,Ga0402057_bin2_2566,TmcC,Seep-SRB1a_sp._CR9063B
+714,0,TmcC,Seep-SRB1a_sp._CR9063C
+715,Ga0402080_bin2_1224,TmcC,Seep-SRB1a_sp._SM7059A
+716,Ga0402010_bin2_330,TmcC,Seep-SRB1g_sp._CR10073A
+717,Ga0402030_bin2_573,TmcC,Seep-SRB1g_sp._CR10073B
+718,0,TmcC,Desulfofervidales_sp._DG-60
+719,0,TmcC,Dissulfurirhabdus_thermomarina_ASM1049943v1
+720,0,TmcC,Dissulfurirhabdus_thermomarina_ASM1297923v1
+721,0,TmcC,UBA5754 sp002419025
+722,"OEU44649.1,OEU44478.1",TmcC,S7086C20 sp001751075
+723,0,TmcC,C00003060 sp001751085
+724,0,TmcC,B60-G16 sp003647275
+725,0,TmcC,B23-G16 sp003647435
+726,0,TmcC,B23-G16 sp003647435
+727,HID58490.1,TmcC,DTYH01 sp012961955
+728,NVL91106.1,TmcC,JABXJX01 sp013375375
+729,NVL91102.1,TmcC,
+730,NVL90554.1,TmcC,
+731,"NVM21708.1,",TmcC,JABXJW01 sp013375395
+732,0,TmcD,Seep-SRB1a_sp013792055
+733,,TmcD,
+734,RZB29849.1,TmcD,Eth-SRB1_sp004193555
+735,0,TmcD,Eth-SRB2_sp004193595
+736,0,TmcD,Seep-SRB2_sp00364560
+737,CAD7777621.1,TmcD,HotSeep1_E37_DN
+738,CAD7776349.1,TmcD,HotSeep1_E50_DN
+739,AMM41051.1,TmcD,HotSeep1_sp001577525
+740,0,TmcD,Seep-SRB2_G37_sp003194485
+741,0,TmcD,Seep-SRB2_sp003194495
+742,IEOPGEAI_00705,TmcD,HotSeep1_B50
+743,0,TmcD,Seep-SRB2_sp002367355
+744,OEU63929.1,TmcD,Eth-SRB2_sp00175005
+745,0,TmcD,Seep-SRB1a_sp_PC51MH44
+746,OEU57699.1,TmcD,Seep-SRB1g_sp001751015_a
+747,OEU55937.1,TmcD,Seep-SRB1g_sp001751015_b
+748,MBC2694440.1,TmcD,Seep-SRB1a_sp014237365
+749,MBC2718750.1,TmcD,Seep-SRB1a_sp014237365a
+750,0,TmcD,Seep-SRB1a_sp._S7142MS3
+751,,TmcD,
+752,0,TmcD,Seep-SRB1g_sp._S7142MS4
+753,,TmcD,Desulfofervidaceae_sp._PB11946FWG155
+754,0,TmcD,DesulfofervidalesDG60_sp._PB11719FWG156
+755,BEFNOMPG_00677,TmcD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+756,DHEMDEKC_00934,TmcD,Seep-SRB1a_sp._SM14434AFWG171
+757,EOKBJDCF_01433,TmcD,Seep-SRB1a_sp._SM14434BFWG172
+758,0,TmcD,Seep-SRB2_sp._PB10259FWG173
+759,0,TmcD,Seep-SRB2_sp._PBNA091R45FWG174
+760,GLOGJPLJ_01212,TmcD,Desulfofervidaceae sp. PB_NA091.008_B6
+761,0,TmcD,Seep-SRB1a_sp._SM7147A
+762,LCGKHOPJ_00969,TmcD,Seep-SRB1a_sp._SM7147B
+763,Ga0402054_bin3_417,TmcD,Seep-SRB1a_sp._CR9063A
+764,Ga0402057_bin2_2565,TmcD,Seep-SRB1a_sp._CR9063B
+765,0,TmcD,Seep-SRB1a_sp._CR9063C
+766,Ga0402080_bin2_1225,TmcD,Seep-SRB1a_sp._SM7059A
+767,Ga0402010_bin2_331,TmcD,Seep-SRB1g_sp._CR10073A
+768,Ga0402030_bin2_574,TmcD,Seep-SRB1g_sp._CR10073B
+769,0,TmcD,Desulfofervidales_sp._DG-60
+770,0,TmcD,Dissulfurirhabdus_thermomarina_ASM1049943v1
+771,0,TmcD,Dissulfurirhabdus_thermomarina_ASM1297923v1
+772,0,TmcD,UBA5754 sp002419025
+773,OEU44477.1,TmcD,S7086C20 sp001751075
+774,0,TmcD,C00003060 sp001751085
+775,0,TmcD,B60-G16 sp003647275
+776,0,TmcD,B23-G16 sp003647435
+777,0,TmcD,B23-G16 sp003647435
+778,0,TmcD,DTYH01 sp012961955
+779,NVL90555.1,TmcD,JABXJX01 sp013375375
+780,,TmcD,
+781,,TmcD,
+782,NVM21705.1,TmcD,JABXJW01 sp013375395
+783,-,nfnA,Desulfobacterales_sp._PC51MH44
+784,-,nfnA,Desulfobacterales_sp._S5133MH16
+785,2513992634,nfnA,Desulfosarcina_sp._BuS5
+786,-,nfnA,Desulfococcus_biacutus_KMRActS
+787,-,nfnA,Desulfonema_limicola_Jadebusen_DSM_2076
+788,2502437831,nfnA,Desulfosarcina_variabilis_Montpellier
+789,2524230811,nfnA,Desulfatirhabdium_butyrativorans_DSM_18734
+790,2508602348,nfnA,Desulfobacter_postgatei_2ac9
+791,2524511884,nfnA,Desulfobacula_toluolica_Tol2
+792,"2523439577
+2523440908",nfnA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+793,2503696125,nfnA,Desulfococcus_oleovorans_Hxd3
+794,2523116068,nfnA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+795,2588103127,nfnA,Desulfatibacillum_alkenivorans_DSM_16219
+796,2527180030,nfnA,Desulfobacterium_anilini_DSM_4660
+797,2504153670,nfnA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+798,-,nfnA,Desulfocapsa_sulfexigens_DSM_10523
+799,649926972,nfnA,Desulfobulbus_propionicus_1pr3_DSM_2032
+800,2558014037,nfnA,Desulfobulbus_elongatus_DSM_2908
+801,-,nfnA,Desulfobulbus_mediterraneus_DSM_13871
+802,2541189670,nfnA,Desulfocurvus_vexinensis_DSM_17965
+803,2646275785,nfnA,Desulfovibrio_vulgaris_RCH1
+804,2595075517,nfnA,Desulfonatronum_thioautotrophicum_ASO4_1
+805,"2524270929
+2524271386",nfnA,Desulfomicrobium_escambiense_DSM_10707
+806,-,nfnA,Shewanella_oneidensis_MR_1
+807,-,nfnA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+808,-,nfnA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+809,-,nfnA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+810,-,nfnA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+811,-,nfnA,Seep-SRB1g_sp._C00003104
+812,-,nfnA,Seep-SRB1g_sp._C00003106
+813,Ga0123269_12356,nfnA,Seep-SRB1g_sp._Cons3730e01UFb1
+814,,nfnA,Seep-SRB1g_sp._C10073A
+815,-,nfnA,Seep-SRB1a_sp_C9063A
+816,-,nfnA,Seep-SRB1a_sp_C7059A
+817,OEU82212.1,nfnA,Desulfobulbaceae_bacterium_C00003063
+818,OEU56178.1,nfnA,Desulfobulbaceae_bacterium_S3730MH12
+819,OEU46805.1,nfnA,Desulfobulbaceae_bacterium_S5133MH15
+820,-,nfnA,E20 SRB2
+821,-,nfnA,G37 SRB2
+822,-,nfnA,HotSeep1
+823,<1e-60,nfnA,
+824,,nfnA,
+825,,nfnA,
+826,-,nfnB,Desulfobacterales_sp._PC51MH44
+827,-,nfnB,Desulfobacterales_sp._S5133MH16
+828,2513992635,nfnB,Desulfosarcina_sp._BuS5
+829,-,nfnB,Desulfococcus_biacutus_KMRActS
+830,-,nfnB,Desulfonema_limicola_Jadebusen_DSM_2076
+831,2502437832,nfnB,Desulfosarcina_variabilis_Montpellier
+832,2524230812,nfnB,Desulfatirhabdium_butyrativorans_DSM_18734
+833,2508602347,nfnB,Desulfobacter_postgatei_2ac9
+834,2524511885,nfnB,Desulfobacula_toluolica_Tol2
+835,"2523439576
+2523440909",nfnB,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+836,2503696126,nfnB,Desulfococcus_oleovorans_Hxd3
+837,2523116067,nfnB,Desulfatibacillum_aliphaticivorans_DSM_15576_
+838,2588103128,nfnB,Desulfatibacillum_alkenivorans_DSM_16219
+839,2527180031,nfnB,Desulfobacterium_anilini_DSM_4660
+840,2504153671,nfnB,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+841,-,nfnB,Desulfocapsa_sulfexigens_DSM_10523
+842,649926973,nfnB,Desulfobulbus_propionicus_1pr3_DSM_2032
+843,2558014036,nfnB,Desulfobulbus_elongatus_DSM_2908
+844,-,nfnB,Desulfobulbus_mediterraneus_DSM_13871
+845,2541189669,nfnB,Desulfocurvus_vexinensis_DSM_17965
+846,2646275786,nfnB,Desulfovibrio_vulgaris_RCH1
+847,2595075516,nfnB,Desulfonatronum_thioautotrophicum_ASO4_1
+848,"2524270928
+2524271387",nfnB,Desulfomicrobium_escambiense_DSM_10707
+849,-,nfnB,Shewanella_oneidensis_MR_1
+850,-,nfnB,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+851,-,nfnB,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+852,-,nfnB,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+853,-,nfnB,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+854,-,nfnB,Seep-SRB1g_sp._C00003104
+855,-,nfnB,Seep-SRB1g_sp._C00003106
+856,Ga0123269_12357,nfnB,Seep-SRB1g_sp._Cons3730e01UFb1
+857,,nfnB,Seep-SRB1g_sp._C10073A
+858,-,nfnB,Seep-SRB1a_sp_C9063A
+859,-,nfnB,Seep-SRB1a_sp_C7059A
+860,OEU82213.1,nfnB,Desulfobulbaceae_bacterium_C00003063
+861,OEU56177.1,nfnB,Desulfobulbaceae_bacterium_S3730MH12
+862,OEU46804.1,nfnB,Desulfobulbaceae_bacterium_S5133MH15
+863,-,nfnB,E20 SRB2
+864,-,nfnB,G37 SRB2
+865,-,nfnB,HotSeep1
+866,<1e-60,nfnB,
+867,,nfnB,
+868,,nfnB,
+869,['-' '-'],etfA,Desulfobacterales_sp._PC51MH44
+870,['OEU61607.1\nOEU62928.1' '-'],etfA,Desulfobacterales_sp._S5133MH16
+871,['2513990102\n2513990974' '-'],etfA,Desulfosarcina_sp._BuS5
+872,['2512526982\n2512527415' '-'],etfA,Desulfococcus_biacutus_KMRActS
+873,['2502445893\n2502446111' '-'],etfA,Desulfonema_limicola_Jadebusen_DSM_2076
+874,['2502432386\n2502433428\n2502434788\n2502439571\n2502440324' '-'],etfA,Desulfosarcina_variabilis_Montpellier
+875,['2524232321\n2524233492' '-'],etfA,Desulfatirhabdium_butyrativorans_DSM_18734
+876,[2508602804 '-'],etfA,Desulfobacter_postgatei_2ac9
+877,"['2524511458, 2524509296' '-']",etfA,Desulfobacula_toluolica_Tol2
+878,[2523440234 '-'],etfA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+879,[2503697235 '-'],etfA,Desulfococcus_oleovorans_Hxd3
+880,[2523114126 '-'],etfA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+881,[2588101328 '-'],etfA,Desulfatibacillum_alkenivorans_DSM_16219
+882,['2527180106\n2527181327\n2527181505\n2527182486' '-'],etfA,Desulfobacterium_anilini_DSM_4660
+883,[2504154076 2504154076],etfA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+884,[2562336299 2562336300],etfA,Desulfocapsa_sulfexigens_DSM_10523
+885,[649926857 649926857],etfA,Desulfobulbus_propionicus_1pr3_DSM_2032
+886,[2558015557 2558015557],etfA,Desulfobulbus_elongatus_DSM_2908
+887,[2523916324 2523916324],etfA,Desulfobulbus_mediterraneus_DSM_13871
+888,[2523440234 '-'],etfA,Desulfocurvus_vexinensis_DSM_17965
+889,['-' '-'],etfA,Desulfovibrio_vulgaris_RCH1
+890,['-' '-'],etfA,Desulfonatronum_thioautotrophicum_ASO4_1
+891,['-' '-'],etfA,Desulfomicrobium_escambiense_DSM_10707
+892,['-' '-'],etfA,Shewanella_oneidensis_MR_1
+893,['-' '-'],etfA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+894,['-' '-'],etfA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+895,['OEU80403.1\nOEU80575.1\nOEU81531.1' '-'],etfA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+896,['OEU44842.1\nOEU45296.1\nOEU45440.1' 'OEU44842.1'],etfA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+897,['OEU60987.1' 'OEU60987.1'],etfA,Seep-SRB1g_sp._C00003104
+898,['OEU55707.1' 'OEU55707.1'],etfA,Seep-SRB1g_sp._C00003106
+899,['Ga0123269_15051' '-'],etfA,Seep-SRB1g_sp._Cons3730e01UFb1
+900,['Ga0402030_bin2_1537' 'Ga0402030_bin2_1537'],etfA,Seep-SRB1g_sp._C10073A
+901,['-' '-'],etfA,Seep-SRB1a_sp_C9063A
+902,['-' '-'],etfA,Seep-SRB1a_sp_C7059A
+903,['OEU83940.1' 'OEU83940.1'],etfA,Desulfobulbaceae_bacterium_C00003063
+904,['OEU54922.1' 'OEU54922.1'],etfA,Desulfobulbaceae_bacterium_S3730MH12
+905,['OEU48425.1' 'OEU48426.1'],etfA,Desulfobulbaceae_bacterium_S5133MH15
+906,['PXF59921.1' 'PXF59921.1'],etfA,E20 SRB2
+907,['PXF56020.1' 'PXF56020.1'],etfA,G37 SRB2
+908,['WP_066064793.1' 'WP_066064793.1'],etfA,HotSeep1
+909,['<1e-30' '<1e-30'],etfA,
+910,[nan nan],etfA,
+911,[nan nan],etfA,
+912,['-' '-'],etfB,Desulfobacterales_sp._PC51MH44
+913,['OEU61606.1\nOEU62929.1' '-'],etfB,Desulfobacterales_sp._S5133MH16
+914,['2513990103\n2513990975' '-'],etfB,Desulfosarcina_sp._BuS5
+915,['2512526981\n2512527416' '-'],etfB,Desulfococcus_biacutus_KMRActS
+916,['2502445894\n2502446110' '-'],etfB,Desulfonema_limicola_Jadebusen_DSM_2076
+917,['2502432387\n2502433429\n2502434789\n2502439570\n2502440323' '-'],etfB,Desulfosarcina_variabilis_Montpellier
+918,['2524232320\n2524233491' '-'],etfB,Desulfatirhabdium_butyrativorans_DSM_18734
+919,[2508602803 '-'],etfB,Desulfobacter_postgatei_2ac9
+920,"['2524511459, 2524509295' '-']",etfB,Desulfobacula_toluolica_Tol2
+921,[2523440235 '-'],etfB,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+922,[2503697236 '-'],etfB,Desulfococcus_oleovorans_Hxd3
+923,[2523114125 '-'],etfB,Desulfatibacillum_aliphaticivorans_DSM_15576_
+924,[2588101327 '-'],etfB,Desulfatibacillum_alkenivorans_DSM_16219
+925,['2527180105\n2527181126\n2527181506\n2527182485' '-'],etfB,Desulfobacterium_anilini_DSM_4660
+926,[2504154075 2504154075],etfB,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+927,[2562336300 2562336299],etfB,Desulfocapsa_sulfexigens_DSM_10523
+928,[649926858 649926858],etfB,Desulfobulbus_propionicus_1pr3_DSM_2032
+929,[2558015556 2558015556],etfB,Desulfobulbus_elongatus_DSM_2908
+930,[2523916325 2523916325],etfB,Desulfobulbus_mediterraneus_DSM_13871
+931,[2523440235 '-'],etfB,Desulfocurvus_vexinensis_DSM_17965
+932,['-' '-'],etfB,Desulfovibrio_vulgaris_RCH1
+933,['-' '-'],etfB,Desulfonatronum_thioautotrophicum_ASO4_1
+934,['-' '-'],etfB,Desulfomicrobium_escambiense_DSM_10707
+935,['-' '-'],etfB,Shewanella_oneidensis_MR_1
+936,['-' '-'],etfB,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+937,['-' '-'],etfB,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+938,['OEU80402.1\nOEU80574.1\nOEU81532.1' '-'],etfB,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+939,['OEU44843.1\nOEU45295.1\nOEU45439.1' 'OEU44843.1'],etfB,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+940,['OEU60986.1' 'OEU60986.1'],etfB,Seep-SRB1g_sp._C00003104
+941,['OEU55706.1' 'OEU55706.1'],etfB,Seep-SRB1g_sp._C00003106
+942,['-' '-'],etfB,Seep-SRB1g_sp._Cons3730e01UFb1
+943,['Ga0402030_bin2_1538' 'Ga0402030_bin2_1538'],etfB,Seep-SRB1g_sp._C10073A
+944,['-' '-'],etfB,Seep-SRB1a_sp_C9063A
+945,['-' '-'],etfB,Seep-SRB1a_sp_C7059A
+946,['OEU83941.1' 'OEU83941.1'],etfB,Desulfobulbaceae_bacterium_C00003063
+947,['OEU54923.1' 'OEU54923.1'],etfB,Desulfobulbaceae_bacterium_S3730MH12
+948,['OEU48426.1' 'OEU48425.1'],etfB,Desulfobulbaceae_bacterium_S5133MH15
+949,['PXF59922.1' 'PXF59922.1'],etfB,E20 SRB2
+950,['PXF56021.1' 'PXF56021.1'],etfB,G37 SRB2
+951,['WP_066064796.1' 'WP_066064796.1'],etfB,HotSeep1
+952,['<1e-30' '<1e-30'],etfB,
+953,"[nan
+ 'filtered using the sequence motif ""IDGDTAQVGP"" and corroborate using  phylogeny']",etfB,
+954,"[nan 'etfB has ""IDGETAQVGP"" in HotSeep1']",etfB,
+955,['-' '-'],etfA,Desulfobacterales_sp._PC51MH44
+956,['OEU61607.1\nOEU62928.1' '-'],etfA,Desulfobacterales_sp._S5133MH16
+957,['2513990102\n2513990974' '-'],etfA,Desulfosarcina_sp._BuS5
+958,['2512526982\n2512527415' '-'],etfA,Desulfococcus_biacutus_KMRActS
+959,['2502445893\n2502446111' '-'],etfA,Desulfonema_limicola_Jadebusen_DSM_2076
+960,['2502432386\n2502433428\n2502434788\n2502439571\n2502440324' '-'],etfA,Desulfosarcina_variabilis_Montpellier
+961,['2524232321\n2524233492' '-'],etfA,Desulfatirhabdium_butyrativorans_DSM_18734
+962,[2508602804 '-'],etfA,Desulfobacter_postgatei_2ac9
+963,"['2524511458, 2524509296' '-']",etfA,Desulfobacula_toluolica_Tol2
+964,[2523440234 '-'],etfA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+965,[2503697235 '-'],etfA,Desulfococcus_oleovorans_Hxd3
+966,[2523114126 '-'],etfA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+967,[2588101328 '-'],etfA,Desulfatibacillum_alkenivorans_DSM_16219
+968,['2527180106\n2527181327\n2527181505\n2527182486' '-'],etfA,Desulfobacterium_anilini_DSM_4660
+969,[2504154076 2504154076],etfA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+970,[2562336299 2562336300],etfA,Desulfocapsa_sulfexigens_DSM_10523
+971,[649926857 649926857],etfA,Desulfobulbus_propionicus_1pr3_DSM_2032
+972,[2558015557 2558015557],etfA,Desulfobulbus_elongatus_DSM_2908
+973,[2523916324 2523916324],etfA,Desulfobulbus_mediterraneus_DSM_13871
+974,[2523440234 '-'],etfA,Desulfocurvus_vexinensis_DSM_17965
+975,['-' '-'],etfA,Desulfovibrio_vulgaris_RCH1
+976,['-' '-'],etfA,Desulfonatronum_thioautotrophicum_ASO4_1
+977,['-' '-'],etfA,Desulfomicrobium_escambiense_DSM_10707
+978,['-' '-'],etfA,Shewanella_oneidensis_MR_1
+979,['-' '-'],etfA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+980,['-' '-'],etfA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+981,['OEU80403.1\nOEU80575.1\nOEU81531.1' '-'],etfA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+982,['OEU44842.1\nOEU45296.1\nOEU45440.1' 'OEU44842.1'],etfA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+983,['OEU60987.1' 'OEU60987.1'],etfA,Seep-SRB1g_sp._C00003104
+984,['OEU55707.1' 'OEU55707.1'],etfA,Seep-SRB1g_sp._C00003106
+985,['Ga0123269_15051' '-'],etfA,Seep-SRB1g_sp._Cons3730e01UFb1
+986,['Ga0402030_bin2_1537' 'Ga0402030_bin2_1537'],etfA,Seep-SRB1g_sp._C10073A
+987,['-' '-'],etfA,Seep-SRB1a_sp_C9063A
+988,['-' '-'],etfA,Seep-SRB1a_sp_C7059A
+989,['OEU83940.1' 'OEU83940.1'],etfA,Desulfobulbaceae_bacterium_C00003063
+990,['OEU54922.1' 'OEU54922.1'],etfA,Desulfobulbaceae_bacterium_S3730MH12
+991,['OEU48425.1' 'OEU48426.1'],etfA,Desulfobulbaceae_bacterium_S5133MH15
+992,['PXF59921.1' 'PXF59921.1'],etfA,E20 SRB2
+993,['PXF56020.1' 'PXF56020.1'],etfA,G37 SRB2
+994,['WP_066064793.1' 'WP_066064793.1'],etfA,HotSeep1
+995,['<1e-30' '<1e-30'],etfA,
+996,[nan nan],etfA,
+997,[nan nan],etfA,
+998,['-' '-'],etfB,Desulfobacterales_sp._PC51MH44
+999,['OEU61606.1\nOEU62929.1' '-'],etfB,Desulfobacterales_sp._S5133MH16
+1000,['2513990103\n2513990975' '-'],etfB,Desulfosarcina_sp._BuS5
+1001,['2512526981\n2512527416' '-'],etfB,Desulfococcus_biacutus_KMRActS
+1002,['2502445894\n2502446110' '-'],etfB,Desulfonema_limicola_Jadebusen_DSM_2076
+1003,['2502432387\n2502433429\n2502434789\n2502439570\n2502440323' '-'],etfB,Desulfosarcina_variabilis_Montpellier
+1004,['2524232320\n2524233491' '-'],etfB,Desulfatirhabdium_butyrativorans_DSM_18734
+1005,[2508602803 '-'],etfB,Desulfobacter_postgatei_2ac9
+1006,"['2524511459, 2524509295' '-']",etfB,Desulfobacula_toluolica_Tol2
+1007,[2523440235 '-'],etfB,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+1008,[2503697236 '-'],etfB,Desulfococcus_oleovorans_Hxd3
+1009,[2523114125 '-'],etfB,Desulfatibacillum_aliphaticivorans_DSM_15576_
+1010,[2588101327 '-'],etfB,Desulfatibacillum_alkenivorans_DSM_16219
+1011,['2527180105\n2527181126\n2527181506\n2527182485' '-'],etfB,Desulfobacterium_anilini_DSM_4660
+1012,[2504154075 2504154075],etfB,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+1013,[2562336300 2562336299],etfB,Desulfocapsa_sulfexigens_DSM_10523
+1014,[649926858 649926858],etfB,Desulfobulbus_propionicus_1pr3_DSM_2032
+1015,[2558015556 2558015556],etfB,Desulfobulbus_elongatus_DSM_2908
+1016,[2523916325 2523916325],etfB,Desulfobulbus_mediterraneus_DSM_13871
+1017,[2523440235 '-'],etfB,Desulfocurvus_vexinensis_DSM_17965
+1018,['-' '-'],etfB,Desulfovibrio_vulgaris_RCH1
+1019,['-' '-'],etfB,Desulfonatronum_thioautotrophicum_ASO4_1
+1020,['-' '-'],etfB,Desulfomicrobium_escambiense_DSM_10707
+1021,['-' '-'],etfB,Shewanella_oneidensis_MR_1
+1022,['-' '-'],etfB,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+1023,['-' '-'],etfB,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+1024,['OEU80402.1\nOEU80574.1\nOEU81532.1' '-'],etfB,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+1025,['OEU44843.1\nOEU45295.1\nOEU45439.1' 'OEU44843.1'],etfB,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+1026,['OEU60986.1' 'OEU60986.1'],etfB,Seep-SRB1g_sp._C00003104
+1027,['OEU55706.1' 'OEU55706.1'],etfB,Seep-SRB1g_sp._C00003106
+1028,['-' '-'],etfB,Seep-SRB1g_sp._Cons3730e01UFb1
+1029,['Ga0402030_bin2_1538' 'Ga0402030_bin2_1538'],etfB,Seep-SRB1g_sp._C10073A
+1030,['-' '-'],etfB,Seep-SRB1a_sp_C9063A
+1031,['-' '-'],etfB,Seep-SRB1a_sp_C7059A
+1032,['OEU83941.1' 'OEU83941.1'],etfB,Desulfobulbaceae_bacterium_C00003063
+1033,['OEU54923.1' 'OEU54923.1'],etfB,Desulfobulbaceae_bacterium_S3730MH12
+1034,['OEU48426.1' 'OEU48425.1'],etfB,Desulfobulbaceae_bacterium_S5133MH15
+1035,['PXF59922.1' 'PXF59922.1'],etfB,E20 SRB2
+1036,['PXF56021.1' 'PXF56021.1'],etfB,G37 SRB2
+1037,['WP_066064796.1' 'WP_066064796.1'],etfB,HotSeep1
+1038,['<1e-30' '<1e-30'],etfB,
+1039,"[nan
+ 'filtered using the sequence motif ""IDGDTAQVGP"" and corroborate using  phylogeny']",etfB,
+1040,"[nan 'etfB has ""IDGETAQVGP"" in HotSeep1']",etfB,
+1041,-,flxB,Desulfobacterales_sp._PC51MH44
+1042,-,flxB,Desulfobacterales_sp._S5133MH16
+1043,2513990908,flxB,Desulfosarcina_sp._BuS5
+1044,-,flxB,Desulfococcus_biacutus_KMRActS
+1045,-,flxB,Desulfonema_limicola_Jadebusen_DSM_2076
+1046,2502439154,flxB,Desulfosarcina_variabilis_Montpellier
+1047,2524230138,flxB,Desulfatirhabdium_butyrativorans_DSM_18734
+1048,-,flxB,Desulfobacter_postgatei_2ac9
+1049,2524511064,flxB,Desulfobacula_toluolica_Tol2
+1050,,flxB,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+1051,-,flxB,Desulfococcus_oleovorans_Hxd3
+1052,2523112439,flxB,Desulfatibacillum_aliphaticivorans_DSM_15576_
+1053,2588104263,flxB,Desulfatibacillum_alkenivorans_DSM_16219
+1054,2527180342,flxB,Desulfobacterium_anilini_DSM_4660
+1055,-,flxB,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+1056,-,flxB,Desulfocapsa_sulfexigens_DSM_10523
+1057,-,flxB,Desulfobulbus_propionicus_1pr3_DSM_2032
+1058,-,flxB,Desulfobulbus_elongatus_DSM_2908
+1059,-,flxB,Desulfobulbus_mediterraneus_DSM_13871
+1060,2541189397,flxB,Desulfocurvus_vexinensis_DSM_17965
+1061,2646275716,flxB,Desulfovibrio_vulgaris_RCH1
+1062,2595074869,flxB,Desulfonatronum_thioautotrophicum_ASO4_1
+1063,2541189397,flxB,Desulfomicrobium_escambiense_DSM_10707
+1064,-,flxB,Shewanella_oneidensis_MR_1
+1065,-,flxB,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+1066,-,flxB,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+1067,-,flxB,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+1068,-,flxB,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+1069,OEU58800.1 (flxA),flxB,Seep-SRB1g_sp._C00003104
+1070,OEU55345.1 (flxA),flxB,Seep-SRB1g_sp._C00003106
+1071,Ga0123269_13964,flxB,Seep-SRB1g_sp._Cons3730e01UFb1
+1072,Ga0402030_bin2_2429,flxB,Seep-SRB1g_sp._C10073A
+1073,Ga0402057_bin2_2278,flxB,Seep-SRB1a_sp_C9063A
+1074,Ga0402080_bin2_1258,flxB,Seep-SRB1a_sp_C7059A
+1075,-,flxB,Desulfobulbaceae_bacterium_C00003063
+1076,-,flxB,Desulfobulbaceae_bacterium_S3730MH12
+1077,-,flxB,Desulfobulbaceae_bacterium_S5133MH15
+1078,PXF58562.1,flxB,E20 SRB2
+1079,PXF53179.1,flxB,G37 SRB2
+1080,-,flxB,HotSeep1
+1081,,flxB,
+1082,,flxB,
+1083,,flxB,
+1084,-,HdrA,Desulfobacterales_sp._PC51MH44
+1085,-,HdrA,Desulfobacterales_sp._S5133MH16
+1086,2513990913,HdrA,Desulfosarcina_sp._BuS5
+1087,-,HdrA,Desulfococcus_biacutus_KMRActS
+1088,-,HdrA,Desulfonema_limicola_Jadebusen_DSM_2076
+1089,2502439158,HdrA,Desulfosarcina_variabilis_Montpellier
+1090,2524230133,HdrA,Desulfatirhabdium_butyrativorans_DSM_18734
+1091,-,HdrA,Desulfobacter_postgatei_2ac9
+1092,2524511067,HdrA,Desulfobacula_toluolica_Tol2
+1093,2523442573,HdrA,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+1094,-,HdrA,Desulfococcus_oleovorans_Hxd3
+1095,2523112443,HdrA,Desulfatibacillum_aliphaticivorans_DSM_15576_
+1096,2588104259,HdrA,Desulfatibacillum_alkenivorans_DSM_16219
+1097,2527180544,HdrA,Desulfobacterium_anilini_DSM_4660
+1098,-,HdrA,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+1099,-,HdrA,Desulfocapsa_sulfexigens_DSM_10523
+1100,-,HdrA,Desulfobulbus_propionicus_1pr3_DSM_2032
+1101,-,HdrA,Desulfobulbus_elongatus_DSM_2908
+1102,-,HdrA,Desulfobulbus_mediterraneus_DSM_13871
+1103,2541189393,HdrA,Desulfocurvus_vexinensis_DSM_17965
+1104,2646275719,HdrA,Desulfovibrio_vulgaris_RCH1
+1105,2595074872,HdrA,Desulfonatronum_thioautotrophicum_ASO4_1
+1106,2541189394,HdrA,Desulfomicrobium_escambiense_DSM_10707
+1107,-,HdrA,Shewanella_oneidensis_MR_1
+1108,-,HdrA,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+1109,-,HdrA,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+1110,-,HdrA,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+1111,-,HdrA,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+1112,-,HdrA,Seep-SRB1g_sp._C00003104
+1113,-,HdrA,Seep-SRB1g_sp._C00003106
+1114,-,HdrA,Seep-SRB1g_sp._Cons3730e01UFb1
+1115,Ga0402030_bin2_2425,HdrA,Seep-SRB1g_sp._C10073A
+1116,Ga0402057_bin2_2283,HdrA,Seep-SRB1a_sp_C9063A
+1117,Ga0402080_bin2_1253,HdrA,Seep-SRB1a_sp_C7059A
+1118,-,HdrA,Desulfobulbaceae_bacterium_C00003063
+1119,-,HdrA,Desulfobulbaceae_bacterium_S3730MH12
+1120,-,HdrA,Desulfobulbaceae_bacterium_S5133MH15
+1121,PXF58558.1,HdrA,E20 SRB2
+1122,PXF53184.1,HdrA,G37 SRB2
+1123,-,HdrA,HotSeep1
+1124,,HdrA,
+1125,,HdrA,
+1126,,HdrA,
+1127,,,Desulfobacterales_sp._PC51MH44
+1128,,,Desulfobacterales_sp._S5133MH16
+1129,,,Desulfosarcina_sp._BuS5
+1130,,,Desulfococcus_biacutus_KMRActS
+1131,,,Desulfonema_limicola_Jadebusen_DSM_2076
+1132,,,Desulfosarcina_variabilis_Montpellier
+1133,,,Desulfatirhabdium_butyrativorans_DSM_18734
+1134,,,Desulfobacter_postgatei_2ac9
+1135,,,Desulfobacula_toluolica_Tol2
+1136,,,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+1137,,,Desulfococcus_oleovorans_Hxd3
+1138,,,Desulfatibacillum_aliphaticivorans_DSM_15576_
+1139,,,Desulfatibacillum_alkenivorans_DSM_16219
+1140,,,Desulfobacterium_anilini_DSM_4660
+1141,,,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+1142,,,Desulfocapsa_sulfexigens_DSM_10523
+1143,,,Desulfobulbus_propionicus_1pr3_DSM_2032
+1144,,,Desulfobulbus_elongatus_DSM_2908
+1145,,,Desulfobulbus_mediterraneus_DSM_13871
+1146,,,Desulfocurvus_vexinensis_DSM_17965
+1147,,,Desulfovibrio_vulgaris_RCH1
+1148,,,Desulfonatronum_thioautotrophicum_ASO4_1
+1149,,,Desulfomicrobium_escambiense_DSM_10707
+1150,,,Shewanella_oneidensis_MR_1
+1151,,,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+1152,,,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+1153,,,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+1154,,,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+1155,,,Seep-SRB1g_sp._C00003104
+1156,,,Seep-SRB1g_sp._C00003106
+1157,,,Seep-SRB1g_sp._Cons3730e01UFb1
+1158,,,Seep-SRB1g_sp._C10073A
+1159,,,Seep-SRB1a_sp_C9063A
+1160,,,Seep-SRB1a_sp_C7059A
+1161,,,Desulfobulbaceae_bacterium_C00003063
+1162,,,Desulfobulbaceae_bacterium_S3730MH12
+1163,,,Desulfobulbaceae_bacterium_S5133MH15
+1164,flxA seems to be missing,,E20 SRB2
+1165,,,G37 SRB2
+1166,,,HotSeep1
+1167,,,
+1168,,,
+1169,,,
+1170,RLB96208.1,Hydrogenase_Group_1a (HysA) periplasmic,B23-G16 sp003647435
+1171,RLC10490.1,Hydrogenase_Group_1a (HysA) periplasmic,B23-G16 sp003647435
+1172,RLB81021.1,Hydrogenase_Group_1a (HysA) periplasmic,B60-G16 sp003647275
+1173,OEU46147.1,Hydrogenase_Group_3c (MvhA) cytosolic,S7086C20 sp001751075
+1174,OEU46904.1,Hydrogenase_Group_2ahydDB says 1a periplasmic,S7086C20 sp001751075
+1175,OEU79861.1,Hydrogenase_Group_4 (membrane bound ech),C00003060 sp001751085
+1176,NVM21981.1,Hydrogenase_Group_2bhydDB says 1a periplasmic(hysA),JABXJW01 sp013375395
+1177,NVM23586.1,Hydrogenase_Group_4 (membrane bound ech),JABXJW01 sp013375395
+1178,NVM23969.1,Hydrogenase_Group_3c (cytosolic),JABXJW01 sp013375395
+1179,NVM24202.1,Hydrogenase_Group_3c (cytosolic),JABXJW01 sp013375395
+1180,NVL90534.1,Hydrogenase_Group_1a (HysA) periplasmic,JABXJX01 sp013375375
+1181,NVL90834.1,Hydrogenase_Group_3c (cytosolic),JABXJX01 sp013375375
+1182,LWW95_08765,Hydrogenase_Group_3c (MvhA) cytosolic,Desulfofervidaceae sp. PB_NA091.008_B6
+1183,LWW94_02505,Hydrogenase_Group_1a (HysA) periplasmic,Desulfofervidaceae_sp._PB11946FWG155
+1184,LWW94_06410,Hydrogenase_Group_1a (HysA) periplasmic,Desulfofervidaceae_sp._PB11946FWG155
+1185,KPJ68675.1,Hydrogenase_Group_2a (Maybe membrane associated),Desulfofervidales_sp._DG-60
+1186,KPJ69025.1,Hydrogenase_Group_1hydDB says 3c (cytosolic),Desulfofervidales_sp._DG-60
+1187,LWW78_02000,Hydrogenase_Group_1a (HysA) periplasmic,DesulfofervidalesDG60_sp._PB11719FWG156
+1188,LWW90_04335,Hydrogenase_Group_1a (HysA) periplasmic,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1189,LWW90_07860,Hydrogenase_Group_3c (FrhA) cytosolic,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1190,IEOPGEAI_01181,Hydrogenase_Group_1a (HysA) periplasmic,HotSeep1_B50
+1191,IEOPGEAI_01304,Hydrogenase_Group_3c (FrhA) cytosolic,HotSeep1_B50
+1192,CAD7770634.1,Hydrogenase_Group_1a (HysA) periplasmic,HotSeep1_E37_DN
+1193,CAD7781970.1,Hydrogenase_Group_3c (FrhA) cytosolic,HotSeep1_E37_DN
+1194,CAD7769629.1,Hydrogenase_Group_1a (HysA) periplasmic,HotSeep1_E50_DN
+1195,CAD7781004.1,Hydrogenase_Group_3c (FrhA) cytosolic,HotSeep1_E50_DN
+1196,AMM39968.1,Hydrogenase_Group_2bhydDB says 1a periplasmic(hysA),HotSeep1_sp001577525
+1197,AMM42097.1,Hydrogenase_Group_3c (FrhA) cytosolic,HotSeep1_sp001577525
+1198,WP_163297842.1,Hydrogenase_Group_1c (Hyb) periplasmic,Dissulfurirhabdus_thermomarina_ASM1049943v1
+1199,MBW2163081.1,Hydrogenase_Group_3b (HyhL) cytosolic,Seep-SRB2_Meg22_02_Bin_69
+1200,MBW2098351.1,Hydrogenase_Group_3b (HyhL) cytosolic,Seep-SRB2_Meg22_1012_Bin_255
+1201,MBW2099038.1,Hydrogenase_Group_3c (MvhA) cytosolic,Seep-SRB2_Meg22_1012_Bin_255
+1202,MBW1966476.1,Hydrogenase_Group_3b (HyhL) cytosolic,Seep-SRB2_Meg22_1214_Bin_80
+1203,MBW1966494.1,Hydrogenase_Group_3c (MvhA) cytosolic,Seep-SRB2_Meg22_1214_Bin_80
+1204,MBW1932047.1,Hydrogenase_Group_3b (HyhL) cytosolic,Seep-SRB2_Meg22_1416_Bin_56
+1205,MBW1925823.1,Hydrogenase_Group_3b (HyhL) cytosolic,Seep-SRB2_Meg22_1618_Bin_165
+1206,MBW1926464.1,Hydrogenase_Group_3c (MvhA) cytosolic,Seep-SRB2_Meg22_1618_Bin_165
+1207,PXF54232.1,Hydrogenase_Group_3c (MvhA) cytosolic,SeepSRB2_G37_sp003194485
+1208,LWW99_10885,Hydrogenase_Group_3b (HyhL) cytosolic,SeepSRB2_sp._PB10259FWG173
+1209,LWX01_07075,Hydrogenase_Group_3b (HyhL) cytosolic,SeepSRB2_sp._PBNA091R45FWG174
+1210,DFBQ01000080.1_9,Hydrogenase_Group_1,SeepSRB2_sp002367355
+1211,DFBQ01000179.1_4,Hydrogenase_Group_3b (HyhL) cytosolic,SeepSRB2_sp002367355
+1212,PXF56808.1,Hydrogenase_Group_3b (HyhL) cytosolic,SeepSRB2_sp003194495
+1213,RKX60486.1,Hydrogenase_Group_3b (HyhL) cytosolic,SeepSRB2_sp00364560
+1214,RZB34792.1,Hydrogenase_Group_3b (cytosolic),Eth-SRB1_sp004193555
+1215,RZB35068.1,Hydrogenase_Group_1b Hyn (periplasmic),Eth-SRB1_sp004193555
+1216,NQT10336.1,Hydrogenase_Group_1b (periplasmic),JACNLL01 sp013202725
+1217,MBC8198981.1,Hydrogenase_Group_1b (periplasmic),JACNLL01 sp014381545
+1218,MBW2738836.1,Hydrogenase_Group_3b (HyhL) (cytosolic),Seep-SRB1a_AB_03_Bin_172
+1219,MBW2164864.1,Hydrogenase_Group_1a (HysA) periplasmic,Seep-SRB1a_Meg22_02_Bin_90
+1220,MBW1833212.1,Hydrogenase_Group_1a (HysA) periplasmic,Seep-SRB1a_Meg22_24_Bin_68
+1221,MBW1744807.1,Hydrogenase_Group_1a (HysA) periplasmic,Seep-SRB1a_Meg22_46_Bin_236
+1222,MBT9440102.1,Hydrogenase_Group_1a (HysA) periplasmic,SeepSRB1a_sp._S7142MS3
+1223,LWX54_02785,Hydrogenase_Group_1a (HysA) periplasmic,SeepSRB1a_sp._SM7059A
+1224,MBA3018930.1,Hydrogenase_Group_3b (HyhL) (cytosolic),SeepSRB1a_sp013792055
+1225,MBA3018935.1,Hydrogenase_Group_1a (HysA) periplasmic,SeepSRB1a_sp013792055
+1226,,QmoA,
+1227,LWX54_14635,QmoA,Seep-SRB1a sp. SM7059A
+1228,LWX51_04085,QmoA,Seep-SRB1a sp. CR9063A
+1229,LWX52_12535,QmoA,Seep-SRB1g sp. CR10073A
+1230,PXF54059.1,QmoA,Seep-SRB2 sp. G37
+1231,PXF57422.1,QmoA,E20 Seep-SRB2
+1232,LWW94_08070,QmoA,Desulfofervidaceae_sp._PB11946FWG155
+1233,-,QmoA,DesulfofervidalesDG60_sp._PB11719FWG156
+1234,-,QmoA,Seep-SRB2_sp._PB10259FWG173
+1235,-,QmoA,Seep-SRB2_sp._PBNA091R45FWG174
+1236,LWW90_03885,QmoA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1237,LWW95_07580,QmoA,Desulfofervidaceae sp. PB_NA091.008_B6
+1238,,QmoB,
+1239,LWX54_14640,QmoB,Seep-SRB1a sp. SM7059A
+1240,LWX51_04090,QmoB,Seep-SRB1a sp. CR9063A
+1241,LWX52_12540,QmoB,Seep-SRB1g sp. CR10073A
+1242,PXF54060.1,QmoB,Seep-SRB2 sp. G37
+1243,PXF57421.1,QmoB,E20 Seep-SRB2
+1244,LWW94_08065,QmoB,Desulfofervidaceae_sp._PB11946FWG155
+1245,LWW78_07400,QmoB,DesulfofervidalesDG60_sp._PB11719FWG156
+1246,-,QmoB,Seep-SRB2_sp._PB10259FWG173
+1247,-,QmoB,Seep-SRB2_sp._PBNA091R45FWG174
+1248,LWW90_03890,QmoB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1249,LWW95_07575,QmoB,Desulfofervidaceae sp. PB_NA091.008_B6
+1250,,QmoC,
+1251,LWX54_14645,QmoC,Seep-SRB1a sp. SM7059A
+1252,LWX51_04095,QmoC,Seep-SRB1a sp. CR9063A
+1253,LWX52_12545,QmoC,Seep-SRB1g sp. CR10073A
+1254,PXF54061.1,QmoC,Seep-SRB2 sp. G37
+1255,PXF57420.1,QmoC,E20 Seep-SRB2
+1256,LWW94_08060,QmoC,Desulfofervidaceae_sp._PB11946FWG155
+1257,LWW78_07405,QmoC,DesulfofervidalesDG60_sp._PB11719FWG156
+1258,-,QmoC,Seep-SRB2_sp._PB10259FWG173
+1259,-,QmoC,Seep-SRB2_sp._PBNA091R45FWG174
+1260,-,QmoC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1261,LWW95_07570,QmoC,Desulfofervidaceae sp. PB_NA091.008_B6
+1262,,DsrM,
+1263,LWX54_00290,DsrM,Seep-SRB1a sp. SM7059A
+1264,LWX51_01600,DsrM,Seep-SRB1a sp. CR9063A
+1265,LWX52_04040,DsrM,Seep-SRB1g sp. CR10073A
+1266,PXF54504.1,DsrM,Seep-SRB2 sp. G37
+1267,PXF59681.1,DsrM,E20 Seep-SRB2
+1268,LWW94_04810,DsrM,Desulfofervidaceae_sp._PB11946FWG155
+1269,LWW78_00395,DsrM,DesulfofervidalesDG60_sp._PB11719FWG156
+1270,LWW99_02930,DsrM,Seep-SRB2_sp._PB10259FWG173
+1271,LWX01_01685,DsrM,Seep-SRB2_sp._PBNA091R45FWG174
+1272,LWW90_04030,DsrM,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1273,LWW95_02115,DsrM,Desulfofervidaceae sp. PB_NA091.008_B6
+1274,,DsrK,
+1275,LWX54_00295,DsrK,Seep-SRB1a sp. SM7059A
+1276,LWX51_01605,DsrK,Seep-SRB1a sp. CR9063A
+1277,LWX52_04035,DsrK,Seep-SRB1g sp. CR10073A
+1278,PXF54505.1,DsrK,Seep-SRB2 sp. G37
+1279,PXF59680.1,DsrK,E20 Seep-SRB2
+1280,LWW94_04815,DsrK,Desulfofervidaceae_sp._PB11946FWG155
+1281,LWW78_00400,DsrK,DesulfofervidalesDG60_sp._PB11719FWG156
+1282,LWW99_02925,DsrK,Seep-SRB2_sp._PB10259FWG173
+1283,LWX01_01690,DsrK,Seep-SRB2_sp._PBNA091R45FWG174
+1284,LWW90_04035,DsrK,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1285,LWW95_02120,DsrK,Desulfofervidaceae sp. PB_NA091.008_B6
+1286,,DsrJ,
+1287,LWX54_00300,DsrJ,Seep-SRB1a sp. SM7059A
+1288,LWX51_01610,DsrJ,Seep-SRB1a sp. CR9063A
+1289,LWX52_04030,DsrJ,Seep-SRB1g sp. CR10073A
+1290,PXF54506.1,DsrJ,Seep-SRB2 sp. G37
+1291,PXF59679.1,DsrJ,E20 Seep-SRB2
+1292,LWW94_04820,DsrJ,Desulfofervidaceae_sp._PB11946FWG155
+1293,LWW78_00405,DsrJ,DesulfofervidalesDG60_sp._PB11719FWG156
+1294,LWW99_02920,DsrJ,Seep-SRB2_sp._PB10259FWG173
+1295,LWX01_01695,DsrJ,Seep-SRB2_sp._PBNA091R45FWG174
+1296,LWW90_04040,DsrJ,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1297,LWW95_02125,DsrJ,Desulfofervidaceae sp. PB_NA091.008_B6
+1298,,DsrO,
+1299,LWX54_00305,DsrO,Seep-SRB1a sp. SM7059A
+1300,LWX51_01615,DsrO,Seep-SRB1a sp. CR9063A
+1301,LWX52_04025,DsrO,Seep-SRB1g sp. CR10073A
+1302,PXF54507.1,DsrO,Seep-SRB2 sp. G37
+1303,PXF59678.1,DsrO,E20 Seep-SRB2
+1304,LWW94_04825,DsrO,Desulfofervidaceae_sp._PB11946FWG155
+1305,LWW78_00410,DsrO,DesulfofervidalesDG60_sp._PB11719FWG156
+1306,LWW99_02915,DsrO,Seep-SRB2_sp._PB10259FWG173
+1307,LWX01_01700,DsrO,Seep-SRB2_sp._PBNA091R45FWG174
+1308,LWW90_04045,DsrO,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1309,LWW95_02130,DsrO,Desulfofervidaceae sp. PB_NA091.008_B6
+1310,,DsrP,
+1311,LWX54_00310,DsrP,Seep-SRB1a sp. SM7059A
+1312,LWX51_01620,DsrP,Seep-SRB1a sp. CR9063A
+1313,LWX52_04020,DsrP,Seep-SRB1g sp. CR10073A
+1314,PXF54508.1,DsrP,Seep-SRB2 sp. G37
+1315,PXF59677.1,DsrP,E20 Seep-SRB2
+1316,LWW94_04830,DsrP,Desulfofervidaceae_sp._PB11946FWG155
+1317,LWW78_00415,DsrP,DesulfofervidalesDG60_sp._PB11719FWG156
+1318,LWW99_02910,DsrP,Seep-SRB2_sp._PB10259FWG173
+1319,LWX01_01705,DsrP,Seep-SRB2_sp._PBNA091R45FWG174
+1320,LWW90_04050,DsrP,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1321,LWW95_02135,DsrP,Desulfofervidaceae sp. PB_NA091.008_B6
+1322,,CbcA,
+1323,-,CbcA,Seep-SRB1a sp. SM7059A
+1324,-,CbcA,Seep-SRB1a sp. CR9063A
+1325,-,CbcA,Seep-SRB1g sp. CR10073A
+1326,PXF54667.1,CbcA,Seep-SRB2 sp. G37
+1327,PXF56544.1,CbcA,E20 Seep-SRB2
+1328,-,CbcA,Desulfofervidaceae_sp._PB11946FWG155
+1329,-,CbcA,DesulfofervidalesDG60_sp._PB11719FWG156
+1330,LWW99_09840,CbcA,Seep-SRB2_sp._PB10259FWG173
+1331,LWX01_01010,CbcA,Seep-SRB2_sp._PBNA091R45FWG174
+1332,-,CbcA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1333,-,CbcA,Desulfofervidaceae sp. PB_NA091.008_B6
+1334,,CbcB,
+1335,-,CbcB,Seep-SRB1a sp. SM7059A
+1336,-,CbcB,Seep-SRB1a sp. CR9063A
+1337,-,CbcB,Seep-SRB1g sp. CR10073A
+1338,PXF54668.1,CbcB,Seep-SRB2 sp. G37
+1339,PXF56545.1,CbcB,E20 Seep-SRB2
+1340,-,CbcB,Desulfofervidaceae_sp._PB11946FWG155
+1341,-,CbcB,DesulfofervidalesDG60_sp._PB11719FWG156
+1342,LWW99_09845,CbcB,Seep-SRB2_sp._PB10259FWG173
+1343,LWX01_01005,CbcB,Seep-SRB2_sp._PBNA091R45FWG174
+1344,-,CbcB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1345,-,CbcB,Desulfofervidaceae sp. PB_NA091.008_B6
+1346,,RnfC,
+1347,LWX54_16855,RnfC,Seep-SRB1a sp. SM7059A
+1348,LWX51_11095,RnfC,Seep-SRB1a sp. CR9063A
+1349,LWX52_01590,RnfC,Seep-SRB1g sp. CR10073A
+1350,-,RnfC,Seep-SRB2 sp. G37
+1351,-,RnfC,E20 Seep-SRB2
+1352,LWW94_00005,RnfC,Desulfofervidaceae_sp._PB11946FWG155
+1353,LWW78_05090,RnfC,DesulfofervidalesDG60_sp._PB11719FWG156
+1354,-,RnfC,Seep-SRB2_sp._PB10259FWG173
+1355,-,RnfC,Seep-SRB2_sp._PBNA091R45FWG174
+1356,LWW90_03145,RnfC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1357,LWW95_06075,RnfC,Desulfofervidaceae sp. PB_NA091.008_B6
+1358,,RnfD,
+1359,LWX54_16850,RnfD,Seep-SRB1a sp. SM7059A
+1360,LWX51_11100,RnfD,Seep-SRB1a sp. CR9063A
+1361,LWX52_01595,RnfD,Seep-SRB1g sp. CR10073A
+1362,-,RnfD,Seep-SRB2 sp. G37
+1363,-,RnfD,E20 Seep-SRB2
+1364,LWW94_00010,RnfD,Desulfofervidaceae_sp._PB11946FWG155
+1365,LWW78_05085,RnfD,DesulfofervidalesDG60_sp._PB11719FWG156
+1366,-,RnfD,Seep-SRB2_sp._PB10259FWG173
+1367,-,RnfD,Seep-SRB2_sp._PBNA091R45FWG174
+1368,LWW90_03140,RnfD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1369,LWW95_06080,RnfD,Desulfofervidaceae sp. PB_NA091.008_B6
+1370,,RnfG,
+1371,LWX54_16845,RnfG,Seep-SRB1a sp. SM7059A
+1372,LWX51_11105,RnfG,Seep-SRB1a sp. CR9063A
+1373,LWX52_01600,RnfG,Seep-SRB1g sp. CR10073A
+1374,-,RnfG,Seep-SRB2 sp. G37
+1375,-,RnfG,E20 Seep-SRB2
+1376,LWW94_00015,RnfG,Desulfofervidaceae_sp._PB11946FWG155
+1377,LWW78_05080,RnfG,DesulfofervidalesDG60_sp._PB11719FWG156
+1378,-,RnfG,Seep-SRB2_sp._PB10259FWG173
+1379,-,RnfG,Seep-SRB2_sp._PBNA091R45FWG174
+1380,LWW90_03135,RnfG,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1381,LWW95_06085,RnfG,Desulfofervidaceae sp. PB_NA091.008_B6
+1382,,RnfE,
+1383,LWX54_16840,RnfE,Seep-SRB1a sp. SM7059A
+1384,LWX51_11110,RnfE,Seep-SRB1a sp. CR9063A
+1385,LWX52_01605,RnfE,Seep-SRB1g sp. CR10073A
+1386,-,RnfE,Seep-SRB2 sp. G37
+1387,-,RnfE,E20 Seep-SRB2
+1388,LWW94_00020,RnfE,Desulfofervidaceae_sp._PB11946FWG155
+1389,LWW78_05075,RnfE,DesulfofervidalesDG60_sp._PB11719FWG156
+1390,-,RnfE,Seep-SRB2_sp._PB10259FWG173
+1391,-,RnfE,Seep-SRB2_sp._PBNA091R45FWG174
+1392,LWW90_03130,RnfE,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1393,LWW95_06090,RnfE,Desulfofervidaceae sp. PB_NA091.008_B6
+1394,,RnfA,
+1395,LWX54_16835,RnfA,Seep-SRB1a sp. SM7059A
+1396,LWX51_11115,RnfA,Seep-SRB1a sp. CR9063A
+1397,LWX52_01610,RnfA,Seep-SRB1g sp. CR10073A
+1398,-,RnfA,Seep-SRB2 sp. G37
+1399,-,RnfA,E20 Seep-SRB2
+1400,LWW94_00025,RnfA,Desulfofervidaceae_sp._PB11946FWG155
+1401,LWW78_05070,RnfA,DesulfofervidalesDG60_sp._PB11719FWG156
+1402,-,RnfA,Seep-SRB2_sp._PB10259FWG173
+1403,-,RnfA,Seep-SRB2_sp._PBNA091R45FWG174
+1404,LWW90_03125,RnfA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1405,LWW95_06095,RnfA,Desulfofervidaceae sp. PB_NA091.008_B6
+1406,,RnfB,
+1407,-,RnfB,Seep-SRB1a sp. SM7059A
+1408,-,RnfB,Seep-SRB1a sp. CR9063A
+1409,LWX52_01615,RnfB,Seep-SRB1g sp. CR10073A
+1410,-,RnfB,Seep-SRB2 sp. G37
+1411,-,RnfB,E20 Seep-SRB2
+1412,LWW94_00030,RnfB,Desulfofervidaceae_sp._PB11946FWG155
+1413,LWW78_05065,RnfB,DesulfofervidalesDG60_sp._PB11719FWG156
+1414,-,RnfB,Seep-SRB2_sp._PB10259FWG173
+1415,-,RnfB,Seep-SRB2_sp._PBNA091R45FWG174
+1416,LWW90_03120,RnfB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1417,LWW95_06100,RnfB,Desulfofervidaceae sp. PB_NA091.008_B6
+1418,,QrcA,
+1419,LWX54_14275,QrcA,Seep-SRB1a sp. SM7059A
+1420,LWX51_04130,QrcA,Seep-SRB1a sp. CR9063A
+1421,LWX52_00080,QrcA,Seep-SRB1g sp. CR10073A
+1422,-,QrcA,Seep-SRB2 sp. G37
+1423,-,QrcA,E20 Seep-SRB2
+1424,LWW94_05325,QrcA,Desulfofervidaceae_sp._PB11946FWG155
+1425,LWW78_03335,QrcA,DesulfofervidalesDG60_sp._PB11719FWG156
+1426,-,QrcA,Seep-SRB2_sp._PB10259FWG173
+1427,-,QrcA,Seep-SRB2_sp._PBNA091R45FWG174
+1428,-,QrcA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1429,LWW95_07310,QrcA,Desulfofervidaceae sp. PB_NA091.008_B6
+1430,,QrcB,
+1431,LWX54_14280,QrcB,Seep-SRB1a sp. SM7059A
+1432,LWX51_04135,QrcB,Seep-SRB1a sp. CR9063A
+1433,LWX52_00085,QrcB,Seep-SRB1g sp. CR10073A
+1434,-,QrcB,Seep-SRB2 sp. G37
+1435,-,QrcB,E20 Seep-SRB2
+1436,LWW94_05320,QrcB,Desulfofervidaceae_sp._PB11946FWG155
+1437,LWW78_03340,QrcB,DesulfofervidalesDG60_sp._PB11719FWG156
+1438,-,QrcB,Seep-SRB2_sp._PB10259FWG173
+1439,-,QrcB,Seep-SRB2_sp._PBNA091R45FWG174
+1440,-,QrcB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1441,LWW95_07305,QrcB,Desulfofervidaceae sp. PB_NA091.008_B6
+1442,,QrcC,
+1443,LWX54_14285,QrcC,Seep-SRB1a sp. SM7059A
+1444,LWX51_04140,QrcC,Seep-SRB1a sp. CR9063A
+1445,LWX52_00090,QrcC,Seep-SRB1g sp. CR10073A
+1446,-,QrcC,Seep-SRB2 sp. G37
+1447,-,QrcC,E20 Seep-SRB2
+1448,LWW94_05315,QrcC,Desulfofervidaceae_sp._PB11946FWG155
+1449,LWW78_03345,QrcC,DesulfofervidalesDG60_sp._PB11719FWG156
+1450,-,QrcC,Seep-SRB2_sp._PB10259FWG173
+1451,-,QrcC,Seep-SRB2_sp._PBNA091R45FWG174
+1452,LWW90_08290,QrcC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1453,LWW95_07300,QrcC,Desulfofervidaceae sp. PB_NA091.008_B6
+1454,,QrcD,
+1455,LWX54_14290,QrcD,Seep-SRB1a sp. SM7059A
+1456,LWX51_04145,QrcD,Seep-SRB1a sp. CR9063A
+1457,LWX52_00095,QrcD,Seep-SRB1g sp. CR10073A
+1458,-,QrcD,Seep-SRB2 sp. G37
+1459,-,QrcD,E20 Seep-SRB2
+1460,LWW94_05310,QrcD,Desulfofervidaceae_sp._PB11946FWG155
+1461,LWW78_03350,QrcD,DesulfofervidalesDG60_sp._PB11719FWG156
+1462,-,QrcD,Seep-SRB2_sp._PB10259FWG173
+1463,-,QrcD,Seep-SRB2_sp._PBNA091R45FWG174
+1464,LWW90_08285,QrcD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1465,LWW95_07295,QrcD,Desulfofervidaceae sp. PB_NA091.008_B6
+1466,,TmcB,
+1467,LWX54_06190,TmcB,Seep-SRB1a sp. SM7059A
+1468,LWX51_02105,TmcB,Seep-SRB1a sp. CR9063A
+1469,LWX52_01665,TmcB,Seep-SRB1g sp. CR10073A
+1470,-,TmcB,Seep-SRB2 sp. G37
+1471,-,TmcB,E20 Seep-SRB2
+1472,LWW94_07695,TmcB,Desulfofervidaceae_sp._PB11946FWG155
+1473,-,TmcB,DesulfofervidalesDG60_sp._PB11719FWG156
+1474,-,TmcB,Seep-SRB2_sp._PB10259FWG173
+1475,-,TmcB,Seep-SRB2_sp._PBNA091R45FWG174
+1476,-,TmcB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1477,LWW95_06065,TmcB,Desulfofervidaceae sp. PB_NA091.008_B6
+1478,,TmcC,
+1479,LWX54_06195,TmcC,Seep-SRB1a sp. SM7059A
+1480,LWX51_02110,TmcC,Seep-SRB1a sp. CR9063A
+1481,LWX52_01670,TmcC,Seep-SRB1g sp. CR10073A
+1482,-,TmcC,Seep-SRB2 sp. G37
+1483,-,TmcC,E20 Seep-SRB2
+1484,LWW94_07700,TmcC,Desulfofervidaceae_sp._PB11946FWG155
+1485,-,TmcC,DesulfofervidalesDG60_sp._PB11719FWG156
+1486,-,TmcC,Seep-SRB2_sp._PB10259FWG173
+1487,-,TmcC,Seep-SRB2_sp._PBNA091R45FWG174
+1488,LWW90_03635,TmcC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1489,LWW95_06060,TmcC,Desulfofervidaceae sp. PB_NA091.008_B6
+1490,,TmcD,
+1491,LWX54_06200,TmcD,Seep-SRB1a sp. SM7059A
+1492,LWX51_02115,TmcD,Seep-SRB1a sp. CR9063A
+1493,LWX52_01675,TmcD,Seep-SRB1g sp. CR10073A
+1494,-,TmcD,Seep-SRB2 sp. G37
+1495,-,TmcD,E20 Seep-SRB2
+1496,-,TmcD,Desulfofervidaceae_sp._PB11946FWG155
+1497,-,TmcD,DesulfofervidalesDG60_sp._PB11719FWG156
+1498,-,TmcD,Seep-SRB2_sp._PB10259FWG173
+1499,-,TmcD,Seep-SRB2_sp._PBNA091R45FWG174
+1500,LWW90_03630,TmcD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1501,LWW95_06055,TmcD,Desulfofervidaceae sp. PB_NA091.008_B6
+1502,,TpIc3,
+1503,LWX54_06010,TpIc3,Seep-SRB1a sp. SM7059A
+1504,-,TpIc3,Seep-SRB1a sp. CR9063A
+1505,-,TpIc3,Seep-SRB1g sp. CR10073A
+1506,PXF54848.1,TpIc3,Seep-SRB2 sp. G37
+1507,PXF57772.1,TpIc3,E20 Seep-SRB2
+1508,LWW94_07705,TpIc3,Desulfofervidaceae_sp._PB11946FWG155
+1509,-,TpIc3,DesulfofervidalesDG60_sp._PB11719FWG156
+1510,LWW99_05600,TpIc3,Seep-SRB2_sp._PB10259FWG173
+1511,LWX01_02850,TpIc3,Seep-SRB2_sp._PBNA091R45FWG174
+1512,LWW90_00435,TpIc3,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1513,LWW95_06070,TpIc3,Desulfofervidaceae sp. PB_NA091.008_B6
+1514,,TmcA_DSC,
+1515,LWX54_03390,TmcA_DSC,Seep-SRB1a sp. SM7059A
+1516,LWX51_11060,TmcA_DSC,Seep-SRB1a sp. CR9063A
+1517,LWX52_01645,TmcA_DSC,Seep-SRB1g sp. CR10073A
+1518,-,TmcA_DSC,Seep-SRB2 sp. G37
+1519,-,TmcA_DSC,E20 Seep-SRB2
+1520,-,TmcA_DSC,Desulfofervidaceae_sp._PB11946FWG155
+1521,-,TmcA_DSC,DesulfofervidalesDG60_sp._PB11719FWG156
+1522,-,TmcA_DSC,Seep-SRB2_sp._PB10259FWG173
+1523,-,TmcA_DSC,Seep-SRB2_sp._PBNA091R45FWG174
+1524,-,TmcA_DSC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1525,-,TmcA_DSC,Desulfofervidaceae sp. PB_NA091.008_B6
+1526,,SatA,
+1527,LWX54_04680,SatA,Seep-SRB1a sp. SM7059A
+1528,LWX51_04100,SatA,Seep-SRB1a sp. CR9063A
+1529,LWX52_06635,SatA,Seep-SRB1g sp. CR10073A
+1530,PXF55574.1,SatA,Seep-SRB2 sp. G37
+1531,PXF59179.1,SatA,E20 Seep-SRB2
+1532,LWW94_06775,SatA,Desulfofervidaceae_sp._PB11946FWG155
+1533,-,SatA,DesulfofervidalesDG60_sp._PB11719FWG156
+1534,LWW99_05875,SatA,Seep-SRB2_sp._PB10259FWG173
+1535,LWX01_04125,SatA,Seep-SRB2_sp._PBNA091R45FWG174
+1536,-,SatA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1537,LWW95_01985,SatA,Desulfofervidaceae sp. PB_NA091.008_B6
+1538,,DsrA,
+1539,LWX54_14940,DsrA,Seep-SRB1a sp. SM7059A
+1540,LWX51_03095,DsrA,Seep-SRB1a sp. CR9063A
+1541,LWX52_14780,DsrA,Seep-SRB1g sp. CR10073A
+1542,PXF54516.1,DsrA,Seep-SRB2 sp. G37
+1543,PXF59669.1,DsrA,E20 Seep-SRB2
+1544,LWW94_08055,DsrA,Desulfofervidaceae_sp._PB11946FWG155
+1545,LWW78_07835,DsrA,DesulfofervidalesDG60_sp._PB11719FWG156
+1546,LWW99_04725,DsrA,Seep-SRB2_sp._PB10259FWG173
+1547,LWX01_07900,DsrA,Seep-SRB2_sp._PBNA091R45FWG174
+1548,LWW90_07995,DsrA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1549,LWW95_07565,DsrA,Desulfofervidaceae sp. PB_NA091.008_B6
+1550,,DsrB,
+1551,-,DsrB,Seep-SRB1a sp. SM7059A
+1552,LWX51_03100,DsrB,Seep-SRB1a sp. CR9063A
+1553,LWX52_14785,DsrB,Seep-SRB1g sp. CR10073A
+1554,PXF54589.1,DsrB,Seep-SRB2 sp. G37
+1555,PXF59747.1,DsrB,E20 Seep-SRB2
+1556,LWW94_08050,DsrB,Desulfofervidaceae_sp._PB11946FWG155
+1557,LWW78_07830 ,DsrB,DesulfofervidalesDG60_sp._PB11719FWG156
+1558,LWW99_04730,DsrB,Seep-SRB2_sp._PB10259FWG173
+1559,-,DsrB,Seep-SRB2_sp._PBNA091R45FWG174
+1560,LWW90_08000,DsrB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1561,LWW95_07560,DsrB,Desulfofervidaceae sp. PB_NA091.008_B6
+1562,,AprA,
+1563,LWX54_14680,AprA,Seep-SRB1a sp. SM7059A
+1564,LWX51_04080,AprA,Seep-SRB1a sp. CR9063A
+1565,LWX52_12530,AprA,Seep-SRB1g sp. CR10073A
+1566,PXF54058.1,AprA,Seep-SRB2 sp. G37
+1567,PXF57423.1,AprA,E20 Seep-SRB2
+1568,LWW94_08075,AprA,Desulfofervidaceae_sp._PB11946FWG155
+1569,-,AprA,DesulfofervidalesDG60_sp._PB11719FWG156
+1570,-,AprA,Seep-SRB2_sp._PB10259FWG173
+1571,-,AprA,Seep-SRB2_sp._PBNA091R45FWG174
+1572,LWW90_06035 ,AprA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1573,LWW95_07585,AprA,Desulfofervidaceae sp. PB_NA091.008_B6
+1574,,AprB,
+1575,-,AprB,Seep-SRB1a sp. SM7059A
+1576,LWX51_04075,AprB,Seep-SRB1a sp. CR9063A
+1577,-,AprB,Seep-SRB1g sp. CR10073A
+1578,PXF54057.1,AprB,Seep-SRB2 sp. G37
+1579,PXF57424.1,AprB,E20 Seep-SRB2
+1580,LWW94_08080,AprB,Desulfofervidaceae_sp._PB11946FWG155
+1581,-,AprB,DesulfofervidalesDG60_sp._PB11719FWG156
+1582,-,AprB,Seep-SRB2_sp._PB10259FWG173
+1583,-,AprB,Seep-SRB2_sp._PBNA091R45FWG174
+1584,LWW90_06045 ,AprB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1585,LWW95_07590,AprB,Desulfofervidaceae sp. PB_NA091.008_B6
+1586,,DsrC,
+1587,LWX54_06375,DsrC,Seep-SRB1a sp. SM7059A
+1588,LWX51_04425,DsrC,Seep-SRB1a sp. CR9063A
+1589,LWX52_13575,DsrC,Seep-SRB1g sp. CR10073A
+1590,PXF55362.1,DsrC,Seep-SRB2 sp. G37
+1591,PXF59134.1,DsrC,E20 Seep-SRB2
+1592,LWW94_09670,DsrC,Desulfofervidaceae_sp._PB11946FWG155
+1593,LWW78_02395,DsrC,DesulfofervidalesDG60_sp._PB11719FWG156
+1594,LWW99_08645,DsrC,Seep-SRB2_sp._PB10259FWG173
+1595,LWX01_07260,DsrC,Seep-SRB2_sp._PBNA091R45FWG174
+1596,LWW90_03610,DsrC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1597,LWW95_10575,DsrC,Desulfofervidaceae sp. PB_NA091.008_B6
+1598,,NuoA,
+1599,-,NuoA,Seep-SRB1a sp. SM7059A
+1600,-,NuoA,Seep-SRB1a sp. CR9063A
+1601,-,NuoA,Seep-SRB1g sp. CR10073A
+1602,PXF56058,NuoA,Seep-SRB2 sp. G37
+1603,PXF56695.1,NuoA,E20 Seep-SRB2
+1604,-,NuoA,Desulfofervidaceae_sp._PB11946FWG155
+1605,-,NuoA,DesulfofervidalesDG60_sp._PB11719FWG156
+1606,LWW99_08350,NuoA,Seep-SRB2_sp._PB10259FWG173
+1607,LWX01_09355,NuoA,Seep-SRB2_sp._PBNA091R45FWG174
+1608,-,NuoA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1609,-,NuoA,Desulfofervidaceae sp. PB_NA091.008_B6
+1610,,NuoB,
+1611,-,NuoB,Seep-SRB1a sp. SM7059A
+1612,-,NuoB,Seep-SRB1a sp. CR9063A
+1613,-,NuoB,Seep-SRB1g sp. CR10073A
+1614,PXF56059,NuoB,Seep-SRB2 sp. G37
+1615,PXF56696.1,NuoB,E20 Seep-SRB2
+1616,-,NuoB,Desulfofervidaceae_sp._PB11946FWG155
+1617,-,NuoB,DesulfofervidalesDG60_sp._PB11719FWG156
+1618,LWW99_08345,NuoB,Seep-SRB2_sp._PB10259FWG173
+1619,LWX01_09360,NuoB,Seep-SRB2_sp._PBNA091R45FWG174
+1620,-,NuoB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1621,-,NuoB,Desulfofervidaceae sp. PB_NA091.008_B6
+1622,,NuoC,
+1623,-,NuoC,Seep-SRB1a sp. SM7059A
+1624,-,NuoC,Seep-SRB1a sp. CR9063A
+1625,-,NuoC,Seep-SRB1g sp. CR10073A
+1626,PXF56060,NuoC,Seep-SRB2 sp. G37
+1627,PXF56697.1,NuoC,E20 Seep-SRB2
+1628,-,NuoC,Desulfofervidaceae_sp._PB11946FWG155
+1629,-,NuoC,DesulfofervidalesDG60_sp._PB11719FWG156
+1630,LWW99_08340,NuoC,Seep-SRB2_sp._PB10259FWG173
+1631,LWX01_09365,NuoC,Seep-SRB2_sp._PBNA091R45FWG174
+1632,-,NuoC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1633,-,NuoC,Desulfofervidaceae sp. PB_NA091.008_B6
+1634,,NuoD,
+1635,-,NuoD,Seep-SRB1a sp. SM7059A
+1636,-,NuoD,Seep-SRB1a sp. CR9063A
+1637,-,NuoD,Seep-SRB1g sp. CR10073A
+1638,PXF56061,NuoD,Seep-SRB2 sp. G37
+1639,PXF56698.1,NuoD,E20 Seep-SRB2
+1640,-,NuoD,Desulfofervidaceae_sp._PB11946FWG155
+1641,-,NuoD,DesulfofervidalesDG60_sp._PB11719FWG156
+1642,LWW99_08335,NuoD,Seep-SRB2_sp._PB10259FWG173
+1643,LWX01_09370,NuoD,Seep-SRB2_sp._PBNA091R45FWG174
+1644,-,NuoD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1645,-,NuoD,Desulfofervidaceae sp. PB_NA091.008_B6
+1646,,NuoH,
+1647,-,NuoH,Seep-SRB1a sp. SM7059A
+1648,-,NuoH,Seep-SRB1a sp. CR9063A
+1649,-,NuoH,Seep-SRB1g sp. CR10073A
+1650,PXF56062,NuoH,Seep-SRB2 sp. G37
+1651,PXF56699.1,NuoH,E20 Seep-SRB2
+1652,-,NuoH,Desulfofervidaceae_sp._PB11946FWG155
+1653,-,NuoH,DesulfofervidalesDG60_sp._PB11719FWG156
+1654,-,NuoH,Seep-SRB2_sp._PB10259FWG173
+1655,LWX01_07335,NuoH,Seep-SRB2_sp._PBNA091R45FWG174
+1656,-,NuoH,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1657,-,NuoH,Desulfofervidaceae sp. PB_NA091.008_B6
+1658,,NuoI,
+1659,-,NuoI,Seep-SRB1a sp. SM7059A
+1660,-,NuoI,Seep-SRB1a sp. CR9063A
+1661,-,NuoI,Seep-SRB1g sp. CR10073A
+1662,PXF56063,NuoI,Seep-SRB2 sp. G37
+1663,PXF56700.1,NuoI,E20 Seep-SRB2
+1664,-,NuoI,Desulfofervidaceae_sp._PB11946FWG155
+1665,-,NuoI,DesulfofervidalesDG60_sp._PB11719FWG156
+1666,-,NuoI,Seep-SRB2_sp._PB10259FWG173
+1667,LWX01_07340,NuoI,Seep-SRB2_sp._PBNA091R45FWG174
+1668,-,NuoI,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1669,-,NuoI,Desulfofervidaceae sp. PB_NA091.008_B6
+1670,,Unnamed: 38,
+1671,-,Unnamed: 38,Seep-SRB1a sp. SM7059A
+1672,-,Unnamed: 38,Seep-SRB1a sp. CR9063A
+1673,-,Unnamed: 38,Seep-SRB1g sp. CR10073A
+1674,PXF56064,Unnamed: 38,Seep-SRB2 sp. G37
+1675,PXF56701.1,Unnamed: 38,E20 Seep-SRB2
+1676,-,Unnamed: 38,Desulfofervidaceae_sp._PB11946FWG155
+1677,-,Unnamed: 38,DesulfofervidalesDG60_sp._PB11719FWG156
+1678,-,Unnamed: 38,Seep-SRB2_sp._PB10259FWG173
+1679,LWX01_07345,Unnamed: 38,Seep-SRB2_sp._PBNA091R45FWG174
+1680,-,Unnamed: 38,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1681,-,Unnamed: 38,Desulfofervidaceae sp. PB_NA091.008_B6
+1682,,NuoK,
+1683,-,NuoK,Seep-SRB1a sp. SM7059A
+1684,-,NuoK,Seep-SRB1a sp. CR9063A
+1685,-,NuoK,Seep-SRB1g sp. CR10073A
+1686,PXF56065,NuoK,Seep-SRB2 sp. G37
+1687,PXF56702.1,NuoK,E20 Seep-SRB2
+1688,-,NuoK,Desulfofervidaceae_sp._PB11946FWG155
+1689,-,NuoK,DesulfofervidalesDG60_sp._PB11719FWG156
+1690,-,NuoK,Seep-SRB2_sp._PB10259FWG173
+1691,LWX01_07350,NuoK,Seep-SRB2_sp._PBNA091R45FWG174
+1692,-,NuoK,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1693,-,NuoK,Desulfofervidaceae sp. PB_NA091.008_B6
+1694,,NuoL,
+1695,-,NuoL,Seep-SRB1a sp. SM7059A
+1696,-,NuoL,Seep-SRB1a sp. CR9063A
+1697,-,NuoL,Seep-SRB1g sp. CR10073A
+1698,PXF56066,NuoL,Seep-SRB2 sp. G37
+1699,PXF56703.1,NuoL,E20 Seep-SRB2
+1700,-,NuoL,Desulfofervidaceae_sp._PB11946FWG155
+1701,-,NuoL,DesulfofervidalesDG60_sp._PB11719FWG156
+1702,-,NuoL,Seep-SRB2_sp._PB10259FWG173
+1703,LWX01_07355,NuoL,Seep-SRB2_sp._PBNA091R45FWG174
+1704,-,NuoL,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1705,-,NuoL,Desulfofervidaceae sp. PB_NA091.008_B6
+1706,,NuoM,
+1707,-,NuoM,Seep-SRB1a sp. SM7059A
+1708,-,NuoM,Seep-SRB1a sp. CR9063A
+1709,-,NuoM,Seep-SRB1g sp. CR10073A
+1710,PXF56067,NuoM,Seep-SRB2 sp. G37
+1711,PXF56704.1,NuoM,E20 Seep-SRB2
+1712,-,NuoM,Desulfofervidaceae_sp._PB11946FWG155
+1713,-,NuoM,DesulfofervidalesDG60_sp._PB11719FWG156
+1714,-,NuoM,Seep-SRB2_sp._PB10259FWG173
+1715,LWX01_07360/LWX01_07365,NuoM,Seep-SRB2_sp._PBNA091R45FWG174
+1716,-,NuoM,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1717,-,NuoM,Desulfofervidaceae sp. PB_NA091.008_B6
+1718,,NuoN,
+1719,-,NuoN,Seep-SRB1a sp. SM7059A
+1720,-,NuoN,Seep-SRB1a sp. CR9063A
+1721,-,NuoN,Seep-SRB1g sp. CR10073A
+1722,PXF56068,NuoN,Seep-SRB2 sp. G37
+1723,PXF56705.1,NuoN,E20 Seep-SRB2
+1724,-,NuoN,Desulfofervidaceae_sp._PB11946FWG155
+1725,-,NuoN,DesulfofervidalesDG60_sp._PB11719FWG156
+1726,-,NuoN,Seep-SRB2_sp._PB10259FWG173
+1727,LWX01_07370,NuoN,Seep-SRB2_sp._PBNA091R45FWG174
+1728,-,NuoN,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1729,-,NuoN,Desulfofervidaceae sp. PB_NA091.008_B6
+1730,,MrpD,
+1731,LWX54_00060,MrpD,Seep-SRB1a sp. SM7059A
+1732,LWX51_12370,MrpD,Seep-SRB1a sp. CR9063A
+1733,LWX52_01525,MrpD,Seep-SRB1g sp. CR10073A
+1734,PXF55936.1,MrpD,Seep-SRB2 sp. G37
+1735,PXF56550.1,MrpD,E20 Seep-SRB2
+1736,LWW94_00060,MrpD,Desulfofervidaceae_sp._PB11946FWG155
+1737,-,MrpD,DesulfofervidalesDG60_sp._PB11719FWG156
+1738,LWW99_08995,MrpD,Seep-SRB2_sp._PB10259FWG173
+1739,LWX01_00960,MrpD,Seep-SRB2_sp._PBNA091R45FWG174
+1740,LWW90_05215,MrpD,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1741,LWW95_06170,MrpD,Desulfofervidaceae sp. PB_NA091.008_B6
+1742,,MrpD.1,
+1743,LWX54_00070/LWX54_00075,MrpD.1,Seep-SRB1a sp. SM7059A
+1744,LWX51_12375,MrpD.1,Seep-SRB1a sp. CR9063A
+1745,LWX52_01535/LWX52_01540,MrpD.1,Seep-SRB1g sp. CR10073A
+1746,PXF55934.1/PXF55933.1,MrpD.1,Seep-SRB2 sp. G37
+1747,PXF56552.1,MrpD.1,E20 Seep-SRB2
+1748,LWW94_00070/LWW94_00075,MrpD.1,Desulfofervidaceae_sp._PB11946FWG155
+1749,-,MrpD.1,DesulfofervidalesDG60_sp._PB11719FWG156
+1750,LWW99_09000,MrpD.1,Seep-SRB2_sp._PB10259FWG173
+1751,LWX01_00955,MrpD.1,Seep-SRB2_sp._PBNA091R45FWG174
+1752,LWW90_05225/LWW90_05230,MrpD.1,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1753,LWW95_06160/LWW95_06155,MrpD.1,Desulfofervidaceae sp. PB_NA091.008_B6
+1754,,MrpC,
+1755,LWX54_00080,MrpC,Seep-SRB1a sp. SM7059A
+1756,LWX51_12380,MrpC,Seep-SRB1a sp. CR9063A
+1757,LWX52_01545,MrpC,Seep-SRB1g sp. CR10073A
+1758,-,MrpC,Seep-SRB2 sp. G37
+1759,-,MrpC,E20 Seep-SRB2
+1760,LWW94_00080,MrpC,Desulfofervidaceae_sp._PB11946FWG155
+1761,-,MrpC,DesulfofervidalesDG60_sp._PB11719FWG156
+1762,LWW99_09005,MrpC,Seep-SRB2_sp._PB10259FWG173
+1763,LWX01_00950,MrpC,Seep-SRB2_sp._PBNA091R45FWG174
+1764,LWW90_05235,MrpC,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1765,LWW95_06150,MrpC,Desulfofervidaceae sp. PB_NA091.008_B6
+1766,,MrpA,
+1767,-,MrpA,Seep-SRB1a sp. SM7059A
+1768,LWX51_12385,MrpA,Seep-SRB1a sp. CR9063A
+1769,-,MrpA,Seep-SRB1g sp. CR10073A
+1770,-,MrpA,Seep-SRB2 sp. G37
+1771,-,MrpA,E20 Seep-SRB2
+1772,-,MrpA,Desulfofervidaceae_sp._PB11946FWG155
+1773,-,MrpA,DesulfofervidalesDG60_sp._PB11719FWG156
+1774,-,MrpA,Seep-SRB2_sp._PB10259FWG173
+1775,-,MrpA,Seep-SRB2_sp._PBNA091R45FWG174
+1776,-,MrpA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1777,-,MrpA,Desulfofervidaceae sp. PB_NA091.008_B6
+1778,,Unnamed: 47,
+1779,-,Unnamed: 47,Seep-SRB1a sp. SM7059A
+1780,LWX51_12390,Unnamed: 47,Seep-SRB1a sp. CR9063A
+1781,-,Unnamed: 47,Seep-SRB1g sp. CR10073A
+1782,-,Unnamed: 47,Seep-SRB2 sp. G37
+1783,-,Unnamed: 47,E20 Seep-SRB2
+1784,-,Unnamed: 47,Desulfofervidaceae_sp._PB11946FWG155
+1785,-,Unnamed: 47,DesulfofervidalesDG60_sp._PB11719FWG156
+1786,-,Unnamed: 47,Seep-SRB2_sp._PB10259FWG173
+1787,-,Unnamed: 47,Seep-SRB2_sp._PBNA091R45FWG174
+1788,-,Unnamed: 47,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1789,-,Unnamed: 47,Desulfofervidaceae sp. PB_NA091.008_B6
+1790,,MrpG,
+1791,LWX54_00095,MrpG,Seep-SRB1a sp. SM7059A
+1792,LWX51_12395,MrpG,Seep-SRB1a sp. CR9063A
+1793,LWX52_01560,MrpG,Seep-SRB1g sp. CR10073A
+1794,-,MrpG,Seep-SRB2 sp. G37
+1795,-,MrpG,E20 Seep-SRB2
+1796,LWW94_00100,MrpG,Desulfofervidaceae_sp._PB11946FWG155
+1797,-,MrpG,DesulfofervidalesDG60_sp._PB11719FWG156
+1798,LWW99_09020,MrpG,Seep-SRB2_sp._PB10259FWG173
+1799,LWX01_00935,MrpG,Seep-SRB2_sp._PBNA091R45FWG174
+1800,LWW90_03090,MrpG,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1801,LWW95_06130,MrpG,Desulfofervidaceae sp. PB_NA091.008_B6
+1802,,MrpF,
+1803,LWX54_00100,MrpF,Seep-SRB1a sp. SM7059A
+1804,LWX51_12400,MrpF,Seep-SRB1a sp. CR9063A
+1805,LWX52_01565,MrpF,Seep-SRB1g sp. CR10073A
+1806,PXF55930.1,MrpF,Seep-SRB2 sp. G37
+1807,PXF56556.1,MrpF,E20 Seep-SRB2
+1808,LWW94_00105,MrpF,Desulfofervidaceae_sp._PB11946FWG155
+1809,-,MrpF,DesulfofervidalesDG60_sp._PB11719FWG156
+1810,LWW99_09025,MrpF,Seep-SRB2_sp._PB10259FWG173
+1811,LWX01_00940,MrpF,Seep-SRB2_sp._PBNA091R45FWG174
+1812,LWW90_03095,MrpF,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1813,LWW95_06125,MrpF,Desulfofervidaceae sp. PB_NA091.008_B6
+1814,,Unnamed: 50,
+1815,-,Unnamed: 50,Seep-SRB1a sp. SM7059A
+1816,LWX51_12405,Unnamed: 50,Seep-SRB1a sp. CR9063A
+1817,-,Unnamed: 50,Seep-SRB1g sp. CR10073A
+1818,-,Unnamed: 50,Seep-SRB2 sp. G37
+1819,-,Unnamed: 50,E20 Seep-SRB2
+1820,-,Unnamed: 50,Desulfofervidaceae_sp._PB11946FWG155
+1821,-,Unnamed: 50,DesulfofervidalesDG60_sp._PB11719FWG156
+1822,-,Unnamed: 50,Seep-SRB2_sp._PB10259FWG173
+1823,-,Unnamed: 50,Seep-SRB2_sp._PBNA091R45FWG174
+1824,-,Unnamed: 50,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1825,-,Unnamed: 50,Desulfofervidaceae sp. PB_NA091.008_B6
+1826,,MrpB,
+1827,LWX54_00110,MrpB,Seep-SRB1a sp. SM7059A
+1828,LWX51_12410,MrpB,Seep-SRB1a sp. CR9063A
+1829,LWX52_01575,MrpB,Seep-SRB1g sp. CR10073A
+1830,PXF55932.1,MrpB,Seep-SRB2 sp. G37
+1831,PXF56554.1,MrpB,E20 Seep-SRB2
+1832,LWW94_00085,MrpB,Desulfofervidaceae_sp._PB11946FWG155
+1833,-,MrpB,DesulfofervidalesDG60_sp._PB11719FWG156
+1834,LWW99_09010,MrpB,Seep-SRB2_sp._PB10259FWG173
+1835,LWX01_00945,MrpB,Seep-SRB2_sp._PBNA091R45FWG174
+1836,-,MrpB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1837,-,MrpB,Desulfofervidaceae sp. PB_NA091.008_B6
+1838,,MrpE,
+1839,LWX54_00115,MrpE,Seep-SRB1a sp. SM7059A
+1840,LWX51_12415,MrpE,Seep-SRB1a sp. CR9063A
+1841,LWX52_01580,MrpE,Seep-SRB1g sp. CR10073A
+1842,PXF55929.1,MrpE,Seep-SRB2 sp. G37
+1843,PXF56564.1,MrpE,E20 Seep-SRB2
+1844,LWW94_00110,MrpE,Desulfofervidaceae_sp._PB11946FWG155
+1845,-,MrpE,DesulfofervidalesDG60_sp._PB11719FWG156
+1846,LWW99_09030,MrpE,Seep-SRB2_sp._PB10259FWG173
+1847,LWX01_00925,MrpE,Seep-SRB2_sp._PBNA091R45FWG174
+1848,LWW90_03100,MrpE,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1849,LWW95_06120,MrpE,Desulfofervidaceae sp. PB_NA091.008_B6
+1850,,Pfor_C,
+1851,,Pfor_C,Seep-SRB1a sp. SM7059A
+1852,LWX51_00905,Pfor_C,Seep-SRB1a sp. CR9063A
+1853,,Pfor_C,Seep-SRB1g sp. CR10073A
+1854,,Pfor_C,Seep-SRB2 sp. G37
+1855,,Pfor_C,E20 Seep-SRB2
+1856,,Pfor_C,Desulfofervidaceae_sp._PB11946FWG155
+1857,,Pfor_C,DesulfofervidalesDG60_sp._PB11719FWG156
+1858,,Pfor_C,Seep-SRB2_sp._PB10259FWG173
+1859,,Pfor_C,Seep-SRB2_sp._PBNA091R45FWG174
+1860,,Pfor_C,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1861,,Pfor_C,Desulfofervidaceae sp. PB_NA091.008_B6
+1862,,Pfor_B,
+1863,,Pfor_B,Seep-SRB1a sp. SM7059A
+1864,LWX51_00910,Pfor_B,Seep-SRB1a sp. CR9063A
+1865,,Pfor_B,Seep-SRB1g sp. CR10073A
+1866,,Pfor_B,Seep-SRB2 sp. G37
+1867,,Pfor_B,E20 Seep-SRB2
+1868,,Pfor_B,Desulfofervidaceae_sp._PB11946FWG155
+1869,,Pfor_B,DesulfofervidalesDG60_sp._PB11719FWG156
+1870,,Pfor_B,Seep-SRB2_sp._PB10259FWG173
+1871,,Pfor_B,Seep-SRB2_sp._PBNA091R45FWG174
+1872,,Pfor_B,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1873,,Pfor_B,Desulfofervidaceae sp. PB_NA091.008_B6
+1874,,Pfor_A,
+1875,,Pfor_A,Seep-SRB1a sp. SM7059A
+1876,LWX51_00915,Pfor_A,Seep-SRB1a sp. CR9063A
+1877,,Pfor_A,Seep-SRB1g sp. CR10073A
+1878,,Pfor_A,Seep-SRB2 sp. G37
+1879,,Pfor_A,E20 Seep-SRB2
+1880,,Pfor_A,Desulfofervidaceae_sp._PB11946FWG155
+1881,,Pfor_A,DesulfofervidalesDG60_sp._PB11719FWG156
+1882,,Pfor_A,Seep-SRB2_sp._PB10259FWG173
+1883,,Pfor_A,Seep-SRB2_sp._PBNA091R45FWG174
+1884,,Pfor_A,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+1885,,Pfor_A,Desulfofervidaceae sp. PB_NA091.008_B6
+1886,WP_066065919.1,HdrA1,Hot-Seep1
+1887,Ga0402054_bin3_1492 (WL pathway),HdrA1,Seep-SRB1a CR9063
+1888,Ga0402080_bin2_1254,HdrA1,Seep-SRB1a SM7059
+1889,Ga0402030_bin2_837 (adjacent to aldehyde:ferredoxin oxidoreductase),HdrA1,Seep-SRB1g CR10073
+1890,PXF54789.1 (near acetyl-CoA synthase),HdrA1,G37 Seep-SRB2
+1891,PXF60382.1 (near acetyl-CoA synthase),HdrA1,E20 Seep-SRB2
+1892,,HdrA1,
+1893,,HdrA1,
+1894,,HdrA1,
+1895,WP_066062537.1,HdrA2,Hot-Seep1
+1896,Ga0402054_bin3_1498 (WL pathway),HdrA2,Seep-SRB1a CR9063
+1897,Ga0402080_bin2_2107 (adjacent to aldehyde:ferredoxin oxidoreductase),HdrA2,Seep-SRB1a SM7059
+1898,Ga0402030_bin2_1678 (WL pathway),HdrA2,Seep-SRB1g CR10073
+1899,PXF54228.1 (hydrogenase),HdrA2,G37 Seep-SRB2
+1900,PXF56933.1 (near aldehyde ferredoxin oxidoreductase),HdrA2,E20 Seep-SRB2
+1901,,HdrA2,
+1902,,HdrA2,
+1903,,HdrA2,
+1904,WP_066065330.1 (QmoA),HdrA3,Hot-Seep1
+1905,Ga0402054_bin3_873 (adjacent to aldehyde:ferredoxin oxidoreductase),HdrA3,Seep-SRB1a CR9063
+1906,Ga0402080_bin2_447 (WL pathway),HdrA3,Seep-SRB1a SM7059
+1907,Ga0402030_bin2_1691 (WL pathway),HdrA3,Seep-SRB1g CR10073
+1908,PXF53813.1 (glutamate synthase),HdrA3,G37 Seep-SRB2
+1909,PXF58558.1(flxABCD),HdrA3,E20 Seep-SRB2
+1910,,HdrA3,
+1911,,HdrA3,
+1912,,HdrA3,
+1913,WP_066063825.1( near second HdrA),HdrA4,Hot-Seep1
+1914,,HdrA4,Seep-SRB1a CR9063
+1915,Ga0402080_bin2_453  (WL pathway),HdrA4,Seep-SRB1a SM7059
+1916,,HdrA4,Seep-SRB1g CR10073
+1917,PXF53184.1 (FlxABCD),HdrA4,G37 Seep-SRB2
+1918,PXF57422.1 (Qmo),HdrA4,E20 Seep-SRB2
+1919,,HdrA4,
+1920,,HdrA4,
+1921,,HdrA4,
+1922,WP_066065908.1 (near fdhB),HdrA5,Hot-Seep1
+1923,,HdrA5,Seep-SRB1a CR9063
+1924,,HdrA5,Seep-SRB1a SM7059
+1925,,HdrA5,Seep-SRB1g CR10073
+1926,PXF54060.1/PXF54059.1 (Qmo),HdrA5,G37 Seep-SRB2
+1927,PXF58554.1 (near flx),HdrA5,E20 Seep-SRB2
+1928,,HdrA5,
+1929,,HdrA5,
+1930,,HdrA5,
+1931,,Unnamed: 6,Hot-Seep1
+1932,,Unnamed: 6,Seep-SRB1a CR9063
+1933,,Unnamed: 6,Seep-SRB1a SM7059
+1934,,Unnamed: 6,Seep-SRB1g CR10073
+1935,,Unnamed: 6,G37 Seep-SRB2
+1936,,Unnamed: 6,E20 Seep-SRB2
+1937,,Unnamed: 6,
+1938,,Unnamed: 6,
+1939,WP_156469425.1,Unnamed: 6,
+1940,-,nifD,Desulfobacterales_sp._PC51MH44
+1941,-,nifD,Desulfobacterales_sp._S5133MH16
+1942,-,nifD,Desulfosarcina_sp._BuS5
+1943,2512525212,nifD,Desulfococcus_biacutus_KMRActS
+1944,2502442438,nifD,Desulfonema_limicola_Jadebusen_DSM_2076
+1945,2502436386,nifD,Desulfosarcina_variabilis_Montpellier
+1946,-,nifD,Desulfatirhabdium_butyrativorans_DSM_18734
+1947,2508603540,nifD,Desulfobacter_postgatei_2ac9
+1948,-,nifD,Desulfobacula_toluolica_Tol2
+1949,2523440421,nifD,Desulforegula_conservatrix_Mb1Pa_DSM_13527
+1950,-,nifD,Desulfococcus_oleovorans_Hxd3
+1951,2523111239,nifD,Desulfatibacillum_aliphaticivorans_DSM_15576_
+1952,2588105616,nifD,Desulfatibacillum_alkenivorans_DSM_16219
+1953,-,nifD,Desulfobacterium_anilini_DSM_4660
+1954,2504153873,nifD,Desulfobacca_acetoxidans_ASRB2_DSM_11109
+1955,2562334079,nifD,Desulfocapsa_sulfexigens_DSM_10523
+1956,649927908,nifD,Desulfobulbus_propionicus_1pr3_DSM_2032
+1957,2558016150,nifD,Desulfobulbus_elongatus_DSM_2908
+1958,-,nifD,Desulfobulbus_mediterraneus_DSM_13871
+1959,2541188527,nifD,Desulfocurvus_vexinensis_DSM_17965
+1960,2646276671,nifD,Desulfovibrio_vulgaris_RCH1
+1961,2595077940,nifD,Desulfonatronum_thioautotrophicum_ASO4_1
+1962,2524272604,nifD,Desulfomicrobium_escambiense_DSM_10707
+1963,-,nifD,Shewanella_oneidensis_MR_1
+1964,-,nifD,Desulfobacterales_sp._S3730MH5_(Seep_SRB1c)
+1965,-,nifD,Desulfobacterales_sp._C00003060_(Seep_SRB1c)
+1966,-,nifD,Desulfobacterales_sp._S5133MH4_(Seep_SRB1c)
+1967,-,nifD,Desulfobacterales_sp._S7086C20_(Seep_SRB1c)
+1968,OEU59756.1,nifD,Desulfococcus_sp._C00003104
+1969,OEU52422.1,nifD,Desulfococcus_sp._C00003106
+1970,-,nifD,Desulfococcus_sp._Cons3730e01UFb1
+1971,-,nifD,Desulfobulbaceae_bacterium_C00003063
+1972,-,nifD,Desulfobulbaceae_bacterium_S3730MH12
+1973,-,nifD,Desulfobulbaceae_bacterium_S5133MH15
+1974,gb|RZB36656.1|,nifD,Eth-SRB2_sp004193595
+1975,gb|PXF56965.1|,nifD,SeepSRB2_sp003194495
+1976,gb|OEU59756.1|,nifD,SeepSRB1g_sp001751015_a
+1977,gb|OEU52422.1|,nifD,SeepSRB1g_sp001751015_b
+1978,gb|MBC2695217.1|,nifD,SeepSRB1a_sp014237365
+1979,gb|MBC2719528.1|,nifD,SeepSRB1a_sp014237365a
+1980,gb|MBT9438261.1|,nifD,SeepSRB1a_sp._S7142MS3
+1981,gnl|PRJNA762493|LWW98_03655,nifD,SeepSRB1a_sp._SM14434AFWG171
+1982,HOAHELHK_00772,nifD,SeepSRB1a_sp._SM7147A
+1983,LCGKHOPJ_01128,nifD,SeepSRB1a_sp._SM7147B
+1984,gnl|PRJNA762493|LWX51_11575,nifD,SeepSRB1a_sp._CR9063A
+1985,gnl|PRJNA762493|LWX08_09060,nifD,SeepSRB1a_sp._CR9063B
+1986,gnl|PRJNA762493|LWX02_02955,nifD,SeepSRB1a_sp._CR9063C
+1987,gnl|PRJNA762493|LWX54_07315,nifD,SeepSRB1a_sp._SM7059A
+1988,gnl|PRJNA762493|LWX52_00385,nifD,SeepSRB1g_sp._CR10073A
+1989,gnl|PRJNA762493|LWX55_03765,nifD,SeepSRB1g_sp._CR10073B
+1990,DIFG01000025.1_6,nifD,UBA5754 sp002419025
+1991,LWW95 00545,Desulfofervidaceae,
+1992,LWW94 09340,Desulfofervidaceae sp. PB11946FWG155,
+1993,LWX55 03505,SeepSRB1g sp. CR10073B,
+1994,OEU56212.1,Desulfobacterales bacterium C00003106,
+1995,MBW2737732.1,Seep-SRB1a AB 03 Bin 172,
+1996,MBC2696320.1,SeepSRB1a sp014237365,
+1997,NVM22945.1,JABXJW01,
+1998,NVL90482.1,JABXJX01,
+1999,RLC07259.1,B23-G16,
+2000,LWX51 08680,SeepSRB1a sp. CR9063A,
+2001,LWX08 04765,SeepSRB1a sp. CR9063B,
+2002,18192818,Desulfobacterales sp.,
+2003,MBW2165515.1,Seep-SRB1a Meg22 02 Bin 90,
+2004,MBW2569298.1,Eth-SRB1,
+2005,MBC8198580.1,JACNLL01,
+2006,MBW2567947.1,Eth-SRB1,
+2007,MBW2660397.1,Eth-SRB1,
+2008,2265016719,candidate division OP1 bacterium SCGC AAA255-C06,
+2009,OEU61059.1,Eth-SRB2 sp00175005,
+2010,MBW2740924.1,Seep-SRB1a AB 03 Bin 172,
+2011,OEU62032.1,Eth-SRB2 sp00175005,
+2012,OEU78618.1,C00003060,
+2013,DFBQ01000011.1,6 SeepSRB2 sp002367355,
+2014,MBW1938170.1,Seep-SRB2 Meg22 1618 Bin 149,
+2015,2547302051,Verminephrobacter sp.,
+2016,KPJ68987.1,Desulfofervidales sp. DG-60,
+2017,OEU62481.1,SeepSRB1a sp PC51MH44,
+2018,LWX55 03500,SeepSRB1g sp. CR10073B,
+2019,OEU56211.1,SeepSRB1g sp001751015 b,
+2020,RZB34689.1,Eth-SRB1 sp004193555,
+2021,LWW95 00550,Desulfofervidaceae,
+2022,LWW94 09345,Desulfofervidaceae sp. PB11946FWG155,
+2023,MBW2660396.1,Eth-SRB1,
+2024,RZB29627.1,Eth-SRB1 sp004193555,
+2025,NQT10635.1,JACNLL01,
+2026,MBC8198579.1,JACNLL01,
+2027,NQT09563.1,JACNLL01,
+2028,RZB30484.1,Eth-SRB1 sp004193555,
+2029,NVL90483.1,JABXJX01,
+2030,NVM22944.1,JABXJW01,
+2031,MBW2165514.1,Seep-SRB1a Meg22 02 Bin 90,
+2032,MBW2740969.1,Seep-SRB1a AB 03 Bin 172,
+2033,MBW2737733.1,Seep-SRB1a AB 03 Bin 172,
+2034,MBC2696321.1,SeepSRB1a sp014237365,
+2035,LWX02 02230,SeepSRB1a sp. CR9063C,
+2036,LWX08 04770,SeepSRB1a sp. CR9063B,
+2037,LWX51 08685,SeepSRB1a sp. CR9063A,
+2038,OEU56163.1,Desulfobacterales bacterium C00003106,
+2039,MBT9448395.1,SeepSRB1g sp. S7142MS4,
+2040,LWX52 03470,SeepSRB1g sp. CR10073A,
+2041,LWX55 08935,SeepSRB1g sp. CR10073B,
+2042,MBW2647243.1,Seep-SRB1g AB 1215 Bin 34,
+2043,MBW2645731.1,Seep-SRB1g AB 1215 Bin 34,
+2044,MBC8198885.1,JACNLL01,
+2045,MBW2568707.1,Eth-SRB1,
+2046,MBW2661421.1,Eth-SRB1,
+2047,MBA3018404.1,SeepSRB1a sp013792055,
+2048,LWX51 07630,SeepSRB1a sp. CR9063A,
+2049,LWX08 05175,SeepSRB1a sp. CR9063B,
+2050,LWX54 02240,SeepSRB1a sp. SM7059A,
+2051,MBT9438954.1,SeepSRB1a sp. S7142MS3,
+2052,LWW97 00100,SeepSRB1a sp. SM14434BFWG172,
+2053,MBW2740923.1,Seep-SRB1a AB 03 Bin 172,
+2054,MBC2693900.1,SeepSRB1a sp014237365,
+2055,MBA3019297.1,SeepSRB1a sp013792055,
+2056,LWX08 06170,SeepSRB1a sp. CR9063B,
+2057,LWX51 04510,SeepSRB1a sp. CR9063A,
+2058,LWX55 10005,SeepSRB1g sp. CR10073B,
+2059,LWX52 07205,SeepSRB1g sp. CR10073A,
+2060,OEU52942.1,Desulfobacterales bacterium C00003106,
+2061,OEU58186.1,Desulfobacterales bacterium C00003104,
+2062,OEU53863.1,Desulfobacterales bacterium S3730MH5,
+2063,RLB82846.1,B60-G16,
+2064,NVL90570.1,JABXJX01,
+2065,OEU50820.1,Desulfobacterales bacterium S3730MH5,
+2066,OEU80870.1,Desulfobacterales bacterium S5133MH4,
+2067,LWX01 09045,SeepSRB2 sp. PBNA091R45FWG174,
+2068,LWW99 09920,SeepSRB2 sp. PB10259FWG173,
+2069,NVM23905.1,JABXJW01,
+2070,OEU46606.1,Desulfobacterales bacterium S7086C20,
+2071,RLB83229.1,B60-G16,
+2072,OEU52012.1,Desulfobacterales bacterium S3730MH5,
+2073,MBW2645735.1,Seep-SRB1g AB 1215 Bin 34,
+2074,PXF55613.1,SeepSRB2 G37 sp003194485,
+2075,MBW1927006.1,Seep-SRB2 Meg22 1618 Bin 165,
+2076,MBW1966322.1,Seep-SRB2 Meg22 1214 Bin 80,
+2077,LWX01 07740,SeepSRB2 sp. PBNA091R45FWG174,
+2078,LWW99 05335,SeepSRB2 sp. PB10259FWG173,
+2079,MBW1938911.1,Seep-SRB2 Meg22 1618 Bin 149,
+2080,MBW1963625.1,Seep-SRB2 Meg22 1214 Bin 60,
+2081,MBW2350954.1,Seep-SRB2 Meg19 1012 Bin 14,
+2082,DFBQ01000011.1,5 SeepSRB2 sp002367355,
+2083,PXF60403.1,Deltaproteobacteria bacterium,
+2084,RKX62596.1,SeepSRB2 sp00364560,
+2085,DFBQ01000173.1,2 SeepSRB2 sp002367355,
+2086,RKX61769.1,SeepSRB2 sp00364560,
+2087,LWX55_06175,SeepSRB1g sp. CR10073B,
+2088,OEU55688.1,Desulfobacterales bacterium C00003106,
+2089,LWX52_00610 ,SeepSRB1g sp. CR10073A,
+2090,MBA3019249.1,SeepSRB1a_sp013792055,
+2091,LWW97_09940,SeepSRB1a_sp._SM14434BFWG172,
+2092,MBW2741193.1,Seep-SRB1a_AB_03_Bin_172,
+2093,MBW2740367.1,Seep-SRB1a_AB_03_Bin_172,
+2094,MBC2695912.1,SeepSRB1a_sp014237365,
+2095,MBC2720226.1,SeepSRB1a_sp014237365a,
+2096,MBW1834576.1,Seep-SRB1a_Meg22_24_Bin_68,
+2097,MBT9439010.1,SeepSRB1a_sp._S7142MS3,
+2098,LWX54_10880,SeepSRB1a sp. SM7059A,
+2099,LWX51_15065,SeepSRB1a sp013792055,
+2100,LWX08_05840,SeepSRB1a sp. CR9063B,
+2101,LWW98_05440,SeepSRB1a_sp._SM14434AFWG171,
+2102,MBC8198552.1,JACNLL01 sp014381545,
