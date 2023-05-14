@@ -1,0 +1,468 @@
+,GeneID,Function,OrganismID
+0,>MBA3018028.1 hypothetical protein FP811_07765 ,hmlA,B13-G4_sp013792055
+1,>MBA3018029.1 hypothetical protein FP811_07770 ,hmlB,B13-G4_sp013792055
+2,>MBA3018030.1 hypothetical protein FP811_07775 ,,B13-G4_sp013792055
+3,>MBA3018031.1 hypothetical protein FP811_07780 ,,B13-G4_sp013792055
+4,>MBA3018032.1 hypothetical protein FP811_07785 ,,B13-G4_sp013792055
+5,>MBA3018033.1 hypothetical protein FP811_07790 ,,B13-G4_sp013792055
+6,>MBA3018034.1 hypothetical protein FP811_07795 ,omb,B13-G4_sp013792055
+7,>MBA3018035.1 beta-propeller fold lactonase family protein ,,B13-G4_sp013792055
+8,>MBA3018036.1 SH3 domain-containing protein ,,B13-G4_sp013792055
+9,>MBA3018037.1 cytochrome C ,omcX,B13-G4_sp013792055
+10,>MBA3018038.1 cytochrome c3 family protein ,omcX1,B13-G4_sp013792055
+11,,,B13-G4_sp013792055
+12,">RLC24919.1 hypothetical protein DRH21_04770, partial ",hmlB,B13-G4_sp003647525
+13,>RLC24918.1 hypothetical protein DRH21_04765 ,,B13-G4_sp003647525
+14,>RLC24917.1 hypothetical protein DRH21_04760 ,,B13-G4_sp003647525
+15,>RLC24916.1 hypothetical protein DRH21_04755 ,,B13-G4_sp003647525
+16,>RLC24915.1 hypothetical protein DRH21_04750 ,,B13-G4_sp003647525
+17,>RLC24914.1 hypothetical protein DRH21_04745 ,,B13-G4_sp003647525
+18,">RLC24913.1 hypothetical protein DRH21_04740, partial ",omb,B13-G4_sp003647525
+19,,,B13-G4_sp003647525
+20,,,B13-G4_sp003647525
+21,,,B13-G4_sp003647525
+22,,,B13-G4_sp003647525
+23,,,B13-G4_sp003647525
+24,>MBC2718706.1 hypothetical protein HGJ96_03770 ,hmlA,B13-G4_sp014237365b
+25,>MBC2718705.1 hypothetical protein HGJ96_03765 ,hmlB,B13-G4_sp014237365b
+26,>MBC2718704.1 peptidyl-prolyl cis-trans isomerase ,,B13-G4_sp014237365b
+27,>MBC2718703.1 hypothetical protein HGJ96_03755 ,,B13-G4_sp014237365b
+28,>MBC2718702.1 gliding motility-associated C-terminal domain-containing protein ,,B13-G4_sp014237365b
+29,>MBC2718701.1 DUF799 family lipoprotein ,,B13-G4_sp014237365b
+30,>MBC2718700.1 hypothetical protein HGJ96_03740 ,omb,B13-G4_sp014237365b
+31,>MBC2718699.1 beta-propeller fold lactonase family protein ,,B13-G4_sp014237365b
+32,>MBC2718698.1 SH3 domain-containing protein ,,B13-G4_sp014237365b
+33,,,B13-G4_sp014237365b
+34,,,B13-G4_sp014237365b
+35,,,B13-G4_sp014237365b
+36,>MBC2694396.1 hypothetical protein HF982_03785 ,hmlA,B13-G4_sp014237365a
+37,>MBC2694395.1 hypothetical protein HF982_03780 ,hmlB,B13-G4_sp014237365a
+38,>MBC2694394.1 peptidyl-prolyl cis-trans isomerase ,,B13-G4_sp014237365a
+39,>MBC2694393.1 hypothetical protein HF982_03770 ,,B13-G4_sp014237365a
+40,>MBC2694392.1 hypothetical protein HF982_03765 ,,B13-G4_sp014237365a
+41,>MBC2694391.1 DUF799 family lipoprotein ,,B13-G4_sp014237365a
+42,>MBC2694390.1 hypothetical protein HF982_03755 ,ombseep1a,B13-G4_sp014237365a
+43,>MBC2694389.1 beta-propeller fold lactonase family protein ,,B13-G4_sp014237365a
+44,>MBC2694388.1 SH3 domain-containing protein ,,B13-G4_sp014237365a
+45,,,B13-G4_sp014237365a
+46,,,B13-G4_sp014237365a
+47,,,B13-G4_sp014237365a
+48,>EOKBJDCF_00449 hypothetical protein,hmlA,Seep-SRB1a_sp._SM14434BFWG172
+49,>EOKBJDCF_00450 hypothetical protein,hmlB,Seep-SRB1a_sp._SM14434BFWG172
+50,>EOKBJDCF_00451 Chaperone SurA,,Seep-SRB1a_sp._SM14434BFWG172
+51,>EOKBJDCF_00452 hypothetical protein,,Seep-SRB1a_sp._SM14434BFWG172
+52,>EOKBJDCF_00453 hypothetical protein,,Seep-SRB1a_sp._SM14434BFWG172
+53,>EOKBJDCF_00454 hypothetical protein,,Seep-SRB1a_sp._SM14434BFWG172
+54,>EOKBJDCF_00455 hypothetical protein,omb,Seep-SRB1a_sp._SM14434BFWG172
+55,>EOKBJDCF_00456 hypothetical protein,,Seep-SRB1a_sp._SM14434BFWG172
+56,>EOKBJDCF_00457 hypothetical protein,,Seep-SRB1a_sp._SM14434BFWG172
+57,>EOKBJDCF_00458 hypothetical protein,omcX,Seep-SRB1a_sp._SM14434BFWG172
+58,>EOKBJDCF_00459 hypothetical protein,omcX,Seep-SRB1a_sp._SM14434BFWG172
+59,coded on opposie strants,,Seep-SRB1a_sp._SM14434BFWG172
+60,>Ga0402054_bin3_1859,hmlA,Seep-SRB1a_sp._CR9063A
+61,>Ga0402054_bin3_1858,hmlB,Seep-SRB1a_sp._CR9063A
+62,>Ga0402054_bin3_1857,,Seep-SRB1a_sp._CR9063A
+63,>Ga0402054_bin3_1856,,Seep-SRB1a_sp._CR9063A
+64,>Ga0402054_bin3_1855,,Seep-SRB1a_sp._CR9063A
+65,>Ga0402054_bin3_1854,,Seep-SRB1a_sp._CR9063A
+66,>Ga0402054_bin3_1853,omb,Seep-SRB1a_sp._CR9063A
+67,>Ga0402054_bin3_1852,,Seep-SRB1a_sp._CR9063A
+68,>Ga0402054_bin3_1851,,Seep-SRB1a_sp._CR9063A
+69,>Ga0402054_bin3_1850,omcX,Seep-SRB1a_sp._CR9063A
+70,>Ga0402054_bin3_1849,,Seep-SRB1a_sp._CR9063A
+71,,,Seep-SRB1a_sp._CR9063A
+72,>Ga0402080_bin2_581,hmlA,Seep-SRB1a_SM7059A
+73,>Ga0402080_bin2_582,hmlB,Seep-SRB1a_SM7059A
+74,>Ga0402080_bin2_583,,Seep-SRB1a_SM7059A
+75,>Ga0402080_bin2_584,,Seep-SRB1a_SM7059A
+76,>Ga0402080_bin2_585,cyt c,Seep-SRB1a_SM7059A
+77,>Ga0402080_bin2_586,,Seep-SRB1a_SM7059A
+78,>Ga0402080_bin2_587,,Seep-SRB1a_SM7059A
+79,>Ga0402080_bin2_588,,Seep-SRB1a_SM7059A
+80,>Ga0402080_bin2_589,omb,Seep-SRB1a_SM7059A
+81,>Ga0402080_bin2_590,,Seep-SRB1a_SM7059A
+82,>Ga0402080_bin2_591,,Seep-SRB1a_SM7059A
+83,,,Seep-SRB1a_SM7059A
+84,,,Seep-SRB1a_sp._S7142MS3
+85,,,Seep-SRB1a_sp._S7142MS3
+86,,,Seep-SRB1a_sp._S7142MS3
+87,MBT9438156.1,,Seep-SRB1a_sp._S7142MS3
+88, MBT9438157.1,cyt c,Seep-SRB1a_sp._S7142MS3
+89,MBT9438159.1,,Seep-SRB1a_sp._S7142MS3
+90,MBT9438160.1,,Seep-SRB1a_sp._S7142MS3
+91,,,Seep-SRB1a_sp._S7142MS3
+92,,,Seep-SRB1a_sp._S7142MS3
+93,,,Seep-SRB1a_sp._S7142MS3
+94,,,Seep-SRB1a_sp._S7142MS3
+95,,,Seep-SRB1a_sp._S7142MS3
+96,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+97,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+98,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+99,MBW1745010.1,,Seep-SRB1a_sp._Meg22_46_Bin_236
+100,MBW1745009.1,cyt c,Seep-SRB1a_sp._Meg22_46_Bin_236
+101,MBW1745008.1,,Seep-SRB1a_sp._Meg22_46_Bin_236
+102,MBW1745007.1,,Seep-SRB1a_sp._Meg22_46_Bin_236
+103,MBW1745006.1,,Seep-SRB1a_sp._Meg22_46_Bin_236
+104,MBW1745005.1,omb,Seep-SRB1a_sp._Meg22_46_Bin_236
+105,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+106,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+107,,,Seep-SRB1a_sp._Meg22_46_Bin_236
+108,,,Seep-SRB1a_sp._AB_03_Bin_172
+109,MBW2737294.1,hmlB,Seep-SRB1a_sp._AB_03_Bin_172
+110,MBW2737295.1,,Seep-SRB1a_sp._AB_03_Bin_172
+111,MBW2737296.1,,Seep-SRB1a_sp._AB_03_Bin_172
+112,MBW2737297.1,cyt c,Seep-SRB1a_sp._AB_03_Bin_172
+113,MBW2737298.1,,Seep-SRB1a_sp._AB_03_Bin_172
+114,MBW2737299.1,,Seep-SRB1a_sp._AB_03_Bin_172
+115,MBW2737300.1,,Seep-SRB1a_sp._AB_03_Bin_172
+116,MBW2737301.1,omb,Seep-SRB1a_sp._AB_03_Bin_172
+117,MBW2737302.1,b-propeller,Seep-SRB1a_sp._AB_03_Bin_172
+118,MBW2737303.1,NHL domain containing protein,Seep-SRB1a_sp._AB_03_Bin_172
+119,,,Seep-SRB1a_sp._AB_03_Bin_172
+120,,,Desulfofervidaceae_sp._PB11946FWG155
+121,,hmlB,Desulfofervidaceae_sp._PB11946FWG155
+122,,,Desulfofervidaceae_sp._PB11946FWG155
+123,,,Desulfofervidaceae_sp._PB11946FWG155
+124,,cyt c,Desulfofervidaceae_sp._PB11946FWG155
+125,,,Desulfofervidaceae_sp._PB11946FWG155
+126,>OLHCEBFO_00965 hypothetical protein,,Desulfofervidaceae_sp._PB11946FWG155
+127,>OLHCEBFO_00966 hypothetical protein,,Desulfofervidaceae_sp._PB11946FWG155
+128,>OLHCEBFO_00967 hypothetical protein,omb,Desulfofervidaceae_sp._PB11946FWG155
+129,>OLHCEBFO_00968 hypothetical protein,b-propeller,Desulfofervidaceae_sp._PB11946FWG155
+130,>OLHCEBFO_00969 hypothetical protein,NHL domain containing protein,Desulfofervidaceae_sp._PB11946FWG155
+131,>OLHCEBFO_00970 hypothetical protein,,Desulfofervidaceae_sp._PB11946FWG155
+132,,,Desulfofervidaceae sp. PB_NA091.008_B6
+133,,,Desulfofervidaceae sp. PB_NA091.008_B6
+134,,,Desulfofervidaceae sp. PB_NA091.008_B6
+135,GLOGJPLJ_00711,omcX,Desulfofervidaceae sp. PB_NA091.008_B6
+136,GLOGJPLJ_00710,extA,Desulfofervidaceae sp. PB_NA091.008_B6
+137,GLOGJPLJ_00709,,Desulfofervidaceae sp. PB_NA091.008_B6
+138,GLOGJPLJ_00708,,Desulfofervidaceae sp. PB_NA091.008_B6
+139,GLOGJPLJ_00707,,Desulfofervidaceae sp. PB_NA091.008_B6
+140,GLOGJPLJ_00706,,Desulfofervidaceae sp. PB_NA091.008_B6
+141,GLOGJPLJ_00705,,Desulfofervidaceae sp. PB_NA091.008_B6
+142,GLOGJPLJ_00704,omb,Desulfofervidaceae sp. PB_NA091.008_B6
+143,GLOGJPLJ_00703,,Desulfofervidaceae sp. PB_NA091.008_B6
+144,GLOGJPLJ_00702,,Desulfofervidaceae sp. PB_NA091.008_B6
+145,GLOGJPLJ_00701,,Desulfofervidaceae sp. PB_NA091.008_B6
+146,GLOGJPLJ_00700,,Desulfofervidaceae sp. PB_NA091.008_B6
+147,GLOGJPLJ_00699,hmlB,Desulfofervidaceae sp. PB_NA091.008_B6
+148,GLOGJPLJ_00698,hmlA,Desulfofervidaceae sp. PB_NA091.008_B6
+149,,,Desulfofervidaceae sp. PB_NA091.008_B6
+150,,,Desulfofervidaceae sp. PB_NA091.008_B6
+151,>AMM40346.1 cytochrome C [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+152,>AMM40347.1 cytochrome c family protein [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+153,>AMM40348.1 hypothetical protein HS1_000542 [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+154,>AMM40349.1 cytochrome C [Candidatus Desulfofervidus auxilii],omcX,HotSeep1_sp001577525
+155,>AMM40350.1 cytochrome C [Candidatus Desulfofervidus auxilii],extA,HotSeep1_sp001577525
+156,">AMM40351.1 cytochrome C, doubled CXXCH domain-containing protein, secreted [Candidatus Desulfofervidus auxilii]",,HotSeep1_sp001577525
+157,>AMM40352.1 DNA polymerase subunit beta [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+158,>AMM40353.1 protein containing DUF86 [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+159,>AMM40354.1 cytochrome C family protein [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+160,>AMM40355.1 40-residue YVTN family beta-propeller [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+161,>AMM40356.1 hypothetical protein HS1_000550 [Candidatus Desulfofervidus auxilii],omb,HotSeep1_sp001577525
+162,>AMM40357.1 lipoprotein [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+163,>AMM40358.1 cell envelope biogenesis protein OmpA [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+164,>AMM40359.1 lipoprotein [Candidatus Desulfofervidus auxilii],,HotSeep1_sp001577525
+165,">AMM40360.1 secreted protein containing Peptidyl-prolyl cis-trans isomerase, PpiC-type domain protein [Candidatus Desulfofervidus auxilii]",,HotSeep1_sp001577525
+166,>AMM40361.1 cytochrome C family protein [Candidatus Desulfofervidus auxilii],hmlB,HotSeep1_sp001577525
+167,>AMM40362.1 cytochrome C family protein [Candidatus Desulfofervidus auxilii],hmlA,HotSeep1_sp001577525
+168,,,HotSeep1_sp001577525
+169,,,HotSeep1_sp001577525
+170,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+171,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+172,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+173,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+174,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+175,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+176,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+177,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+178,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+179,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+180,>BEFNOMPG_00388 hypothetical protein,omb,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+181,>BEFNOMPG_00389 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+182,>BEFNOMPG_00390 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+183,>BEFNOMPG_00391 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+184,>BEFNOMPG_00392 Foldase protein PrsA,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+185,>BEFNOMPG_00393 hypothetical protein,hmlB,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+186,>BEFNOMPG_00394 hypothetical protein,hmlA,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+187,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+188,,,Candidatus Desulfofervidus auxilli_sp._PB12019FWG170
+189,>IEOPGEAI_00593 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+190,>IEOPGEAI_00594 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+191,>IEOPGEAI_00595 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+192,>IEOPGEAI_00596 hypothetical protein,omcX,Candidatus Desulfofervidus auxilli_sp._B50
+193,>IEOPGEAI_00597 hypothetical protein,extA,Candidatus Desulfofervidus auxilli_sp._B50
+194,>IEOPGEAI_00598 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+195,>IEOPGEAI_00599 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+196,>IEOPGEAI_00600 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+197,>IEOPGEAI_00601 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+198,>IEOPGEAI_00602 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+199,>IEOPGEAI_00603 hypothetical protein,omb,Candidatus Desulfofervidus auxilli_sp._B50
+200,>IEOPGEAI_00604 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+201,>IEOPGEAI_00605 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+202,>IEOPGEAI_00606 hypothetical protein,,Candidatus Desulfofervidus auxilli_sp._B50
+203,>IEOPGEAI_00607 Foldase protein PrsA,,Candidatus Desulfofervidus auxilli_sp._B50
+204,>IEOPGEAI_00608 hypothetical protein,hmlB,Candidatus Desulfofervidus auxilli_sp._B50
+205,>IEOPGEAI_00609 hypothetical protein,hmlA,Candidatus Desulfofervidus auxilli_sp._B50
+206,,,Candidatus Desulfofervidus auxilli_sp._B50
+207,,,Candidatus Desulfofervidus auxilli_sp._B50
+208,>CAD7772949.1 hypothetical protein DMNBHIDG_00680 ,,HotSeep1_E37_DN
+209,>CAD7772956.1 hypothetical protein DMNBHIDG_00681 ,,HotSeep1_E37_DN
+210,>CAD7772963.1 Cytochrome c3 ,omcX,HotSeep1_E37_DN
+211,>CAD7772970.1 Cytochrome c3 ,extA,HotSeep1_E37_DN
+212,>CAD7772977.1 hypothetical protein DMNBHIDG_00684 ,,HotSeep1_E37_DN
+213,>CAD7772982.1 hypothetical protein DMNBHIDG_00685 ,,HotSeep1_E37_DN
+214,>CAD7772989.1 hypothetical protein DMNBHIDG_00686 ,,HotSeep1_E37_DN
+215,>CAD7772996.1 hypothetical protein DMNBHIDG_00687 ,,HotSeep1_E37_DN
+216,>CAD7773003.1 hypothetical protein DMNBHIDG_00688 ,,HotSeep1_E37_DN
+217,>CAD7773014.1 Cytochrome D1 heme domain protein ,,HotSeep1_E37_DN
+218,>CAD7773017.1 hypothetical protein DMNBHIDG_00690 ,omb,HotSeep1_E37_DN
+219,>CAD7773024.1 hypothetical protein DMNBHIDG_00691 ,,HotSeep1_E37_DN
+220,>CAD7773031.1 Curli production assembly/transport component CsgG ,,HotSeep1_E37_DN
+221,>CAD7773042.1 hypothetical protein DMNBHIDG_00693 ,,HotSeep1_E37_DN
+222,>CAD7773046.1 hypothetical protein DMNBHIDG_00694 ,,HotSeep1_E37_DN
+223,>CAD7773054.1 Foldase protein PrsA ,hmlB,HotSeep1_E37_DN
+224,>CAD7773063.1 cytochrome c,hmlA,HotSeep1_E37_DN
+225,,,HotSeep1_E37_DN
+226,,,HotSeep1_E37_DN
+227,>CAD7771679.1 hypothetical protein BLFGPEAP_00628 ,,HotSeep1_E50_DN
+228,>CAD7771684.1 Cytochrome c3 ,omcX,HotSeep1_E50_DN
+229,>CAD7771689.1 Cytochrome c3 ,extA,HotSeep1_E50_DN
+230,>CAD7771694.1 hypothetical protein BLFGPEAP_00631 ,,HotSeep1_E50_DN
+231,>CAD7771699.1 hypothetical protein BLFGPEAP_00632 ,,HotSeep1_E50_DN
+232,>CAD7771704.1 hypothetical protein BLFGPEAP_00633 ,,HotSeep1_E50_DN
+233,>CAD7771710.1 hypothetical protein BLFGPEAP_00634 ,,HotSeep1_E50_DN
+234,>CAD7771715.1 hypothetical protein BLFGPEAP_00635 ,,HotSeep1_E50_DN
+235,>CAD7771720.1 hypothetical protein BLFGPEAP_00636 ,,HotSeep1_E50_DN
+236,>CAD7771725.1 hypothetical protein BLFGPEAP_00637 ,,HotSeep1_E50_DN
+237,>CAD7771730.1 hypothetical protein BLFGPEAP_00638 ,omb,HotSeep1_E50_DN
+238,>CAD7771735.1 Curli production assembly/transport component CsgG ,,HotSeep1_E50_DN
+239,>CAD7771741.1 hypothetical protein BLFGPEAP_00640 ,,HotSeep1_E50_DN
+240,>CAD7771745.1 hypothetical protein BLFGPEAP_00641 ,,HotSeep1_E50_DN
+241,>CAD7771750.1 hypothetical protein BLFGPEAP_00642 ,,HotSeep1_E50_DN
+242,>CAD7771753.1 Foldase protein PrsA ,,HotSeep1_E50_DN
+243,>CAD7771756.1 Doubled CXXCH motif (Paired_CXXCH_1) ,,HotSeep1_E50_DN
+244,>CAD7771761.1 Doubled CXXCH motif (Paired_CXXCH_1) ,hmlB,HotSeep1_E50_DN
+245,>CAD7771766.1 Doubled CXXCH motif (Paired_CXXCH_1) ,hmlA,HotSeep1_E50_DN
+246,,,Seep-SRB2_sp002367355
+247,,omcX,Seep-SRB2_sp002367355
+248,DFBQ01000012.1_21,extA,Seep-SRB2_sp002367355
+249,DFBQ01000012.1_22,,Seep-SRB2_sp002367355
+250,DFBQ01000012.1_23,,Seep-SRB2_sp002367355
+251,DFBQ01000012.1_24,,Seep-SRB2_sp002367355
+252,DFBQ01000012.1_25,,Seep-SRB2_sp002367355
+253,DFBQ01000012.1_26,,Seep-SRB2_sp002367355
+254,DFBQ01000012.1_27,,Seep-SRB2_sp002367355
+255,,,Seep-SRB2_sp002367355
+256,,omb,Seep-SRB2_sp002367355
+257,,,Seep-SRB2_sp002367355
+258,,,Seep-SRB2_sp002367355
+259,,,Seep-SRB2_sp002367355
+260,,,Seep-SRB2_sp002367355
+261,,,Seep-SRB2_sp002367355
+262,,,Seep-SRB2_sp002367355
+263,,,Seep-SRB2_E20_sp003194495
+264,,,Seep-SRB2_E20_sp003194495
+265,PXF57838.1,omcX,Seep-SRB2_E20_sp003194495
+266,PXF57837.1,extA,Seep-SRB2_E20_sp003194495
+267,PXF57836.1,,Seep-SRB2_E20_sp003194495
+268,PXF57835.1,omb,Seep-SRB2_E20_sp003194495
+269,PXF57834.1,,Seep-SRB2_E20_sp003194495
+270,PXF57833.1,,Seep-SRB2_E20_sp003194495
+271,PXF57832.1,,Seep-SRB2_E20_sp003194495
+272,PXF57831.1,,Seep-SRB2_E20_sp003194495
+273,PXF57830.1,hmlB,Seep-SRB2_E20_sp003194495
+274,PXF57829.1,hmlA,Seep-SRB2_E20_sp003194495
+275,,,Seep-SRB2_E20_sp003194495
+276,,,Seep-SRB2_E20_sp003194495
+277,,,Seep-SRB2_E20_sp003194495
+278,,,Seep-SRB2_E20_sp003194495
+279,,,Seep-SRB2_E20_sp003194495
+280,,,Seep-SRB2_G37_sp003194485
+281,,,Seep-SRB2_G37_sp003194485
+282,PXF54100.1,extA,Seep-SRB2_G37_sp003194485
+283,PXF54099.1,,Seep-SRB2_G37_sp003194485
+284,PXF54098.1,,Seep-SRB2_G37_sp003194485
+285,PXF54097.1,,Seep-SRB2_G37_sp003194485
+286,PXF54096.1,omb,Seep-SRB2_G37_sp003194485
+287,PXF54095.1,,Seep-SRB2_G37_sp003194485
+288,PXF54094.1,,Seep-SRB2_G37_sp003194485
+289,PXF54093.1,,Seep-SRB2_G37_sp003194485
+290,PXF54092.1,,Seep-SRB2_G37_sp003194485
+291,PXF54091.1,,Seep-SRB2_G37_sp003194485
+292,PXF54090.1,,Seep-SRB2_G37_sp003194485
+293,PXF54089.1,,Seep-SRB2_G37_sp003194485
+294,PXF54088.1,hmlB,Seep-SRB2_G37_sp003194485
+295,PXF54087.1,hmlA,Seep-SRB2_G37_sp003194485
+296,,,Seep-SRB2_G37_sp003194485
+297,,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+298,,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+299,WP_163297694.1,omcX,Dissulfurirhabdus_thermomarina_ASM1049943v1
+300,WP_163297693.1,extA,Dissulfurirhabdus_thermomarina_ASM1049943v1
+301,WP_163297692.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+302,WP_163297691.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+303,WP_163297690.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+304,WP_163297689.1,omb,Dissulfurirhabdus_thermomarina_ASM1049943v1
+305,WP_163297688.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+306,WP_163297687.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+307,WP_163297686.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+308,WP_163297685.1,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+309,WP_163297684.1,hmlB,Dissulfurirhabdus_thermomarina_ASM1049943v1
+310,WP_163297683.1,hmlA,Dissulfurirhabdus_thermomarina_ASM1049943v1
+311,,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+312,,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+313,,,Dissulfurirhabdus_thermomarina_ASM1049943v1
+314,,,Seep-SRB2_G37_sp003194485
+315,,,Seep-SRB2_G37_sp003194485
+316,PXF54100.1,omcX1,Seep-SRB2_G37_sp003194485
+317,PXF54099.1,,Seep-SRB2_G37_sp003194485
+318,PXF54098.1,,Seep-SRB2_G37_sp003194485
+319,PXF54097.1,,Seep-SRB2_G37_sp003194485
+320,PXF54096.1,omb,Seep-SRB2_G37_sp003194485
+321,PXF54095.1,,Seep-SRB2_G37_sp003194485
+322,PXF54094.1,,Seep-SRB2_G37_sp003194485
+323,PXF54093.1,,Seep-SRB2_G37_sp003194485
+324,PXF54092.1,,Seep-SRB2_G37_sp003194485
+325,PXF54091.1,,Seep-SRB2_G37_sp003194485
+326,PXF54090.1,,Seep-SRB2_G37_sp003194485
+327,PXF54089.1,,Seep-SRB2_G37_sp003194485
+328,PXF54088.1,hmlB,Seep-SRB2_G37_sp003194485
+329,PXF54087.1,hmlA,Seep-SRB2_G37_sp003194485
+330,,,Seep-SRB2_G37_sp003194485
+331,MBW1966869.1,omcX,Seep-SRB2 sp. Meg22_1214_Bin_80
+332,MBW1966868.1,omcX1,Seep-SRB2 sp. Meg22_1214_Bin_80
+333,MBW1966867.1,omcX1,Seep-SRB2 sp. Meg22_1214_Bin_80
+334,MBW1966866.1,,Seep-SRB2 sp. Meg22_1214_Bin_80
+335,MBW1966865.1,,Seep-SRB2 sp. Meg22_1214_Bin_80
+336,MBW1966864.1,,Seep-SRB2 sp. Meg22_1214_Bin_80
+337,MBW1966863.1,omb,Seep-SRB2 sp. Meg22_1214_Bin_80
+338,MBW1966862.1,,Seep-SRB2 sp. Meg22_1214_Bin_80
+339,MBW1966861.1,,Seep-SRB2 sp. Meg22_1214_Bin_80
+340,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+341,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+342,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+343,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+344,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+345,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+346,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+347,,,Seep-SRB2 sp. Meg22_1214_Bin_80
+348,MBW1718522.1 ,omcX,Seep-SRB2 sp. Meg22_810_Bin_10
+349,MBW1718521.1 ,omcX1,Seep-SRB2 sp. Meg22_810_Bin_10
+350,MBW1718520.1 ,omcX1,Seep-SRB2 sp. Meg22_810_Bin_10
+351,MBW1718519.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+352,MBW1718518.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+353,MBW1718517.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+354,MBW1718516.1 ,omb,Seep-SRB2 sp. Meg22_810_Bin_10
+355,MBW1718515.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+356,MBW1718514.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+357,MBW1718513.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+358,MBW1718512.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+359,MBW1718511.1 ,hmlB,Seep-SRB2 sp. Meg22_810_Bin_10
+360,MBW1718510.1 ,hmlA,Seep-SRB2 sp. Meg22_810_Bin_10
+361,MBW1718509.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+362,MBW1718508.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+363,MBW1718507.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+364,MBW1718506.1 ,,Seep-SRB2 sp. Meg22_810_Bin_10
+365,>RLB82937.1 hypothetical protein DRH17_04060,omcX,B60-G16 sp003647275
+366,>RLB82938.1 hypothetical protein DRH17_04065,omcX1,B60-G16 sp003647275
+367,>RLB82939.1 hypothetical protein DRH17_04070,omcX1,B60-G16 sp003647275
+368,>RLB82940.1 hypothetical protein DRH17_04075,,B60-G16 sp003647275
+369,>RLB82941.1 hypothetical protein DRH17_04080,,B60-G16 sp003647275
+370,>RLB82942.1 hypothetical protein DRH17_04085,,B60-G16 sp003647275
+371,>RLB82943.1 hypothetical protein DRH17_04090,omb,B60-G16 sp003647275
+372,>RLB82944.1 hypothetical protein DRH17_04095 ,,B60-G16 sp003647275
+373,>RLB82945.1 hypothetical protein DRH17_04100 ,,B60-G16 sp003647275
+374,>RLB82946.1 hypothetical protein DRH17_04105 ,,B60-G16 sp003647275
+375,>RLB82947.1 hypothetical protein DRH17_04110 ,,B60-G16 sp003647275
+376,>RLB82948.1 hypothetical protein DRH17_04115 ,hmlB,B60-G16 sp003647275
+377,>RLB82949.1 hypothetical protein DRH17_04120 ,hmlA,B60-G16 sp003647275
+378,>RLB82950.1 hypothetical protein DRH17_04125 ,,B60-G16 sp003647275
+379,>RLB82951.1 hypothetical protein DRH17_04135 ,,B60-G16 sp003647275
+380,,,B60-G16 sp003647275
+381,,,B60-G16 sp003647275
+382,NVL90211.1,ccmC,JABXJX01 sp013375375_DIET_cluster.txt
+383,,,JABXJX01 sp013375375_DIET_cluster.txt
+384,,,JABXJX01 sp013375375_DIET_cluster.txt
+385,,,JABXJX01 sp013375375_DIET_cluster.txt
+386,NVL90212.1,ccmB,JABXJX01 sp013375375_DIET_cluster.txt
+387,NVL90213.1,ccmA,JABXJX01 sp013375375_DIET_cluster.txt
+388,NVL90214.1,NHL repeat protein,JABXJX01 sp013375375_DIET_cluster.txt
+389,NVL90215.1,b-propeller,JABXJX01 sp013375375_DIET_cluster.txt
+390,NVL90216.1,omb,JABXJX01 sp013375375_DIET_cluster.txt
+391,NVL90217.1,,JABXJX01 sp013375375_DIET_cluster.txt
+392,NVL90218.1,,JABXJX01 sp013375375_DIET_cluster.txt
+393,NVL90219.1,,JABXJX01 sp013375375_DIET_cluster.txt
+394,NVL90220.1,,JABXJX01 sp013375375_DIET_cluster.txt
+395,NVL90221.1,hmlB,JABXJX01 sp013375375_DIET_cluster.txt
+396,NVL90222.1,hmlA,JABXJX01 sp013375375_DIET_cluster.txt
+397,,,JABXJX01 sp013375375_DIET_cluster.txt
+398,,,JABXJX01 sp013375375_DIET_cluster.txt
+399,Ga0402030_bin2_2257,omcX,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+400,Ga0402030_bin2_2258,extA,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+401,Ga0402030_bin2_2259,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+402,Ga0402030_bin2_2260,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+403,Ga0402030_bin2_2261,omb,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+404,Ga0402030_bin2_2262,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+405,Ga0402030_bin2_2263,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+406,Ga0402030_bin2_2264,omc,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+407,Ga0402030_bin2_2265,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+408,Ga0402030_bin2_2266,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+409,Ga0402030_bin2_2267,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+410,Ga0402030_bin2_2268,hmlB,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+411,Ga0402030_bin2_2269,hmlA,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+412,,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+413,,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+414,,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+415,,,Seep-SRB1g_sp._CR10073B_DIET_cluster.txt
+416,OEU57524.1,omcX,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+417,OEU57523.1,extA,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+418,OEU57522.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+419,OEU57521.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+420,OEU57520.1,omb,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+421,OEU57519.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+422,OEU57518.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+423,OEU57517.1,omc,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+424,OEU57516.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+425,OEU57515.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+426,OEU57514.1,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+427,OEU57513.1,hmlB,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+428,OEU57512.1,hmlA,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+429,,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+430,,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+431,,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+432,,,Seep-SRB1g_sp001751015_a_DIET_cluster.txt
+433,,,Seep-SRB1c_sp01693087
+434,,,Seep-SRB1c_sp01693087
+435,,,Seep-SRB1c_sp01693087
+436,,,Seep-SRB1c_sp01693087
+437,,,Seep-SRB1c_sp01693087
+438,MBN1840868.1,ccmA,Seep-SRB1c_sp01693087
+439,MBN1840867.1,,Seep-SRB1c_sp01693087
+440,MBN1840866.1,,Seep-SRB1c_sp01693087
+441,MBN1840865.1,omb,Seep-SRB1c_sp01693087
+442,MBN1840864.1,,Seep-SRB1c_sp01693087
+443,MBN1840863.1,,Seep-SRB1c_sp01693087
+444,MBN1840862.1,omc,Seep-SRB1c_sp01693087
+445,MBN1840861.1,methyl accepting chemotaxis protein,Seep-SRB1c_sp01693087
+446,MBN1840860.1,,Seep-SRB1c_sp01693087
+447,MBN1840859.1,,Seep-SRB1c_sp01693087
+448,MBN1840858.1,,Seep-SRB1c_sp01693087
+449,MBN1840857.1,hmlB,Seep-SRB1c_sp01693087
+450,,,S7086C20 sp001751075
+451,,,S7086C20 sp001751075
+452,,,S7086C20 sp001751075
+453,,,S7086C20 sp001751075
+454,,,S7086C20 sp001751075
+455,,,S7086C20 sp001751075
+456,,,S7086C20 sp001751075
+457,,,S7086C20 sp001751075
+458,,,S7086C20 sp001751075
+459,,,S7086C20 sp001751075
+460,MBW2601103.1,,S7086C20 sp001751075
+461,MBW2601104.1,omc,S7086C20 sp001751075
+462,MBW2601105.1,methyl accepting chemotaxis protein,S7086C20 sp001751075
+463,MBW2601106.1,,S7086C20 sp001751075
+464,MBW2601107.1,,S7086C20 sp001751075
+465,MBW2601108.1,hmlB,S7086C20 sp001751075
+466,MBW2601109.1,hmlA,S7086C20 sp001751075
