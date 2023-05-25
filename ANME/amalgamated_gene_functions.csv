@@ -1097,115 +1097,115 @@
 1095,LWW95 00545,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Desulfofervidaceae
 1096,LWW94 09340,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Desulfofervidaceae sp. PB11946FWG155
 1097,LWX55 03505,Periplasmic_formate_dehydrogenase alpha subunit cytc ,SeepSRB1g sp. CR10073B
-1098,Desulfobacterales bacterium C00003106,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1099,Seep-SRB1a AB 03 Bin 172,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1100,SeepSRB1a sp014237365,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1101,JABXJW01,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1102,JABXJX01,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1103,B23-G16,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
+1098,OEU56212.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Desulfobacterales bacterium C00003106
+1099,MBW2737732.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Seep-SRB1a AB 03 Bin 172
+1100,MBC2696320.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,SeepSRB1a sp014237365
+1101,NVM22945.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,JABXJW01
+1102,NVL90482.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,JABXJX01
+1103,RLC07259.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,B23-G16
 1104,LWX51 08680,Periplasmic_formate_dehydrogenase alpha subunit cytc ,SeepSRB1a sp. CR9063A
 1105,LWX08 04765,Periplasmic_formate_dehydrogenase alpha subunit cytc ,SeepSRB1a sp. CR9063B
 1106,18192818,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Desulfobacterales sp. Agg-24168b3
-1107,Seep-SRB1a Meg22 02 Bin 90,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1108,Eth-SRB1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1109,JACNLL01,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1110,Eth-SRB1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
-1111,Eth-SRB1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,
+1107,MBW2165515.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Seep-SRB1a Meg22 02 Bin 90
+1108,MBW2569298.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Eth-SRB1
+1109,MBC8198580.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,JACNLL01
+1110,MBW2567947.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Eth-SRB1
+1111,MBW2660397.1,Periplasmic_formate_dehydrogenase alpha subunit cytc ,Eth-SRB1
 1112,2265016719,formate dehydrogenase beta subunit,candidate division OP1 bacterium SCGC AAA255-C06
-1113,Eth-SRB2 sp00175005,formate dehydrogenase beta subunit,
-1114,Seep-SRB1a AB 03 Bin 172,formate dehydrogenase beta subunit,
-1115,Eth-SRB2 sp00175005,formate dehydrogenase beta subunit,
-1116,C00003060,formate dehydrogenase beta subunit,
-1117,6 SeepSRB2 sp002367355,formate dehydrogenase beta subunit,
-1118,Seep-SRB2 Meg22 1618 Bin 149,formate dehydrogenase beta subunit,
+1113,OEU61059.1,formate dehydrogenase beta subunit,Eth-SRB2 sp00175005
+1114,MBW2740924.1,formate dehydrogenase beta subunit,Seep-SRB1a AB 03 Bin 172
+1115,OEU62032.1,formate dehydrogenase beta subunit,Eth-SRB2 sp00175005
+1116,OEU78618.1,formate dehydrogenase beta subunit,C00003060
+1117,DFBQ01000011.1,formate dehydrogenase beta subunit,6 SeepSRB2 sp002367355
+1118,MBW1938170.1,formate dehydrogenase beta subunit,Seep-SRB2 Meg22 1618 Bin 149
 1119,2547302051,formate dehydrogenase beta subunit,Verminephrobacter sp. At4
-1120,Desulfofervidales sp. DG-60,formate dehydrogenase beta subunit,
-1121,SeepSRB1a sp PC51MH44,formate dehydrogenase beta subunit,
+1120,KPJ68987.1,formate dehydrogenase beta subunit,Desulfofervidales sp. DG-60
+1121,OEU62481.1,formate dehydrogenase beta subunit,SeepSRB1a sp PC51MH44
 1122,LWX55 03500,formate dehydrogenase beta subunit,SeepSRB1g sp. CR10073B
-1123,SeepSRB1g sp001751015 b,formate dehydrogenase beta subunit,
-1124,Eth-SRB1 sp004193555,formate dehydrogenase beta subunit,
+1123,OEU56211.1,formate dehydrogenase beta subunit,SeepSRB1g sp001751015 b
+1124,RZB34689.1,formate dehydrogenase beta subunit,Eth-SRB1 sp004193555
 1125,LWW95 00550,formate dehydrogenase beta subunit,Desulfofervidaceae
 1126,LWW94 09345,formate dehydrogenase beta subunit,Desulfofervidaceae sp. PB11946FWG155
-1127,Eth-SRB1,formate dehydrogenase beta subunit,
-1128,Eth-SRB1 sp004193555,formate dehydrogenase beta subunit,
-1129,JACNLL01,formate dehydrogenase beta subunit,
-1130,JACNLL01,formate dehydrogenase beta subunit,
-1131,JACNLL01,formate dehydrogenase beta subunit,
-1132,Eth-SRB1 sp004193555,formate dehydrogenase beta subunit,
-1133,JABXJX01,formate dehydrogenase beta subunit,
-1134,JABXJW01,formate dehydrogenase beta subunit,
-1135,Seep-SRB1a Meg22 02 Bin 90,formate dehydrogenase beta subunit,
-1136,Seep-SRB1a AB 03 Bin 172,formate dehydrogenase beta subunit,
-1137,Seep-SRB1a AB 03 Bin 172,formate dehydrogenase beta subunit,
-1138,SeepSRB1a sp014237365,formate dehydrogenase beta subunit,
+1127,MBW2660396.1,formate dehydrogenase beta subunit,Eth-SRB1
+1128,RZB29627.1,formate dehydrogenase beta subunit,Eth-SRB1 sp004193555
+1129,NQT10635.1,formate dehydrogenase beta subunit,JACNLL01
+1130,MBC8198579.1,formate dehydrogenase beta subunit,JACNLL01
+1131,NQT09563.1,formate dehydrogenase beta subunit,JACNLL01
+1132,RZB30484.1,formate dehydrogenase beta subunit,Eth-SRB1 sp004193555
+1133,NVL90483.1,formate dehydrogenase beta subunit,JABXJX01
+1134,NVM22944.1,formate dehydrogenase beta subunit,JABXJW01
+1135,MBW2165514.1,formate dehydrogenase beta subunit,Seep-SRB1a Meg22 02 Bin 90
+1136,MBW2740969.1,formate dehydrogenase beta subunit,Seep-SRB1a AB 03 Bin 172
+1137,MBW2737733.1,formate dehydrogenase beta subunit,Seep-SRB1a AB 03 Bin 172
+1138,MBC2696321.1,formate dehydrogenase beta subunit,SeepSRB1a sp014237365
 1139,LWX02 02230,formate dehydrogenase beta subunit,SeepSRB1a sp. CR9063C
 1140,LWX08 04770,formate dehydrogenase beta subunit,SeepSRB1a sp. CR9063B
 1141,LWX51 08685,formate dehydrogenase beta subunit,SeepSRB1a sp. CR9063A
-1142,Desulfobacterales bacterium C00003106,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1143,SeepSRB1g sp. S7142MS4,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
+1142,OEU56163.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Desulfobacterales bacterium C00003106
+1143,MBT9448395.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1g sp. S7142MS4
 1144,LWX52 03470,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1g sp. CR10073A
 1145,LWX55 08935,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1g sp. CR10073B
-1146,Seep-SRB1g AB 1215 Bin 34,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1147,Seep-SRB1g AB 1215 Bin 34,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1148,JACNLL01,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1149,Eth-SRB1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1150,Eth-SRB1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1151,SeepSRB1a sp013792055,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
+1146,MBW2647243.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Seep-SRB1g AB 1215 Bin 34
+1147,MBW2645731.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Seep-SRB1g AB 1215 Bin 34
+1148,MBC8198885.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),JACNLL01
+1149,MBW2568707.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Eth-SRB1
+1150,MBW2661421.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Eth-SRB1
+1151,MBA3018404.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp013792055
 1152,LWX51 07630,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp. CR9063A
 1153,LWX08 05175,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp. CR9063B
 1154,LWX54 02240,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp. SM7059A
-1155,SeepSRB1a sp. S7142MS3,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
+1155,MBT9438954.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp. S7142MS3
 1156,LWW97 00100,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp. SM14434BFWG172
-1157,Seep-SRB1a AB 03 Bin 172,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1158,SeepSRB1a sp014237365,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),
-1159,SeepSRB1a sp013792055,nuoEF,
+1157,MBW2740923.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),Seep-SRB1a AB 03 Bin 172
+1158,MBC2693900.1,cytoplasmic formate dehydrogenase (next to Acetyl CoA synthase),SeepSRB1a sp014237365
+1159,MBA3019297.1,nuoEF,SeepSRB1a sp013792055
 1160,LWX08 06170,nuoEF,SeepSRB1a sp. CR9063B
 1161,LWX51 04510,nuoEF,SeepSRB1a sp. CR9063A
 1162,LWX55 10005,nuoEF,SeepSRB1g sp. CR10073B
 1163,LWX52 07205,nuoEF,SeepSRB1g sp. CR10073A
-1164,Desulfobacterales bacterium C00003106,nuoEF,
-1165,Desulfobacterales bacterium C00003104,nuoEF,
-1166,Desulfobacterales bacterium S3730MH5,nuoEF,
-1167,B60-G16,nuoEF,
-1168,JABXJX01,nuoEF,
-1169,Desulfobacterales bacterium S3730MH5,nuoEF,
-1170,Desulfobacterales bacterium S5133MH4,nuoEF,
+1164,OEU52942.1,nuoEF,Desulfobacterales bacterium C00003106
+1165,OEU58186.1,nuoEF,Desulfobacterales bacterium C00003104
+1166,OEU53863.1,nuoEF,Desulfobacterales bacterium S3730MH5
+1167,RLB82846.1,nuoEF,B60-G16
+1168,NVL90570.1,nuoEF,JABXJX01
+1169,OEU50820.1,nuoEF,Desulfobacterales bacterium S3730MH5
+1170,OEU80870.1,nuoEF,Desulfobacterales bacterium S5133MH4
 1171,LWX01 09045,nuoEF,SeepSRB2 sp. PBNA091R45FWG174
 1172,LWW99 09920,nuoEF,SeepSRB2 sp. PB10259FWG173
-1173,JABXJW01,nuoEF,
-1174,Desulfobacterales bacterium S7086C20,nuoEF,
-1175,B60-G16,nuoEF,
-1176,Desulfobacterales bacterium S3730MH5,nuoEF,
-1177,Seep-SRB1g AB 1215 Bin 34,nuoEF,
-1178,SeepSRB2 G37 sp003194485,nuoEF,
-1179,Seep-SRB2 Meg22 1618 Bin 165,nuoEF,
-1180,Seep-SRB2 Meg22 1214 Bin 80,nuoEF,
+1173,NVM23905.1,nuoEF,JABXJW01
+1174,OEU46606.1,nuoEF,Desulfobacterales bacterium S7086C20
+1175,RLB83229.1,nuoEF,B60-G16
+1176,OEU52012.1,nuoEF,Desulfobacterales bacterium S3730MH5
+1177,MBW2645735.1,nuoEF,Seep-SRB1g AB 1215 Bin 34
+1178,PXF55613.1,nuoEF,SeepSRB2 G37 sp003194485
+1179,MBW1927006.1,nuoEF,Seep-SRB2 Meg22 1618 Bin 165
+1180,MBW1966322.1,nuoEF,Seep-SRB2 Meg22 1214 Bin 80
 1181,LWX01 07740,nuoEF,SeepSRB2 sp. PBNA091R45FWG174
 1182,LWW99 05335,nuoEF,SeepSRB2 sp. PB10259FWG173
-1183,Seep-SRB2 Meg22 1618 Bin 149,nuoEF,
-1184,Seep-SRB2 Meg22 1214 Bin 60,nuoEF,
-1185,Seep-SRB2 Meg19 1012 Bin 14,nuoEF,
-1186,5 SeepSRB2 sp002367355,nuoEF,
-1187,Deltaproteobacteria bacterium,nuoEF,
-1188,SeepSRB2 sp00364560,nuoEF,
-1189,2 SeepSRB2 sp002367355,nuoEF,
-1190,SeepSRB2 sp00364560,nuoEF,
+1183,MBW1938911.1,nuoEF,Seep-SRB2 Meg22 1618 Bin 149
+1184,MBW1963625.1,nuoEF,Seep-SRB2 Meg22 1214 Bin 60
+1185,MBW2350954.1,nuoEF,Seep-SRB2 Meg19 1012 Bin 14
+1186,DFBQ01000011.1,nuoEF,5 SeepSRB2 sp002367355
+1187,PXF60403.1,nuoEF,Deltaproteobacteria bacterium
+1188,RKX62596.1,nuoEF,SeepSRB2 sp00364560
+1189,DFBQ01000173.1,nuoEF,2 SeepSRB2 sp002367355
+1190,RKX61769.1,nuoEF,SeepSRB2 sp00364560
 1191,LWX55_06175,nfnB,SeepSRB1g sp. CR10073B
-1192,Desulfobacterales bacterium C00003106,nfnB,
+1192,OEU55688.1,nfnB,Desulfobacterales bacterium C00003106
 1193,LWX52_00610 ,nfnB,SeepSRB1g sp. CR10073A
-1194,SeepSRB1a_sp013792055,nfnB,
+1194,MBA3019249.1,nfnB,SeepSRB1a_sp013792055
 1195,LWW97_09940,nfnB,SeepSRB1a_sp._SM14434BFWG172
-1196,Seep-SRB1a_AB_03_Bin_172,nfnB,
-1197,Seep-SRB1a_AB_03_Bin_172,nfnB,
-1198,SeepSRB1a_sp014237365,nfnB,
-1199,SeepSRB1a_sp014237365a,nfnB,
-1200,Seep-SRB1a_Meg22_24_Bin_68,nfnB,
-1201,SeepSRB1a_sp._S7142MS3,nfnB,
+1196,MBW2741193.1,nfnB,Seep-SRB1a_AB_03_Bin_172
+1197,MBW2740367.1,nfnB,Seep-SRB1a_AB_03_Bin_172
+1198,MBC2695912.1,nfnB,SeepSRB1a_sp014237365
+1199,MBC2720226.1,nfnB,SeepSRB1a_sp014237365a
+1200,MBW1834576.1,nfnB,Seep-SRB1a_Meg22_24_Bin_68
+1201,MBT9439010.1,nfnB,SeepSRB1a_sp._S7142MS3
 1202,LWX54_10880,nfnB,SeepSRB1a sp. SM7059A
 1203,LWX51_15065,nfnB,SeepSRB1a sp013792055
 1204,LWX08_05840,nfnB,SeepSRB1a sp. CR9063B
 1205,LWW98_05440,nfnB,SeepSRB1a_sp._SM14434AFWG171
-1206,JACNLL01 sp014381545,nfnB,
+1206,MBC8198552.1,nfnB,JACNLL01 sp014381545
 1207,WP_163298422.1,cbiA,Candidatus_Desulfofervidaceae_sp._1
 1208,WP_163299251.1,cbiA,Candidatus_Desulfofervidaceae_sp._2
 1209,WP_163298422.1,cbiA,Desulfofervidales_sp._FWG156
