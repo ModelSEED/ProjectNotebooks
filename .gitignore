@@ -102,8 +102,8 @@ celerybeat.pid
 *.sage.py
 
 # GROW genomes
-OWC_MAGS/*
-renamed_gffs/*
+grow/OWC_MAGS/*
+grow/renamed_gffs/*
 
 # Environments
 .env
