@@ -1,0 +1,11 @@
+File "/opt/conda3/lib/python3.8/site-packages/modelseedpy/community/mscommscores.py", line 310, in calculate_scores bss_values = MSCommScores.bss(None, [model_utils[model1.id], model_utils[model2.id]], 
+File "/opt/conda3/lib/python3.8/site-packages/modelseedpy/community/mscommscores.py", line 691, in bss model1_util.add_medium(environment); model2_util.add_medium(environment) 
+File "/opt/conda3/lib/python3.8/site-packages/modelseedpy/core/msmodelutl.py", line 1102, in add_medium if not hasattr(media, "items"): media = FBAHelper.convert_kbase_media(media) 
+File "/opt/conda3/lib/python3.8/site-packages/modelseedpy/core/fbahelper.py", line 262, in convert_kbase_media return {"EX_"+exID: -bound[0] for exID, bound in kbase_media.get_media_constraints().items()} 
+
+AttributeError: 'NoneType' object has no attribute 'get_media_constraints' During handling of the above exception, another exception occurred: Traceback (most recent call last): 
+
+File "/kb/module/bin/../lib/microbial_interactions/microbial_interactionsServer.py", line 577, in process_async_cli resp = application.rpc_service.call_py(ctx, req) 
+File "/kb/module/bin/../lib/microbial_interactions/microbial_interactionsServer.py", line 149, in call_py respond = self._handle_request(ctx, request) 
+File "/kb/module/bin/../lib/microbial_interactions/microbial_interactionsServer.py", line 187, in _handle_request result = self._call_method(ctx, request) 
+File "/kb/module/bin/../lib/microbial_interactions/microbial_interactionsServer.py", line 118, in _call_method if isinstance(e.message, str): AttributeError: 'AttributeError' object has no attribute 'message'
