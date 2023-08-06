@@ -1617,5 +1617,6 @@
    "tCZPpp": 1.0,
    "tNCAPpp": 1.0,
    "tNZPpp": 1.0,
-   "bio1": 1.0
+   "bio1": 1.0,
+   "numGCFs": 1
 }

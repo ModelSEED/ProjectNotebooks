@@ -1138,5 +1138,6 @@
    "TDPDRRr": 0.5,
    "TGBPA": 0.5,
    "XANt2": 0.5,
-   "bio1": 0.5
+   "bio1": 0.5,
+   "numGCFs": 2
 }

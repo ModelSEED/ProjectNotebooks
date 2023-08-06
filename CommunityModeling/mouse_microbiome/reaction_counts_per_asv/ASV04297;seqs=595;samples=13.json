@@ -992,5 +992,6 @@
    "TECA2SI14": 0.5,
    "TECA2SI15": 0.5,
    "TECA2SI16": 0.5,
-   "XANt2r": 0.5
+   "XANt2r": 0.5,
+   "numGCFs": 2
 }

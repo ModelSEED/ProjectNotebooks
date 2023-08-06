@@ -1154,5 +1154,6 @@
    "tNCAPpp": 0.5,
    "tNZPpp": 0.5,
    "tSUCBZpp": 0.5,
-   "biomass534": 0.5
+   "biomass534": 0.5,
+   "numGCFs": 2
 }

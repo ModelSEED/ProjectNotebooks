@@ -1741,5 +1741,6 @@
    "PEHL": 0.1,
    "PYDAMK": 0.1,
    "r0792": 0.1,
-   "t2SHCHC": 0.1
+   "t2SHCHC": 0.1,
+   "numGCFs": 10
 }

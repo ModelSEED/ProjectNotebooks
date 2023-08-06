@@ -1906,5 +1906,6 @@
    "TECA2SI14": 0.125,
    "TECA2SI15": 0.125,
    "TECA2SI16": 0.125,
-   "TTDCAt2": 0.125
+   "TTDCAt2": 0.125,
+   "numGCFs": 8
 }

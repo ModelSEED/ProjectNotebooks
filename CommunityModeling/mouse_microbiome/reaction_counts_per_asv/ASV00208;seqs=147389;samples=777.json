@@ -1251,5 +1251,6 @@
    "tDHNApp": 1.0,
    "tNCAPpp": 1.0,
    "tNZPpp": 1.0,
-   "biomass406": 1.0
+   "biomass406": 1.0,
+   "numGCFs": 1
 }

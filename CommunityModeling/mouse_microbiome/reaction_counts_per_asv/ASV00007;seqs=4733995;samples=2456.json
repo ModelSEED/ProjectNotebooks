@@ -1387,5 +1387,6 @@
    "VALt2rpp": 0.5,
    "XANt2pp": 0.5,
    "XANtex": 0.5,
-   "bio1": 0.5
+   "bio1": 0.5,
+   "numGCFs": 2
 }

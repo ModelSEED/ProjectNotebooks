@@ -924,5 +924,6 @@
    "PHEt2r": 0.5,
    "PNTOt4": 0.5,
    "TTDCAt2": 0.5,
-   "TYRt2r": 0.5
+   "TYRt2r": 0.5,
+   "numGCFs": 2
 }

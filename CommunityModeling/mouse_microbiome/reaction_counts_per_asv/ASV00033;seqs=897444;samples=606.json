@@ -1534,5 +1534,6 @@
    "HCYSMT": 0.25,
    "HCYSMT2": 0.25,
    "LYSt2r": 0.25,
-   "NDPK3": 0.25
+   "NDPK3": 0.25,
+   "numGCFs": 4
 }

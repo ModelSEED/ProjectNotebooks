@@ -1727,5 +1727,6 @@
    "GMAND": 0.25,
    "MAN1PT2": 0.25,
    "ORNCD": 0.25,
-   "PMANM": 0.25
+   "PMANM": 0.25,
+   "numGCFs": 4
 }

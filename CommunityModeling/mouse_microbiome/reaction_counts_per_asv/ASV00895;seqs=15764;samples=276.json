@@ -1312,5 +1312,6 @@
    "TRSAR": 0.5,
    "TRSARry": 0.5,
    "TYRt2r": 0.5,
-   "bio1": 0.5
+   "bio1": 0.5,
+   "numGCFs": 2
 }

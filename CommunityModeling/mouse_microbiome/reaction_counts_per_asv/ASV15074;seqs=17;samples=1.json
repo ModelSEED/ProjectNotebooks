@@ -1509,5 +1509,6 @@
    "tCZP": 0.25,
    "tNCAP": 0.25,
    "tNZP": 0.25,
-   "biomass088": 0.25
+   "biomass088": 0.25,
+   "numGCFs": 4
 }

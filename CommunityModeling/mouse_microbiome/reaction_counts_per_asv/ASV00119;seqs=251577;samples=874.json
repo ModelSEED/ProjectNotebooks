@@ -1341,5 +1341,6 @@
    "r2137pp": 0.25,
    "rtranscription": 0.25,
    "sink_PGPm1[c]": 0.25,
-   "bio1": 0.25
+   "bio1": 0.25,
+   "numGCFs": 4
 }

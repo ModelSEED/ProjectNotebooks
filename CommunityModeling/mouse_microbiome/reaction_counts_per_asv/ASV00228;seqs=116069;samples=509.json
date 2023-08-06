@@ -1309,5 +1309,6 @@
    "tCZPpp": 1.0,
    "tNCAPpp": 1.0,
    "tNZPpp": 1.0,
-   "biomass345": 1.0
+   "biomass345": 1.0,
+   "numGCFs": 1
 }

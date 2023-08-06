@@ -1130,5 +1130,6 @@
    "PGMT": 0.5,
    "RAFFabc": 0.5,
    "STYSabc": 0.5,
-   "UGLT": 0.5
+   "UGLT": 0.5,
+   "numGCFs": 2
 }

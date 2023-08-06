@@ -1169,5 +1169,6 @@
    "SUCDi": 0.25,
    "UGLT": 0.25,
    "XYLI1": 0.25,
-   "XYLabc": 0.25
+   "XYLabc": 0.25,
+   "numGCFs": 4
 }

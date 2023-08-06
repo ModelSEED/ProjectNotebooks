@@ -1333,5 +1333,6 @@
    "sink_PGPm1[c]": 1.0,
    "sink_s": 1.0,
    "sink_thissh[c]": 1.0,
-   "biomass452": 1.0
+   "biomass452": 1.0,
+   "numGCFs": 1
 }

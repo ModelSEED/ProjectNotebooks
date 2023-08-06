@@ -1623,5 +1623,6 @@
    "ICHORSi": 0.1,
    "PYDXS": 0.1,
    "biomass148": 0.1,
-   "ORNt": 0.1
+   "ORNt": 0.1,
+   "numGCFs": 10
 }
