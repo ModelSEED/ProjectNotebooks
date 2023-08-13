@@ -50470,10 +50470,10 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS13215" fbc:name="G_ADH66_RS13215" fbc:label="G_ADH66_RS13215"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00195" fbc:name="G_ADH66_RS00195" fbc:label="G_ADH66_RS00195"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01600" fbc:name="G_ADH66_RS01600" fbc:label="G_ADH66_RS01600"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00190" fbc:name="G_ADH66_RS00190" fbc:label="G_ADH66_RS00190"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00365" fbc:name="G_ADH66_RS00365" fbc:label="G_ADH66_RS00365"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00185" fbc:name="G_ADH66_RS00185" fbc:label="G_ADH66_RS00185"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00190" fbc:name="G_ADH66_RS00190" fbc:label="G_ADH66_RS00190"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00205" fbc:name="G_ADH66_RS00205" fbc:label="G_ADH66_RS00205"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00185" fbc:name="G_ADH66_RS00185" fbc:label="G_ADH66_RS00185"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09045" fbc:name="G_ADH66_RS09045" fbc:label="G_ADH66_RS09045"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11460" fbc:name="G_ADH66_RS11460" fbc:label="G_ADH66_RS11460"/>
       <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
@@ -50484,9 +50484,9 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS02180" fbc:name="G_ADH66_RS02180" fbc:label="G_ADH66_RS02180"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08550" fbc:name="G_ADH66_RS08550" fbc:label="G_ADH66_RS08550"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08540" fbc:name="G_ADH66_RS08540" fbc:label="G_ADH66_RS08540"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10105" fbc:name="G_ADH66_RS10105" fbc:label="G_ADH66_RS10105"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04590" fbc:name="G_ADH66_RS04590" fbc:label="G_ADH66_RS04590"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10100" fbc:name="G_ADH66_RS10100" fbc:label="G_ADH66_RS10100"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10105" fbc:name="G_ADH66_RS10105" fbc:label="G_ADH66_RS10105"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02710" fbc:name="G_ADH66_RS02710" fbc:label="G_ADH66_RS02710"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00510" fbc:name="G_ADH66_RS00510" fbc:label="G_ADH66_RS00510"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01805" fbc:name="G_ADH66_RS01805" fbc:label="G_ADH66_RS01805"/>
@@ -50496,8 +50496,8 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS08640" fbc:name="G_ADH66_RS08640" fbc:label="G_ADH66_RS08640"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18410" fbc:name="G_ADH66_RS18410" fbc:label="G_ADH66_RS18410"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12175" fbc:name="G_ADH66_RS12175" fbc:label="G_ADH66_RS12175"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00050" fbc:name="G_ADH66_RS00050" fbc:label="G_ADH66_RS00050"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17710" fbc:name="G_ADH66_RS17710" fbc:label="G_ADH66_RS17710"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00050" fbc:name="G_ADH66_RS00050" fbc:label="G_ADH66_RS00050"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19355" fbc:name="G_ADH66_RS19355" fbc:label="G_ADH66_RS19355"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07310" fbc:name="G_ADH66_RS07310" fbc:label="G_ADH66_RS07310"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14025" fbc:name="G_ADH66_RS14025" fbc:label="G_ADH66_RS14025"/>
@@ -50511,76 +50511,76 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS11485" fbc:name="G_ADH66_RS11485" fbc:label="G_ADH66_RS11485"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03875" fbc:name="G_ADH66_RS03875" fbc:label="G_ADH66_RS03875"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18405" fbc:name="G_ADH66_RS18405" fbc:label="G_ADH66_RS18405"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02965" fbc:name="G_ADH66_RS02965" fbc:label="G_ADH66_RS02965"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02955" fbc:name="G_ADH66_RS02955" fbc:label="G_ADH66_RS02955"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02970" fbc:name="G_ADH66_RS02970" fbc:label="G_ADH66_RS02970"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04470" fbc:name="G_ADH66_RS04470" fbc:label="G_ADH66_RS04470"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02955" fbc:name="G_ADH66_RS02955" fbc:label="G_ADH66_RS02955"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02975" fbc:name="G_ADH66_RS02975" fbc:label="G_ADH66_RS02975"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02970" fbc:name="G_ADH66_RS02970" fbc:label="G_ADH66_RS02970"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02965" fbc:name="G_ADH66_RS02965" fbc:label="G_ADH66_RS02965"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00830" fbc:name="G_ADH66_RS00830" fbc:label="G_ADH66_RS00830"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01625" fbc:name="G_ADH66_RS01625" fbc:label="G_ADH66_RS01625"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10400" fbc:name="G_ADH66_RS10400" fbc:label="G_ADH66_RS10400"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS19065" fbc:name="G_ADH66_RS19065" fbc:label="G_ADH66_RS19065"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07575" fbc:name="G_ADH66_RS07575" fbc:label="G_ADH66_RS07575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05500" fbc:name="G_ADH66_RS05500" fbc:label="G_ADH66_RS05500"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10465" fbc:name="G_ADH66_RS10465" fbc:label="G_ADH66_RS10465"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS19065" fbc:name="G_ADH66_RS19065" fbc:label="G_ADH66_RS19065"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02560" fbc:name="G_ADH66_RS02560" fbc:label="G_ADH66_RS02560"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06665" fbc:name="G_ADH66_RS06665" fbc:label="G_ADH66_RS06665"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05190" fbc:name="G_ADH66_RS05190" fbc:label="G_ADH66_RS05190"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01205" fbc:name="G_ADH66_RS01205" fbc:label="G_ADH66_RS01205"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05465" fbc:name="G_ADH66_RS05465" fbc:label="G_ADH66_RS05465"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01205" fbc:name="G_ADH66_RS01205" fbc:label="G_ADH66_RS01205"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00110" fbc:name="G_ADH66_RS00110" fbc:label="G_ADH66_RS00110"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06740" fbc:name="G_ADH66_RS06740" fbc:label="G_ADH66_RS06740"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15815" fbc:name="G_ADH66_RS15815" fbc:label="G_ADH66_RS15815"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11925" fbc:name="G_ADH66_RS11925" fbc:label="G_ADH66_RS11925"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08815" fbc:name="G_ADH66_RS08815" fbc:label="G_ADH66_RS08815"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16100" fbc:name="G_ADH66_RS16100" fbc:label="G_ADH66_RS16100"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11920" fbc:name="G_ADH66_RS11920" fbc:label="G_ADH66_RS11920"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16095" fbc:name="G_ADH66_RS16095" fbc:label="G_ADH66_RS16095"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08815" fbc:name="G_ADH66_RS08815" fbc:label="G_ADH66_RS08815"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11925" fbc:name="G_ADH66_RS11925" fbc:label="G_ADH66_RS11925"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16100" fbc:name="G_ADH66_RS16100" fbc:label="G_ADH66_RS16100"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06740" fbc:name="G_ADH66_RS06740" fbc:label="G_ADH66_RS06740"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10640" fbc:name="G_ADH66_RS10640" fbc:label="G_ADH66_RS10640"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13965" fbc:name="G_ADH66_RS13965" fbc:label="G_ADH66_RS13965"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08530" fbc:name="G_ADH66_RS08530" fbc:label="G_ADH66_RS08530"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08520" fbc:name="G_ADH66_RS08520" fbc:label="G_ADH66_RS08520"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10245" fbc:name="G_ADH66_RS10245" fbc:label="G_ADH66_RS10245"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13110" fbc:name="G_ADH66_RS13110" fbc:label="G_ADH66_RS13110"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01185" fbc:name="G_ADH66_RS01185" fbc:label="G_ADH66_RS01185"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09290" fbc:name="G_ADH66_RS09290" fbc:label="G_ADH66_RS09290"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01185" fbc:name="G_ADH66_RS01185" fbc:label="G_ADH66_RS01185"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13110" fbc:name="G_ADH66_RS13110" fbc:label="G_ADH66_RS13110"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16600" fbc:name="G_ADH66_RS16600" fbc:label="G_ADH66_RS16600"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01650" fbc:name="G_ADH66_RS01650" fbc:label="G_ADH66_RS01650"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01660" fbc:name="G_ADH66_RS01660" fbc:label="G_ADH66_RS01660"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10260" fbc:name="G_ADH66_RS10260" fbc:label="G_ADH66_RS10260"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01650" fbc:name="G_ADH66_RS01650" fbc:label="G_ADH66_RS01650"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06385" fbc:name="G_ADH66_RS06385" fbc:label="G_ADH66_RS06385"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10260" fbc:name="G_ADH66_RS10260" fbc:label="G_ADH66_RS10260"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18670" fbc:name="G_ADH66_RS18670" fbc:label="G_ADH66_RS18670"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15605" fbc:name="G_ADH66_RS15605" fbc:label="G_ADH66_RS15605"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11595" fbc:name="G_ADH66_RS11595" fbc:label="G_ADH66_RS11595"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11600" fbc:name="G_ADH66_RS11600" fbc:label="G_ADH66_RS11600"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01680" fbc:name="G_ADH66_RS01680" fbc:label="G_ADH66_RS01680"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01690" fbc:name="G_ADH66_RS01690" fbc:label="G_ADH66_RS01690"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01685" fbc:name="G_ADH66_RS01685" fbc:label="G_ADH66_RS01685"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01675" fbc:name="G_ADH66_RS01675" fbc:label="G_ADH66_RS01675"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01690" fbc:name="G_ADH66_RS01690" fbc:label="G_ADH66_RS01690"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01680" fbc:name="G_ADH66_RS01680" fbc:label="G_ADH66_RS01680"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01685" fbc:name="G_ADH66_RS01685" fbc:label="G_ADH66_RS01685"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06450" fbc:name="G_ADH66_RS06450" fbc:label="G_ADH66_RS06450"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13945" fbc:name="G_ADH66_RS13945" fbc:label="G_ADH66_RS13945"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04800" fbc:name="G_ADH66_RS04800" fbc:label="G_ADH66_RS04800"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11290" fbc:name="G_ADH66_RS11290" fbc:label="G_ADH66_RS11290"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06450" fbc:name="G_ADH66_RS06450" fbc:label="G_ADH66_RS06450"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02435" fbc:name="G_ADH66_RS02435" fbc:label="G_ADH66_RS02435"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06455" fbc:name="G_ADH66_RS06455" fbc:label="G_ADH66_RS06455"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02435" fbc:name="G_ADH66_RS02435" fbc:label="G_ADH66_RS02435"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11290" fbc:name="G_ADH66_RS11290" fbc:label="G_ADH66_RS11290"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08015" fbc:name="G_ADH66_RS08015" fbc:label="G_ADH66_RS08015"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00180" fbc:name="G_ADH66_RS00180" fbc:label="G_ADH66_RS00180"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00170" fbc:name="G_ADH66_RS00170" fbc:label="G_ADH66_RS00170"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00180" fbc:name="G_ADH66_RS00180" fbc:label="G_ADH66_RS00180"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08020" fbc:name="G_ADH66_RS08020" fbc:label="G_ADH66_RS08020"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13245" fbc:name="G_ADH66_RS13245" fbc:label="G_ADH66_RS13245"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13250" fbc:name="G_ADH66_RS13250" fbc:label="G_ADH66_RS13250"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14170" fbc:name="G_ADH66_RS14170" fbc:label="G_ADH66_RS14170"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18005" fbc:name="G_ADH66_RS18005" fbc:label="G_ADH66_RS18005"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14170" fbc:name="G_ADH66_RS14170" fbc:label="G_ADH66_RS14170"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02240" fbc:name="G_ADH66_RS02240" fbc:label="G_ADH66_RS02240"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15600" fbc:name="G_ADH66_RS15600" fbc:label="G_ADH66_RS15600"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09730" fbc:name="G_ADH66_RS09730" fbc:label="G_ADH66_RS09730"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09710" fbc:name="G_ADH66_RS09710" fbc:label="G_ADH66_RS09710"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09730" fbc:name="G_ADH66_RS09730" fbc:label="G_ADH66_RS09730"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07455" fbc:name="G_ADH66_RS07455" fbc:label="G_ADH66_RS07455"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17300" fbc:name="G_ADH66_RS17300" fbc:label="G_ADH66_RS17300"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10455" fbc:name="G_ADH66_RS10455" fbc:label="G_ADH66_RS10455"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10460" fbc:name="G_ADH66_RS10460" fbc:label="G_ADH66_RS10460"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10390" fbc:name="G_ADH66_RS10390" fbc:label="G_ADH66_RS10390"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10395" fbc:name="G_ADH66_RS10395" fbc:label="G_ADH66_RS10395"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10455" fbc:name="G_ADH66_RS10455" fbc:label="G_ADH66_RS10455"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10460" fbc:name="G_ADH66_RS10460" fbc:label="G_ADH66_RS10460"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00790" fbc:name="G_ADH66_RS00790" fbc:label="G_ADH66_RS00790"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18230" fbc:name="G_ADH66_RS18230" fbc:label="G_ADH66_RS18230"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18235" fbc:name="G_ADH66_RS18235" fbc:label="G_ADH66_RS18235"/>
@@ -50599,8 +50599,8 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS11645" fbc:name="G_ADH66_RS11645" fbc:label="G_ADH66_RS11645"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18040" fbc:name="G_ADH66_RS18040" fbc:label="G_ADH66_RS18040"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01950" fbc:name="G_ADH66_RS01950" fbc:label="G_ADH66_RS01950"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS19300" fbc:name="G_ADH66_RS19300" fbc:label="G_ADH66_RS19300"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04505" fbc:name="G_ADH66_RS04505" fbc:label="G_ADH66_RS04505"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS19300" fbc:name="G_ADH66_RS19300" fbc:label="G_ADH66_RS19300"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02085" fbc:name="G_ADH66_RS02085" fbc:label="G_ADH66_RS02085"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06605" fbc:name="G_ADH66_RS06605" fbc:label="G_ADH66_RS06605"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02080" fbc:name="G_ADH66_RS02080" fbc:label="G_ADH66_RS02080"/>
@@ -50608,19 +50608,19 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS08695" fbc:name="G_ADH66_RS08695" fbc:label="G_ADH66_RS08695"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13905" fbc:name="G_ADH66_RS13905" fbc:label="G_ADH66_RS13905"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13900" fbc:name="G_ADH66_RS13900" fbc:label="G_ADH66_RS13900"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08410" fbc:name="G_ADH66_RS08410" fbc:label="G_ADH66_RS08410"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11540" fbc:name="G_ADH66_RS11540" fbc:label="G_ADH66_RS11540"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08410" fbc:name="G_ADH66_RS08410" fbc:label="G_ADH66_RS08410"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18345" fbc:name="G_ADH66_RS18345" fbc:label="G_ADH66_RS18345"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04515" fbc:name="G_ADH66_RS04515" fbc:label="G_ADH66_RS04515"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13645" fbc:name="G_ADH66_RS13645" fbc:label="G_ADH66_RS13645"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04620" fbc:name="G_ADH66_RS04620" fbc:label="G_ADH66_RS04620"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08620" fbc:name="G_ADH66_RS08620" fbc:label="G_ADH66_RS08620"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13090" fbc:name="G_ADH66_RS13090" fbc:label="G_ADH66_RS13090"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13085" fbc:name="G_ADH66_RS13085" fbc:label="G_ADH66_RS13085"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13090" fbc:name="G_ADH66_RS13090" fbc:label="G_ADH66_RS13090"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08390" fbc:name="G_ADH66_RS08390" fbc:label="G_ADH66_RS08390"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15685" fbc:name="G_ADH66_RS15685" fbc:label="G_ADH66_RS15685"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS12265" fbc:name="G_ADH66_RS12265" fbc:label="G_ADH66_RS12265"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01940" fbc:name="G_ADH66_RS01940" fbc:label="G_ADH66_RS01940"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS12265" fbc:name="G_ADH66_RS12265" fbc:label="G_ADH66_RS12265"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14420" fbc:name="G_ADH66_RS14420" fbc:label="G_ADH66_RS14420"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11635" fbc:name="G_ADH66_RS11635" fbc:label="G_ADH66_RS11635"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10300" fbc:name="G_ADH66_RS10300" fbc:label="G_ADH66_RS10300"/>
@@ -50634,12 +50634,12 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS08225" fbc:name="G_ADH66_RS08225" fbc:label="G_ADH66_RS08225"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00810" fbc:name="G_ADH66_RS00810" fbc:label="G_ADH66_RS00810"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05485" fbc:name="G_ADH66_RS05485" fbc:label="G_ADH66_RS05485"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS05440" fbc:name="G_ADH66_RS05440" fbc:label="G_ADH66_RS05440"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16120" fbc:name="G_ADH66_RS16120" fbc:label="G_ADH66_RS16120"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS05440" fbc:name="G_ADH66_RS05440" fbc:label="G_ADH66_RS05440"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18610" fbc:name="G_ADH66_RS18610" fbc:label="G_ADH66_RS18610"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04310" fbc:name="G_ADH66_RS04310" fbc:label="G_ADH66_RS04310"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01165" fbc:name="G_ADH66_RS01165" fbc:label="G_ADH66_RS01165"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00765" fbc:name="G_ADH66_RS00765" fbc:label="G_ADH66_RS00765"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01165" fbc:name="G_ADH66_RS01165" fbc:label="G_ADH66_RS01165"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18210" fbc:name="G_ADH66_RS18210" fbc:label="G_ADH66_RS18210"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11650" fbc:name="G_ADH66_RS11650" fbc:label="G_ADH66_RS11650"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10345" fbc:name="G_ADH66_RS10345" fbc:label="G_ADH66_RS10345"/>
@@ -50656,8 +50656,8 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS04215" fbc:name="G_ADH66_RS04215" fbc:label="G_ADH66_RS04215"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11525" fbc:name="G_ADH66_RS11525" fbc:label="G_ADH66_RS11525"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08605" fbc:name="G_ADH66_RS08605" fbc:label="G_ADH66_RS08605"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00745" fbc:name="G_ADH66_RS00745" fbc:label="G_ADH66_RS00745"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12275" fbc:name="G_ADH66_RS12275" fbc:label="G_ADH66_RS12275"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00745" fbc:name="G_ADH66_RS00745" fbc:label="G_ADH66_RS00745"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18360" fbc:name="G_ADH66_RS18360" fbc:label="G_ADH66_RS18360"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01875" fbc:name="G_ADH66_RS01875" fbc:label="G_ADH66_RS01875"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11475" fbc:name="G_ADH66_RS11475" fbc:label="G_ADH66_RS11475"/>
@@ -50670,27 +50670,27 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS16090" fbc:name="G_ADH66_RS16090" fbc:label="G_ADH66_RS16090"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07435" fbc:name="G_ADH66_RS07435" fbc:label="G_ADH66_RS07435"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07430" fbc:name="G_ADH66_RS07430" fbc:label="G_ADH66_RS07430"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13255" fbc:name="G_ADH66_RS13255" fbc:label="G_ADH66_RS13255"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13120" fbc:name="G_ADH66_RS13120" fbc:label="G_ADH66_RS13120"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13255" fbc:name="G_ADH66_RS13255" fbc:label="G_ADH66_RS13255"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13140" fbc:name="G_ADH66_RS13140" fbc:label="G_ADH66_RS13140"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06475" fbc:name="G_ADH66_RS06475" fbc:label="G_ADH66_RS06475"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14030" fbc:name="G_ADH66_RS14030" fbc:label="G_ADH66_RS14030"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01535" fbc:name="G_ADH66_RS01535" fbc:label="G_ADH66_RS01535"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03445" fbc:name="G_ADH66_RS03445" fbc:label="G_ADH66_RS03445"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02330" fbc:name="G_ADH66_RS02330" fbc:label="G_ADH66_RS02330"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01535" fbc:name="G_ADH66_RS01535" fbc:label="G_ADH66_RS01535"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13130" fbc:name="G_ADH66_RS13130" fbc:label="G_ADH66_RS13130"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02330" fbc:name="G_ADH66_RS02330" fbc:label="G_ADH66_RS02330"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05310" fbc:name="G_ADH66_RS05310" fbc:label="G_ADH66_RS05310"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13105" fbc:name="G_ADH66_RS13105" fbc:label="G_ADH66_RS13105"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14085" fbc:name="G_ADH66_RS14085" fbc:label="G_ADH66_RS14085"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08630" fbc:name="G_ADH66_RS08630" fbc:label="G_ADH66_RS08630"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06410" fbc:name="G_ADH66_RS06410" fbc:label="G_ADH66_RS06410"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13205" fbc:name="G_ADH66_RS13205" fbc:label="G_ADH66_RS13205"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03015" fbc:name="G_ADH66_RS03015" fbc:label="G_ADH66_RS03015"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13205" fbc:name="G_ADH66_RS13205" fbc:label="G_ADH66_RS13205"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05090" fbc:name="G_ADH66_RS05090" fbc:label="G_ADH66_RS05090"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07405" fbc:name="G_ADH66_RS07405" fbc:label="G_ADH66_RS07405"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12890" fbc:name="G_ADH66_RS12890" fbc:label="G_ADH66_RS12890"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06760" fbc:name="G_ADH66_RS06760" fbc:label="G_ADH66_RS06760"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08965" fbc:name="G_ADH66_RS08965" fbc:label="G_ADH66_RS08965"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06760" fbc:name="G_ADH66_RS06760" fbc:label="G_ADH66_RS06760"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17835" fbc:name="G_ADH66_RS17835" fbc:label="G_ADH66_RS17835"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04315" fbc:name="G_ADH66_RS04315" fbc:label="G_ADH66_RS04315"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18350" fbc:name="G_ADH66_RS18350" fbc:label="G_ADH66_RS18350"/>
@@ -50701,8 +50701,8 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS08600" fbc:name="G_ADH66_RS08600" fbc:label="G_ADH66_RS08600"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00805" fbc:name="G_ADH66_RS00805" fbc:label="G_ADH66_RS00805"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11590" fbc:name="G_ADH66_RS11590" fbc:label="G_ADH66_RS11590"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS15615" fbc:name="G_ADH66_RS15615" fbc:label="G_ADH66_RS15615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14155" fbc:name="G_ADH66_RS14155" fbc:label="G_ADH66_RS14155"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS15615" fbc:name="G_ADH66_RS15615" fbc:label="G_ADH66_RS15615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10170" fbc:name="G_ADH66_RS10170" fbc:label="G_ADH66_RS10170"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18335" fbc:name="G_ADH66_RS18335" fbc:label="G_ADH66_RS18335"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06375" fbc:name="G_ADH66_RS06375" fbc:label="G_ADH66_RS06375"/>
@@ -50710,40 +50710,40 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS02855" fbc:name="G_ADH66_RS02855" fbc:label="G_ADH66_RS02855"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11580" fbc:name="G_ADH66_RS11580" fbc:label="G_ADH66_RS11580"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17880" fbc:name="G_ADH66_RS17880" fbc:label="G_ADH66_RS17880"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS03050" fbc:name="G_ADH66_RS03050" fbc:label="G_ADH66_RS03050"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03045" fbc:name="G_ADH66_RS03045" fbc:label="G_ADH66_RS03045"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS03050" fbc:name="G_ADH66_RS03050" fbc:label="G_ADH66_RS03050"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11575" fbc:name="G_ADH66_RS11575" fbc:label="G_ADH66_RS11575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02575" fbc:name="G_ADH66_RS02575" fbc:label="G_ADH66_RS02575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03600" fbc:name="G_ADH66_RS03600" fbc:label="G_ADH66_RS03600"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19475" fbc:name="G_ADH66_RS19475" fbc:label="G_ADH66_RS19475"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04860" fbc:name="G_ADH66_RS04860" fbc:label="G_ADH66_RS04860"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13705" fbc:name="G_ADH66_RS13705" fbc:label="G_ADH66_RS13705"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02150" fbc:name="G_ADH66_RS02150" fbc:label="G_ADH66_RS02150"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS12180" fbc:name="G_ADH66_RS12180" fbc:label="G_ADH66_RS12180"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13705" fbc:name="G_ADH66_RS13705" fbc:label="G_ADH66_RS13705"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04845" fbc:name="G_ADH66_RS04845" fbc:label="G_ADH66_RS04845"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04860" fbc:name="G_ADH66_RS04860" fbc:label="G_ADH66_RS04860"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02065" fbc:name="G_ADH66_RS02065" fbc:label="G_ADH66_RS02065"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10655" fbc:name="G_ADH66_RS10655" fbc:label="G_ADH66_RS10655"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04845" fbc:name="G_ADH66_RS04845" fbc:label="G_ADH66_RS04845"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS12180" fbc:name="G_ADH66_RS12180" fbc:label="G_ADH66_RS12180"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17820" fbc:name="G_ADH66_RS17820" fbc:label="G_ADH66_RS17820"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16580" fbc:name="G_ADH66_RS16580" fbc:label="G_ADH66_RS16580"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16415" fbc:name="G_ADH66_RS16415" fbc:label="G_ADH66_RS16415"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16395" fbc:name="G_ADH66_RS16395" fbc:label="G_ADH66_RS16395"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04460" fbc:name="G_ADH66_RS04460" fbc:label="G_ADH66_RS04460"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04455" fbc:name="G_ADH66_RS04455" fbc:label="G_ADH66_RS04455"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16245" fbc:name="G_ADH66_RS16245" fbc:label="G_ADH66_RS16245"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18785" fbc:name="G_ADH66_RS18785" fbc:label="G_ADH66_RS18785"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00105" fbc:name="G_ADH66_RS00105" fbc:label="G_ADH66_RS00105"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08180" fbc:name="G_ADH66_RS08180" fbc:label="G_ADH66_RS08180"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16005" fbc:name="G_ADH66_RS16005" fbc:label="G_ADH66_RS16005"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02825" fbc:name="G_ADH66_RS02825" fbc:label="G_ADH66_RS02825"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08190" fbc:name="G_ADH66_RS08190" fbc:label="G_ADH66_RS08190"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16245" fbc:name="G_ADH66_RS16245" fbc:label="G_ADH66_RS16245"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04455" fbc:name="G_ADH66_RS04455" fbc:label="G_ADH66_RS04455"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15550" fbc:name="G_ADH66_RS15550" fbc:label="G_ADH66_RS15550"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08795" fbc:name="G_ADH66_RS08795" fbc:label="G_ADH66_RS08795"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02385" fbc:name="G_ADH66_RS02385" fbc:label="G_ADH66_RS02385"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02520" fbc:name="G_ADH66_RS02520" fbc:label="G_ADH66_RS02520"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17310" fbc:name="G_ADH66_RS17310" fbc:label="G_ADH66_RS17310"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08185" fbc:name="G_ADH66_RS08185" fbc:label="G_ADH66_RS08185"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS07935" fbc:name="G_ADH66_RS07935" fbc:label="G_ADH66_RS07935"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02825" fbc:name="G_ADH66_RS02825" fbc:label="G_ADH66_RS02825"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16180" fbc:name="G_ADH66_RS16180" fbc:label="G_ADH66_RS16180"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17310" fbc:name="G_ADH66_RS17310" fbc:label="G_ADH66_RS17310"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08190" fbc:name="G_ADH66_RS08190" fbc:label="G_ADH66_RS08190"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02520" fbc:name="G_ADH66_RS02520" fbc:label="G_ADH66_RS02520"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08185" fbc:name="G_ADH66_RS08185" fbc:label="G_ADH66_RS08185"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16005" fbc:name="G_ADH66_RS16005" fbc:label="G_ADH66_RS16005"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00105" fbc:name="G_ADH66_RS00105" fbc:label="G_ADH66_RS00105"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS07935" fbc:name="G_ADH66_RS07935" fbc:label="G_ADH66_RS07935"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02385" fbc:name="G_ADH66_RS02385" fbc:label="G_ADH66_RS02385"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08180" fbc:name="G_ADH66_RS08180" fbc:label="G_ADH66_RS08180"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08795" fbc:name="G_ADH66_RS08795" fbc:label="G_ADH66_RS08795"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17570" fbc:name="G_ADH66_RS17570" fbc:label="G_ADH66_RS17570"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13880" fbc:name="G_ADH66_RS13880" fbc:label="G_ADH66_RS13880"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00530" fbc:name="G_ADH66_RS00530" fbc:label="G_ADH66_RS00530"/>
@@ -50758,8 +50758,8 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS07315" fbc:name="G_ADH66_RS07315" fbc:label="G_ADH66_RS07315"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11305" fbc:name="G_ADH66_RS11305" fbc:label="G_ADH66_RS11305"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08945" fbc:name="G_ADH66_RS08945" fbc:label="G_ADH66_RS08945"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08955" fbc:name="G_ADH66_RS08955" fbc:label="G_ADH66_RS08955"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08950" fbc:name="G_ADH66_RS08950" fbc:label="G_ADH66_RS08950"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08955" fbc:name="G_ADH66_RS08955" fbc:label="G_ADH66_RS08955"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14450" fbc:name="G_ADH66_RS14450" fbc:label="G_ADH66_RS14450"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08100" fbc:name="G_ADH66_RS08100" fbc:label="G_ADH66_RS08100"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02390" fbc:name="G_ADH66_RS02390" fbc:label="G_ADH66_RS02390"/>
@@ -50767,56 +50767,56 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS10290" fbc:name="G_ADH66_RS10290" fbc:label="G_ADH66_RS10290"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08575" fbc:name="G_ADH66_RS08575" fbc:label="G_ADH66_RS08575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05000" fbc:name="G_ADH66_RS05000" fbc:label="G_ADH66_RS05000"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08330" fbc:name="G_ADH66_RS08330" fbc:label="G_ADH66_RS08330"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18330" fbc:name="G_ADH66_RS18330" fbc:label="G_ADH66_RS18330"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08330" fbc:name="G_ADH66_RS08330" fbc:label="G_ADH66_RS08330"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14830" fbc:name="G_ADH66_RS14830" fbc:label="G_ADH66_RS14830"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08675" fbc:name="G_ADH66_RS08675" fbc:label="G_ADH66_RS08675"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14570" fbc:name="G_ADH66_RS14570" fbc:label="G_ADH66_RS14570"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08675" fbc:name="G_ADH66_RS08675" fbc:label="G_ADH66_RS08675"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14475" fbc:name="G_ADH66_RS14475" fbc:label="G_ADH66_RS14475"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01730" fbc:name="G_ADH66_RS01730" fbc:label="G_ADH66_RS01730"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02195" fbc:name="G_ADH66_RS02195" fbc:label="G_ADH66_RS02195"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02200" fbc:name="G_ADH66_RS02200" fbc:label="G_ADH66_RS02200"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01585" fbc:name="G_ADH66_RS01585" fbc:label="G_ADH66_RS01585"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13735" fbc:name="G_ADH66_RS13735" fbc:label="G_ADH66_RS13735"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01585" fbc:name="G_ADH66_RS01585" fbc:label="G_ADH66_RS01585"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05470" fbc:name="G_ADH66_RS05470" fbc:label="G_ADH66_RS05470"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04870" fbc:name="G_ADH66_RS04870" fbc:label="G_ADH66_RS04870"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08095" fbc:name="G_ADH66_RS08095" fbc:label="G_ADH66_RS08095"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08745" fbc:name="G_ADH66_RS08745" fbc:label="G_ADH66_RS08745"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04870" fbc:name="G_ADH66_RS04870" fbc:label="G_ADH66_RS04870"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08560" fbc:name="G_ADH66_RS08560" fbc:label="G_ADH66_RS08560"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14145" fbc:name="G_ADH66_RS14145" fbc:label="G_ADH66_RS14145"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11535" fbc:name="G_ADH66_RS11535" fbc:label="G_ADH66_RS11535"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06680" fbc:name="G_ADH66_RS06680" fbc:label="G_ADH66_RS06680"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06690" fbc:name="G_ADH66_RS06690" fbc:label="G_ADH66_RS06690"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06685" fbc:name="G_ADH66_RS06685" fbc:label="G_ADH66_RS06685"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06680" fbc:name="G_ADH66_RS06680" fbc:label="G_ADH66_RS06680"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06675" fbc:name="G_ADH66_RS06675" fbc:label="G_ADH66_RS06675"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00355" fbc:name="G_ADH66_RS00355" fbc:label="G_ADH66_RS00355"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11620" fbc:name="G_ADH66_RS11620" fbc:label="G_ADH66_RS11620"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06465" fbc:name="G_ADH66_RS06465" fbc:label="G_ADH66_RS06465"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13795" fbc:name="G_ADH66_RS13795" fbc:label="G_ADH66_RS13795"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14485" fbc:name="G_ADH66_RS14485" fbc:label="G_ADH66_RS14485"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06370" fbc:name="G_ADH66_RS06370" fbc:label="G_ADH66_RS06370"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17375" fbc:name="G_ADH66_RS17375" fbc:label="G_ADH66_RS17375"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09350" fbc:name="G_ADH66_RS09350" fbc:label="G_ADH66_RS09350"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06370" fbc:name="G_ADH66_RS06370" fbc:label="G_ADH66_RS06370"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08420" fbc:name="G_ADH66_RS08420" fbc:label="G_ADH66_RS08420"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08750" fbc:name="G_ADH66_RS08750" fbc:label="G_ADH66_RS08750"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09350" fbc:name="G_ADH66_RS09350" fbc:label="G_ADH66_RS09350"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04865" fbc:name="G_ADH66_RS04865" fbc:label="G_ADH66_RS04865"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08090" fbc:name="G_ADH66_RS08090" fbc:label="G_ADH66_RS08090"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08750" fbc:name="G_ADH66_RS08750" fbc:label="G_ADH66_RS08750"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS05475" fbc:name="G_ADH66_RS05475" fbc:label="G_ADH66_RS05475"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17655" fbc:name="G_ADH66_RS17655" fbc:label="G_ADH66_RS17655"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08200" fbc:name="G_ADH66_RS08200" fbc:label="G_ADH66_RS08200"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01530" fbc:name="G_ADH66_RS01530" fbc:label="G_ADH66_RS01530"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08205" fbc:name="G_ADH66_RS08205" fbc:label="G_ADH66_RS08205"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08200" fbc:name="G_ADH66_RS08200" fbc:label="G_ADH66_RS08200"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14150" fbc:name="G_ADH66_RS14150" fbc:label="G_ADH66_RS14150"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01530" fbc:name="G_ADH66_RS01530" fbc:label="G_ADH66_RS01530"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04345" fbc:name="G_ADH66_RS04345" fbc:label="G_ADH66_RS04345"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18255" fbc:name="G_ADH66_RS18255" fbc:label="G_ADH66_RS18255"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18765" fbc:name="G_ADH66_RS18765" fbc:label="G_ADH66_RS18765"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18255" fbc:name="G_ADH66_RS18255" fbc:label="G_ADH66_RS18255"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04330" fbc:name="G_ADH66_RS04330" fbc:label="G_ADH66_RS04330"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00265" fbc:name="G_ADH66_RS00265" fbc:label="G_ADH66_RS00265"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17585" fbc:name="G_ADH66_RS17585" fbc:label="G_ADH66_RS17585"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00265" fbc:name="G_ADH66_RS00265" fbc:label="G_ADH66_RS00265"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12430" fbc:name="G_ADH66_RS12430" fbc:label="G_ADH66_RS12430"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS12425" fbc:name="G_ADH66_RS12425" fbc:label="G_ADH66_RS12425"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12440" fbc:name="G_ADH66_RS12440" fbc:label="G_ADH66_RS12440"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS12435" fbc:name="G_ADH66_RS12435" fbc:label="G_ADH66_RS12435"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS12425" fbc:name="G_ADH66_RS12425" fbc:label="G_ADH66_RS12425"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS15645" fbc:name="G_ADH66_RS15645" fbc:label="G_ADH66_RS15645"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00245" fbc:name="G_ADH66_RS00245" fbc:label="G_ADH66_RS00245"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00370" fbc:name="G_ADH66_RS00370" fbc:label="G_ADH66_RS00370"/>
@@ -50834,14 +50834,14 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS00695" fbc:name="G_ADH66_RS00695" fbc:label="G_ADH66_RS00695"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19305" fbc:name="G_ADH66_RS19305" fbc:label="G_ADH66_RS19305"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01605" fbc:name="G_ADH66_RS01605" fbc:label="G_ADH66_RS01605"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09850" fbc:name="G_ADH66_RS09850" fbc:label="G_ADH66_RS09850"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16175" fbc:name="G_ADH66_RS16175" fbc:label="G_ADH66_RS16175"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09850" fbc:name="G_ADH66_RS09850" fbc:label="G_ADH66_RS09850"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17305" fbc:name="G_ADH66_RS17305" fbc:label="G_ADH66_RS17305"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13825" fbc:name="G_ADH66_RS13825" fbc:label="G_ADH66_RS13825"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14210" fbc:name="G_ADH66_RS14210" fbc:label="G_ADH66_RS14210"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14225" fbc:name="G_ADH66_RS14225" fbc:label="G_ADH66_RS14225"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14220" fbc:name="G_ADH66_RS14220" fbc:label="G_ADH66_RS14220"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14215" fbc:name="G_ADH66_RS14215" fbc:label="G_ADH66_RS14215"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14225" fbc:name="G_ADH66_RS14225" fbc:label="G_ADH66_RS14225"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14210" fbc:name="G_ADH66_RS14210" fbc:label="G_ADH66_RS14210"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14220" fbc:name="G_ADH66_RS14220" fbc:label="G_ADH66_RS14220"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06425" fbc:name="G_ADH66_RS06425" fbc:label="G_ADH66_RS06425"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00735" fbc:name="G_ADH66_RS00735" fbc:label="G_ADH66_RS00735"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17745" fbc:name="G_ADH66_RS17745" fbc:label="G_ADH66_RS17745"/>
@@ -50851,172 +50851,172 @@
       <fbc:geneProduct fbc:id="G_ADH66_RS13265" fbc:name="G_ADH66_RS13265" fbc:label="G_ADH66_RS13265"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17555" fbc:name="G_ADH66_RS17555" fbc:label="G_ADH66_RS17555"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17565" fbc:name="G_ADH66_RS17565" fbc:label="G_ADH66_RS17565"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14465" fbc:name="G_ADH66_RS14465" fbc:label="G_ADH66_RS14465"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14470" fbc:name="G_ADH66_RS14470" fbc:label="G_ADH66_RS14470"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14465" fbc:name="G_ADH66_RS14465" fbc:label="G_ADH66_RS14465"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19370" fbc:name="G_ADH66_RS19370" fbc:label="G_ADH66_RS19370"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10330" fbc:name="G_ADH66_RS10330" fbc:label="G_ADH66_RS10330"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04710" fbc:name="G_ADH66_RS04710" fbc:label="G_ADH66_RS04710"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS16170" fbc:name="G_ADH66_RS16170" fbc:label="G_ADH66_RS16170"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04495" fbc:name="G_ADH66_RS04495" fbc:label="G_ADH66_RS04495"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04500" fbc:name="G_ADH66_RS04500" fbc:label="G_ADH66_RS04500"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17615" fbc:name="G_ADH66_RS17615" fbc:label="G_ADH66_RS17615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07320" fbc:name="G_ADH66_RS07320" fbc:label="G_ADH66_RS07320"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07345" fbc:name="G_ADH66_RS07345" fbc:label="G_ADH66_RS07345"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17615" fbc:name="G_ADH66_RS17615" fbc:label="G_ADH66_RS17615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00435" fbc:name="G_ADH66_RS00435" fbc:label="G_ADH66_RS00435"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06415" fbc:name="G_ADH66_RS06415" fbc:label="G_ADH66_RS06415"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04605" fbc:name="G_ADH66_RS04605" fbc:label="G_ADH66_RS04605"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01525" fbc:name="G_ADH66_RS01525" fbc:label="G_ADH66_RS01525"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS12555" fbc:name="G_ADH66_RS12555" fbc:label="G_ADH66_RS12555"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02760" fbc:name="G_ADH66_RS02760" fbc:label="G_ADH66_RS02760"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17760" fbc:name="G_ADH66_RS17760" fbc:label="G_ADH66_RS17760"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01525" fbc:name="G_ADH66_RS01525" fbc:label="G_ADH66_RS01525"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02760" fbc:name="G_ADH66_RS02760" fbc:label="G_ADH66_RS02760"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS12555" fbc:name="G_ADH66_RS12555" fbc:label="G_ADH66_RS12555"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS03020" fbc:name="G_ADH66_RS03020" fbc:label="G_ADH66_RS03020"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03025" fbc:name="G_ADH66_RS03025" fbc:label="G_ADH66_RS03025"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11430" fbc:name="G_ADH66_RS11430" fbc:label="G_ADH66_RS11430"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11425" fbc:name="G_ADH66_RS11425" fbc:label="G_ADH66_RS11425"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07375" fbc:name="G_ADH66_RS07375" fbc:label="G_ADH66_RS07375"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS03020" fbc:name="G_ADH66_RS03020" fbc:label="G_ADH66_RS03020"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11430" fbc:name="G_ADH66_RS11430" fbc:label="G_ADH66_RS11430"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06655" fbc:name="G_ADH66_RS06655" fbc:label="G_ADH66_RS06655"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10165" fbc:name="G_ADH66_RS10165" fbc:label="G_ADH66_RS10165"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10180" fbc:name="G_ADH66_RS10180" fbc:label="G_ADH66_RS10180"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04340" fbc:name="G_ADH66_RS04340" fbc:label="G_ADH66_RS04340"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09575" fbc:name="G_ADH66_RS09575" fbc:label="G_ADH66_RS09575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00440" fbc:name="G_ADH66_RS00440" fbc:label="G_ADH66_RS00440"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09575" fbc:name="G_ADH66_RS09575" fbc:label="G_ADH66_RS09575"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08075" fbc:name="G_ADH66_RS08075" fbc:label="G_ADH66_RS08075"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01860" fbc:name="G_ADH66_RS01860" fbc:label="G_ADH66_RS01860"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02230" fbc:name="G_ADH66_RS02230" fbc:label="G_ADH66_RS02230"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02225" fbc:name="G_ADH66_RS02225" fbc:label="G_ADH66_RS02225"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS07390" fbc:name="G_ADH66_RS07390" fbc:label="G_ADH66_RS07390"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09335" fbc:name="G_ADH66_RS09335" fbc:label="G_ADH66_RS09335"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04260" fbc:name="G_ADH66_RS04260" fbc:label="G_ADH66_RS04260"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS07390" fbc:name="G_ADH66_RS07390" fbc:label="G_ADH66_RS07390"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13775" fbc:name="G_ADH66_RS13775" fbc:label="G_ADH66_RS13775"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04260" fbc:name="G_ADH66_RS04260" fbc:label="G_ADH66_RS04260"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13785" fbc:name="G_ADH66_RS13785" fbc:label="G_ADH66_RS13785"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01915" fbc:name="G_ADH66_RS01915" fbc:label="G_ADH66_RS01915"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02475" fbc:name="G_ADH66_RS02475" fbc:label="G_ADH66_RS02475"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08465" fbc:name="G_ADH66_RS08465" fbc:label="G_ADH66_RS08465"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02475" fbc:name="G_ADH66_RS02475" fbc:label="G_ADH66_RS02475"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09375" fbc:name="G_ADH66_RS09375" fbc:label="G_ADH66_RS09375"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS07535" fbc:name="G_ADH66_RS07535" fbc:label="G_ADH66_RS07535"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS10325" fbc:name="G_ADH66_RS10325" fbc:label="G_ADH66_RS10325"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14975" fbc:name="G_ADH66_RS14975" fbc:label="G_ADH66_RS14975"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS05495" fbc:name="G_ADH66_RS05495" fbc:label="G_ADH66_RS05495"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00410" fbc:name="G_ADH66_RS00410" fbc:label="G_ADH66_RS00410"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18615" fbc:name="G_ADH66_RS18615" fbc:label="G_ADH66_RS18615"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS05495" fbc:name="G_ADH66_RS05495" fbc:label="G_ADH66_RS05495"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17600" fbc:name="G_ADH66_RS17600" fbc:label="G_ADH66_RS17600"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18615" fbc:name="G_ADH66_RS18615" fbc:label="G_ADH66_RS18615"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04615" fbc:name="G_ADH66_RS04615" fbc:label="G_ADH66_RS04615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06585" fbc:name="G_ADH66_RS06585" fbc:label="G_ADH66_RS06585"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS02930" fbc:name="G_ADH66_RS02930" fbc:label="G_ADH66_RS02930"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04615" fbc:name="G_ADH66_RS04615" fbc:label="G_ADH66_RS04615"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04435" fbc:name="G_ADH66_RS04435" fbc:label="G_ADH66_RS04435"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13665" fbc:name="G_ADH66_RS13665" fbc:label="G_ADH66_RS13665"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16825" fbc:name="G_ADH66_RS16825" fbc:label="G_ADH66_RS16825"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11610" fbc:name="G_ADH66_RS11610" fbc:label="G_ADH66_RS11610"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00035" fbc:name="G_ADH66_RS00035" fbc:label="G_ADH66_RS00035"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14885" fbc:name="G_ADH66_RS14885" fbc:label="G_ADH66_RS14885"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13595" fbc:name="G_ADH66_RS13595" fbc:label="G_ADH66_RS13595"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS06800" fbc:name="G_ADH66_RS06800" fbc:label="G_ADH66_RS06800"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16830" fbc:name="G_ADH66_RS16830" fbc:label="G_ADH66_RS16830"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00010" fbc:name="G_ADH66_RS00010" fbc:label="G_ADH66_RS00010"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06615" fbc:name="G_ADH66_RS06615" fbc:label="G_ADH66_RS06615"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17385" fbc:name="G_ADH66_RS17385" fbc:label="G_ADH66_RS17385"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09260" fbc:name="G_ADH66_RS09260" fbc:label="G_ADH66_RS09260"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS09355" fbc:name="G_ADH66_RS09355" fbc:label="G_ADH66_RS09355"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11415" fbc:name="G_ADH66_RS11415" fbc:label="G_ADH66_RS11415"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17705" fbc:name="G_ADH66_RS17705" fbc:label="G_ADH66_RS17705"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14885" fbc:name="G_ADH66_RS14885" fbc:label="G_ADH66_RS14885"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS17715" fbc:name="G_ADH66_RS17715" fbc:label="G_ADH66_RS17715"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04415" fbc:name="G_ADH66_RS04415" fbc:label="G_ADH66_RS04415"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS03660" fbc:name="G_ADH66_RS03660" fbc:label="G_ADH66_RS03660"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00005" fbc:name="G_ADH66_RS00005" fbc:label="G_ADH66_RS00005"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14725" fbc:name="G_ADH66_RS14725" fbc:label="G_ADH66_RS14725"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04410" fbc:name="G_ADH66_RS04410" fbc:label="G_ADH66_RS04410"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02375" fbc:name="G_ADH66_RS02375" fbc:label="G_ADH66_RS02375"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11415" fbc:name="G_ADH66_RS11415" fbc:label="G_ADH66_RS11415"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS11530" fbc:name="G_ADH66_RS11530" fbc:label="G_ADH66_RS11530"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10560" fbc:name="G_ADH66_RS10560" fbc:label="G_ADH66_RS10560"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS05675" fbc:name="G_ADH66_RS05675" fbc:label="G_ADH66_RS05675"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14850" fbc:name="G_ADH66_RS14850" fbc:label="G_ADH66_RS14850"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06210" fbc:name="G_ADH66_RS06210" fbc:label="G_ADH66_RS06210"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01735" fbc:name="G_ADH66_RS01735" fbc:label="G_ADH66_RS01735"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13595" fbc:name="G_ADH66_RS13595" fbc:label="G_ADH66_RS13595"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02375" fbc:name="G_ADH66_RS02375" fbc:label="G_ADH66_RS02375"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04410" fbc:name="G_ADH66_RS04410" fbc:label="G_ADH66_RS04410"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00005" fbc:name="G_ADH66_RS00005" fbc:label="G_ADH66_RS00005"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00010" fbc:name="G_ADH66_RS00010" fbc:label="G_ADH66_RS00010"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14850" fbc:name="G_ADH66_RS14850" fbc:label="G_ADH66_RS14850"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17385" fbc:name="G_ADH66_RS17385" fbc:label="G_ADH66_RS17385"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16830" fbc:name="G_ADH66_RS16830" fbc:label="G_ADH66_RS16830"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS05675" fbc:name="G_ADH66_RS05675" fbc:label="G_ADH66_RS05675"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00035" fbc:name="G_ADH66_RS00035" fbc:label="G_ADH66_RS00035"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09355" fbc:name="G_ADH66_RS09355" fbc:label="G_ADH66_RS09355"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS06800" fbc:name="G_ADH66_RS06800" fbc:label="G_ADH66_RS06800"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17705" fbc:name="G_ADH66_RS17705" fbc:label="G_ADH66_RS17705"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS00040" fbc:name="G_ADH66_RS00040" fbc:label="G_ADH66_RS00040"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18510" fbc:name="G_ADH66_RS18510" fbc:label="G_ADH66_RS18510"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18460" fbc:name="G_ADH66_RS18460" fbc:label="G_ADH66_RS18460"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14460" fbc:name="G_ADH66_RS14460" fbc:label="G_ADH66_RS14460"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS09260" fbc:name="G_ADH66_RS09260" fbc:label="G_ADH66_RS09260"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16825" fbc:name="G_ADH66_RS16825" fbc:label="G_ADH66_RS16825"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10560" fbc:name="G_ADH66_RS10560" fbc:label="G_ADH66_RS10560"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14725" fbc:name="G_ADH66_RS14725" fbc:label="G_ADH66_RS14725"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01735" fbc:name="G_ADH66_RS01735" fbc:label="G_ADH66_RS01735"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11610" fbc:name="G_ADH66_RS11610" fbc:label="G_ADH66_RS11610"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS03660" fbc:name="G_ADH66_RS03660" fbc:label="G_ADH66_RS03660"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18730" fbc:name="G_ADH66_RS18730" fbc:label="G_ADH66_RS18730"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS08460" fbc:name="G_ADH66_RS08460" fbc:label="G_ADH66_RS08460"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18675" fbc:name="G_ADH66_RS18675" fbc:label="G_ADH66_RS18675"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14815" fbc:name="G_ADH66_RS14815" fbc:label="G_ADH66_RS14815"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18515" fbc:name="G_ADH66_RS18515" fbc:label="G_ADH66_RS18515"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18460" fbc:name="G_ADH66_RS18460" fbc:label="G_ADH66_RS18460"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01770" fbc:name="G_ADH66_RS01770" fbc:label="G_ADH66_RS01770"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14455" fbc:name="G_ADH66_RS14455" fbc:label="G_ADH66_RS14455"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02370" fbc:name="G_ADH66_RS02370" fbc:label="G_ADH66_RS02370"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18480" fbc:name="G_ADH66_RS18480" fbc:label="G_ADH66_RS18480"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18510" fbc:name="G_ADH66_RS18510" fbc:label="G_ADH66_RS18510"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16165" fbc:name="G_ADH66_RS16165" fbc:label="G_ADH66_RS16165"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04595" fbc:name="G_ADH66_RS04595" fbc:label="G_ADH66_RS04595"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00285" fbc:name="G_ADH66_RS00285" fbc:label="G_ADH66_RS00285"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17905" fbc:name="G_ADH66_RS17905" fbc:label="G_ADH66_RS17905"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17740" fbc:name="G_ADH66_RS17740" fbc:label="G_ADH66_RS17740"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18495" fbc:name="G_ADH66_RS18495" fbc:label="G_ADH66_RS18495"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18450" fbc:name="G_ADH66_RS18450" fbc:label="G_ADH66_RS18450"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS00150" fbc:name="G_ADH66_RS00150" fbc:label="G_ADH66_RS00150"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14270" fbc:name="G_ADH66_RS14270" fbc:label="G_ADH66_RS14270"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18425" fbc:name="G_ADH66_RS18425" fbc:label="G_ADH66_RS18425"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18505" fbc:name="G_ADH66_RS18505" fbc:label="G_ADH66_RS18505"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18465" fbc:name="G_ADH66_RS18465" fbc:label="G_ADH66_RS18465"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18490" fbc:name="G_ADH66_RS18490" fbc:label="G_ADH66_RS18490"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18380" fbc:name="G_ADH66_RS18380" fbc:label="G_ADH66_RS18380"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04120" fbc:name="G_ADH66_RS04120" fbc:label="G_ADH66_RS04120"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18435" fbc:name="G_ADH66_RS18435" fbc:label="G_ADH66_RS18435"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14250" fbc:name="G_ADH66_RS14250" fbc:label="G_ADH66_RS14250"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18675" fbc:name="G_ADH66_RS18675" fbc:label="G_ADH66_RS18675"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01800" fbc:name="G_ADH66_RS01800" fbc:label="G_ADH66_RS01800"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01775" fbc:name="G_ADH66_RS01775" fbc:label="G_ADH66_RS01775"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18375" fbc:name="G_ADH66_RS18375" fbc:label="G_ADH66_RS18375"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02995" fbc:name="G_ADH66_RS02995" fbc:label="G_ADH66_RS02995"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14905" fbc:name="G_ADH66_RS14905" fbc:label="G_ADH66_RS14905"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13860" fbc:name="G_ADH66_RS13860" fbc:label="G_ADH66_RS13860"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17730" fbc:name="G_ADH66_RS17730" fbc:label="G_ADH66_RS17730"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18470" fbc:name="G_ADH66_RS18470" fbc:label="G_ADH66_RS18470"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS19560" fbc:name="G_ADH66_RS19560" fbc:label="G_ADH66_RS19560"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02650" fbc:name="G_ADH66_RS02650" fbc:label="G_ADH66_RS02650"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18520" fbc:name="G_ADH66_RS18520" fbc:label="G_ADH66_RS18520"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18475" fbc:name="G_ADH66_RS18475" fbc:label="G_ADH66_RS18475"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS16260" fbc:name="G_ADH66_RS16260" fbc:label="G_ADH66_RS16260"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14455" fbc:name="G_ADH66_RS14455" fbc:label="G_ADH66_RS14455"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18430" fbc:name="G_ADH66_RS18430" fbc:label="G_ADH66_RS18430"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14900" fbc:name="G_ADH66_RS14900" fbc:label="G_ADH66_RS14900"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18390" fbc:name="G_ADH66_RS18390" fbc:label="G_ADH66_RS18390"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14235" fbc:name="G_ADH66_RS14235" fbc:label="G_ADH66_RS14235"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14075" fbc:name="G_ADH66_RS14075" fbc:label="G_ADH66_RS14075"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02640" fbc:name="G_ADH66_RS02640" fbc:label="G_ADH66_RS02640"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14460" fbc:name="G_ADH66_RS14460" fbc:label="G_ADH66_RS14460"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18485" fbc:name="G_ADH66_RS18485" fbc:label="G_ADH66_RS18485"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS19390" fbc:name="G_ADH66_RS19390" fbc:label="G_ADH66_RS19390"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14240" fbc:name="G_ADH66_RS14240" fbc:label="G_ADH66_RS14240"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18420" fbc:name="G_ADH66_RS18420" fbc:label="G_ADH66_RS18420"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18385" fbc:name="G_ADH66_RS18385" fbc:label="G_ADH66_RS18385"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS09075" fbc:name="G_ADH66_RS09075" fbc:label="G_ADH66_RS09075"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS10270" fbc:name="G_ADH66_RS10270" fbc:label="G_ADH66_RS10270"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS02380" fbc:name="G_ADH66_RS02380" fbc:label="G_ADH66_RS02380"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS17900" fbc:name="G_ADH66_RS17900" fbc:label="G_ADH66_RS17900"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04230" fbc:name="G_ADH66_RS04230" fbc:label="G_ADH66_RS04230"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18440" fbc:name="G_ADH66_RS18440" fbc:label="G_ADH66_RS18440"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS08460" fbc:name="G_ADH66_RS08460" fbc:label="G_ADH66_RS08460"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18365" fbc:name="G_ADH66_RS18365" fbc:label="G_ADH66_RS18365"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS19395" fbc:name="G_ADH66_RS19395" fbc:label="G_ADH66_RS19395"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS03885" fbc:name="G_ADH66_RS03885" fbc:label="G_ADH66_RS03885"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18500" fbc:name="G_ADH66_RS18500" fbc:label="G_ADH66_RS18500"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14270" fbc:name="G_ADH66_RS14270" fbc:label="G_ADH66_RS14270"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17730" fbc:name="G_ADH66_RS17730" fbc:label="G_ADH66_RS17730"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18485" fbc:name="G_ADH66_RS18485" fbc:label="G_ADH66_RS18485"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17900" fbc:name="G_ADH66_RS17900" fbc:label="G_ADH66_RS17900"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13990" fbc:name="G_ADH66_RS13990" fbc:label="G_ADH66_RS13990"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18470" fbc:name="G_ADH66_RS18470" fbc:label="G_ADH66_RS18470"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18420" fbc:name="G_ADH66_RS18420" fbc:label="G_ADH66_RS18420"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18365" fbc:name="G_ADH66_RS18365" fbc:label="G_ADH66_RS18365"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14900" fbc:name="G_ADH66_RS14900" fbc:label="G_ADH66_RS14900"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18490" fbc:name="G_ADH66_RS18490" fbc:label="G_ADH66_RS18490"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS10270" fbc:name="G_ADH66_RS10270" fbc:label="G_ADH66_RS10270"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18390" fbc:name="G_ADH66_RS18390" fbc:label="G_ADH66_RS18390"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18475" fbc:name="G_ADH66_RS18475" fbc:label="G_ADH66_RS18475"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS19390" fbc:name="G_ADH66_RS19390" fbc:label="G_ADH66_RS19390"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16165" fbc:name="G_ADH66_RS16165" fbc:label="G_ADH66_RS16165"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18425" fbc:name="G_ADH66_RS18425" fbc:label="G_ADH66_RS18425"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02380" fbc:name="G_ADH66_RS02380" fbc:label="G_ADH66_RS02380"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18465" fbc:name="G_ADH66_RS18465" fbc:label="G_ADH66_RS18465"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS11270" fbc:name="G_ADH66_RS11270" fbc:label="G_ADH66_RS11270"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18480" fbc:name="G_ADH66_RS18480" fbc:label="G_ADH66_RS18480"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17905" fbc:name="G_ADH66_RS17905" fbc:label="G_ADH66_RS17905"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02370" fbc:name="G_ADH66_RS02370" fbc:label="G_ADH66_RS02370"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04400" fbc:name="G_ADH66_RS04400" fbc:label="G_ADH66_RS04400"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18520" fbc:name="G_ADH66_RS18520" fbc:label="G_ADH66_RS18520"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18495" fbc:name="G_ADH66_RS18495" fbc:label="G_ADH66_RS18495"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04595" fbc:name="G_ADH66_RS04595" fbc:label="G_ADH66_RS04595"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18450" fbc:name="G_ADH66_RS18450" fbc:label="G_ADH66_RS18450"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS19560" fbc:name="G_ADH66_RS19560" fbc:label="G_ADH66_RS19560"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19500" fbc:name="G_ADH66_RS19500" fbc:label="G_ADH66_RS19500"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14240" fbc:name="G_ADH66_RS14240" fbc:label="G_ADH66_RS14240"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01715" fbc:name="G_ADH66_RS01715" fbc:label="G_ADH66_RS01715"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18455" fbc:name="G_ADH66_RS18455" fbc:label="G_ADH66_RS18455"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18440" fbc:name="G_ADH66_RS18440" fbc:label="G_ADH66_RS18440"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS17740" fbc:name="G_ADH66_RS17740" fbc:label="G_ADH66_RS17740"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00285" fbc:name="G_ADH66_RS00285" fbc:label="G_ADH66_RS00285"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14075" fbc:name="G_ADH66_RS14075" fbc:label="G_ADH66_RS14075"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS04230" fbc:name="G_ADH66_RS04230" fbc:label="G_ADH66_RS04230"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18435" fbc:name="G_ADH66_RS18435" fbc:label="G_ADH66_RS18435"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18430" fbc:name="G_ADH66_RS18430" fbc:label="G_ADH66_RS18430"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18445" fbc:name="G_ADH66_RS18445" fbc:label="G_ADH66_RS18445"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18515" fbc:name="G_ADH66_RS18515" fbc:label="G_ADH66_RS18515"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02995" fbc:name="G_ADH66_RS02995" fbc:label="G_ADH66_RS02995"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS00150" fbc:name="G_ADH66_RS00150" fbc:label="G_ADH66_RS00150"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02650" fbc:name="G_ADH66_RS02650" fbc:label="G_ADH66_RS02650"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS16260" fbc:name="G_ADH66_RS16260" fbc:label="G_ADH66_RS16260"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18380" fbc:name="G_ADH66_RS18380" fbc:label="G_ADH66_RS18380"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14235" fbc:name="G_ADH66_RS14235" fbc:label="G_ADH66_RS14235"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS02640" fbc:name="G_ADH66_RS02640" fbc:label="G_ADH66_RS02640"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13860" fbc:name="G_ADH66_RS13860" fbc:label="G_ADH66_RS13860"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS06625" fbc:name="G_ADH66_RS06625" fbc:label="G_ADH66_RS06625"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18385" fbc:name="G_ADH66_RS18385" fbc:label="G_ADH66_RS18385"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS19395" fbc:name="G_ADH66_RS19395" fbc:label="G_ADH66_RS19395"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14905" fbc:name="G_ADH66_RS14905" fbc:label="G_ADH66_RS14905"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS14250" fbc:name="G_ADH66_RS14250" fbc:label="G_ADH66_RS14250"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18505" fbc:name="G_ADH66_RS18505" fbc:label="G_ADH66_RS18505"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS04400" fbc:name="G_ADH66_RS04400" fbc:label="G_ADH66_RS04400"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18375" fbc:name="G_ADH66_RS18375" fbc:label="G_ADH66_RS18375"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13990" fbc:name="G_ADH66_RS13990" fbc:label="G_ADH66_RS13990"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01715" fbc:name="G_ADH66_RS01715" fbc:label="G_ADH66_RS01715"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01775" fbc:name="G_ADH66_RS01775" fbc:label="G_ADH66_RS01775"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS11270" fbc:name="G_ADH66_RS11270" fbc:label="G_ADH66_RS11270"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18445" fbc:name="G_ADH66_RS18445" fbc:label="G_ADH66_RS18445"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18455" fbc:name="G_ADH66_RS18455" fbc:label="G_ADH66_RS18455"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS14815" fbc:name="G_ADH66_RS14815" fbc:label="G_ADH66_RS14815"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18685" fbc:name="G_ADH66_RS18685" fbc:label="G_ADH66_RS18685"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS04955" fbc:name="G_ADH66_RS04955" fbc:label="G_ADH66_RS04955"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS08085" fbc:name="G_ADH66_RS08085" fbc:label="G_ADH66_RS08085"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13275" fbc:name="G_ADH66_RS13275" fbc:label="G_ADH66_RS13275"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS13635" fbc:name="G_ADH66_RS13635" fbc:label="G_ADH66_RS13635"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS13845" fbc:name="G_ADH66_RS13845" fbc:label="G_ADH66_RS13845"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS14870" fbc:name="G_ADH66_RS14870" fbc:label="G_ADH66_RS14870"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS18645" fbc:name="G_ADH66_RS18645" fbc:label="G_ADH66_RS18645"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01760" fbc:name="G_ADH66_RS01760" fbc:label="G_ADH66_RS01760"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS13845" fbc:name="G_ADH66_RS13845" fbc:label="G_ADH66_RS13845"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS01765" fbc:name="G_ADH66_RS01765" fbc:label="G_ADH66_RS01765"/>
-      <fbc:geneProduct fbc:id="G_ADH66_RS18370" fbc:name="G_ADH66_RS18370" fbc:label="G_ADH66_RS18370"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS01740" fbc:name="G_ADH66_RS01740" fbc:label="G_ADH66_RS01740"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS01765" fbc:name="G_ADH66_RS01765" fbc:label="G_ADH66_RS01765"/>
       <fbc:geneProduct fbc:id="G_ADH66_RS19555" fbc:name="G_ADH66_RS19555" fbc:label="G_ADH66_RS19555"/>
+      <fbc:geneProduct fbc:id="G_ADH66_RS18370" fbc:name="G_ADH66_RS18370" fbc:label="G_ADH66_RS18370"/>
     </fbc:listOfGeneProducts>
   </model>
 </sbml>

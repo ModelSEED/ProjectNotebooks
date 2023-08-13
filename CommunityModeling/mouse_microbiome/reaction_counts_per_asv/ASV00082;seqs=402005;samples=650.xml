@@ -61929,14 +61929,14 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS03460" fbc:name="G_BN3261_RS03460" fbc:label="G_BN3261_RS03460"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10680" fbc:name="G_BN3261_RS10680" fbc:label="G_BN3261_RS10680"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12020" fbc:name="G_BN3261_RS12020" fbc:label="G_BN3261_RS12020"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10675" fbc:name="G_BN3261_RS10675" fbc:label="G_BN3261_RS10675"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06395" fbc:name="G_BN3261_RS06395" fbc:label="G_BN3261_RS06395"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10675" fbc:name="G_BN3261_RS10675" fbc:label="G_BN3261_RS10675"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11870" fbc:name="G_BN3261_RS11870" fbc:label="G_BN3261_RS11870"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10690" fbc:name="G_BN3261_RS10690" fbc:label="G_BN3261_RS10690"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10670" fbc:name="G_BN3261_RS10670" fbc:label="G_BN3261_RS10670"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12005" fbc:name="G_BN3261_RS12005" fbc:label="G_BN3261_RS12005"/>
-      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00095" fbc:name="G_BN3261_RS00095" fbc:label="G_BN3261_RS00095"/>
+      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03420" fbc:name="G_BN3261_RS03420" fbc:label="G_BN3261_RS03420"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14655" fbc:name="G_BN3261_RS14655" fbc:label="G_BN3261_RS14655"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08950" fbc:name="G_BN3261_RS08950" fbc:label="G_BN3261_RS08950"/>
@@ -61951,13 +61951,13 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS11755" fbc:name="G_BN3261_RS11755" fbc:label="G_BN3261_RS11755"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16570" fbc:name="G_BN3261_RS16570" fbc:label="G_BN3261_RS16570"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16565" fbc:name="G_BN3261_RS16565" fbc:label="G_BN3261_RS16565"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16210" fbc:name="G_BN3261_RS16210" fbc:label="G_BN3261_RS16210"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12055" fbc:name="G_BN3261_RS12055" fbc:label="G_BN3261_RS12055"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16215" fbc:name="G_BN3261_RS16215" fbc:label="G_BN3261_RS16215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07970" fbc:name="G_BN3261_RS07970" fbc:label="G_BN3261_RS07970"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16215" fbc:name="G_BN3261_RS16215" fbc:label="G_BN3261_RS16215"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12055" fbc:name="G_BN3261_RS12055" fbc:label="G_BN3261_RS12055"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16210" fbc:name="G_BN3261_RS16210" fbc:label="G_BN3261_RS16210"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07545" fbc:name="G_BN3261_RS07545" fbc:label="G_BN3261_RS07545"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13260" fbc:name="G_BN3261_RS13260" fbc:label="G_BN3261_RS13260"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11425" fbc:name="G_BN3261_RS11425" fbc:label="G_BN3261_RS11425"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13260" fbc:name="G_BN3261_RS13260" fbc:label="G_BN3261_RS13260"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16575" fbc:name="G_BN3261_RS16575" fbc:label="G_BN3261_RS16575"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10720" fbc:name="G_BN3261_RS10720" fbc:label="G_BN3261_RS10720"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06085" fbc:name="G_BN3261_RS06085" fbc:label="G_BN3261_RS06085"/>
@@ -61971,8 +61971,8 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS14260" fbc:name="G_BN3261_RS14260" fbc:label="G_BN3261_RS14260"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04975" fbc:name="G_BN3261_RS04975" fbc:label="G_BN3261_RS04975"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16725" fbc:name="G_BN3261_RS16725" fbc:label="G_BN3261_RS16725"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16715" fbc:name="G_BN3261_RS16715" fbc:label="G_BN3261_RS16715"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16720" fbc:name="G_BN3261_RS16720" fbc:label="G_BN3261_RS16720"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16715" fbc:name="G_BN3261_RS16715" fbc:label="G_BN3261_RS16715"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15270" fbc:name="G_BN3261_RS15270" fbc:label="G_BN3261_RS15270"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04500" fbc:name="G_BN3261_RS04500" fbc:label="G_BN3261_RS04500"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02635" fbc:name="G_BN3261_RS02635" fbc:label="G_BN3261_RS02635"/>
@@ -61982,33 +61982,33 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS16560" fbc:name="G_BN3261_RS16560" fbc:label="G_BN3261_RS16560"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08625" fbc:name="G_BN3261_RS08625" fbc:label="G_BN3261_RS08625"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02940" fbc:name="G_BN3261_RS02940" fbc:label="G_BN3261_RS02940"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02260" fbc:name="G_BN3261_RS02260" fbc:label="G_BN3261_RS02260"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10305" fbc:name="G_BN3261_RS10305" fbc:label="G_BN3261_RS10305"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02260" fbc:name="G_BN3261_RS02260" fbc:label="G_BN3261_RS02260"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15250" fbc:name="G_BN3261_RS15250" fbc:label="G_BN3261_RS15250"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11520" fbc:name="G_BN3261_RS11520" fbc:label="G_BN3261_RS11520"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12215" fbc:name="G_BN3261_RS12215" fbc:label="G_BN3261_RS12215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13130" fbc:name="G_BN3261_RS13130" fbc:label="G_BN3261_RS13130"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12215" fbc:name="G_BN3261_RS12215" fbc:label="G_BN3261_RS12215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03120" fbc:name="G_BN3261_RS03120" fbc:label="G_BN3261_RS03120"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05995" fbc:name="G_BN3261_RS05995" fbc:label="G_BN3261_RS05995"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16385" fbc:name="G_BN3261_RS16385" fbc:label="G_BN3261_RS16385"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01880" fbc:name="G_BN3261_RS01880" fbc:label="G_BN3261_RS01880"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07905" fbc:name="G_BN3261_RS07905" fbc:label="G_BN3261_RS07905"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05885" fbc:name="G_BN3261_RS05885" fbc:label="G_BN3261_RS05885"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16380" fbc:name="G_BN3261_RS16380" fbc:label="G_BN3261_RS16380"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03805" fbc:name="G_BN3261_RS03805" fbc:label="G_BN3261_RS03805"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05885" fbc:name="G_BN3261_RS05885" fbc:label="G_BN3261_RS05885"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07905" fbc:name="G_BN3261_RS07905" fbc:label="G_BN3261_RS07905"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01880" fbc:name="G_BN3261_RS01880" fbc:label="G_BN3261_RS01880"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16380" fbc:name="G_BN3261_RS16380" fbc:label="G_BN3261_RS16380"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS17310" fbc:name="G_BN3261_RS17310" fbc:label="G_BN3261_RS17310"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05960" fbc:name="G_BN3261_RS05960" fbc:label="G_BN3261_RS05960"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05345" fbc:name="G_BN3261_RS05345" fbc:label="G_BN3261_RS05345"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12500" fbc:name="G_BN3261_RS12500" fbc:label="G_BN3261_RS12500"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05355" fbc:name="G_BN3261_RS05355" fbc:label="G_BN3261_RS05355"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10580" fbc:name="G_BN3261_RS10580" fbc:label="G_BN3261_RS10580"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10585" fbc:name="G_BN3261_RS10585" fbc:label="G_BN3261_RS10585"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10550" fbc:name="G_BN3261_RS10550" fbc:label="G_BN3261_RS10550"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10555" fbc:name="G_BN3261_RS10555" fbc:label="G_BN3261_RS10555"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10560" fbc:name="G_BN3261_RS10560" fbc:label="G_BN3261_RS10560"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05335" fbc:name="G_BN3261_RS05335" fbc:label="G_BN3261_RS05335"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05350" fbc:name="G_BN3261_RS05350" fbc:label="G_BN3261_RS05350"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10580" fbc:name="G_BN3261_RS10580" fbc:label="G_BN3261_RS10580"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12495" fbc:name="G_BN3261_RS12495" fbc:label="G_BN3261_RS12495"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12500" fbc:name="G_BN3261_RS12500" fbc:label="G_BN3261_RS12500"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05355" fbc:name="G_BN3261_RS05355" fbc:label="G_BN3261_RS05355"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10560" fbc:name="G_BN3261_RS10560" fbc:label="G_BN3261_RS10560"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10555" fbc:name="G_BN3261_RS10555" fbc:label="G_BN3261_RS10555"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10550" fbc:name="G_BN3261_RS10550" fbc:label="G_BN3261_RS10550"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10585" fbc:name="G_BN3261_RS10585" fbc:label="G_BN3261_RS10585"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05960" fbc:name="G_BN3261_RS05960" fbc:label="G_BN3261_RS05960"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05275" fbc:name="G_BN3261_RS05275" fbc:label="G_BN3261_RS05275"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04765" fbc:name="G_BN3261_RS04765" fbc:label="G_BN3261_RS04765"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11115" fbc:name="G_BN3261_RS11115" fbc:label="G_BN3261_RS11115"/>
@@ -62027,21 +62027,21 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS04635" fbc:name="G_BN3261_RS04635" fbc:label="G_BN3261_RS04635"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14740" fbc:name="G_BN3261_RS14740" fbc:label="G_BN3261_RS14740"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14235" fbc:name="G_BN3261_RS14235" fbc:label="G_BN3261_RS14235"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00520" fbc:name="G_BN3261_RS00520" fbc:label="G_BN3261_RS00520"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02850" fbc:name="G_BN3261_RS02850" fbc:label="G_BN3261_RS02850"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02840" fbc:name="G_BN3261_RS02840" fbc:label="G_BN3261_RS02840"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01620" fbc:name="G_BN3261_RS01620" fbc:label="G_BN3261_RS01620"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01625" fbc:name="G_BN3261_RS01625" fbc:label="G_BN3261_RS01625"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09475" fbc:name="G_BN3261_RS09475" fbc:label="G_BN3261_RS09475"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02845" fbc:name="G_BN3261_RS02845" fbc:label="G_BN3261_RS02845"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16350" fbc:name="G_BN3261_RS16350" fbc:label="G_BN3261_RS16350"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00510" fbc:name="G_BN3261_RS00510" fbc:label="G_BN3261_RS00510"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00515" fbc:name="G_BN3261_RS00515" fbc:label="G_BN3261_RS00515"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01620" fbc:name="G_BN3261_RS01620" fbc:label="G_BN3261_RS01620"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16360" fbc:name="G_BN3261_RS16360" fbc:label="G_BN3261_RS16360"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16355" fbc:name="G_BN3261_RS16355" fbc:label="G_BN3261_RS16355"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02850" fbc:name="G_BN3261_RS02850" fbc:label="G_BN3261_RS02850"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00520" fbc:name="G_BN3261_RS00520" fbc:label="G_BN3261_RS00520"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15780" fbc:name="G_BN3261_RS15780" fbc:label="G_BN3261_RS15780"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03765" fbc:name="G_BN3261_RS03765" fbc:label="G_BN3261_RS03765"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01625" fbc:name="G_BN3261_RS01625" fbc:label="G_BN3261_RS01625"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02845" fbc:name="G_BN3261_RS02845" fbc:label="G_BN3261_RS02845"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16355" fbc:name="G_BN3261_RS16355" fbc:label="G_BN3261_RS16355"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00510" fbc:name="G_BN3261_RS00510" fbc:label="G_BN3261_RS00510"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02840" fbc:name="G_BN3261_RS02840" fbc:label="G_BN3261_RS02840"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16350" fbc:name="G_BN3261_RS16350" fbc:label="G_BN3261_RS16350"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00515" fbc:name="G_BN3261_RS00515" fbc:label="G_BN3261_RS00515"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13305" fbc:name="G_BN3261_RS13305" fbc:label="G_BN3261_RS13305"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03765" fbc:name="G_BN3261_RS03765" fbc:label="G_BN3261_RS03765"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08545" fbc:name="G_BN3261_RS08545" fbc:label="G_BN3261_RS08545"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11570" fbc:name="G_BN3261_RS11570" fbc:label="G_BN3261_RS11570"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16555" fbc:name="G_BN3261_RS16555" fbc:label="G_BN3261_RS16555"/>
@@ -62051,31 +62051,31 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS15235" fbc:name="G_BN3261_RS15235" fbc:label="G_BN3261_RS15235"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00750" fbc:name="G_BN3261_RS00750" fbc:label="G_BN3261_RS00750"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00745" fbc:name="G_BN3261_RS00745" fbc:label="G_BN3261_RS00745"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15175" fbc:name="G_BN3261_RS15175" fbc:label="G_BN3261_RS15175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00385" fbc:name="G_BN3261_RS00385" fbc:label="G_BN3261_RS00385"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11490" fbc:name="G_BN3261_RS11490" fbc:label="G_BN3261_RS11490"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15175" fbc:name="G_BN3261_RS15175" fbc:label="G_BN3261_RS15175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04745" fbc:name="G_BN3261_RS04745" fbc:label="G_BN3261_RS04745"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11490" fbc:name="G_BN3261_RS11490" fbc:label="G_BN3261_RS11490"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14770" fbc:name="G_BN3261_RS14770" fbc:label="G_BN3261_RS14770"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07560" fbc:name="G_BN3261_RS07560" fbc:label="G_BN3261_RS07560"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03520" fbc:name="G_BN3261_RS03520" fbc:label="G_BN3261_RS03520"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07560" fbc:name="G_BN3261_RS07560" fbc:label="G_BN3261_RS07560"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15090" fbc:name="G_BN3261_RS15090" fbc:label="G_BN3261_RS15090"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05925" fbc:name="G_BN3261_RS05925" fbc:label="G_BN3261_RS05925"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05920" fbc:name="G_BN3261_RS05920" fbc:label="G_BN3261_RS05920"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10465" fbc:name="G_BN3261_RS10465" fbc:label="G_BN3261_RS10465"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10485" fbc:name="G_BN3261_RS10485" fbc:label="G_BN3261_RS10485"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10470" fbc:name="G_BN3261_RS10470" fbc:label="G_BN3261_RS10470"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10480" fbc:name="G_BN3261_RS10480" fbc:label="G_BN3261_RS10480"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10475" fbc:name="G_BN3261_RS10475" fbc:label="G_BN3261_RS10475"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10465" fbc:name="G_BN3261_RS10465" fbc:label="G_BN3261_RS10465"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10470" fbc:name="G_BN3261_RS10470" fbc:label="G_BN3261_RS10470"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10485" fbc:name="G_BN3261_RS10485" fbc:label="G_BN3261_RS10485"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08955" fbc:name="G_BN3261_RS08955" fbc:label="G_BN3261_RS08955"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12030" fbc:name="G_BN3261_RS12030" fbc:label="G_BN3261_RS12030"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05445" fbc:name="G_BN3261_RS05445" fbc:label="G_BN3261_RS05445"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15565" fbc:name="G_BN3261_RS15565" fbc:label="G_BN3261_RS15565"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08955" fbc:name="G_BN3261_RS08955" fbc:label="G_BN3261_RS08955"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05445" fbc:name="G_BN3261_RS05445" fbc:label="G_BN3261_RS05445"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10655" fbc:name="G_BN3261_RS10655" fbc:label="G_BN3261_RS10655"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS17315" fbc:name="G_BN3261_RS17315" fbc:label="G_BN3261_RS17315"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12850" fbc:name="G_BN3261_RS12850" fbc:label="G_BN3261_RS12850"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10655" fbc:name="G_BN3261_RS10655" fbc:label="G_BN3261_RS10655"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10505" fbc:name="G_BN3261_RS10505" fbc:label="G_BN3261_RS10505"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10215" fbc:name="G_BN3261_RS10215" fbc:label="G_BN3261_RS10215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08810" fbc:name="G_BN3261_RS08810" fbc:label="G_BN3261_RS08810"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10215" fbc:name="G_BN3261_RS10215" fbc:label="G_BN3261_RS10215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08805" fbc:name="G_BN3261_RS08805" fbc:label="G_BN3261_RS08805"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15110" fbc:name="G_BN3261_RS15110" fbc:label="G_BN3261_RS15110"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16835" fbc:name="G_BN3261_RS16835" fbc:label="G_BN3261_RS16835"/>
@@ -62087,14 +62087,14 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS09460" fbc:name="G_BN3261_RS09460" fbc:label="G_BN3261_RS09460"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11410" fbc:name="G_BN3261_RS11410" fbc:label="G_BN3261_RS11410"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07655" fbc:name="G_BN3261_RS07655" fbc:label="G_BN3261_RS07655"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09280" fbc:name="G_BN3261_RS09280" fbc:label="G_BN3261_RS09280"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS17420" fbc:name="G_BN3261_RS17420" fbc:label="G_BN3261_RS17420"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06045" fbc:name="G_BN3261_RS06045" fbc:label="G_BN3261_RS06045"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09280" fbc:name="G_BN3261_RS09280" fbc:label="G_BN3261_RS09280"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13605" fbc:name="G_BN3261_RS13605" fbc:label="G_BN3261_RS13605"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07650" fbc:name="G_BN3261_RS07650" fbc:label="G_BN3261_RS07650"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04705" fbc:name="G_BN3261_RS04705" fbc:label="G_BN3261_RS04705"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04710" fbc:name="G_BN3261_RS04710" fbc:label="G_BN3261_RS04710"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04715" fbc:name="G_BN3261_RS04715" fbc:label="G_BN3261_RS04715"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04710" fbc:name="G_BN3261_RS04710" fbc:label="G_BN3261_RS04710"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04705" fbc:name="G_BN3261_RS04705" fbc:label="G_BN3261_RS04705"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05195" fbc:name="G_BN3261_RS05195" fbc:label="G_BN3261_RS05195"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05210" fbc:name="G_BN3261_RS05210" fbc:label="G_BN3261_RS05210"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05200" fbc:name="G_BN3261_RS05200" fbc:label="G_BN3261_RS05200"/>
@@ -62102,18 +62102,18 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS09730" fbc:name="G_BN3261_RS09730" fbc:label="G_BN3261_RS09730"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11450" fbc:name="G_BN3261_RS11450" fbc:label="G_BN3261_RS11450"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14905" fbc:name="G_BN3261_RS14905" fbc:label="G_BN3261_RS14905"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08730" fbc:name="G_BN3261_RS08730" fbc:label="G_BN3261_RS08730"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06740" fbc:name="G_BN3261_RS06740" fbc:label="G_BN3261_RS06740"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08730" fbc:name="G_BN3261_RS08730" fbc:label="G_BN3261_RS08730"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08735" fbc:name="G_BN3261_RS08735" fbc:label="G_BN3261_RS08735"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02950" fbc:name="G_BN3261_RS02950" fbc:label="G_BN3261_RS02950"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15475" fbc:name="G_BN3261_RS15475" fbc:label="G_BN3261_RS15475"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00770" fbc:name="G_BN3261_RS00770" fbc:label="G_BN3261_RS00770"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15475" fbc:name="G_BN3261_RS15475" fbc:label="G_BN3261_RS15475"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16010" fbc:name="G_BN3261_RS16010" fbc:label="G_BN3261_RS16010"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03825" fbc:name="G_BN3261_RS03825" fbc:label="G_BN3261_RS03825"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05560" fbc:name="G_BN3261_RS05560" fbc:label="G_BN3261_RS05560"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08770" fbc:name="G_BN3261_RS08770" fbc:label="G_BN3261_RS08770"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16010" fbc:name="G_BN3261_RS16010" fbc:label="G_BN3261_RS16010"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16585" fbc:name="G_BN3261_RS16585" fbc:label="G_BN3261_RS16585"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07125" fbc:name="G_BN3261_RS07125" fbc:label="G_BN3261_RS07125"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08770" fbc:name="G_BN3261_RS08770" fbc:label="G_BN3261_RS08770"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04785" fbc:name="G_BN3261_RS04785" fbc:label="G_BN3261_RS04785"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03410" fbc:name="G_BN3261_RS03410" fbc:label="G_BN3261_RS03410"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03465" fbc:name="G_BN3261_RS03465" fbc:label="G_BN3261_RS03465"/>
@@ -62134,8 +62134,8 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS07975" fbc:name="G_BN3261_RS07975" fbc:label="G_BN3261_RS07975"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01580" fbc:name="G_BN3261_RS01580" fbc:label="G_BN3261_RS01580"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03025" fbc:name="G_BN3261_RS03025" fbc:label="G_BN3261_RS03025"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01645" fbc:name="G_BN3261_RS01645" fbc:label="G_BN3261_RS01645"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00735" fbc:name="G_BN3261_RS00735" fbc:label="G_BN3261_RS00735"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01645" fbc:name="G_BN3261_RS01645" fbc:label="G_BN3261_RS01645"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00135" fbc:name="G_BN3261_RS00135" fbc:label="G_BN3261_RS00135"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00130" fbc:name="G_BN3261_RS00130" fbc:label="G_BN3261_RS00130"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00145" fbc:name="G_BN3261_RS00145" fbc:label="G_BN3261_RS00145"/>
@@ -62144,14 +62144,14 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS02350" fbc:name="G_BN3261_RS02350" fbc:label="G_BN3261_RS02350"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03415" fbc:name="G_BN3261_RS03415" fbc:label="G_BN3261_RS03415"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03645" fbc:name="G_BN3261_RS03645" fbc:label="G_BN3261_RS03645"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05565" fbc:name="G_BN3261_RS05565" fbc:label="G_BN3261_RS05565"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05570" fbc:name="G_BN3261_RS05570" fbc:label="G_BN3261_RS05570"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05565" fbc:name="G_BN3261_RS05565" fbc:label="G_BN3261_RS05565"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07595" fbc:name="G_BN3261_RS07595" fbc:label="G_BN3261_RS07595"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14405" fbc:name="G_BN3261_RS14405" fbc:label="G_BN3261_RS14405"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02785" fbc:name="G_BN3261_RS02785" fbc:label="G_BN3261_RS02785"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14405" fbc:name="G_BN3261_RS14405" fbc:label="G_BN3261_RS14405"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08450" fbc:name="G_BN3261_RS08450" fbc:label="G_BN3261_RS08450"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09060" fbc:name="G_BN3261_RS09060" fbc:label="G_BN3261_RS09060"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09020" fbc:name="G_BN3261_RS09020" fbc:label="G_BN3261_RS09020"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09060" fbc:name="G_BN3261_RS09060" fbc:label="G_BN3261_RS09060"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09025" fbc:name="G_BN3261_RS09025" fbc:label="G_BN3261_RS09025"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14005" fbc:name="G_BN3261_RS14005" fbc:label="G_BN3261_RS14005"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13995" fbc:name="G_BN3261_RS13995" fbc:label="G_BN3261_RS13995"/>
@@ -62160,11 +62160,11 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS03650" fbc:name="G_BN3261_RS03650" fbc:label="G_BN3261_RS03650"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07395" fbc:name="G_BN3261_RS07395" fbc:label="G_BN3261_RS07395"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02200" fbc:name="G_BN3261_RS02200" fbc:label="G_BN3261_RS02200"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12150" fbc:name="G_BN3261_RS12150" fbc:label="G_BN3261_RS12150"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03380" fbc:name="G_BN3261_RS03380" fbc:label="G_BN3261_RS03380"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12150" fbc:name="G_BN3261_RS12150" fbc:label="G_BN3261_RS12150"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08445" fbc:name="G_BN3261_RS08445" fbc:label="G_BN3261_RS08445"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02835" fbc:name="G_BN3261_RS02835" fbc:label="G_BN3261_RS02835"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09115" fbc:name="G_BN3261_RS09115" fbc:label="G_BN3261_RS09115"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02835" fbc:name="G_BN3261_RS02835" fbc:label="G_BN3261_RS02835"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03055" fbc:name="G_BN3261_RS03055" fbc:label="G_BN3261_RS03055"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16880" fbc:name="G_BN3261_RS16880" fbc:label="G_BN3261_RS16880"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13740" fbc:name="G_BN3261_RS13740" fbc:label="G_BN3261_RS13740"/>
@@ -62178,10 +62178,10 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS09095" fbc:name="G_BN3261_RS09095" fbc:label="G_BN3261_RS09095"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00430" fbc:name="G_BN3261_RS00430" fbc:label="G_BN3261_RS00430"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12110" fbc:name="G_BN3261_RS12110" fbc:label="G_BN3261_RS12110"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05410" fbc:name="G_BN3261_RS05410" fbc:label="G_BN3261_RS05410"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05415" fbc:name="G_BN3261_RS05415" fbc:label="G_BN3261_RS05415"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08840" fbc:name="G_BN3261_RS08840" fbc:label="G_BN3261_RS08840"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05410" fbc:name="G_BN3261_RS05410" fbc:label="G_BN3261_RS05410"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07780" fbc:name="G_BN3261_RS07780" fbc:label="G_BN3261_RS07780"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08840" fbc:name="G_BN3261_RS08840" fbc:label="G_BN3261_RS08840"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04755" fbc:name="G_BN3261_RS04755" fbc:label="G_BN3261_RS04755"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04750" fbc:name="G_BN3261_RS04750" fbc:label="G_BN3261_RS04750"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11545" fbc:name="G_BN3261_RS11545" fbc:label="G_BN3261_RS11545"/>
@@ -62192,31 +62192,31 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS11890" fbc:name="G_BN3261_RS11890" fbc:label="G_BN3261_RS11890"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07850" fbc:name="G_BN3261_RS07850" fbc:label="G_BN3261_RS07850"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05420" fbc:name="G_BN3261_RS05420" fbc:label="G_BN3261_RS05420"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS06225" fbc:name="G_BN3261_RS06225" fbc:label="G_BN3261_RS06225"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15790" fbc:name="G_BN3261_RS15790" fbc:label="G_BN3261_RS15790"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11180" fbc:name="G_BN3261_RS11180" fbc:label="G_BN3261_RS11180"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15790" fbc:name="G_BN3261_RS15790" fbc:label="G_BN3261_RS15790"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS06225" fbc:name="G_BN3261_RS06225" fbc:label="G_BN3261_RS06225"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08435" fbc:name="G_BN3261_RS08435" fbc:label="G_BN3261_RS08435"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07265" fbc:name="G_BN3261_RS07265" fbc:label="G_BN3261_RS07265"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09835" fbc:name="G_BN3261_RS09835" fbc:label="G_BN3261_RS09835"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12000" fbc:name="G_BN3261_RS12000" fbc:label="G_BN3261_RS12000"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16280" fbc:name="G_BN3261_RS16280" fbc:label="G_BN3261_RS16280"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16290" fbc:name="G_BN3261_RS16290" fbc:label="G_BN3261_RS16290"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09450" fbc:name="G_BN3261_RS09450" fbc:label="G_BN3261_RS09450"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00505" fbc:name="G_BN3261_RS00505" fbc:label="G_BN3261_RS00505"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10285" fbc:name="G_BN3261_RS10285" fbc:label="G_BN3261_RS10285"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09450" fbc:name="G_BN3261_RS09450" fbc:label="G_BN3261_RS09450"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16280" fbc:name="G_BN3261_RS16280" fbc:label="G_BN3261_RS16280"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06590" fbc:name="G_BN3261_RS06590" fbc:label="G_BN3261_RS06590"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10285" fbc:name="G_BN3261_RS10285" fbc:label="G_BN3261_RS10285"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00085" fbc:name="G_BN3261_RS00085" fbc:label="G_BN3261_RS00085"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07475" fbc:name="G_BN3261_RS07475" fbc:label="G_BN3261_RS07475"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11645" fbc:name="G_BN3261_RS11645" fbc:label="G_BN3261_RS11645"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07475" fbc:name="G_BN3261_RS07475" fbc:label="G_BN3261_RS07475"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08935" fbc:name="G_BN3261_RS08935" fbc:label="G_BN3261_RS08935"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14280" fbc:name="G_BN3261_RS14280" fbc:label="G_BN3261_RS14280"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03685" fbc:name="G_BN3261_RS03685" fbc:label="G_BN3261_RS03685"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02190" fbc:name="G_BN3261_RS02190" fbc:label="G_BN3261_RS02190"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12420" fbc:name="G_BN3261_RS12420" fbc:label="G_BN3261_RS12420"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02190" fbc:name="G_BN3261_RS02190" fbc:label="G_BN3261_RS02190"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16405" fbc:name="G_BN3261_RS16405" fbc:label="G_BN3261_RS16405"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10240" fbc:name="G_BN3261_RS10240" fbc:label="G_BN3261_RS10240"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10235" fbc:name="G_BN3261_RS10235" fbc:label="G_BN3261_RS10235"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11605" fbc:name="G_BN3261_RS11605" fbc:label="G_BN3261_RS11605"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10240" fbc:name="G_BN3261_RS10240" fbc:label="G_BN3261_RS10240"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11600" fbc:name="G_BN3261_RS11600" fbc:label="G_BN3261_RS11600"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02015" fbc:name="G_BN3261_RS02015" fbc:label="G_BN3261_RS02015"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11465" fbc:name="G_BN3261_RS11465" fbc:label="G_BN3261_RS11465"/>
@@ -62227,100 +62227,100 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS08600" fbc:name="G_BN3261_RS08600" fbc:label="G_BN3261_RS08600"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11445" fbc:name="G_BN3261_RS11445" fbc:label="G_BN3261_RS11445"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05300" fbc:name="G_BN3261_RS05300" fbc:label="G_BN3261_RS05300"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11460" fbc:name="G_BN3261_RS11460" fbc:label="G_BN3261_RS11460"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06065" fbc:name="G_BN3261_RS06065" fbc:label="G_BN3261_RS06065"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11460" fbc:name="G_BN3261_RS11460" fbc:label="G_BN3261_RS11460"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11385" fbc:name="G_BN3261_RS11385" fbc:label="G_BN3261_RS11385"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07690" fbc:name="G_BN3261_RS07690" fbc:label="G_BN3261_RS07690"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03560" fbc:name="G_BN3261_RS03560" fbc:label="G_BN3261_RS03560"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15740" fbc:name="G_BN3261_RS15740" fbc:label="G_BN3261_RS15740"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08900" fbc:name="G_BN3261_RS08900" fbc:label="G_BN3261_RS08900"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01690" fbc:name="G_BN3261_RS01690" fbc:label="G_BN3261_RS01690"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05055" fbc:name="G_BN3261_RS05055" fbc:label="G_BN3261_RS05055"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08900" fbc:name="G_BN3261_RS08900" fbc:label="G_BN3261_RS08900"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11920" fbc:name="G_BN3261_RS11920" fbc:label="G_BN3261_RS11920"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11915" fbc:name="G_BN3261_RS11915" fbc:label="G_BN3261_RS11915"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09825" fbc:name="G_BN3261_RS09825" fbc:label="G_BN3261_RS09825"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09815" fbc:name="G_BN3261_RS09815" fbc:label="G_BN3261_RS09815"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11910" fbc:name="G_BN3261_RS11910" fbc:label="G_BN3261_RS11910"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11915" fbc:name="G_BN3261_RS11915" fbc:label="G_BN3261_RS11915"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09825" fbc:name="G_BN3261_RS09825" fbc:label="G_BN3261_RS09825"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03310" fbc:name="G_BN3261_RS03310" fbc:label="G_BN3261_RS03310"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09775" fbc:name="G_BN3261_RS09775" fbc:label="G_BN3261_RS09775"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04510" fbc:name="G_BN3261_RS04510" fbc:label="G_BN3261_RS04510"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11110" fbc:name="G_BN3261_RS11110" fbc:label="G_BN3261_RS11110"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09790" fbc:name="G_BN3261_RS09790" fbc:label="G_BN3261_RS09790"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06000" fbc:name="G_BN3261_RS06000" fbc:label="G_BN3261_RS06000"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09000" fbc:name="G_BN3261_RS09000" fbc:label="G_BN3261_RS09000"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05890" fbc:name="G_BN3261_RS05890" fbc:label="G_BN3261_RS05890"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04505" fbc:name="G_BN3261_RS04505" fbc:label="G_BN3261_RS04505"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09000" fbc:name="G_BN3261_RS09000" fbc:label="G_BN3261_RS09000"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05030" fbc:name="G_BN3261_RS05030" fbc:label="G_BN3261_RS05030"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05890" fbc:name="G_BN3261_RS05890" fbc:label="G_BN3261_RS05890"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02745" fbc:name="G_BN3261_RS02745" fbc:label="G_BN3261_RS02745"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14755" fbc:name="G_BN3261_RS14755" fbc:label="G_BN3261_RS14755"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16920" fbc:name="G_BN3261_RS16920" fbc:label="G_BN3261_RS16920"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07950" fbc:name="G_BN3261_RS07950" fbc:label="G_BN3261_RS07950"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15500" fbc:name="G_BN3261_RS15500" fbc:label="G_BN3261_RS15500"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07950" fbc:name="G_BN3261_RS07950" fbc:label="G_BN3261_RS07950"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05930" fbc:name="G_BN3261_RS05930" fbc:label="G_BN3261_RS05930"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02195" fbc:name="G_BN3261_RS02195" fbc:label="G_BN3261_RS02195"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02630" fbc:name="G_BN3261_RS02630" fbc:label="G_BN3261_RS02630"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07680" fbc:name="G_BN3261_RS07680" fbc:label="G_BN3261_RS07680"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06075" fbc:name="G_BN3261_RS06075" fbc:label="G_BN3261_RS06075"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05985" fbc:name="G_BN3261_RS05985" fbc:label="G_BN3261_RS05985"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02230" fbc:name="G_BN3261_RS02230" fbc:label="G_BN3261_RS02230"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15170" fbc:name="G_BN3261_RS15170" fbc:label="G_BN3261_RS15170"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02230" fbc:name="G_BN3261_RS02230" fbc:label="G_BN3261_RS02230"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04770" fbc:name="G_BN3261_RS04770" fbc:label="G_BN3261_RS04770"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04860" fbc:name="G_BN3261_RS04860" fbc:label="G_BN3261_RS04860"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15590" fbc:name="G_BN3261_RS15590" fbc:label="G_BN3261_RS15590"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13795" fbc:name="G_BN3261_RS13795" fbc:label="G_BN3261_RS13795"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14685" fbc:name="G_BN3261_RS14685" fbc:label="G_BN3261_RS14685"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03745" fbc:name="G_BN3261_RS03745" fbc:label="G_BN3261_RS03745"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02110" fbc:name="G_BN3261_RS02110" fbc:label="G_BN3261_RS02110"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14685" fbc:name="G_BN3261_RS14685" fbc:label="G_BN3261_RS14685"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02105" fbc:name="G_BN3261_RS02105" fbc:label="G_BN3261_RS02105"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02110" fbc:name="G_BN3261_RS02110" fbc:label="G_BN3261_RS02110"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05935" fbc:name="G_BN3261_RS05935" fbc:label="G_BN3261_RS05935"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08975" fbc:name="G_BN3261_RS08975" fbc:label="G_BN3261_RS08975"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03030" fbc:name="G_BN3261_RS03030" fbc:label="G_BN3261_RS03030"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16000" fbc:name="G_BN3261_RS16000" fbc:label="G_BN3261_RS16000"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15995" fbc:name="G_BN3261_RS15995" fbc:label="G_BN3261_RS15995"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15990" fbc:name="G_BN3261_RS15990" fbc:label="G_BN3261_RS15990"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16005" fbc:name="G_BN3261_RS16005" fbc:label="G_BN3261_RS16005"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16000" fbc:name="G_BN3261_RS16000" fbc:label="G_BN3261_RS16000"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15990" fbc:name="G_BN3261_RS15990" fbc:label="G_BN3261_RS15990"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15985" fbc:name="G_BN3261_RS15985" fbc:label="G_BN3261_RS15985"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15995" fbc:name="G_BN3261_RS15995" fbc:label="G_BN3261_RS15995"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14095" fbc:name="G_BN3261_RS14095" fbc:label="G_BN3261_RS14095"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15795" fbc:name="G_BN3261_RS15795" fbc:label="G_BN3261_RS15795"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03105" fbc:name="G_BN3261_RS03105" fbc:label="G_BN3261_RS03105"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11515" fbc:name="G_BN3261_RS11515" fbc:label="G_BN3261_RS11515"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10020" fbc:name="G_BN3261_RS10020" fbc:label="G_BN3261_RS10020"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07980" fbc:name="G_BN3261_RS07980" fbc:label="G_BN3261_RS07980"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04690" fbc:name="G_BN3261_RS04690" fbc:label="G_BN3261_RS04690"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04685" fbc:name="G_BN3261_RS04685" fbc:label="G_BN3261_RS04685"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04695" fbc:name="G_BN3261_RS04695" fbc:label="G_BN3261_RS04695"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04690" fbc:name="G_BN3261_RS04690" fbc:label="G_BN3261_RS04690"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04680" fbc:name="G_BN3261_RS04680" fbc:label="G_BN3261_RS04680"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12880" fbc:name="G_BN3261_RS12880" fbc:label="G_BN3261_RS12880"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12875" fbc:name="G_BN3261_RS12875" fbc:label="G_BN3261_RS12875"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08270" fbc:name="G_BN3261_RS08270" fbc:label="G_BN3261_RS08270"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04685" fbc:name="G_BN3261_RS04685" fbc:label="G_BN3261_RS04685"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08800" fbc:name="G_BN3261_RS08800" fbc:label="G_BN3261_RS08800"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08795" fbc:name="G_BN3261_RS08795" fbc:label="G_BN3261_RS08795"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08270" fbc:name="G_BN3261_RS08270" fbc:label="G_BN3261_RS08270"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12875" fbc:name="G_BN3261_RS12875" fbc:label="G_BN3261_RS12875"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08265" fbc:name="G_BN3261_RS08265" fbc:label="G_BN3261_RS08265"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15905" fbc:name="G_BN3261_RS15905" fbc:label="G_BN3261_RS15905"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08795" fbc:name="G_BN3261_RS08795" fbc:label="G_BN3261_RS08795"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12880" fbc:name="G_BN3261_RS12880" fbc:label="G_BN3261_RS12880"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14810" fbc:name="G_BN3261_RS14810" fbc:label="G_BN3261_RS14810"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03340" fbc:name="G_BN3261_RS03340" fbc:label="G_BN3261_RS03340"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15905" fbc:name="G_BN3261_RS15905" fbc:label="G_BN3261_RS15905"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06175" fbc:name="G_BN3261_RS06175" fbc:label="G_BN3261_RS06175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02430" fbc:name="G_BN3261_RS02430" fbc:label="G_BN3261_RS02430"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14810" fbc:name="G_BN3261_RS14810" fbc:label="G_BN3261_RS14810"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16850" fbc:name="G_BN3261_RS16850" fbc:label="G_BN3261_RS16850"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15220" fbc:name="G_BN3261_RS15220" fbc:label="G_BN3261_RS15220"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03000" fbc:name="G_BN3261_RS03000" fbc:label="G_BN3261_RS03000"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10850" fbc:name="G_BN3261_RS10850" fbc:label="G_BN3261_RS10850"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07460" fbc:name="G_BN3261_RS07460" fbc:label="G_BN3261_RS07460"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03000" fbc:name="G_BN3261_RS03000" fbc:label="G_BN3261_RS03000"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07355" fbc:name="G_BN3261_RS07355" fbc:label="G_BN3261_RS07355"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14710" fbc:name="G_BN3261_RS14710" fbc:label="G_BN3261_RS14710"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15775" fbc:name="G_BN3261_RS15775" fbc:label="G_BN3261_RS15775"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07355" fbc:name="G_BN3261_RS07355" fbc:label="G_BN3261_RS07355"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02485" fbc:name="G_BN3261_RS02485" fbc:label="G_BN3261_RS02485"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02480" fbc:name="G_BN3261_RS02480" fbc:label="G_BN3261_RS02480"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15775" fbc:name="G_BN3261_RS15775" fbc:label="G_BN3261_RS15775"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15490" fbc:name="G_BN3261_RS15490" fbc:label="G_BN3261_RS15490"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11265" fbc:name="G_BN3261_RS11265" fbc:label="G_BN3261_RS11265"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11270" fbc:name="G_BN3261_RS11270" fbc:label="G_BN3261_RS11270"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS17345" fbc:name="G_BN3261_RS17345" fbc:label="G_BN3261_RS17345"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11270" fbc:name="G_BN3261_RS11270" fbc:label="G_BN3261_RS11270"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15580" fbc:name="G_BN3261_RS15580" fbc:label="G_BN3261_RS15580"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15585" fbc:name="G_BN3261_RS15585" fbc:label="G_BN3261_RS15585"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03045" fbc:name="G_BN3261_RS03045" fbc:label="G_BN3261_RS03045"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00240" fbc:name="G_BN3261_RS00240" fbc:label="G_BN3261_RS00240"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09190" fbc:name="G_BN3261_RS09190" fbc:label="G_BN3261_RS09190"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16965" fbc:name="G_BN3261_RS16965" fbc:label="G_BN3261_RS16965"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09190" fbc:name="G_BN3261_RS09190" fbc:label="G_BN3261_RS09190"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13325" fbc:name="G_BN3261_RS13325" fbc:label="G_BN3261_RS13325"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01140" fbc:name="G_BN3261_RS01140" fbc:label="G_BN3261_RS01140"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15470" fbc:name="G_BN3261_RS15470" fbc:label="G_BN3261_RS15470"/>
@@ -62337,8 +62337,8 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS06410" fbc:name="G_BN3261_RS06410" fbc:label="G_BN3261_RS06410"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03660" fbc:name="G_BN3261_RS03660" fbc:label="G_BN3261_RS03660"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12930" fbc:name="G_BN3261_RS12930" fbc:label="G_BN3261_RS12930"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12900" fbc:name="G_BN3261_RS12900" fbc:label="G_BN3261_RS12900"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16375" fbc:name="G_BN3261_RS16375" fbc:label="G_BN3261_RS16375"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12900" fbc:name="G_BN3261_RS12900" fbc:label="G_BN3261_RS12900"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14180" fbc:name="G_BN3261_RS14180" fbc:label="G_BN3261_RS14180"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07180" fbc:name="G_BN3261_RS07180" fbc:label="G_BN3261_RS07180"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04965" fbc:name="G_BN3261_RS04965" fbc:label="G_BN3261_RS04965"/>
@@ -62346,12 +62346,12 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS11555" fbc:name="G_BN3261_RS11555" fbc:label="G_BN3261_RS11555"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10875" fbc:name="G_BN3261_RS10875" fbc:label="G_BN3261_RS10875"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00795" fbc:name="G_BN3261_RS00795" fbc:label="G_BN3261_RS00795"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05550" fbc:name="G_BN3261_RS05550" fbc:label="G_BN3261_RS05550"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05545" fbc:name="G_BN3261_RS05545" fbc:label="G_BN3261_RS05545"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05550" fbc:name="G_BN3261_RS05550" fbc:label="G_BN3261_RS05550"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03525" fbc:name="G_BN3261_RS03525" fbc:label="G_BN3261_RS03525"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07060" fbc:name="G_BN3261_RS07060" fbc:label="G_BN3261_RS07060"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11435" fbc:name="G_BN3261_RS11435" fbc:label="G_BN3261_RS11435"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08465" fbc:name="G_BN3261_RS08465" fbc:label="G_BN3261_RS08465"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11435" fbc:name="G_BN3261_RS11435" fbc:label="G_BN3261_RS11435"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16780" fbc:name="G_BN3261_RS16780" fbc:label="G_BN3261_RS16780"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12855" fbc:name="G_BN3261_RS12855" fbc:label="G_BN3261_RS12855"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07965" fbc:name="G_BN3261_RS07965" fbc:label="G_BN3261_RS07965"/>
@@ -62363,18 +62363,18 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS15240" fbc:name="G_BN3261_RS15240" fbc:label="G_BN3261_RS15240"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15935" fbc:name="G_BN3261_RS15935" fbc:label="G_BN3261_RS15935"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16925" fbc:name="G_BN3261_RS16925" fbc:label="G_BN3261_RS16925"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12885" fbc:name="G_BN3261_RS12885" fbc:label="G_BN3261_RS12885"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08525" fbc:name="G_BN3261_RS08525" fbc:label="G_BN3261_RS08525"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10165" fbc:name="G_BN3261_RS10165" fbc:label="G_BN3261_RS10165"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12885" fbc:name="G_BN3261_RS12885" fbc:label="G_BN3261_RS12885"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16785" fbc:name="G_BN3261_RS16785" fbc:label="G_BN3261_RS16785"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08460" fbc:name="G_BN3261_RS08460" fbc:label="G_BN3261_RS08460"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16785" fbc:name="G_BN3261_RS16785" fbc:label="G_BN3261_RS16785"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11430" fbc:name="G_BN3261_RS11430" fbc:label="G_BN3261_RS11430"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02710" fbc:name="G_BN3261_RS02710" fbc:label="G_BN3261_RS02710"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11650" fbc:name="G_BN3261_RS11650" fbc:label="G_BN3261_RS11650"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15680" fbc:name="G_BN3261_RS15680" fbc:label="G_BN3261_RS15680"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02935" fbc:name="G_BN3261_RS02935" fbc:label="G_BN3261_RS02935"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02710" fbc:name="G_BN3261_RS02710" fbc:label="G_BN3261_RS02710"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14030" fbc:name="G_BN3261_RS14030" fbc:label="G_BN3261_RS14030"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07960" fbc:name="G_BN3261_RS07960" fbc:label="G_BN3261_RS07960"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02935" fbc:name="G_BN3261_RS02935" fbc:label="G_BN3261_RS02935"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02205" fbc:name="G_BN3261_RS02205" fbc:label="G_BN3261_RS02205"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07660" fbc:name="G_BN3261_RS07660" fbc:label="G_BN3261_RS07660"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00195" fbc:name="G_BN3261_RS00195" fbc:label="G_BN3261_RS00195"/>
@@ -62382,16 +62382,16 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS02235" fbc:name="G_BN3261_RS02235" fbc:label="G_BN3261_RS02235"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07285" fbc:name="G_BN3261_RS07285" fbc:label="G_BN3261_RS07285"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13635" fbc:name="G_BN3261_RS13635" fbc:label="G_BN3261_RS13635"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14925" fbc:name="G_BN3261_RS14925" fbc:label="G_BN3261_RS14925"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14915" fbc:name="G_BN3261_RS14915" fbc:label="G_BN3261_RS14915"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14930" fbc:name="G_BN3261_RS14930" fbc:label="G_BN3261_RS14930"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14925" fbc:name="G_BN3261_RS14925" fbc:label="G_BN3261_RS14925"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14920" fbc:name="G_BN3261_RS14920" fbc:label="G_BN3261_RS14920"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07465" fbc:name="G_BN3261_RS07465" fbc:label="G_BN3261_RS07465"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14915" fbc:name="G_BN3261_RS14915" fbc:label="G_BN3261_RS14915"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09245" fbc:name="G_BN3261_RS09245" fbc:label="G_BN3261_RS09245"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07465" fbc:name="G_BN3261_RS07465" fbc:label="G_BN3261_RS07465"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05095" fbc:name="G_BN3261_RS05095" fbc:label="G_BN3261_RS05095"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04945" fbc:name="G_BN3261_RS04945" fbc:label="G_BN3261_RS04945"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13405" fbc:name="G_BN3261_RS13405" fbc:label="G_BN3261_RS13405"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16305" fbc:name="G_BN3261_RS16305" fbc:label="G_BN3261_RS16305"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13405" fbc:name="G_BN3261_RS13405" fbc:label="G_BN3261_RS13405"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07670" fbc:name="G_BN3261_RS07670" fbc:label="G_BN3261_RS07670"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05085" fbc:name="G_BN3261_RS05085" fbc:label="G_BN3261_RS05085"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16435" fbc:name="G_BN3261_RS16435" fbc:label="G_BN3261_RS16435"/>
@@ -62416,12 +62416,12 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS05870" fbc:name="G_BN3261_RS05870" fbc:label="G_BN3261_RS05870"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12285" fbc:name="G_BN3261_RS12285" fbc:label="G_BN3261_RS12285"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11770" fbc:name="G_BN3261_RS11770" fbc:label="G_BN3261_RS11770"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11765" fbc:name="G_BN3261_RS11765" fbc:label="G_BN3261_RS11765"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11775" fbc:name="G_BN3261_RS11775" fbc:label="G_BN3261_RS11775"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11790" fbc:name="G_BN3261_RS11790" fbc:label="G_BN3261_RS11790"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11785" fbc:name="G_BN3261_RS11785" fbc:label="G_BN3261_RS11785"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11760" fbc:name="G_BN3261_RS11760" fbc:label="G_BN3261_RS11760"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11775" fbc:name="G_BN3261_RS11775" fbc:label="G_BN3261_RS11775"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11765" fbc:name="G_BN3261_RS11765" fbc:label="G_BN3261_RS11765"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11780" fbc:name="G_BN3261_RS11780" fbc:label="G_BN3261_RS11780"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11790" fbc:name="G_BN3261_RS11790" fbc:label="G_BN3261_RS11790"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05255" fbc:name="G_BN3261_RS05255" fbc:label="G_BN3261_RS05255"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07640" fbc:name="G_BN3261_RS07640" fbc:label="G_BN3261_RS07640"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02945" fbc:name="G_BN3261_RS02945" fbc:label="G_BN3261_RS02945"/>
@@ -62440,70 +62440,70 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS08295" fbc:name="G_BN3261_RS08295" fbc:label="G_BN3261_RS08295"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13780" fbc:name="G_BN3261_RS13780" fbc:label="G_BN3261_RS13780"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04985" fbc:name="G_BN3261_RS04985" fbc:label="G_BN3261_RS04985"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13090" fbc:name="G_BN3261_RS13090" fbc:label="G_BN3261_RS13090"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13085" fbc:name="G_BN3261_RS13085" fbc:label="G_BN3261_RS13085"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13090" fbc:name="G_BN3261_RS13090" fbc:label="G_BN3261_RS13090"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00765" fbc:name="G_BN3261_RS00765" fbc:label="G_BN3261_RS00765"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02965" fbc:name="G_BN3261_RS02965" fbc:label="G_BN3261_RS02965"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05455" fbc:name="G_BN3261_RS05455" fbc:label="G_BN3261_RS05455"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16705" fbc:name="G_BN3261_RS16705" fbc:label="G_BN3261_RS16705"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05455" fbc:name="G_BN3261_RS05455" fbc:label="G_BN3261_RS05455"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16710" fbc:name="G_BN3261_RS16710" fbc:label="G_BN3261_RS16710"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07695" fbc:name="G_BN3261_RS07695" fbc:label="G_BN3261_RS07695"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02355" fbc:name="G_BN3261_RS02355" fbc:label="G_BN3261_RS02355"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02675" fbc:name="G_BN3261_RS02675" fbc:label="G_BN3261_RS02675"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02335" fbc:name="G_BN3261_RS02335" fbc:label="G_BN3261_RS02335"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02355" fbc:name="G_BN3261_RS02355" fbc:label="G_BN3261_RS02355"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02315" fbc:name="G_BN3261_RS02315" fbc:label="G_BN3261_RS02315"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13395" fbc:name="G_BN3261_RS13395" fbc:label="G_BN3261_RS13395"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03535" fbc:name="G_BN3261_RS03535" fbc:label="G_BN3261_RS03535"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13395" fbc:name="G_BN3261_RS13395" fbc:label="G_BN3261_RS13395"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12225" fbc:name="G_BN3261_RS12225" fbc:label="G_BN3261_RS12225"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03770" fbc:name="G_BN3261_RS03770" fbc:label="G_BN3261_RS03770"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12985" fbc:name="G_BN3261_RS12985" fbc:label="G_BN3261_RS12985"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13215" fbc:name="G_BN3261_RS13215" fbc:label="G_BN3261_RS13215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13210" fbc:name="G_BN3261_RS13210" fbc:label="G_BN3261_RS13210"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13220" fbc:name="G_BN3261_RS13220" fbc:label="G_BN3261_RS13220"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13150" fbc:name="G_BN3261_RS13150" fbc:label="G_BN3261_RS13150"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13225" fbc:name="G_BN3261_RS13225" fbc:label="G_BN3261_RS13225"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13215" fbc:name="G_BN3261_RS13215" fbc:label="G_BN3261_RS13215"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13205" fbc:name="G_BN3261_RS13205" fbc:label="G_BN3261_RS13205"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13225" fbc:name="G_BN3261_RS13225" fbc:label="G_BN3261_RS13225"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13150" fbc:name="G_BN3261_RS13150" fbc:label="G_BN3261_RS13150"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13220" fbc:name="G_BN3261_RS13220" fbc:label="G_BN3261_RS13220"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10140" fbc:name="G_BN3261_RS10140" fbc:label="G_BN3261_RS10140"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14170" fbc:name="G_BN3261_RS14170" fbc:label="G_BN3261_RS14170"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14165" fbc:name="G_BN3261_RS14165" fbc:label="G_BN3261_RS14165"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14170" fbc:name="G_BN3261_RS14170" fbc:label="G_BN3261_RS14170"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09635" fbc:name="G_BN3261_RS09635" fbc:label="G_BN3261_RS09635"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01685" fbc:name="G_BN3261_RS01685" fbc:label="G_BN3261_RS01685"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11635" fbc:name="G_BN3261_RS11635" fbc:label="G_BN3261_RS11635"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09185" fbc:name="G_BN3261_RS09185" fbc:label="G_BN3261_RS09185"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11630" fbc:name="G_BN3261_RS11630" fbc:label="G_BN3261_RS11630"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09525" fbc:name="G_BN3261_RS09525" fbc:label="G_BN3261_RS09525"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09520" fbc:name="G_BN3261_RS09520" fbc:label="G_BN3261_RS09520"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09525" fbc:name="G_BN3261_RS09525" fbc:label="G_BN3261_RS09525"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02920" fbc:name="G_BN3261_RS02920" fbc:label="G_BN3261_RS02920"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09625" fbc:name="G_BN3261_RS09625" fbc:label="G_BN3261_RS09625"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03390" fbc:name="G_BN3261_RS03390" fbc:label="G_BN3261_RS03390"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09630" fbc:name="G_BN3261_RS09630" fbc:label="G_BN3261_RS09630"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09625" fbc:name="G_BN3261_RS09625" fbc:label="G_BN3261_RS09625"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11705" fbc:name="G_BN3261_RS11705" fbc:label="G_BN3261_RS11705"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06400" fbc:name="G_BN3261_RS06400" fbc:label="G_BN3261_RS06400"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03155" fbc:name="G_BN3261_RS03155" fbc:label="G_BN3261_RS03155"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06420" fbc:name="G_BN3261_RS06420" fbc:label="G_BN3261_RS06420"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03155" fbc:name="G_BN3261_RS03155" fbc:label="G_BN3261_RS03155"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09400" fbc:name="G_BN3261_RS09400" fbc:label="G_BN3261_RS09400"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16800" fbc:name="G_BN3261_RS16800" fbc:label="G_BN3261_RS16800"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07480" fbc:name="G_BN3261_RS07480" fbc:label="G_BN3261_RS07480"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05235" fbc:name="G_BN3261_RS05235" fbc:label="G_BN3261_RS05235"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13110" fbc:name="G_BN3261_RS13110" fbc:label="G_BN3261_RS13110"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13160" fbc:name="G_BN3261_RS13160" fbc:label="G_BN3261_RS13160"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02175" fbc:name="G_BN3261_RS02175" fbc:label="G_BN3261_RS02175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02530" fbc:name="G_BN3261_RS02530" fbc:label="G_BN3261_RS02530"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13110" fbc:name="G_BN3261_RS13110" fbc:label="G_BN3261_RS13110"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05060" fbc:name="G_BN3261_RS05060" fbc:label="G_BN3261_RS05060"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02175" fbc:name="G_BN3261_RS02175" fbc:label="G_BN3261_RS02175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10135" fbc:name="G_BN3261_RS10135" fbc:label="G_BN3261_RS10135"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10130" fbc:name="G_BN3261_RS10130" fbc:label="G_BN3261_RS10130"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15885" fbc:name="G_BN3261_RS15885" fbc:label="G_BN3261_RS15885"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03020" fbc:name="G_BN3261_RS03020" fbc:label="G_BN3261_RS03020"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03175" fbc:name="G_BN3261_RS03175" fbc:label="G_BN3261_RS03175"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14760" fbc:name="G_BN3261_RS14760" fbc:label="G_BN3261_RS14760"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02210" fbc:name="G_BN3261_RS02210" fbc:label="G_BN3261_RS02210"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11500" fbc:name="G_BN3261_RS11500" fbc:label="G_BN3261_RS11500"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11285" fbc:name="G_BN3261_RS11285" fbc:label="G_BN3261_RS11285"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02210" fbc:name="G_BN3261_RS02210" fbc:label="G_BN3261_RS02210"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06425" fbc:name="G_BN3261_RS06425" fbc:label="G_BN3261_RS06425"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03150" fbc:name="G_BN3261_RS03150" fbc:label="G_BN3261_RS03150"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11285" fbc:name="G_BN3261_RS11285" fbc:label="G_BN3261_RS11285"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14650" fbc:name="G_BN3261_RS14650" fbc:label="G_BN3261_RS14650"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08960" fbc:name="G_BN3261_RS08960" fbc:label="G_BN3261_RS08960"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08965" fbc:name="G_BN3261_RS08965" fbc:label="G_BN3261_RS08965"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08960" fbc:name="G_BN3261_RS08960" fbc:label="G_BN3261_RS08960"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15830" fbc:name="G_BN3261_RS15830" fbc:label="G_BN3261_RS15830"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09225" fbc:name="G_BN3261_RS09225" fbc:label="G_BN3261_RS09225"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15950" fbc:name="G_BN3261_RS15950" fbc:label="G_BN3261_RS15950"/>
@@ -62512,160 +62512,160 @@
       <fbc:geneProduct fbc:id="G_BN3261_RS15940" fbc:name="G_BN3261_RS15940" fbc:label="G_BN3261_RS15940"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10245" fbc:name="G_BN3261_RS10245" fbc:label="G_BN3261_RS10245"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01740" fbc:name="G_BN3261_RS01740" fbc:label="G_BN3261_RS01740"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05305" fbc:name="G_BN3261_RS05305" fbc:label="G_BN3261_RS05305"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09540" fbc:name="G_BN3261_RS09540" fbc:label="G_BN3261_RS09540"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05305" fbc:name="G_BN3261_RS05305" fbc:label="G_BN3261_RS05305"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09135" fbc:name="G_BN3261_RS09135" fbc:label="G_BN3261_RS09135"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09160" fbc:name="G_BN3261_RS09160" fbc:label="G_BN3261_RS09160"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05110" fbc:name="G_BN3261_RS05110" fbc:label="G_BN3261_RS05110"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09135" fbc:name="G_BN3261_RS09135" fbc:label="G_BN3261_RS09135"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10340" fbc:name="G_BN3261_RS10340" fbc:label="G_BN3261_RS10340"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14830" fbc:name="G_BN3261_RS14830" fbc:label="G_BN3261_RS14830"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02130" fbc:name="G_BN3261_RS02130" fbc:label="G_BN3261_RS02130"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01960" fbc:name="G_BN3261_RS01960" fbc:label="G_BN3261_RS01960"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09105" fbc:name="G_BN3261_RS09105" fbc:label="G_BN3261_RS09105"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09850" fbc:name="G_BN3261_RS09850" fbc:label="G_BN3261_RS09850"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09105" fbc:name="G_BN3261_RS09105" fbc:label="G_BN3261_RS09105"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS16345" fbc:name="G_BN3261_RS16345" fbc:label="G_BN3261_RS16345"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02435" fbc:name="G_BN3261_RS02435" fbc:label="G_BN3261_RS02435"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS03435" fbc:name="G_BN3261_RS03435" fbc:label="G_BN3261_RS03435"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS11505" fbc:name="G_BN3261_RS11505" fbc:label="G_BN3261_RS11505"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02435" fbc:name="G_BN3261_RS02435" fbc:label="G_BN3261_RS02435"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09330" fbc:name="G_BN3261_RS09330" fbc:label="G_BN3261_RS09330"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07130" fbc:name="G_BN3261_RS07130" fbc:label="G_BN3261_RS07130"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05905" fbc:name="G_BN3261_RS05905" fbc:label="G_BN3261_RS05905"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05100" fbc:name="G_BN3261_RS05100" fbc:label="G_BN3261_RS05100"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02905" fbc:name="G_BN3261_RS02905" fbc:label="G_BN3261_RS02905"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00600" fbc:name="G_BN3261_RS00600" fbc:label="G_BN3261_RS00600"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS04615" fbc:name="G_BN3261_RS04615" fbc:label="G_BN3261_RS04615"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14115" fbc:name="G_BN3261_RS14115" fbc:label="G_BN3261_RS14115"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00600" fbc:name="G_BN3261_RS00600" fbc:label="G_BN3261_RS00600"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07130" fbc:name="G_BN3261_RS07130" fbc:label="G_BN3261_RS07130"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05100" fbc:name="G_BN3261_RS05100" fbc:label="G_BN3261_RS05100"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09330" fbc:name="G_BN3261_RS09330" fbc:label="G_BN3261_RS09330"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02905" fbc:name="G_BN3261_RS02905" fbc:label="G_BN3261_RS02905"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14120" fbc:name="G_BN3261_RS14120" fbc:label="G_BN3261_RS14120"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14125" fbc:name="G_BN3261_RS14125" fbc:label="G_BN3261_RS14125"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03080" fbc:name="G_BN3261_RS03080" fbc:label="G_BN3261_RS03080"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10160" fbc:name="G_BN3261_RS10160" fbc:label="G_BN3261_RS10160"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00790" fbc:name="G_BN3261_RS00790" fbc:label="G_BN3261_RS00790"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS17225" fbc:name="G_BN3261_RS17225" fbc:label="G_BN3261_RS17225"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14115" fbc:name="G_BN3261_RS14115" fbc:label="G_BN3261_RS14115"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05510" fbc:name="G_BN3261_RS05510" fbc:label="G_BN3261_RS05510"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13665" fbc:name="G_BN3261_RS13665" fbc:label="G_BN3261_RS13665"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03050" fbc:name="G_BN3261_RS03050" fbc:label="G_BN3261_RS03050"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04855" fbc:name="G_BN3261_RS04855" fbc:label="G_BN3261_RS04855"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10535" fbc:name="G_BN3261_RS10535" fbc:label="G_BN3261_RS10535"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS16050" fbc:name="G_BN3261_RS16050" fbc:label="G_BN3261_RS16050"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14475" fbc:name="G_BN3261_RS14475" fbc:label="G_BN3261_RS14475"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10255" fbc:name="G_BN3261_RS10255" fbc:label="G_BN3261_RS10255"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13275" fbc:name="G_BN3261_RS13275" fbc:label="G_BN3261_RS13275"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01010" fbc:name="G_BN3261_RS01010" fbc:label="G_BN3261_RS01010"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09765" fbc:name="G_BN3261_RS09765" fbc:label="G_BN3261_RS09765"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04025" fbc:name="G_BN3261_RS04025" fbc:label="G_BN3261_RS04025"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03565" fbc:name="G_BN3261_RS03565" fbc:label="G_BN3261_RS03565"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15105" fbc:name="G_BN3261_RS15105" fbc:label="G_BN3261_RS15105"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13470" fbc:name="G_BN3261_RS13470" fbc:label="G_BN3261_RS13470"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00685" fbc:name="G_BN3261_RS00685" fbc:label="G_BN3261_RS00685"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13470" fbc:name="G_BN3261_RS13470" fbc:label="G_BN3261_RS13470"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS06480" fbc:name="G_BN3261_RS06480" fbc:label="G_BN3261_RS06480"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10255" fbc:name="G_BN3261_RS10255" fbc:label="G_BN3261_RS10255"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03050" fbc:name="G_BN3261_RS03050" fbc:label="G_BN3261_RS03050"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04025" fbc:name="G_BN3261_RS04025" fbc:label="G_BN3261_RS04025"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08385" fbc:name="G_BN3261_RS08385" fbc:label="G_BN3261_RS08385"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13270" fbc:name="G_BN3261_RS13270" fbc:label="G_BN3261_RS13270"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10535" fbc:name="G_BN3261_RS10535" fbc:label="G_BN3261_RS10535"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS17225" fbc:name="G_BN3261_RS17225" fbc:label="G_BN3261_RS17225"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00790" fbc:name="G_BN3261_RS00790" fbc:label="G_BN3261_RS00790"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07490" fbc:name="G_BN3261_RS07490" fbc:label="G_BN3261_RS07490"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13275" fbc:name="G_BN3261_RS13275" fbc:label="G_BN3261_RS13275"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS16050" fbc:name="G_BN3261_RS16050" fbc:label="G_BN3261_RS16050"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13295" fbc:name="G_BN3261_RS13295" fbc:label="G_BN3261_RS13295"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01010" fbc:name="G_BN3261_RS01010" fbc:label="G_BN3261_RS01010"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00690" fbc:name="G_BN3261_RS00690" fbc:label="G_BN3261_RS00690"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04855" fbc:name="G_BN3261_RS04855" fbc:label="G_BN3261_RS04855"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14475" fbc:name="G_BN3261_RS14475" fbc:label="G_BN3261_RS14475"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS12890" fbc:name="G_BN3261_RS12890" fbc:label="G_BN3261_RS12890"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04140" fbc:name="G_BN3261_RS04140" fbc:label="G_BN3261_RS04140"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS05515" fbc:name="G_BN3261_RS05515" fbc:label="G_BN3261_RS05515"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS15330" fbc:name="G_BN3261_RS15330" fbc:label="G_BN3261_RS15330"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03080" fbc:name="G_BN3261_RS03080" fbc:label="G_BN3261_RS03080"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04140" fbc:name="G_BN3261_RS04140" fbc:label="G_BN3261_RS04140"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02715" fbc:name="G_BN3261_RS02715" fbc:label="G_BN3261_RS02715"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15835" fbc:name="G_BN3261_RS15835" fbc:label="G_BN3261_RS15835"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07490" fbc:name="G_BN3261_RS07490" fbc:label="G_BN3261_RS07490"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01220" fbc:name="G_BN3261_RS01220" fbc:label="G_BN3261_RS01220"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13270" fbc:name="G_BN3261_RS13270" fbc:label="G_BN3261_RS13270"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13295" fbc:name="G_BN3261_RS13295" fbc:label="G_BN3261_RS13295"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS06480" fbc:name="G_BN3261_RS06480" fbc:label="G_BN3261_RS06480"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15105" fbc:name="G_BN3261_RS15105" fbc:label="G_BN3261_RS15105"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15835" fbc:name="G_BN3261_RS15835" fbc:label="G_BN3261_RS15835"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13465" fbc:name="G_BN3261_RS13465" fbc:label="G_BN3261_RS13465"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08385" fbc:name="G_BN3261_RS08385" fbc:label="G_BN3261_RS08385"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00690" fbc:name="G_BN3261_RS00690" fbc:label="G_BN3261_RS00690"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14345" fbc:name="G_BN3261_RS14345" fbc:label="G_BN3261_RS14345"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07900" fbc:name="G_BN3261_RS07900" fbc:label="G_BN3261_RS07900"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15825" fbc:name="G_BN3261_RS15825" fbc:label="G_BN3261_RS15825"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08370" fbc:name="G_BN3261_RS08370" fbc:label="G_BN3261_RS08370"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00920" fbc:name="G_BN3261_RS00920" fbc:label="G_BN3261_RS00920"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01815" fbc:name="G_BN3261_RS01815" fbc:label="G_BN3261_RS01815"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01845" fbc:name="G_BN3261_RS01845" fbc:label="G_BN3261_RS01845"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01810" fbc:name="G_BN3261_RS01810" fbc:label="G_BN3261_RS01810"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01825" fbc:name="G_BN3261_RS01825" fbc:label="G_BN3261_RS01825"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07535" fbc:name="G_BN3261_RS07535" fbc:label="G_BN3261_RS07535"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01820" fbc:name="G_BN3261_RS01820" fbc:label="G_BN3261_RS01820"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01765" fbc:name="G_BN3261_RS01765" fbc:label="G_BN3261_RS01765"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15980" fbc:name="G_BN3261_RS15980" fbc:label="G_BN3261_RS15980"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08380" fbc:name="G_BN3261_RS08380" fbc:label="G_BN3261_RS08380"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01635" fbc:name="G_BN3261_RS01635" fbc:label="G_BN3261_RS01635"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09325" fbc:name="G_BN3261_RS09325" fbc:label="G_BN3261_RS09325"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14520" fbc:name="G_BN3261_RS14520" fbc:label="G_BN3261_RS14520"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15845" fbc:name="G_BN3261_RS15845" fbc:label="G_BN3261_RS15845"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10275" fbc:name="G_BN3261_RS10275" fbc:label="G_BN3261_RS10275"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05670" fbc:name="G_BN3261_RS05670" fbc:label="G_BN3261_RS05670"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15650" fbc:name="G_BN3261_RS15650" fbc:label="G_BN3261_RS15650"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13575" fbc:name="G_BN3261_RS13575" fbc:label="G_BN3261_RS13575"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07205" fbc:name="G_BN3261_RS07205" fbc:label="G_BN3261_RS07205"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02670" fbc:name="G_BN3261_RS02670" fbc:label="G_BN3261_RS02670"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01905" fbc:name="G_BN3261_RS01905" fbc:label="G_BN3261_RS01905"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00235" fbc:name="G_BN3261_RS00235" fbc:label="G_BN3261_RS00235"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS06035" fbc:name="G_BN3261_RS06035" fbc:label="G_BN3261_RS06035"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS08390" fbc:name="G_BN3261_RS08390" fbc:label="G_BN3261_RS08390"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14525" fbc:name="G_BN3261_RS14525" fbc:label="G_BN3261_RS14525"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07345" fbc:name="G_BN3261_RS07345" fbc:label="G_BN3261_RS07345"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01910" fbc:name="G_BN3261_RS01910" fbc:label="G_BN3261_RS01910"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01795" fbc:name="G_BN3261_RS01795" fbc:label="G_BN3261_RS01795"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS05610" fbc:name="G_BN3261_RS05610" fbc:label="G_BN3261_RS05610"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14275" fbc:name="G_BN3261_RS14275" fbc:label="G_BN3261_RS14275"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11865" fbc:name="G_BN3261_RS11865" fbc:label="G_BN3261_RS11865"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS02740" fbc:name="G_BN3261_RS02740" fbc:label="G_BN3261_RS02740"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00590" fbc:name="G_BN3261_RS00590" fbc:label="G_BN3261_RS00590"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01800" fbc:name="G_BN3261_RS01800" fbc:label="G_BN3261_RS01800"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07195" fbc:name="G_BN3261_RS07195" fbc:label="G_BN3261_RS07195"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01830" fbc:name="G_BN3261_RS01830" fbc:label="G_BN3261_RS01830"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01860" fbc:name="G_BN3261_RS01860" fbc:label="G_BN3261_RS01860"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10160" fbc:name="G_BN3261_RS10160" fbc:label="G_BN3261_RS10160"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09765" fbc:name="G_BN3261_RS09765" fbc:label="G_BN3261_RS09765"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03565" fbc:name="G_BN3261_RS03565" fbc:label="G_BN3261_RS03565"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS06040" fbc:name="G_BN3261_RS06040" fbc:label="G_BN3261_RS06040"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07435" fbc:name="G_BN3261_RS07435" fbc:label="G_BN3261_RS07435"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14835" fbc:name="G_BN3261_RS14835" fbc:label="G_BN3261_RS14835"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04575" fbc:name="G_BN3261_RS04575" fbc:label="G_BN3261_RS04575"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS15975" fbc:name="G_BN3261_RS15975" fbc:label="G_BN3261_RS15975"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04620" fbc:name="G_BN3261_RS04620" fbc:label="G_BN3261_RS04620"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11845" fbc:name="G_BN3261_RS11845" fbc:label="G_BN3261_RS11845"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01930" fbc:name="G_BN3261_RS01930" fbc:label="G_BN3261_RS01930"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01865" fbc:name="G_BN3261_RS01865" fbc:label="G_BN3261_RS01865"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04530" fbc:name="G_BN3261_RS04530" fbc:label="G_BN3261_RS04530"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14840" fbc:name="G_BN3261_RS14840" fbc:label="G_BN3261_RS14840"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09755" fbc:name="G_BN3261_RS09755" fbc:label="G_BN3261_RS09755"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01790" fbc:name="G_BN3261_RS01790" fbc:label="G_BN3261_RS01790"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01840" fbc:name="G_BN3261_RS01840" fbc:label="G_BN3261_RS01840"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01915" fbc:name="G_BN3261_RS01915" fbc:label="G_BN3261_RS01915"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11980" fbc:name="G_BN3261_RS11980" fbc:label="G_BN3261_RS11980"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01850" fbc:name="G_BN3261_RS01850" fbc:label="G_BN3261_RS01850"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS04525" fbc:name="G_BN3261_RS04525" fbc:label="G_BN3261_RS04525"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01920" fbc:name="G_BN3261_RS01920" fbc:label="G_BN3261_RS01920"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01780" fbc:name="G_BN3261_RS01780" fbc:label="G_BN3261_RS01780"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01835" fbc:name="G_BN3261_RS01835" fbc:label="G_BN3261_RS01835"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01805" fbc:name="G_BN3261_RS01805" fbc:label="G_BN3261_RS01805"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01770" fbc:name="G_BN3261_RS01770" fbc:label="G_BN3261_RS01770"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS09320" fbc:name="G_BN3261_RS09320" fbc:label="G_BN3261_RS09320"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00915" fbc:name="G_BN3261_RS00915" fbc:label="G_BN3261_RS00915"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS12825" fbc:name="G_BN3261_RS12825" fbc:label="G_BN3261_RS12825"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15845" fbc:name="G_BN3261_RS15845" fbc:label="G_BN3261_RS15845"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01810" fbc:name="G_BN3261_RS01810" fbc:label="G_BN3261_RS01810"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14275" fbc:name="G_BN3261_RS14275" fbc:label="G_BN3261_RS14275"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS00930" fbc:name="G_BN3261_RS00930" fbc:label="G_BN3261_RS00930"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS11985" fbc:name="G_BN3261_RS11985" fbc:label="G_BN3261_RS11985"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01855" fbc:name="G_BN3261_RS01855" fbc:label="G_BN3261_RS01855"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01775" fbc:name="G_BN3261_RS01775" fbc:label="G_BN3261_RS01775"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00925" fbc:name="G_BN3261_RS00925" fbc:label="G_BN3261_RS00925"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS06030" fbc:name="G_BN3261_RS06030" fbc:label="G_BN3261_RS06030"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00915" fbc:name="G_BN3261_RS00915" fbc:label="G_BN3261_RS00915"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01635" fbc:name="G_BN3261_RS01635" fbc:label="G_BN3261_RS01635"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS01785" fbc:name="G_BN3261_RS01785" fbc:label="G_BN3261_RS01785"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11865" fbc:name="G_BN3261_RS11865" fbc:label="G_BN3261_RS11865"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01865" fbc:name="G_BN3261_RS01865" fbc:label="G_BN3261_RS01865"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00590" fbc:name="G_BN3261_RS00590" fbc:label="G_BN3261_RS00590"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15825" fbc:name="G_BN3261_RS15825" fbc:label="G_BN3261_RS15825"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01835" fbc:name="G_BN3261_RS01835" fbc:label="G_BN3261_RS01835"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01930" fbc:name="G_BN3261_RS01930" fbc:label="G_BN3261_RS01930"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS06030" fbc:name="G_BN3261_RS06030" fbc:label="G_BN3261_RS06030"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00925" fbc:name="G_BN3261_RS00925" fbc:label="G_BN3261_RS00925"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS06035" fbc:name="G_BN3261_RS06035" fbc:label="G_BN3261_RS06035"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10275" fbc:name="G_BN3261_RS10275" fbc:label="G_BN3261_RS10275"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01910" fbc:name="G_BN3261_RS01910" fbc:label="G_BN3261_RS01910"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04575" fbc:name="G_BN3261_RS04575" fbc:label="G_BN3261_RS04575"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS13480" fbc:name="G_BN3261_RS13480" fbc:label="G_BN3261_RS13480"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS12825" fbc:name="G_BN3261_RS12825" fbc:label="G_BN3261_RS12825"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01770" fbc:name="G_BN3261_RS01770" fbc:label="G_BN3261_RS01770"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15650" fbc:name="G_BN3261_RS15650" fbc:label="G_BN3261_RS15650"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01845" fbc:name="G_BN3261_RS01845" fbc:label="G_BN3261_RS01845"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14835" fbc:name="G_BN3261_RS14835" fbc:label="G_BN3261_RS14835"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09755" fbc:name="G_BN3261_RS09755" fbc:label="G_BN3261_RS09755"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09320" fbc:name="G_BN3261_RS09320" fbc:label="G_BN3261_RS09320"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05610" fbc:name="G_BN3261_RS05610" fbc:label="G_BN3261_RS05610"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01825" fbc:name="G_BN3261_RS01825" fbc:label="G_BN3261_RS01825"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02740" fbc:name="G_BN3261_RS02740" fbc:label="G_BN3261_RS02740"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07195" fbc:name="G_BN3261_RS07195" fbc:label="G_BN3261_RS07195"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01795" fbc:name="G_BN3261_RS01795" fbc:label="G_BN3261_RS01795"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01840" fbc:name="G_BN3261_RS01840" fbc:label="G_BN3261_RS01840"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01920" fbc:name="G_BN3261_RS01920" fbc:label="G_BN3261_RS01920"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01775" fbc:name="G_BN3261_RS01775" fbc:label="G_BN3261_RS01775"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08390" fbc:name="G_BN3261_RS08390" fbc:label="G_BN3261_RS08390"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14345" fbc:name="G_BN3261_RS14345" fbc:label="G_BN3261_RS14345"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01805" fbc:name="G_BN3261_RS01805" fbc:label="G_BN3261_RS01805"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00235" fbc:name="G_BN3261_RS00235" fbc:label="G_BN3261_RS00235"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01820" fbc:name="G_BN3261_RS01820" fbc:label="G_BN3261_RS01820"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07205" fbc:name="G_BN3261_RS07205" fbc:label="G_BN3261_RS07205"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13575" fbc:name="G_BN3261_RS13575" fbc:label="G_BN3261_RS13575"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11985" fbc:name="G_BN3261_RS11985" fbc:label="G_BN3261_RS11985"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01790" fbc:name="G_BN3261_RS01790" fbc:label="G_BN3261_RS01790"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07435" fbc:name="G_BN3261_RS07435" fbc:label="G_BN3261_RS07435"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14520" fbc:name="G_BN3261_RS14520" fbc:label="G_BN3261_RS14520"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01830" fbc:name="G_BN3261_RS01830" fbc:label="G_BN3261_RS01830"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS09325" fbc:name="G_BN3261_RS09325" fbc:label="G_BN3261_RS09325"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01860" fbc:name="G_BN3261_RS01860" fbc:label="G_BN3261_RS01860"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08380" fbc:name="G_BN3261_RS08380" fbc:label="G_BN3261_RS08380"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15975" fbc:name="G_BN3261_RS15975" fbc:label="G_BN3261_RS15975"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS05670" fbc:name="G_BN3261_RS05670" fbc:label="G_BN3261_RS05670"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11845" fbc:name="G_BN3261_RS11845" fbc:label="G_BN3261_RS11845"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01815" fbc:name="G_BN3261_RS01815" fbc:label="G_BN3261_RS01815"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14840" fbc:name="G_BN3261_RS14840" fbc:label="G_BN3261_RS14840"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS11980" fbc:name="G_BN3261_RS11980" fbc:label="G_BN3261_RS11980"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01915" fbc:name="G_BN3261_RS01915" fbc:label="G_BN3261_RS01915"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS15980" fbc:name="G_BN3261_RS15980" fbc:label="G_BN3261_RS15980"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00920" fbc:name="G_BN3261_RS00920" fbc:label="G_BN3261_RS00920"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04620" fbc:name="G_BN3261_RS04620" fbc:label="G_BN3261_RS04620"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01850" fbc:name="G_BN3261_RS01850" fbc:label="G_BN3261_RS01850"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01905" fbc:name="G_BN3261_RS01905" fbc:label="G_BN3261_RS01905"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07345" fbc:name="G_BN3261_RS07345" fbc:label="G_BN3261_RS07345"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS08370" fbc:name="G_BN3261_RS08370" fbc:label="G_BN3261_RS08370"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04530" fbc:name="G_BN3261_RS04530" fbc:label="G_BN3261_RS04530"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS04525" fbc:name="G_BN3261_RS04525" fbc:label="G_BN3261_RS04525"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01780" fbc:name="G_BN3261_RS01780" fbc:label="G_BN3261_RS01780"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01765" fbc:name="G_BN3261_RS01765" fbc:label="G_BN3261_RS01765"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01800" fbc:name="G_BN3261_RS01800" fbc:label="G_BN3261_RS01800"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07900" fbc:name="G_BN3261_RS07900" fbc:label="G_BN3261_RS07900"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07535" fbc:name="G_BN3261_RS07535" fbc:label="G_BN3261_RS07535"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS02670" fbc:name="G_BN3261_RS02670" fbc:label="G_BN3261_RS02670"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14525" fbc:name="G_BN3261_RS14525" fbc:label="G_BN3261_RS14525"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08910" fbc:name="G_BN3261_RS08910" fbc:label="G_BN3261_RS08910"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08905" fbc:name="G_BN3261_RS08905" fbc:label="G_BN3261_RS08905"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07700" fbc:name="G_BN3261_RS07700" fbc:label="G_BN3261_RS07700"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS10715" fbc:name="G_BN3261_RS10715" fbc:label="G_BN3261_RS10715"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09950" fbc:name="G_BN3261_RS09950" fbc:label="G_BN3261_RS09950"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07350" fbc:name="G_BN3261_RS07350" fbc:label="G_BN3261_RS07350"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS10920" fbc:name="G_BN3261_RS10920" fbc:label="G_BN3261_RS10920"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS08705" fbc:name="G_BN3261_RS08705" fbc:label="G_BN3261_RS08705"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS07330" fbc:name="G_BN3261_RS07330" fbc:label="G_BN3261_RS07330"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS10920" fbc:name="G_BN3261_RS10920" fbc:label="G_BN3261_RS10920"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS09885" fbc:name="G_BN3261_RS09885" fbc:label="G_BN3261_RS09885"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS01925" fbc:name="G_BN3261_RS01925" fbc:label="G_BN3261_RS01925"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS07330" fbc:name="G_BN3261_RS07330" fbc:label="G_BN3261_RS07330"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07420" fbc:name="G_BN3261_RS07420" fbc:label="G_BN3261_RS07420"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS02700" fbc:name="G_BN3261_RS02700" fbc:label="G_BN3261_RS02700"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS13485" fbc:name="G_BN3261_RS13485" fbc:label="G_BN3261_RS13485"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS14850" fbc:name="G_BN3261_RS14850" fbc:label="G_BN3261_RS14850"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00785" fbc:name="G_BN3261_RS00785" fbc:label="G_BN3261_RS00785"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS03185" fbc:name="G_BN3261_RS03185" fbc:label="G_BN3261_RS03185"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS07495" fbc:name="G_BN3261_RS07495" fbc:label="G_BN3261_RS07495"/>
-      <fbc:geneProduct fbc:id="G_BN3261_RS00630" fbc:name="G_BN3261_RS00630" fbc:label="G_BN3261_RS00630"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS14850" fbc:name="G_BN3261_RS14850" fbc:label="G_BN3261_RS14850"/>
       <fbc:geneProduct fbc:id="G_BN3261_RS14855" fbc:name="G_BN3261_RS14855" fbc:label="G_BN3261_RS14855"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS13485" fbc:name="G_BN3261_RS13485" fbc:label="G_BN3261_RS13485"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00785" fbc:name="G_BN3261_RS00785" fbc:label="G_BN3261_RS00785"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS00630" fbc:name="G_BN3261_RS00630" fbc:label="G_BN3261_RS00630"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS03185" fbc:name="G_BN3261_RS03185" fbc:label="G_BN3261_RS03185"/>
+      <fbc:geneProduct fbc:id="G_BN3261_RS01925" fbc:name="G_BN3261_RS01925" fbc:label="G_BN3261_RS01925"/>
     </fbc:listOfGeneProducts>
   </model>
 </sbml>

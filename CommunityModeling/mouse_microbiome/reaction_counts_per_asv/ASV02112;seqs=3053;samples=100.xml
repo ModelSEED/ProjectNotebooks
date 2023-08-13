@@ -53627,27 +53627,27 @@
     <fbc:listOfGeneProducts>
       <fbc:geneProduct fbc:id="G_BLU78_RS02915" fbc:name="G_BLU78_RS02915" fbc:label="G_BLU78_RS02915"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03100" fbc:name="G_BLU78_RS03100" fbc:label="G_BLU78_RS03100"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00625" fbc:name="G_BLU78_RS00625" fbc:label="G_BLU78_RS00625"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07990" fbc:name="G_BLU78_RS07990" fbc:label="G_BLU78_RS07990"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00625" fbc:name="G_BLU78_RS00625" fbc:label="G_BLU78_RS00625"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01890" fbc:name="G_BLU78_RS01890" fbc:label="G_BLU78_RS01890"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11730" fbc:name="G_BLU78_RS11730" fbc:label="G_BLU78_RS11730"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13465" fbc:name="G_BLU78_RS13465" fbc:label="G_BLU78_RS13465"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11730" fbc:name="G_BLU78_RS11730" fbc:label="G_BLU78_RS11730"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02890" fbc:name="G_BLU78_RS02890" fbc:label="G_BLU78_RS02890"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02150" fbc:name="G_BLU78_RS02150" fbc:label="G_BLU78_RS02150"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03575" fbc:name="G_BLU78_RS03575" fbc:label="G_BLU78_RS03575"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09280" fbc:name="G_BLU78_RS09280" fbc:label="G_BLU78_RS09280"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04110" fbc:name="G_BLU78_RS04110" fbc:label="G_BLU78_RS04110"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04115" fbc:name="G_BLU78_RS04115" fbc:label="G_BLU78_RS04115"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04110" fbc:name="G_BLU78_RS04110" fbc:label="G_BLU78_RS04110"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03705" fbc:name="G_BLU78_RS03705" fbc:label="G_BLU78_RS03705"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06425" fbc:name="G_BLU78_RS06425" fbc:label="G_BLU78_RS06425"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12590" fbc:name="G_BLU78_RS12590" fbc:label="G_BLU78_RS12590"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02615" fbc:name="G_BLU78_RS02615" fbc:label="G_BLU78_RS02615"/>
       <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12590" fbc:name="G_BLU78_RS12590" fbc:label="G_BLU78_RS12590"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01600" fbc:name="G_BLU78_RS01600" fbc:label="G_BLU78_RS01600"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02615" fbc:name="G_BLU78_RS02615" fbc:label="G_BLU78_RS02615"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04590" fbc:name="G_BLU78_RS04590" fbc:label="G_BLU78_RS04590"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09775" fbc:name="G_BLU78_RS09775" fbc:label="G_BLU78_RS09775"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS13755" fbc:name="G_BLU78_RS13755" fbc:label="G_BLU78_RS13755"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01445" fbc:name="G_BLU78_RS01445" fbc:label="G_BLU78_RS01445"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS13755" fbc:name="G_BLU78_RS13755" fbc:label="G_BLU78_RS13755"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06850" fbc:name="G_BLU78_RS06850" fbc:label="G_BLU78_RS06850"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02910" fbc:name="G_BLU78_RS02910" fbc:label="G_BLU78_RS02910"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02905" fbc:name="G_BLU78_RS02905" fbc:label="G_BLU78_RS02905"/>
@@ -53663,26 +53663,26 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS11690" fbc:name="G_BLU78_RS11690" fbc:label="G_BLU78_RS11690"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13420" fbc:name="G_BLU78_RS13420" fbc:label="G_BLU78_RS13420"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08065" fbc:name="G_BLU78_RS08065" fbc:label="G_BLU78_RS08065"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05670" fbc:name="G_BLU78_RS05670" fbc:label="G_BLU78_RS05670"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03855" fbc:name="G_BLU78_RS03855" fbc:label="G_BLU78_RS03855"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05670" fbc:name="G_BLU78_RS05670" fbc:label="G_BLU78_RS05670"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09640" fbc:name="G_BLU78_RS09640" fbc:label="G_BLU78_RS09640"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06865" fbc:name="G_BLU78_RS06865" fbc:label="G_BLU78_RS06865"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03600" fbc:name="G_BLU78_RS03600" fbc:label="G_BLU78_RS03600"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06565" fbc:name="G_BLU78_RS06565" fbc:label="G_BLU78_RS06565"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09770" fbc:name="G_BLU78_RS09770" fbc:label="G_BLU78_RS09770"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03035" fbc:name="G_BLU78_RS03035" fbc:label="G_BLU78_RS03035"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03555" fbc:name="G_BLU78_RS03555" fbc:label="G_BLU78_RS03555"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01640" fbc:name="G_BLU78_RS01640" fbc:label="G_BLU78_RS01640"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06505" fbc:name="G_BLU78_RS06505" fbc:label="G_BLU78_RS06505"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05635" fbc:name="G_BLU78_RS05635" fbc:label="G_BLU78_RS05635"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10845" fbc:name="G_BLU78_RS10845" fbc:label="G_BLU78_RS10845"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10930" fbc:name="G_BLU78_RS10930" fbc:label="G_BLU78_RS10930"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09180" fbc:name="G_BLU78_RS09180" fbc:label="G_BLU78_RS09180"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05635" fbc:name="G_BLU78_RS05635" fbc:label="G_BLU78_RS05635"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06565" fbc:name="G_BLU78_RS06565" fbc:label="G_BLU78_RS06565"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03555" fbc:name="G_BLU78_RS03555" fbc:label="G_BLU78_RS03555"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03035" fbc:name="G_BLU78_RS03035" fbc:label="G_BLU78_RS03035"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06505" fbc:name="G_BLU78_RS06505" fbc:label="G_BLU78_RS06505"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01640" fbc:name="G_BLU78_RS01640" fbc:label="G_BLU78_RS01640"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01150" fbc:name="G_BLU78_RS01150" fbc:label="G_BLU78_RS01150"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04075" fbc:name="G_BLU78_RS04075" fbc:label="G_BLU78_RS04075"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07075" fbc:name="G_BLU78_RS07075" fbc:label="G_BLU78_RS07075"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00520" fbc:name="G_BLU78_RS00520" fbc:label="G_BLU78_RS00520"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02560" fbc:name="G_BLU78_RS02560" fbc:label="G_BLU78_RS02560"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00520" fbc:name="G_BLU78_RS00520" fbc:label="G_BLU78_RS00520"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07075" fbc:name="G_BLU78_RS07075" fbc:label="G_BLU78_RS07075"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00595" fbc:name="G_BLU78_RS00595" fbc:label="G_BLU78_RS00595"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12325" fbc:name="G_BLU78_RS12325" fbc:label="G_BLU78_RS12325"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11215" fbc:name="G_BLU78_RS11215" fbc:label="G_BLU78_RS11215"/>
@@ -53703,48 +53703,48 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS09935" fbc:name="G_BLU78_RS09935" fbc:label="G_BLU78_RS09935"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01965" fbc:name="G_BLU78_RS01965" fbc:label="G_BLU78_RS01965"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09730" fbc:name="G_BLU78_RS09730" fbc:label="G_BLU78_RS09730"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01300" fbc:name="G_BLU78_RS01300" fbc:label="G_BLU78_RS01300"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09250" fbc:name="G_BLU78_RS09250" fbc:label="G_BLU78_RS09250"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03270" fbc:name="G_BLU78_RS03270" fbc:label="G_BLU78_RS03270"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09965" fbc:name="G_BLU78_RS09965" fbc:label="G_BLU78_RS09965"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11515" fbc:name="G_BLU78_RS11515" fbc:label="G_BLU78_RS11515"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09015" fbc:name="G_BLU78_RS09015" fbc:label="G_BLU78_RS09015"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11310" fbc:name="G_BLU78_RS11310" fbc:label="G_BLU78_RS11310"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03960" fbc:name="G_BLU78_RS03960" fbc:label="G_BLU78_RS03960"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07645" fbc:name="G_BLU78_RS07645" fbc:label="G_BLU78_RS07645"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04430" fbc:name="G_BLU78_RS04430" fbc:label="G_BLU78_RS04430"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00585" fbc:name="G_BLU78_RS00585" fbc:label="G_BLU78_RS00585"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09965" fbc:name="G_BLU78_RS09965" fbc:label="G_BLU78_RS09965"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11310" fbc:name="G_BLU78_RS11310" fbc:label="G_BLU78_RS11310"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09015" fbc:name="G_BLU78_RS09015" fbc:label="G_BLU78_RS09015"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09250" fbc:name="G_BLU78_RS09250" fbc:label="G_BLU78_RS09250"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03960" fbc:name="G_BLU78_RS03960" fbc:label="G_BLU78_RS03960"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04430" fbc:name="G_BLU78_RS04430" fbc:label="G_BLU78_RS04430"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01300" fbc:name="G_BLU78_RS01300" fbc:label="G_BLU78_RS01300"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07645" fbc:name="G_BLU78_RS07645" fbc:label="G_BLU78_RS07645"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11515" fbc:name="G_BLU78_RS11515" fbc:label="G_BLU78_RS11515"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11940" fbc:name="G_BLU78_RS11940" fbc:label="G_BLU78_RS11940"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12105" fbc:name="G_BLU78_RS12105" fbc:label="G_BLU78_RS12105"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04150" fbc:name="G_BLU78_RS04150" fbc:label="G_BLU78_RS04150"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04155" fbc:name="G_BLU78_RS04155" fbc:label="G_BLU78_RS04155"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11705" fbc:name="G_BLU78_RS11705" fbc:label="G_BLU78_RS11705"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03315" fbc:name="G_BLU78_RS03315" fbc:label="G_BLU78_RS03315"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03670" fbc:name="G_BLU78_RS03670" fbc:label="G_BLU78_RS03670"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09315" fbc:name="G_BLU78_RS09315" fbc:label="G_BLU78_RS09315"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03670" fbc:name="G_BLU78_RS03670" fbc:label="G_BLU78_RS03670"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11850" fbc:name="G_BLU78_RS11850" fbc:label="G_BLU78_RS11850"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11165" fbc:name="G_BLU78_RS11165" fbc:label="G_BLU78_RS11165"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06815" fbc:name="G_BLU78_RS06815" fbc:label="G_BLU78_RS06815"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11165" fbc:name="G_BLU78_RS11165" fbc:label="G_BLU78_RS11165"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01205" fbc:name="G_BLU78_RS01205" fbc:label="G_BLU78_RS01205"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10145" fbc:name="G_BLU78_RS10145" fbc:label="G_BLU78_RS10145"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10155" fbc:name="G_BLU78_RS10155" fbc:label="G_BLU78_RS10155"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10150" fbc:name="G_BLU78_RS10150" fbc:label="G_BLU78_RS10150"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10145" fbc:name="G_BLU78_RS10145" fbc:label="G_BLU78_RS10145"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12150" fbc:name="G_BLU78_RS12150" fbc:label="G_BLU78_RS12150"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02095" fbc:name="G_BLU78_RS02095" fbc:label="G_BLU78_RS02095"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03440" fbc:name="G_BLU78_RS03440" fbc:label="G_BLU78_RS03440"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06640" fbc:name="G_BLU78_RS06640" fbc:label="G_BLU78_RS06640"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02020" fbc:name="G_BLU78_RS02020" fbc:label="G_BLU78_RS02020"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10420" fbc:name="G_BLU78_RS10420" fbc:label="G_BLU78_RS10420"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05340" fbc:name="G_BLU78_RS05340" fbc:label="G_BLU78_RS05340"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12450" fbc:name="G_BLU78_RS12450" fbc:label="G_BLU78_RS12450"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05340" fbc:name="G_BLU78_RS05340" fbc:label="G_BLU78_RS05340"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11965" fbc:name="G_BLU78_RS11965" fbc:label="G_BLU78_RS11965"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01610" fbc:name="G_BLU78_RS01610" fbc:label="G_BLU78_RS01610"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09205" fbc:name="G_BLU78_RS09205" fbc:label="G_BLU78_RS09205"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03620" fbc:name="G_BLU78_RS03620" fbc:label="G_BLU78_RS03620"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01065" fbc:name="G_BLU78_RS01065" fbc:label="G_BLU78_RS01065"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03360" fbc:name="G_BLU78_RS03360" fbc:label="G_BLU78_RS03360"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS08430" fbc:name="G_BLU78_RS08430" fbc:label="G_BLU78_RS08430"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08445" fbc:name="G_BLU78_RS08445" fbc:label="G_BLU78_RS08445"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS08430" fbc:name="G_BLU78_RS08430" fbc:label="G_BLU78_RS08430"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10680" fbc:name="G_BLU78_RS10680" fbc:label="G_BLU78_RS10680"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08425" fbc:name="G_BLU78_RS08425" fbc:label="G_BLU78_RS08425"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01005" fbc:name="G_BLU78_RS01005" fbc:label="G_BLU78_RS01005"/>
@@ -53752,8 +53752,8 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS10140" fbc:name="G_BLU78_RS10140" fbc:label="G_BLU78_RS10140"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05325" fbc:name="G_BLU78_RS05325" fbc:label="G_BLU78_RS05325"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10540" fbc:name="G_BLU78_RS10540" fbc:label="G_BLU78_RS10540"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09630" fbc:name="G_BLU78_RS09630" fbc:label="G_BLU78_RS09630"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04140" fbc:name="G_BLU78_RS04140" fbc:label="G_BLU78_RS04140"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09630" fbc:name="G_BLU78_RS09630" fbc:label="G_BLU78_RS09630"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04145" fbc:name="G_BLU78_RS04145" fbc:label="G_BLU78_RS04145"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04160" fbc:name="G_BLU78_RS04160" fbc:label="G_BLU78_RS04160"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01705" fbc:name="G_BLU78_RS01705" fbc:label="G_BLU78_RS01705"/>
@@ -53770,8 +53770,8 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS01850" fbc:name="G_BLU78_RS01850" fbc:label="G_BLU78_RS01850"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03410" fbc:name="G_BLU78_RS03410" fbc:label="G_BLU78_RS03410"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08560" fbc:name="G_BLU78_RS08560" fbc:label="G_BLU78_RS08560"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01200" fbc:name="G_BLU78_RS01200" fbc:label="G_BLU78_RS01200"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04535" fbc:name="G_BLU78_RS04535" fbc:label="G_BLU78_RS04535"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01200" fbc:name="G_BLU78_RS01200" fbc:label="G_BLU78_RS01200"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01190" fbc:name="G_BLU78_RS01190" fbc:label="G_BLU78_RS01190"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13440" fbc:name="G_BLU78_RS13440" fbc:label="G_BLU78_RS13440"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10085" fbc:name="G_BLU78_RS10085" fbc:label="G_BLU78_RS10085"/>
@@ -53780,40 +53780,40 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS10645" fbc:name="G_BLU78_RS10645" fbc:label="G_BLU78_RS10645"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01185" fbc:name="G_BLU78_RS01185" fbc:label="G_BLU78_RS01185"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05935" fbc:name="G_BLU78_RS05935" fbc:label="G_BLU78_RS05935"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01825" fbc:name="G_BLU78_RS01825" fbc:label="G_BLU78_RS01825"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03605" fbc:name="G_BLU78_RS03605" fbc:label="G_BLU78_RS03605"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01825" fbc:name="G_BLU78_RS01825" fbc:label="G_BLU78_RS01825"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03610" fbc:name="G_BLU78_RS03610" fbc:label="G_BLU78_RS03610"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04460" fbc:name="G_BLU78_RS04460" fbc:label="G_BLU78_RS04460"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04465" fbc:name="G_BLU78_RS04465" fbc:label="G_BLU78_RS04465"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09405" fbc:name="G_BLU78_RS09405" fbc:label="G_BLU78_RS09405"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04450" fbc:name="G_BLU78_RS04450" fbc:label="G_BLU78_RS04450"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10640" fbc:name="G_BLU78_RS10640" fbc:label="G_BLU78_RS10640"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01425" fbc:name="G_BLU78_RS01425" fbc:label="G_BLU78_RS01425"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS13805" fbc:name="G_BLU78_RS13805" fbc:label="G_BLU78_RS13805"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02315" fbc:name="G_BLU78_RS02315" fbc:label="G_BLU78_RS02315"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS13805" fbc:name="G_BLU78_RS13805" fbc:label="G_BLU78_RS13805"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01425" fbc:name="G_BLU78_RS01425" fbc:label="G_BLU78_RS01425"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02610" fbc:name="G_BLU78_RS02610" fbc:label="G_BLU78_RS02610"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13460" fbc:name="G_BLU78_RS13460" fbc:label="G_BLU78_RS13460"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11395" fbc:name="G_BLU78_RS11395" fbc:label="G_BLU78_RS11395"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09480" fbc:name="G_BLU78_RS09480" fbc:label="G_BLU78_RS09480"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12125" fbc:name="G_BLU78_RS12125" fbc:label="G_BLU78_RS12125"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02945" fbc:name="G_BLU78_RS02945" fbc:label="G_BLU78_RS02945"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02940" fbc:name="G_BLU78_RS02940" fbc:label="G_BLU78_RS02940"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05680" fbc:name="G_BLU78_RS05680" fbc:label="G_BLU78_RS05680"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02945" fbc:name="G_BLU78_RS02945" fbc:label="G_BLU78_RS02945"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03840" fbc:name="G_BLU78_RS03840" fbc:label="G_BLU78_RS03840"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09475" fbc:name="G_BLU78_RS09475" fbc:label="G_BLU78_RS09475"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03115" fbc:name="G_BLU78_RS03115" fbc:label="G_BLU78_RS03115"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02510" fbc:name="G_BLU78_RS02510" fbc:label="G_BLU78_RS02510"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09310" fbc:name="G_BLU78_RS09310" fbc:label="G_BLU78_RS09310"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13525" fbc:name="G_BLU78_RS13525" fbc:label="G_BLU78_RS13525"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03510" fbc:name="G_BLU78_RS03510" fbc:label="G_BLU78_RS03510"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09310" fbc:name="G_BLU78_RS09310" fbc:label="G_BLU78_RS09310"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02510" fbc:name="G_BLU78_RS02510" fbc:label="G_BLU78_RS02510"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03025" fbc:name="G_BLU78_RS03025" fbc:label="G_BLU78_RS03025"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00555" fbc:name="G_BLU78_RS00555" fbc:label="G_BLU78_RS00555"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07400" fbc:name="G_BLU78_RS07400" fbc:label="G_BLU78_RS07400"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06340" fbc:name="G_BLU78_RS06340" fbc:label="G_BLU78_RS06340"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03030" fbc:name="G_BLU78_RS03030" fbc:label="G_BLU78_RS03030"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03025" fbc:name="G_BLU78_RS03025" fbc:label="G_BLU78_RS03025"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07405" fbc:name="G_BLU78_RS07405" fbc:label="G_BLU78_RS07405"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12055" fbc:name="G_BLU78_RS12055" fbc:label="G_BLU78_RS12055"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07405" fbc:name="G_BLU78_RS07405" fbc:label="G_BLU78_RS07405"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03090" fbc:name="G_BLU78_RS03090" fbc:label="G_BLU78_RS03090"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07400" fbc:name="G_BLU78_RS07400" fbc:label="G_BLU78_RS07400"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04080" fbc:name="G_BLU78_RS04080" fbc:label="G_BLU78_RS04080"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01985" fbc:name="G_BLU78_RS01985" fbc:label="G_BLU78_RS01985"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10430" fbc:name="G_BLU78_RS10430" fbc:label="G_BLU78_RS10430"/>
@@ -53832,8 +53832,8 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS11990" fbc:name="G_BLU78_RS11990" fbc:label="G_BLU78_RS11990"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04425" fbc:name="G_BLU78_RS04425" fbc:label="G_BLU78_RS04425"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08010" fbc:name="G_BLU78_RS08010" fbc:label="G_BLU78_RS08010"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03780" fbc:name="G_BLU78_RS03780" fbc:label="G_BLU78_RS03780"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10915" fbc:name="G_BLU78_RS10915" fbc:label="G_BLU78_RS10915"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03780" fbc:name="G_BLU78_RS03780" fbc:label="G_BLU78_RS03780"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04090" fbc:name="G_BLU78_RS04090" fbc:label="G_BLU78_RS04090"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08475" fbc:name="G_BLU78_RS08475" fbc:label="G_BLU78_RS08475"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02505" fbc:name="G_BLU78_RS02505" fbc:label="G_BLU78_RS02505"/>
@@ -53844,21 +53844,21 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS01310" fbc:name="G_BLU78_RS01310" fbc:label="G_BLU78_RS01310"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00140" fbc:name="G_BLU78_RS00140" fbc:label="G_BLU78_RS00140"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13040" fbc:name="G_BLU78_RS13040" fbc:label="G_BLU78_RS13040"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06110" fbc:name="G_BLU78_RS06110" fbc:label="G_BLU78_RS06110"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02475" fbc:name="G_BLU78_RS02475" fbc:label="G_BLU78_RS02475"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07540" fbc:name="G_BLU78_RS07540" fbc:label="G_BLU78_RS07540"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03120" fbc:name="G_BLU78_RS03120" fbc:label="G_BLU78_RS03120"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07540" fbc:name="G_BLU78_RS07540" fbc:label="G_BLU78_RS07540"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06110" fbc:name="G_BLU78_RS06110" fbc:label="G_BLU78_RS06110"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09790" fbc:name="G_BLU78_RS09790" fbc:label="G_BLU78_RS09790"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02475" fbc:name="G_BLU78_RS02475" fbc:label="G_BLU78_RS02475"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06025" fbc:name="G_BLU78_RS06025" fbc:label="G_BLU78_RS06025"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06880" fbc:name="G_BLU78_RS06880" fbc:label="G_BLU78_RS06880"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00815" fbc:name="G_BLU78_RS00815" fbc:label="G_BLU78_RS00815"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06880" fbc:name="G_BLU78_RS06880" fbc:label="G_BLU78_RS06880"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12070" fbc:name="G_BLU78_RS12070" fbc:label="G_BLU78_RS12070"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08435" fbc:name="G_BLU78_RS08435" fbc:label="G_BLU78_RS08435"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05005" fbc:name="G_BLU78_RS05005" fbc:label="G_BLU78_RS05005"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09105" fbc:name="G_BLU78_RS09105" fbc:label="G_BLU78_RS09105"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04815" fbc:name="G_BLU78_RS04815" fbc:label="G_BLU78_RS04815"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05005" fbc:name="G_BLU78_RS05005" fbc:label="G_BLU78_RS05005"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02920" fbc:name="G_BLU78_RS02920" fbc:label="G_BLU78_RS02920"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05010" fbc:name="G_BLU78_RS05010" fbc:label="G_BLU78_RS05010"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04815" fbc:name="G_BLU78_RS04815" fbc:label="G_BLU78_RS04815"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11220" fbc:name="G_BLU78_RS11220" fbc:label="G_BLU78_RS11220"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02130" fbc:name="G_BLU78_RS02130" fbc:label="G_BLU78_RS02130"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09725" fbc:name="G_BLU78_RS09725" fbc:label="G_BLU78_RS09725"/>
@@ -53873,36 +53873,36 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS10340" fbc:name="G_BLU78_RS10340" fbc:label="G_BLU78_RS10340"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05865" fbc:name="G_BLU78_RS05865" fbc:label="G_BLU78_RS05865"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00135" fbc:name="G_BLU78_RS00135" fbc:label="G_BLU78_RS00135"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06320" fbc:name="G_BLU78_RS06320" fbc:label="G_BLU78_RS06320"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06330" fbc:name="G_BLU78_RS06330" fbc:label="G_BLU78_RS06330"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06320" fbc:name="G_BLU78_RS06320" fbc:label="G_BLU78_RS06320"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13580" fbc:name="G_BLU78_RS13580" fbc:label="G_BLU78_RS13580"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00645" fbc:name="G_BLU78_RS00645" fbc:label="G_BLU78_RS00645"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00630" fbc:name="G_BLU78_RS00630" fbc:label="G_BLU78_RS00630"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00635" fbc:name="G_BLU78_RS00635" fbc:label="G_BLU78_RS00635"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00630" fbc:name="G_BLU78_RS00630" fbc:label="G_BLU78_RS00630"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02125" fbc:name="G_BLU78_RS02125" fbc:label="G_BLU78_RS02125"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03715" fbc:name="G_BLU78_RS03715" fbc:label="G_BLU78_RS03715"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05710" fbc:name="G_BLU78_RS05710" fbc:label="G_BLU78_RS05710"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03710" fbc:name="G_BLU78_RS03710" fbc:label="G_BLU78_RS03710"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09955" fbc:name="G_BLU78_RS09955" fbc:label="G_BLU78_RS09955"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03685" fbc:name="G_BLU78_RS03685" fbc:label="G_BLU78_RS03685"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10065" fbc:name="G_BLU78_RS10065" fbc:label="G_BLU78_RS10065"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05715" fbc:name="G_BLU78_RS05715" fbc:label="G_BLU78_RS05715"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00580" fbc:name="G_BLU78_RS00580" fbc:label="G_BLU78_RS00580"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS13810" fbc:name="G_BLU78_RS13810" fbc:label="G_BLU78_RS13810"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13520" fbc:name="G_BLU78_RS13520" fbc:label="G_BLU78_RS13520"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04775" fbc:name="G_BLU78_RS04775" fbc:label="G_BLU78_RS04775"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03685" fbc:name="G_BLU78_RS03685" fbc:label="G_BLU78_RS03685"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10075" fbc:name="G_BLU78_RS10075" fbc:label="G_BLU78_RS10075"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03485" fbc:name="G_BLU78_RS03485" fbc:label="G_BLU78_RS03485"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00560" fbc:name="G_BLU78_RS00560" fbc:label="G_BLU78_RS00560"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02660" fbc:name="G_BLU78_RS02660" fbc:label="G_BLU78_RS02660"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07520" fbc:name="G_BLU78_RS07520" fbc:label="G_BLU78_RS07520"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00580" fbc:name="G_BLU78_RS00580" fbc:label="G_BLU78_RS00580"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05715" fbc:name="G_BLU78_RS05715" fbc:label="G_BLU78_RS05715"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10080" fbc:name="G_BLU78_RS10080" fbc:label="G_BLU78_RS10080"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00575" fbc:name="G_BLU78_RS00575" fbc:label="G_BLU78_RS00575"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12915" fbc:name="G_BLU78_RS12915" fbc:label="G_BLU78_RS12915"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10045" fbc:name="G_BLU78_RS10045" fbc:label="G_BLU78_RS10045"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06065" fbc:name="G_BLU78_RS06065" fbc:label="G_BLU78_RS06065"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03955" fbc:name="G_BLU78_RS03955" fbc:label="G_BLU78_RS03955"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04775" fbc:name="G_BLU78_RS04775" fbc:label="G_BLU78_RS04775"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02660" fbc:name="G_BLU78_RS02660" fbc:label="G_BLU78_RS02660"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10080" fbc:name="G_BLU78_RS10080" fbc:label="G_BLU78_RS10080"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12915" fbc:name="G_BLU78_RS12915" fbc:label="G_BLU78_RS12915"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00575" fbc:name="G_BLU78_RS00575" fbc:label="G_BLU78_RS00575"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07520" fbc:name="G_BLU78_RS07520" fbc:label="G_BLU78_RS07520"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10075" fbc:name="G_BLU78_RS10075" fbc:label="G_BLU78_RS10075"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10065" fbc:name="G_BLU78_RS10065" fbc:label="G_BLU78_RS10065"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00560" fbc:name="G_BLU78_RS00560" fbc:label="G_BLU78_RS00560"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04025" fbc:name="G_BLU78_RS04025" fbc:label="G_BLU78_RS04025"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09955" fbc:name="G_BLU78_RS09955" fbc:label="G_BLU78_RS09955"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS13810" fbc:name="G_BLU78_RS13810" fbc:label="G_BLU78_RS13810"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02955" fbc:name="G_BLU78_RS02955" fbc:label="G_BLU78_RS02955"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09450" fbc:name="G_BLU78_RS09450" fbc:label="G_BLU78_RS09450"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06600" fbc:name="G_BLU78_RS06600" fbc:label="G_BLU78_RS06600"/>
@@ -53910,17 +53910,17 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS04605" fbc:name="G_BLU78_RS04605" fbc:label="G_BLU78_RS04605"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11535" fbc:name="G_BLU78_RS11535" fbc:label="G_BLU78_RS11535"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12060" fbc:name="G_BLU78_RS12060" fbc:label="G_BLU78_RS12060"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07755" fbc:name="G_BLU78_RS07755" fbc:label="G_BLU78_RS07755"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05245" fbc:name="G_BLU78_RS05245" fbc:label="G_BLU78_RS05245"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01490" fbc:name="G_BLU78_RS01490" fbc:label="G_BLU78_RS01490"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07755" fbc:name="G_BLU78_RS07755" fbc:label="G_BLU78_RS07755"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04400" fbc:name="G_BLU78_RS04400" fbc:label="G_BLU78_RS04400"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00840" fbc:name="G_BLU78_RS00840" fbc:label="G_BLU78_RS00840"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02925" fbc:name="G_BLU78_RS02925" fbc:label="G_BLU78_RS02925"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05000" fbc:name="G_BLU78_RS05000" fbc:label="G_BLU78_RS05000"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00840" fbc:name="G_BLU78_RS00840" fbc:label="G_BLU78_RS00840"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10755" fbc:name="G_BLU78_RS10755" fbc:label="G_BLU78_RS10755"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02545" fbc:name="G_BLU78_RS02545" fbc:label="G_BLU78_RS02545"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11145" fbc:name="G_BLU78_RS11145" fbc:label="G_BLU78_RS11145"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10620" fbc:name="G_BLU78_RS10620" fbc:label="G_BLU78_RS10620"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11145" fbc:name="G_BLU78_RS11145" fbc:label="G_BLU78_RS11145"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03280" fbc:name="G_BLU78_RS03280" fbc:label="G_BLU78_RS03280"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04785" fbc:name="G_BLU78_RS04785" fbc:label="G_BLU78_RS04785"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00515" fbc:name="G_BLU78_RS00515" fbc:label="G_BLU78_RS00515"/>
@@ -53932,8 +53932,8 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS00685" fbc:name="G_BLU78_RS00685" fbc:label="G_BLU78_RS00685"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01870" fbc:name="G_BLU78_RS01870" fbc:label="G_BLU78_RS01870"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08525" fbc:name="G_BLU78_RS08525" fbc:label="G_BLU78_RS08525"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07835" fbc:name="G_BLU78_RS07835" fbc:label="G_BLU78_RS07835"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12265" fbc:name="G_BLU78_RS12265" fbc:label="G_BLU78_RS12265"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07835" fbc:name="G_BLU78_RS07835" fbc:label="G_BLU78_RS07835"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07840" fbc:name="G_BLU78_RS07840" fbc:label="G_BLU78_RS07840"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03865" fbc:name="G_BLU78_RS03865" fbc:label="G_BLU78_RS03865"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03870" fbc:name="G_BLU78_RS03870" fbc:label="G_BLU78_RS03870"/>
@@ -53945,17 +53945,17 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS04050" fbc:name="G_BLU78_RS04050" fbc:label="G_BLU78_RS04050"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10415" fbc:name="G_BLU78_RS10415" fbc:label="G_BLU78_RS10415"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06800" fbc:name="G_BLU78_RS06800" fbc:label="G_BLU78_RS06800"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02415" fbc:name="G_BLU78_RS02415" fbc:label="G_BLU78_RS02415"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07820" fbc:name="G_BLU78_RS07820" fbc:label="G_BLU78_RS07820"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02415" fbc:name="G_BLU78_RS02415" fbc:label="G_BLU78_RS02415"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10705" fbc:name="G_BLU78_RS10705" fbc:label="G_BLU78_RS10705"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01015" fbc:name="G_BLU78_RS01015" fbc:label="G_BLU78_RS01015"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04135" fbc:name="G_BLU78_RS04135" fbc:label="G_BLU78_RS04135"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01030" fbc:name="G_BLU78_RS01030" fbc:label="G_BLU78_RS01030"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12870" fbc:name="G_BLU78_RS12870" fbc:label="G_BLU78_RS12870"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01035" fbc:name="G_BLU78_RS01035" fbc:label="G_BLU78_RS01035"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01045" fbc:name="G_BLU78_RS01045" fbc:label="G_BLU78_RS01045"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12875" fbc:name="G_BLU78_RS12875" fbc:label="G_BLU78_RS12875"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01035" fbc:name="G_BLU78_RS01035" fbc:label="G_BLU78_RS01035"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01040" fbc:name="G_BLU78_RS01040" fbc:label="G_BLU78_RS01040"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12875" fbc:name="G_BLU78_RS12875" fbc:label="G_BLU78_RS12875"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12870" fbc:name="G_BLU78_RS12870" fbc:label="G_BLU78_RS12870"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04125" fbc:name="G_BLU78_RS04125" fbc:label="G_BLU78_RS04125"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00975" fbc:name="G_BLU78_RS00975" fbc:label="G_BLU78_RS00975"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03520" fbc:name="G_BLU78_RS03520" fbc:label="G_BLU78_RS03520"/>
@@ -53968,12 +53968,12 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS04495" fbc:name="G_BLU78_RS04495" fbc:label="G_BLU78_RS04495"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10710" fbc:name="G_BLU78_RS10710" fbc:label="G_BLU78_RS10710"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01855" fbc:name="G_BLU78_RS01855" fbc:label="G_BLU78_RS01855"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07720" fbc:name="G_BLU78_RS07720" fbc:label="G_BLU78_RS07720"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01020" fbc:name="G_BLU78_RS01020" fbc:label="G_BLU78_RS01020"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07720" fbc:name="G_BLU78_RS07720" fbc:label="G_BLU78_RS07720"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05825" fbc:name="G_BLU78_RS05825" fbc:label="G_BLU78_RS05825"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10110" fbc:name="G_BLU78_RS10110" fbc:label="G_BLU78_RS10110"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01195" fbc:name="G_BLU78_RS01195" fbc:label="G_BLU78_RS01195"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07730" fbc:name="G_BLU78_RS07730" fbc:label="G_BLU78_RS07730"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01195" fbc:name="G_BLU78_RS01195" fbc:label="G_BLU78_RS01195"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00860" fbc:name="G_BLU78_RS00860" fbc:label="G_BLU78_RS00860"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08530" fbc:name="G_BLU78_RS08530" fbc:label="G_BLU78_RS08530"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02345" fbc:name="G_BLU78_RS02345" fbc:label="G_BLU78_RS02345"/>
@@ -54012,39 +54012,39 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS01525" fbc:name="G_BLU78_RS01525" fbc:label="G_BLU78_RS01525"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03165" fbc:name="G_BLU78_RS03165" fbc:label="G_BLU78_RS03165"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03310" fbc:name="G_BLU78_RS03310" fbc:label="G_BLU78_RS03310"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01360" fbc:name="G_BLU78_RS01360" fbc:label="G_BLU78_RS01360"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03445" fbc:name="G_BLU78_RS03445" fbc:label="G_BLU78_RS03445"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11420" fbc:name="G_BLU78_RS11420" fbc:label="G_BLU78_RS11420"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01360" fbc:name="G_BLU78_RS01360" fbc:label="G_BLU78_RS01360"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01775" fbc:name="G_BLU78_RS01775" fbc:label="G_BLU78_RS01775"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08480" fbc:name="G_BLU78_RS08480" fbc:label="G_BLU78_RS08480"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00255" fbc:name="G_BLU78_RS00255" fbc:label="G_BLU78_RS00255"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11060" fbc:name="G_BLU78_RS11060" fbc:label="G_BLU78_RS11060"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00255" fbc:name="G_BLU78_RS00255" fbc:label="G_BLU78_RS00255"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08415" fbc:name="G_BLU78_RS08415" fbc:label="G_BLU78_RS08415"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01585" fbc:name="G_BLU78_RS01585" fbc:label="G_BLU78_RS01585"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01420" fbc:name="G_BLU78_RS01420" fbc:label="G_BLU78_RS01420"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13800" fbc:name="G_BLU78_RS13800" fbc:label="G_BLU78_RS13800"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02320" fbc:name="G_BLU78_RS02320" fbc:label="G_BLU78_RS02320"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01420" fbc:name="G_BLU78_RS01420" fbc:label="G_BLU78_RS01420"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13795" fbc:name="G_BLU78_RS13795" fbc:label="G_BLU78_RS13795"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02325" fbc:name="G_BLU78_RS02325" fbc:label="G_BLU78_RS02325"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01415" fbc:name="G_BLU78_RS01415" fbc:label="G_BLU78_RS01415"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS08640" fbc:name="G_BLU78_RS08640" fbc:label="G_BLU78_RS08640"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02330" fbc:name="G_BLU78_RS02330" fbc:label="G_BLU78_RS02330"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11425" fbc:name="G_BLU78_RS11425" fbc:label="G_BLU78_RS11425"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13790" fbc:name="G_BLU78_RS13790" fbc:label="G_BLU78_RS13790"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02330" fbc:name="G_BLU78_RS02330" fbc:label="G_BLU78_RS02330"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS08640" fbc:name="G_BLU78_RS08640" fbc:label="G_BLU78_RS08640"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS01410" fbc:name="G_BLU78_RS01410" fbc:label="G_BLU78_RS01410"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03415" fbc:name="G_BLU78_RS03415" fbc:label="G_BLU78_RS03415"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11130" fbc:name="G_BLU78_RS11130" fbc:label="G_BLU78_RS11130"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08645" fbc:name="G_BLU78_RS08645" fbc:label="G_BLU78_RS08645"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01795" fbc:name="G_BLU78_RS01795" fbc:label="G_BLU78_RS01795"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13285" fbc:name="G_BLU78_RS13285" fbc:label="G_BLU78_RS13285"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01795" fbc:name="G_BLU78_RS01795" fbc:label="G_BLU78_RS01795"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10660" fbc:name="G_BLU78_RS10660" fbc:label="G_BLU78_RS10660"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13065" fbc:name="G_BLU78_RS13065" fbc:label="G_BLU78_RS13065"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08940" fbc:name="G_BLU78_RS08940" fbc:label="G_BLU78_RS08940"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10135" fbc:name="G_BLU78_RS10135" fbc:label="G_BLU78_RS10135"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10370" fbc:name="G_BLU78_RS10370" fbc:label="G_BLU78_RS10370"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12085" fbc:name="G_BLU78_RS12085" fbc:label="G_BLU78_RS12085"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00220" fbc:name="G_BLU78_RS00220" fbc:label="G_BLU78_RS00220"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10370" fbc:name="G_BLU78_RS10370" fbc:label="G_BLU78_RS10370"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07165" fbc:name="G_BLU78_RS07165" fbc:label="G_BLU78_RS07165"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00220" fbc:name="G_BLU78_RS00220" fbc:label="G_BLU78_RS00220"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10465" fbc:name="G_BLU78_RS10465" fbc:label="G_BLU78_RS10465"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS03570" fbc:name="G_BLU78_RS03570" fbc:label="G_BLU78_RS03570"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04570" fbc:name="G_BLU78_RS04570" fbc:label="G_BLU78_RS04570"/>
@@ -54053,8 +54053,8 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS13190" fbc:name="G_BLU78_RS13190" fbc:label="G_BLU78_RS13190"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS05765" fbc:name="G_BLU78_RS05765" fbc:label="G_BLU78_RS05765"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11410" fbc:name="G_BLU78_RS11410" fbc:label="G_BLU78_RS11410"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05730" fbc:name="G_BLU78_RS05730" fbc:label="G_BLU78_RS05730"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13335" fbc:name="G_BLU78_RS13335" fbc:label="G_BLU78_RS13335"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05730" fbc:name="G_BLU78_RS05730" fbc:label="G_BLU78_RS05730"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12975" fbc:name="G_BLU78_RS12975" fbc:label="G_BLU78_RS12975"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS04885" fbc:name="G_BLU78_RS04885" fbc:label="G_BLU78_RS04885"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06690" fbc:name="G_BLU78_RS06690" fbc:label="G_BLU78_RS06690"/>
@@ -54069,106 +54069,106 @@
       <fbc:geneProduct fbc:id="G_BLU78_RS12940" fbc:name="G_BLU78_RS12940" fbc:label="G_BLU78_RS12940"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12935" fbc:name="G_BLU78_RS12935" fbc:label="G_BLU78_RS12935"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00945" fbc:name="G_BLU78_RS00945" fbc:label="G_BLU78_RS00945"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05460" fbc:name="G_BLU78_RS05460" fbc:label="G_BLU78_RS05460"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06760" fbc:name="G_BLU78_RS06760" fbc:label="G_BLU78_RS06760"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08400" fbc:name="G_BLU78_RS08400" fbc:label="G_BLU78_RS08400"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05460" fbc:name="G_BLU78_RS05460" fbc:label="G_BLU78_RS05460"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06740" fbc:name="G_BLU78_RS06740" fbc:label="G_BLU78_RS06740"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03210" fbc:name="G_BLU78_RS03210" fbc:label="G_BLU78_RS03210"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06275" fbc:name="G_BLU78_RS06275" fbc:label="G_BLU78_RS06275"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS00855" fbc:name="G_BLU78_RS00855" fbc:label="G_BLU78_RS00855"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03405" fbc:name="G_BLU78_RS03405" fbc:label="G_BLU78_RS03405"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01845" fbc:name="G_BLU78_RS01845" fbc:label="G_BLU78_RS01845"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS08490" fbc:name="G_BLU78_RS08490" fbc:label="G_BLU78_RS08490"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS08485" fbc:name="G_BLU78_RS08485" fbc:label="G_BLU78_RS08485"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05540" fbc:name="G_BLU78_RS05540" fbc:label="G_BLU78_RS05540"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS02015" fbc:name="G_BLU78_RS02015" fbc:label="G_BLU78_RS02015"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS08080" fbc:name="G_BLU78_RS08080" fbc:label="G_BLU78_RS08080"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS08455" fbc:name="G_BLU78_RS08455" fbc:label="G_BLU78_RS08455"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03210" fbc:name="G_BLU78_RS03210" fbc:label="G_BLU78_RS03210"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01790" fbc:name="G_BLU78_RS01790" fbc:label="G_BLU78_RS01790"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06460" fbc:name="G_BLU78_RS06460" fbc:label="G_BLU78_RS06460"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06670" fbc:name="G_BLU78_RS06670" fbc:label="G_BLU78_RS06670"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13170" fbc:name="G_BLU78_RS13170" fbc:label="G_BLU78_RS13170"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01790" fbc:name="G_BLU78_RS01790" fbc:label="G_BLU78_RS01790"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS08080" fbc:name="G_BLU78_RS08080" fbc:label="G_BLU78_RS08080"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS02015" fbc:name="G_BLU78_RS02015" fbc:label="G_BLU78_RS02015"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS10530" fbc:name="G_BLU78_RS10530" fbc:label="G_BLU78_RS10530"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06460" fbc:name="G_BLU78_RS06460" fbc:label="G_BLU78_RS06460"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07110" fbc:name="G_BLU78_RS07110" fbc:label="G_BLU78_RS07110"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06990" fbc:name="G_BLU78_RS06990" fbc:label="G_BLU78_RS06990"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04880" fbc:name="G_BLU78_RS04880" fbc:label="G_BLU78_RS04880"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03785" fbc:name="G_BLU78_RS03785" fbc:label="G_BLU78_RS03785"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS08455" fbc:name="G_BLU78_RS08455" fbc:label="G_BLU78_RS08455"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS08485" fbc:name="G_BLU78_RS08485" fbc:label="G_BLU78_RS08485"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01845" fbc:name="G_BLU78_RS01845" fbc:label="G_BLU78_RS01845"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03405" fbc:name="G_BLU78_RS03405" fbc:label="G_BLU78_RS03405"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06740" fbc:name="G_BLU78_RS06740" fbc:label="G_BLU78_RS06740"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06275" fbc:name="G_BLU78_RS06275" fbc:label="G_BLU78_RS06275"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05540" fbc:name="G_BLU78_RS05540" fbc:label="G_BLU78_RS05540"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07060" fbc:name="G_BLU78_RS07060" fbc:label="G_BLU78_RS07060"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07050" fbc:name="G_BLU78_RS07050" fbc:label="G_BLU78_RS07050"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07000" fbc:name="G_BLU78_RS07000" fbc:label="G_BLU78_RS07000"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04690" fbc:name="G_BLU78_RS04690" fbc:label="G_BLU78_RS04690"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07090" fbc:name="G_BLU78_RS07090" fbc:label="G_BLU78_RS07090"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09890" fbc:name="G_BLU78_RS09890" fbc:label="G_BLU78_RS09890"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS13165" fbc:name="G_BLU78_RS13165" fbc:label="G_BLU78_RS13165"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07800" fbc:name="G_BLU78_RS07800" fbc:label="G_BLU78_RS07800"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09825" fbc:name="G_BLU78_RS09825" fbc:label="G_BLU78_RS09825"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07020" fbc:name="G_BLU78_RS07020" fbc:label="G_BLU78_RS07020"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10390" fbc:name="G_BLU78_RS10390" fbc:label="G_BLU78_RS10390"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01630" fbc:name="G_BLU78_RS01630" fbc:label="G_BLU78_RS01630"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07100" fbc:name="G_BLU78_RS07100" fbc:label="G_BLU78_RS07100"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01755" fbc:name="G_BLU78_RS01755" fbc:label="G_BLU78_RS01755"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07095" fbc:name="G_BLU78_RS07095" fbc:label="G_BLU78_RS07095"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06955" fbc:name="G_BLU78_RS06955" fbc:label="G_BLU78_RS06955"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12420" fbc:name="G_BLU78_RS12420" fbc:label="G_BLU78_RS12420"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07795" fbc:name="G_BLU78_RS07795" fbc:label="G_BLU78_RS07795"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS07030" fbc:name="G_BLU78_RS07030" fbc:label="G_BLU78_RS07030"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07040" fbc:name="G_BLU78_RS07040" fbc:label="G_BLU78_RS07040"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11810" fbc:name="G_BLU78_RS11810" fbc:label="G_BLU78_RS11810"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10535" fbc:name="G_BLU78_RS10535" fbc:label="G_BLU78_RS10535"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12460" fbc:name="G_BLU78_RS12460" fbc:label="G_BLU78_RS12460"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06985" fbc:name="G_BLU78_RS06985" fbc:label="G_BLU78_RS06985"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01060" fbc:name="G_BLU78_RS01060" fbc:label="G_BLU78_RS01060"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09885" fbc:name="G_BLU78_RS09885" fbc:label="G_BLU78_RS09885"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07055" fbc:name="G_BLU78_RS07055" fbc:label="G_BLU78_RS07055"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03725" fbc:name="G_BLU78_RS03725" fbc:label="G_BLU78_RS03725"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07090" fbc:name="G_BLU78_RS07090" fbc:label="G_BLU78_RS07090"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12220" fbc:name="G_BLU78_RS12220" fbc:label="G_BLU78_RS12220"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09605" fbc:name="G_BLU78_RS09605" fbc:label="G_BLU78_RS09605"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04690" fbc:name="G_BLU78_RS04690" fbc:label="G_BLU78_RS04690"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07065" fbc:name="G_BLU78_RS07065" fbc:label="G_BLU78_RS07065"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09890" fbc:name="G_BLU78_RS09890" fbc:label="G_BLU78_RS09890"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06955" fbc:name="G_BLU78_RS06955" fbc:label="G_BLU78_RS06955"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07045" fbc:name="G_BLU78_RS07045" fbc:label="G_BLU78_RS07045"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10385" fbc:name="G_BLU78_RS10385" fbc:label="G_BLU78_RS10385"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06940" fbc:name="G_BLU78_RS06940" fbc:label="G_BLU78_RS06940"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05870" fbc:name="G_BLU78_RS05870" fbc:label="G_BLU78_RS05870"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01755" fbc:name="G_BLU78_RS01755" fbc:label="G_BLU78_RS01755"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07170" fbc:name="G_BLU78_RS07170" fbc:label="G_BLU78_RS07170"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS04020" fbc:name="G_BLU78_RS04020" fbc:label="G_BLU78_RS04020"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06950" fbc:name="G_BLU78_RS06950" fbc:label="G_BLU78_RS06950"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07085" fbc:name="G_BLU78_RS07085" fbc:label="G_BLU78_RS07085"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07100" fbc:name="G_BLU78_RS07100" fbc:label="G_BLU78_RS07100"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS13455" fbc:name="G_BLU78_RS13455" fbc:label="G_BLU78_RS13455"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11920" fbc:name="G_BLU78_RS11920" fbc:label="G_BLU78_RS11920"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06965" fbc:name="G_BLU78_RS06965" fbc:label="G_BLU78_RS06965"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07010" fbc:name="G_BLU78_RS07010" fbc:label="G_BLU78_RS07010"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10490" fbc:name="G_BLU78_RS10490" fbc:label="G_BLU78_RS10490"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09895" fbc:name="G_BLU78_RS09895" fbc:label="G_BLU78_RS09895"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07015" fbc:name="G_BLU78_RS07015" fbc:label="G_BLU78_RS07015"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10325" fbc:name="G_BLU78_RS10325" fbc:label="G_BLU78_RS10325"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12225" fbc:name="G_BLU78_RS12225" fbc:label="G_BLU78_RS12225"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07025" fbc:name="G_BLU78_RS07025" fbc:label="G_BLU78_RS07025"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07035" fbc:name="G_BLU78_RS07035" fbc:label="G_BLU78_RS07035"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06980" fbc:name="G_BLU78_RS06980" fbc:label="G_BLU78_RS06980"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07805" fbc:name="G_BLU78_RS07805" fbc:label="G_BLU78_RS07805"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12610" fbc:name="G_BLU78_RS12610" fbc:label="G_BLU78_RS12610"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07060" fbc:name="G_BLU78_RS07060" fbc:label="G_BLU78_RS07060"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06965" fbc:name="G_BLU78_RS06965" fbc:label="G_BLU78_RS06965"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11920" fbc:name="G_BLU78_RS11920" fbc:label="G_BLU78_RS11920"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03645" fbc:name="G_BLU78_RS03645" fbc:label="G_BLU78_RS03645"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07805" fbc:name="G_BLU78_RS07805" fbc:label="G_BLU78_RS07805"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03745" fbc:name="G_BLU78_RS03745" fbc:label="G_BLU78_RS03745"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11810" fbc:name="G_BLU78_RS11810" fbc:label="G_BLU78_RS11810"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03785" fbc:name="G_BLU78_RS03785" fbc:label="G_BLU78_RS03785"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07005" fbc:name="G_BLU78_RS07005" fbc:label="G_BLU78_RS07005"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07020" fbc:name="G_BLU78_RS07020" fbc:label="G_BLU78_RS07020"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS03725" fbc:name="G_BLU78_RS03725" fbc:label="G_BLU78_RS03725"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS00730" fbc:name="G_BLU78_RS00730" fbc:label="G_BLU78_RS00730"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10395" fbc:name="G_BLU78_RS10395" fbc:label="G_BLU78_RS10395"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09895" fbc:name="G_BLU78_RS09895" fbc:label="G_BLU78_RS09895"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07170" fbc:name="G_BLU78_RS07170" fbc:label="G_BLU78_RS07170"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10490" fbc:name="G_BLU78_RS10490" fbc:label="G_BLU78_RS10490"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09610" fbc:name="G_BLU78_RS09610" fbc:label="G_BLU78_RS09610"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06795" fbc:name="G_BLU78_RS06795" fbc:label="G_BLU78_RS06795"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07015" fbc:name="G_BLU78_RS07015" fbc:label="G_BLU78_RS07015"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07800" fbc:name="G_BLU78_RS07800" fbc:label="G_BLU78_RS07800"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06950" fbc:name="G_BLU78_RS06950" fbc:label="G_BLU78_RS06950"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12220" fbc:name="G_BLU78_RS12220" fbc:label="G_BLU78_RS12220"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05870" fbc:name="G_BLU78_RS05870" fbc:label="G_BLU78_RS05870"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07085" fbc:name="G_BLU78_RS07085" fbc:label="G_BLU78_RS07085"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09825" fbc:name="G_BLU78_RS09825" fbc:label="G_BLU78_RS09825"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07110" fbc:name="G_BLU78_RS07110" fbc:label="G_BLU78_RS07110"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06985" fbc:name="G_BLU78_RS06985" fbc:label="G_BLU78_RS06985"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04880" fbc:name="G_BLU78_RS04880" fbc:label="G_BLU78_RS04880"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07040" fbc:name="G_BLU78_RS07040" fbc:label="G_BLU78_RS07040"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS13455" fbc:name="G_BLU78_RS13455" fbc:label="G_BLU78_RS13455"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS01060" fbc:name="G_BLU78_RS01060" fbc:label="G_BLU78_RS01060"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS04020" fbc:name="G_BLU78_RS04020" fbc:label="G_BLU78_RS04020"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07065" fbc:name="G_BLU78_RS07065" fbc:label="G_BLU78_RS07065"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07035" fbc:name="G_BLU78_RS07035" fbc:label="G_BLU78_RS07035"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS05840" fbc:name="G_BLU78_RS05840" fbc:label="G_BLU78_RS05840"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10385" fbc:name="G_BLU78_RS10385" fbc:label="G_BLU78_RS10385"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07045" fbc:name="G_BLU78_RS07045" fbc:label="G_BLU78_RS07045"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07735" fbc:name="G_BLU78_RS07735" fbc:label="G_BLU78_RS07735"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10325" fbc:name="G_BLU78_RS10325" fbc:label="G_BLU78_RS10325"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07025" fbc:name="G_BLU78_RS07025" fbc:label="G_BLU78_RS07025"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09605" fbc:name="G_BLU78_RS09605" fbc:label="G_BLU78_RS09605"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06980" fbc:name="G_BLU78_RS06980" fbc:label="G_BLU78_RS06980"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12460" fbc:name="G_BLU78_RS12460" fbc:label="G_BLU78_RS12460"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06970" fbc:name="G_BLU78_RS06970" fbc:label="G_BLU78_RS06970"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10535" fbc:name="G_BLU78_RS10535" fbc:label="G_BLU78_RS10535"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06995" fbc:name="G_BLU78_RS06995" fbc:label="G_BLU78_RS06995"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS11915" fbc:name="G_BLU78_RS11915" fbc:label="G_BLU78_RS11915"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS10390" fbc:name="G_BLU78_RS10390" fbc:label="G_BLU78_RS10390"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09885" fbc:name="G_BLU78_RS09885" fbc:label="G_BLU78_RS09885"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS12225" fbc:name="G_BLU78_RS12225" fbc:label="G_BLU78_RS12225"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06940" fbc:name="G_BLU78_RS06940" fbc:label="G_BLU78_RS06940"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06990" fbc:name="G_BLU78_RS06990" fbc:label="G_BLU78_RS06990"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07010" fbc:name="G_BLU78_RS07010" fbc:label="G_BLU78_RS07010"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07055" fbc:name="G_BLU78_RS07055" fbc:label="G_BLU78_RS07055"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS06975" fbc:name="G_BLU78_RS06975" fbc:label="G_BLU78_RS06975"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS10395" fbc:name="G_BLU78_RS10395" fbc:label="G_BLU78_RS10395"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07050" fbc:name="G_BLU78_RS07050" fbc:label="G_BLU78_RS07050"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS01630" fbc:name="G_BLU78_RS01630" fbc:label="G_BLU78_RS01630"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07000" fbc:name="G_BLU78_RS07000" fbc:label="G_BLU78_RS07000"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS12420" fbc:name="G_BLU78_RS12420" fbc:label="G_BLU78_RS12420"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07005" fbc:name="G_BLU78_RS07005" fbc:label="G_BLU78_RS07005"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03745" fbc:name="G_BLU78_RS03745" fbc:label="G_BLU78_RS03745"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09610" fbc:name="G_BLU78_RS09610" fbc:label="G_BLU78_RS09610"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS05840" fbc:name="G_BLU78_RS05840" fbc:label="G_BLU78_RS05840"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07735" fbc:name="G_BLU78_RS07735" fbc:label="G_BLU78_RS07735"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS03645" fbc:name="G_BLU78_RS03645" fbc:label="G_BLU78_RS03645"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06970" fbc:name="G_BLU78_RS06970" fbc:label="G_BLU78_RS06970"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06795" fbc:name="G_BLU78_RS06795" fbc:label="G_BLU78_RS06795"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07095" fbc:name="G_BLU78_RS07095" fbc:label="G_BLU78_RS07095"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS00730" fbc:name="G_BLU78_RS00730" fbc:label="G_BLU78_RS00730"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS02590" fbc:name="G_BLU78_RS02590" fbc:label="G_BLU78_RS02590"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09920" fbc:name="G_BLU78_RS09920" fbc:label="G_BLU78_RS09920"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS06605" fbc:name="G_BLU78_RS06605" fbc:label="G_BLU78_RS06605"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS11735" fbc:name="G_BLU78_RS11735" fbc:label="G_BLU78_RS11735"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS07105" fbc:name="G_BLU78_RS07105" fbc:label="G_BLU78_RS07105"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12985" fbc:name="G_BLU78_RS12985" fbc:label="G_BLU78_RS12985"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS09425" fbc:name="G_BLU78_RS09425" fbc:label="G_BLU78_RS09425"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS12675" fbc:name="G_BLU78_RS12675" fbc:label="G_BLU78_RS12675"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS06605" fbc:name="G_BLU78_RS06605" fbc:label="G_BLU78_RS06605"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09900" fbc:name="G_BLU78_RS09900" fbc:label="G_BLU78_RS09900"/>
       <fbc:geneProduct fbc:id="G_BLU78_RS09905" fbc:name="G_BLU78_RS09905" fbc:label="G_BLU78_RS09905"/>
-      <fbc:geneProduct fbc:id="G_BLU78_RS09425" fbc:name="G_BLU78_RS09425" fbc:label="G_BLU78_RS09425"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS11735" fbc:name="G_BLU78_RS11735" fbc:label="G_BLU78_RS11735"/>
+      <fbc:geneProduct fbc:id="G_BLU78_RS07105" fbc:name="G_BLU78_RS07105" fbc:label="G_BLU78_RS07105"/>
     </fbc:listOfGeneProducts>
   </model>
 </sbml>
