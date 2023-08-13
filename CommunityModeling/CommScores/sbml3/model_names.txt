@@ -1,0 +1,161 @@
+Acinetobacter baumannii ATCC 17978
+Acinetobacter sp. ADP1
+Acinetobacter sp. ADP1_2
+Agrobacterium tumefaciens str. C58
+Anaeromyxobacter dehalogenans 2CP-C
+Anaplasma marginale str. St. Maries
+Aquifex aeolicus VF5
+Azoarcus sp. EbN1
+Bacillus anthracis str. 'Ames Ancestor'
+Bacillus anthracis str. Ames
+Bacillus subtilis subsp. subtilis str. 168
+Bacillus subtilis subsp. subtilis str. 168_3
+Bacillus subtilis subsp. subtilis str. 168_4
+Bacteroides fragilis YCH46
+Bartonella bacilliformis KC583
+Bdellovibrio bacteriovorus HD100
+Bifidobacterium longum NCC2705
+Blochmannia floridanus
+Bordetella pertussis Tohama I
+Borrelia burgdorferi B31
+Bradyrhizobium japonicum USDA 110
+Brucella melitensis 16M
+Buchnera aphidicola str. APS (Acyrthosiphon pisum)
+Burkholderia cepacia R1808
+Burkholderia pseudomallei K96243
+Burkholderia xenovorans LB400
+Campylobacter jejuni subsp. jejuni 84-25
+Campylobacter jejuni subsp. jejuni CF93-6
+Campylobacter jejuni subsp. jejuni NCTC 11168
+Carboxydothermus hydrogenoformans Z-2901
+Caulobacter crescentus CB15
+Chlamydia trachomatis DUW-3CX
+Chlamydophila pneumoniae AR39
+Clostridium acetobutylicum ATCC 824
+Clostridium beijerincki beijerinckii NCIMB 8052
+Clostridium tetani E88
+Corynebacterium glutamicum ATCC 13032
+Coxiella burnetii RSA 493
+Cytophaga hutchinsonii ATCC 33406
+Dehalococcoides ethenogenes 195
+Deinococcus radiodurans R1
+Desulfovibrio desulfuricans G20
+Ehrlichia ruminantium str. Gardel
+Elusimicrobium minutum Pei191
+Escherichia coli K12_2
+Escherichia coli K12_3
+Escherichia coli W3110
+Flavobacterium johnsonia johnsoniae UW101
+Francisella tularensis subsp. novicida U112
+Francisella tularensis subsp. tularensis Schu 4
+Frankia sp. Ccl3
+Fusobacterium nucleatum subsp. nucleatum ATCC 25586
+Geobacillus kaustophilus HTA426
+Geobacter metallireducens GS-15
+Geobacter sulfurreducens PCA
+Gluconobacter oxydans 621H
+Haemophilus influenzae Rd KW20
+Helicobacter pylori 26695
+Helicobacter pylori 26695_2
+Helicobacter pylori J99
+iAF1260
+iAF692
+iAG612
+Idiomarina loihiensis L2TR
+iSB619
+Kineococcus radiotolerans SRS30216
+Klebsiella pneumoniae MGH 78578
+Lactobacillus plantarum WCFS1
+Lactococcus lactis subsp. lactis Il1403
+Lactococcus lactis subsp. lactis Il1403_2
+Legionella pneumophila subsp. pneumophila str. Philadelphia 1
+Leifsonia xyli subsp. xyli str. CTCB07
+Leptospira interrogans serovar Copenhageni str. Fiocruz L1-130
+Leptospira interrogans serovar Lai str. 56601
+Listeria innocua Clip11262
+Listeria monocytogenes EGD-e
+Listeria monocytogenes J0161
+Magnetospirillum magneticum AMB-1
+Mannheimia succiniciproducens MBEL55E
+Methylobacillus flagellatus KT
+Methylococcus capsulatus str. Bath
+model_names.txt
+Mycobacterium tuberculosis H37Rv
+Mycobacterium tuberculosis H37Rv_2
+Mycoplasma genitalium G-37
+Mycoplasma genitalium G-37_2
+Mycoplasma pulmonis UAB CTIP
+Neisseria gonorrhoeae FA 1090
+Neisseria meningitidis MC58
+Nitrobacter winogradskyi Nb-255
+Nitrosococcus oceani ATCC 19707
+Nitrosomonas europaea ATCC 19718
+Nocardia farcinica IFM 10152
+Onion yellows phytoplasma OY-M
+Pelagibacter ubique HTCC1062
+Photobacterium profundum SS9
+Photorhabdus luminescens subsp. laumondii TTO1
+Polaromonas sp. JS666
+Porphyromonas gingivalis W83
+Prochlorococcus marinus subsp. pastoris str. CCMP1986
+Pseudoalteromonas haloplanktis TAC125
+Pseudomonas aeruginosa PAO1
+Pseudomonas fluorescens PfO-1
+Pseudomonas putida GB-1
+Pseudomonas putida KT2440
+Pseudomonas putida KT2440_2
+Ralstonia solanacearum GMI1000
+Rhizobium leguminosarum bv. viciae 3841
+Rhodopseudomonas palustris CGA009
+Rickettsia prowazekii str. Madrid E
+Rubrobacter xylanophilus DSM 9941
+Saccharomyces cerevisiae (bakers yeast)
+Salinibacter ruber DSM 13855
+Salmonella typhimurium LT2
+Seed393117.3
+Shewanella frigidimarina NCIMB 400
+Shewanella oneidensis MR-1
+Shigella dysenteriae M131649
+Shigella flexneri 2a str. 2457T
+Silicibacter pomeroyi DSS-3
+Sinorhizobium meliloti 1021
+Staphylococcus aureus RF122
+Staphylococcus aureus subsp. aureus COL
+Staphylococcus aureus subsp. aureus JH1
+Staphylococcus aureus subsp. aureus JH9
+Staphylococcus aureus subsp. aureus MRSA252
+Staphylococcus aureus subsp. aureus MSSA476
+Staphylococcus aureus subsp. aureus Mu3
+Staphylococcus aureus subsp. aureus Mu50
+Staphylococcus aureus subsp. aureus MW2
+Staphylococcus aureus subsp. aureus N315_2
+Staphylococcus aureus subsp. aureus NCTC 8325
+Staphylococcus aureus subsp. aureus str. Newman
+Staphylococcus aureus subsp. aureus USA300
+Streptococcus pneumoniae R6
+Streptococcus pneumoniae TIGR4
+Streptococcus pyogenes M1 GAS
+Streptococcus pyogenes MGAS10270
+Streptococcus pyogenes MGAS6180
+Streptococcus thermophilus CNRZ1066
+Streptomyces coelicolor A3(2)
+Symbiobacterium thermophilum IAM 14863
+Thermoanaerobacter sp. X514
+Thermotoga maritima MSB8
+Thermus thermophilus HB8
+Thiobacillus denitrificans ATCC 25259
+Thiomicrospira crunogena XCL-2
+Thiomicrospira denitrificans ATCC 33889
+Treponema pallidum subsp. pallidum str. Nichols
+Tropheryma whipplei str. Twist
+Ureaplasma parvum serovar 3 ATCC 700970
+Vibrio cholerae O1 biovar eltor str. N16961
+Vibrio cholerae O395
+Vibrio parahaemolyticus RIMD 2210633
+Vibrio vulnificus YJ016
+Wigglesworthia glossinidia endosymbiont of Glossina brevipalpis
+Wolbachia sp. endosymbiont of Drosophila melanogaster
+Xylella fastidiosa 9a5c
+Yersinia pestis CO92
+Yersinia pestis Pestoides F
+Zymomonas mobilis subsp. mobilis ZM4

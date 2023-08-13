@@ -1,0 +1,135 @@
+{
+  "metadata" : [
+    [
+      5,
+      "DVU_Adam_genome",
+      "KBaseGenomes.Genome-11.1",
+      "2023-07-25T20:29:59+0000",
+      1,
+      "nidhi112000",
+      152875,
+      "nidhi112000:narrative_1689955278978",
+      "1cfbd33a83fe48567ef1422a2436927b",
+      11938561,
+      {
+        "Assembly Object" : "152875/4/1",
+        "Domain" : "Unknown",
+        "GC content" : "0.63279",
+        "Genetic code" : "11",
+        "Genome Type" : "draft isolate",
+        "MD5" : "55de636484196332b8d596903e75266c",
+        "Name" : "Unknown Organism",
+        "Number contigs" : "2",
+        "Number of CDS" : "3399",
+        "Number of Genome Level Warnings" : "2",
+        "Number of Protein Encoding Genes" : "3399",
+        "Size" : "3773159",
+        "Source" : "RefSeq",
+        "Source ID" : "NC_002937",
+        "Taxonomy" : "Unconfirmed Organism"
+      }
+    ]
+  ],
+  "provenance" : [
+    {
+      "copy_source_inaccessible" : null,
+      "created" : "2023-07-25T20:29:57+0000",
+      "creator" : "nidhi112000",
+      "extracted_ids" : null,
+      "info" : [
+        5,
+        "DVU_Adam_genome",
+        "KBaseGenomes.Genome-11.1",
+        "2023-07-25T20:29:59+0000",
+        1,
+        "nidhi112000",
+        152875,
+        "nidhi112000:narrative_1689955278978",
+        "1cfbd33a83fe48567ef1422a2436927b",
+        11938561,
+        {
+          "Assembly Object" : "152875/4/1",
+          "Domain" : "Unknown",
+          "GC content" : "0.63279",
+          "Genetic code" : "11",
+          "Genome Type" : "draft isolate",
+          "MD5" : "55de636484196332b8d596903e75266c",
+          "Name" : "Unknown Organism",
+          "Number contigs" : "2",
+          "Number of CDS" : "3399",
+          "Number of Genome Level Warnings" : "2",
+          "Number of Protein Encoding Genes" : "3399",
+          "Size" : "3773159",
+          "Source" : "RefSeq",
+          "Source ID" : "NC_002937",
+          "Taxonomy" : "Unconfirmed Organism"
+        }
+      ],
+      "provenance" : [
+        {
+          "custom" : { },
+          "description" : "KBase SDK method run via the KBase Execution Engine",
+          "epoch" : 1690316890000,
+          "external_data" : [ ],
+          "input_ws_objects" : [ ],
+          "intermediate_incoming" : [ ],
+          "intermediate_outgoing" : [ ],
+          "method" : "import_genbank_from_staging",
+          "method_params" : [
+            {
+              "generate_ids_if_needed" : 1,
+              "generate_missing_genes" : 1,
+              "genetic_code" : null,
+              "genome_name" : "882.gbk.zip_genome",
+              "genome_type" : "draft isolate",
+              "release" : null,
+              "source" : "RefSeq user",
+              "staging_file_subdir_path" : "882.gbk.zip",
+              "taxon_id" : null,
+              "workspace_name" : "nidhi112000:narrative_1689955278978"
+            }
+          ],
+          "resolved_ws_objects" : [ ],
+          "service" : "kb_uploadmethods",
+          "service_ver" : "5b9346463df88a422ff5d4f4cba421679f63c73f",
+          "subactions" : [
+            {
+              "code_url" : "https://github.com/kbaseapps/kb_uploadmethods",
+              "commit" : "5b9346463df88a422ff5d4f4cba421679f63c73f",
+              "name" : "kb_uploadmethods",
+              "ver" : "5b9346463df88a422ff5d4f4cba421679f63c73f"
+            },
+            {
+              "code_url" : "https://github.com/kbaseapps/DataFileUtil",
+              "commit" : "ee7670582db65adee442f052a52444a0d84a52a0",
+              "name" : "DataFileUtil",
+              "ver" : "release"
+            },
+            {
+              "code_url" : "https://github.com/kbaseapps/GenomeFileUtil",
+              "commit" : "c8c6948e0bebb9f0a6e95abe057af62b3ca57195",
+              "name" : "GenomeFileUtil",
+              "ver" : "release"
+            },
+            {
+              "code_url" : "https://github.com/kbaseapps/AssemblyUtil",
+              "commit" : "59855bcb24014c3030e146b98c8d3e70abac1fa1",
+              "name" : "AssemblyUtil",
+              "ver" : "dev"
+            },
+            {
+              "code_url" : "https://github.com/kbaseapps/WsLargeDataIO",
+              "commit" : "2a754eccec87112905cad0c6c69feecd95f6894d",
+              "name" : "WsLargeDataIO",
+              "ver" : "beta"
+            }
+          ],
+          "time" : "2023-07-25T20:28:10+0000"
+        }
+      ],
+      "refs" : [
+        "152875/4/1"
+      ]
+    }
+  ]
+}

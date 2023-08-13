@@ -1,0 +1,17 @@
+digraph {
+	node [color=lightblue2 shape=rectangle style=filled]
+	S0 [label="GCF_000012525.1.fbamodel"]
+	subgraph mets {
+		rank=same
+		node [color=green shape=circle style=filled]
+		nh4 [URL="https://modelseed.org/biochem/compounds/cpd00013" fixedsize=true height=0.4 tooltip="cpd00013 ; NH3"]
+	}
+	S1 [label="GCF_000021045.1.fbamodel"]
+	S2 [label="Rhodosporidium_toruloides_IFO0880_4.fbamodel"]
+	subgraph members {
+		rank=same
+	}
+	S0 -> nh4 [arrowsize=0.8344224544269768 edgetooltip=0.31318595882500966]
+	nh4 -> S1 [arrowsize=2.0013069453123724 edgetooltip=-0.7511557619829828]
+	S2 -> nh4 [arrowsize=0.16688449088539536 edgetooltip=0.06263719176500193]
+}
