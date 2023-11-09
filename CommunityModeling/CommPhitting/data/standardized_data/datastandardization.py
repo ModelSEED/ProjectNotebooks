@@ -6,27 +6,27 @@ Created on Mon Aug  1 11:44:07 2022
 """
 from modelseedpy.core.exceptions import FeasibilityError, ParameterError, ObjectAlreadyDefinedError, NoFluxError, ObjectiveError
 from modelseedpy.core.optlanghelper import OptlangHelper, Bounds, tupVariable, tupConstraint, tupObjective, isIterable, define_term
-from modelseedpy.fbapkg.elementuptakepkg import ElementUptakePkg
-from modelseedpy.community.mscompatibility import MSCompatibility
-from modelseedpy.core.msmodelutl import MSModelUtil
 from modelseedpy.core.msminimalmedia import minimizeFlux_withGrowth, bioFlux_check
+from modelseedpy.fbapkg.elementuptakepkg import ElementUptakePkg
+from modelseedpy.core.msmodelutl import MSModelUtil
 from modelseedpy.core.fbahelper import FBAHelper
-from optlang import Constraint
-from optlang.symbolics import Zero
-from scipy.constants import hour
-from collections import OrderedDict
-from zipfile import ZipFile, ZIP_LZMA
-from itertools import chain
-from typing import Union, Iterable
+from pandas import read_csv, DataFrame, ExcelFile, read_excel
 from cobra.medium import minimal_medium
 from cobra.flux_analysis import pfba
+# from commscores import GEMCompatibility
+from zipfile import ZipFile, ZIP_LZMA
+from collections import OrderedDict
+from typing import Union, Iterable
+from optlang.symbolics import Zero
+from scipy.constants import hour
+from optlang import Constraint
+from math import inf, isclose
+import logging, json, os, re
+from itertools import chain
 from copy import deepcopy
 from pprint import pprint
 from icecream import ic
 # from cplex import Cplex
-from math import inf, isclose
-import logging, json, os, re
-from pandas import read_csv, DataFrame, ExcelFile, read_excel
 import numpy as np
 
 
