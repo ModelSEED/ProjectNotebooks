@@ -10,11 +10,6 @@
         </listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
-    <listOfCompartments>
-      <compartment id="c" constant="true"/>
-      <compartment id="e" constant="true"/>
-      <compartment id="p" constant="true"/>
-    </listOfCompartments>
     <listOfSpecies>
       <species metaid="meta_M_23dhmp__91__c__93__" sboTerm="SBO:0000247" id="M_23dhmp__91__c__93__" name="(R)-2,3-Dihydroxy-3-methylpentanoate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="-1" fbc:chemicalFormula="C6H11O4">
         <notes>
@@ -57721,20 +57716,20 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS16630" fbc:name="G_NSB1T_RS16630" fbc:label="G_NSB1T_RS16630"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19205" fbc:name="G_NSB1T_RS19205" fbc:label="G_NSB1T_RS19205"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15785" fbc:name="G_NSB1T_RS15785" fbc:label="G_NSB1T_RS15785"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS15790" fbc:name="G_NSB1T_RS15790" fbc:label="G_NSB1T_RS15790"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18455" fbc:name="G_NSB1T_RS18455" fbc:label="G_NSB1T_RS18455"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17325" fbc:name="G_NSB1T_RS17325" fbc:label="G_NSB1T_RS17325"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18455" fbc:name="G_NSB1T_RS18455" fbc:label="G_NSB1T_RS18455"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS15790" fbc:name="G_NSB1T_RS15790" fbc:label="G_NSB1T_RS15790"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18800" fbc:name="G_NSB1T_RS18800" fbc:label="G_NSB1T_RS18800"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20940" fbc:name="G_NSB1T_RS20940" fbc:label="G_NSB1T_RS20940"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25365" fbc:name="G_NSB1T_RS25365" fbc:label="G_NSB1T_RS25365"/>
-      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20940" fbc:name="G_NSB1T_RS20940" fbc:label="G_NSB1T_RS20940"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27650" fbc:name="G_NSB1T_RS27650" fbc:label="G_NSB1T_RS27650"/>
+      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17490" fbc:name="G_NSB1T_RS17490" fbc:label="G_NSB1T_RS17490"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16830" fbc:name="G_NSB1T_RS16830" fbc:label="G_NSB1T_RS16830"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24595" fbc:name="G_NSB1T_RS24595" fbc:label="G_NSB1T_RS24595"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26210" fbc:name="G_NSB1T_RS26210" fbc:label="G_NSB1T_RS26210"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19670" fbc:name="G_NSB1T_RS19670" fbc:label="G_NSB1T_RS19670"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28555" fbc:name="G_NSB1T_RS28555" fbc:label="G_NSB1T_RS28555"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19670" fbc:name="G_NSB1T_RS19670" fbc:label="G_NSB1T_RS19670"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19020" fbc:name="G_NSB1T_RS19020" fbc:label="G_NSB1T_RS19020"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24080" fbc:name="G_NSB1T_RS24080" fbc:label="G_NSB1T_RS24080"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24085" fbc:name="G_NSB1T_RS24085" fbc:label="G_NSB1T_RS24085"/>
@@ -57742,9 +57737,9 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS27490" fbc:name="G_NSB1T_RS27490" fbc:label="G_NSB1T_RS27490"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21970" fbc:name="G_NSB1T_RS21970" fbc:label="G_NSB1T_RS21970"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24605" fbc:name="G_NSB1T_RS24605" fbc:label="G_NSB1T_RS24605"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23690" fbc:name="G_NSB1T_RS23690" fbc:label="G_NSB1T_RS23690"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23695" fbc:name="G_NSB1T_RS23695" fbc:label="G_NSB1T_RS23695"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17535" fbc:name="G_NSB1T_RS17535" fbc:label="G_NSB1T_RS17535"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23690" fbc:name="G_NSB1T_RS23690" fbc:label="G_NSB1T_RS23690"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28245" fbc:name="G_NSB1T_RS28245" fbc:label="G_NSB1T_RS28245"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27495" fbc:name="G_NSB1T_RS27495" fbc:label="G_NSB1T_RS27495"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16925" fbc:name="G_NSB1T_RS16925" fbc:label="G_NSB1T_RS16925"/>
@@ -57766,15 +57761,15 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS22545" fbc:name="G_NSB1T_RS22545" fbc:label="G_NSB1T_RS22545"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15445" fbc:name="G_NSB1T_RS15445" fbc:label="G_NSB1T_RS15445"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25185" fbc:name="G_NSB1T_RS25185" fbc:label="G_NSB1T_RS25185"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27765" fbc:name="G_NSB1T_RS27765" fbc:label="G_NSB1T_RS27765"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25180" fbc:name="G_NSB1T_RS25180" fbc:label="G_NSB1T_RS25180"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27765" fbc:name="G_NSB1T_RS27765" fbc:label="G_NSB1T_RS27765"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21150" fbc:name="G_NSB1T_RS21150" fbc:label="G_NSB1T_RS21150"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26105" fbc:name="G_NSB1T_RS26105" fbc:label="G_NSB1T_RS26105"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25700" fbc:name="G_NSB1T_RS25700" fbc:label="G_NSB1T_RS25700"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25705" fbc:name="G_NSB1T_RS25705" fbc:label="G_NSB1T_RS25705"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23910" fbc:name="G_NSB1T_RS23910" fbc:label="G_NSB1T_RS23910"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22110" fbc:name="G_NSB1T_RS22110" fbc:label="G_NSB1T_RS22110"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27310" fbc:name="G_NSB1T_RS27310" fbc:label="G_NSB1T_RS27310"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23910" fbc:name="G_NSB1T_RS23910" fbc:label="G_NSB1T_RS23910"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19640" fbc:name="G_NSB1T_RS19640" fbc:label="G_NSB1T_RS19640"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21300" fbc:name="G_NSB1T_RS21300" fbc:label="G_NSB1T_RS21300"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16825" fbc:name="G_NSB1T_RS16825" fbc:label="G_NSB1T_RS16825"/>
@@ -57791,54 +57786,54 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS28090" fbc:name="G_NSB1T_RS28090" fbc:label="G_NSB1T_RS28090"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22550" fbc:name="G_NSB1T_RS22550" fbc:label="G_NSB1T_RS22550"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18415" fbc:name="G_NSB1T_RS18415" fbc:label="G_NSB1T_RS18415"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19005" fbc:name="G_NSB1T_RS19005" fbc:label="G_NSB1T_RS19005"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22985" fbc:name="G_NSB1T_RS22985" fbc:label="G_NSB1T_RS22985"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19005" fbc:name="G_NSB1T_RS19005" fbc:label="G_NSB1T_RS19005"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25610" fbc:name="G_NSB1T_RS25610" fbc:label="G_NSB1T_RS25610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27430" fbc:name="G_NSB1T_RS27430" fbc:label="G_NSB1T_RS27430"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24940" fbc:name="G_NSB1T_RS24940" fbc:label="G_NSB1T_RS24940"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24935" fbc:name="G_NSB1T_RS24935" fbc:label="G_NSB1T_RS24935"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24940" fbc:name="G_NSB1T_RS24940" fbc:label="G_NSB1T_RS24940"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18810" fbc:name="G_NSB1T_RS18810" fbc:label="G_NSB1T_RS18810"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19495" fbc:name="G_NSB1T_RS19495" fbc:label="G_NSB1T_RS19495"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17765" fbc:name="G_NSB1T_RS17765" fbc:label="G_NSB1T_RS17765"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26540" fbc:name="G_NSB1T_RS26540" fbc:label="G_NSB1T_RS26540"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18990" fbc:name="G_NSB1T_RS18990" fbc:label="G_NSB1T_RS18990"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20455" fbc:name="G_NSB1T_RS20455" fbc:label="G_NSB1T_RS20455"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26725" fbc:name="G_NSB1T_RS26725" fbc:label="G_NSB1T_RS26725"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26540" fbc:name="G_NSB1T_RS26540" fbc:label="G_NSB1T_RS26540"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20455" fbc:name="G_NSB1T_RS20455" fbc:label="G_NSB1T_RS20455"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27120" fbc:name="G_NSB1T_RS27120" fbc:label="G_NSB1T_RS27120"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28620" fbc:name="G_NSB1T_RS28620" fbc:label="G_NSB1T_RS28620"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS22090" fbc:name="G_NSB1T_RS22090" fbc:label="G_NSB1T_RS22090"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16660" fbc:name="G_NSB1T_RS16660" fbc:label="G_NSB1T_RS16660"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS22165" fbc:name="G_NSB1T_RS22165" fbc:label="G_NSB1T_RS22165"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17775" fbc:name="G_NSB1T_RS17775" fbc:label="G_NSB1T_RS17775"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18775" fbc:name="G_NSB1T_RS18775" fbc:label="G_NSB1T_RS18775"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20395" fbc:name="G_NSB1T_RS20395" fbc:label="G_NSB1T_RS20395"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS22165" fbc:name="G_NSB1T_RS22165" fbc:label="G_NSB1T_RS22165"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16685" fbc:name="G_NSB1T_RS16685" fbc:label="G_NSB1T_RS16685"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16660" fbc:name="G_NSB1T_RS16660" fbc:label="G_NSB1T_RS16660"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23635" fbc:name="G_NSB1T_RS23635" fbc:label="G_NSB1T_RS23635"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28620" fbc:name="G_NSB1T_RS28620" fbc:label="G_NSB1T_RS28620"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21790" fbc:name="G_NSB1T_RS21790" fbc:label="G_NSB1T_RS21790"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25470" fbc:name="G_NSB1T_RS25470" fbc:label="G_NSB1T_RS25470"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS22090" fbc:name="G_NSB1T_RS22090" fbc:label="G_NSB1T_RS22090"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23635" fbc:name="G_NSB1T_RS23635" fbc:label="G_NSB1T_RS23635"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16685" fbc:name="G_NSB1T_RS16685" fbc:label="G_NSB1T_RS16685"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26280" fbc:name="G_NSB1T_RS26280" fbc:label="G_NSB1T_RS26280"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24075" fbc:name="G_NSB1T_RS24075" fbc:label="G_NSB1T_RS24075"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26815" fbc:name="G_NSB1T_RS26815" fbc:label="G_NSB1T_RS26815"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16605" fbc:name="G_NSB1T_RS16605" fbc:label="G_NSB1T_RS16605"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16610" fbc:name="G_NSB1T_RS16610" fbc:label="G_NSB1T_RS16610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18550" fbc:name="G_NSB1T_RS18550" fbc:label="G_NSB1T_RS18550"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16610" fbc:name="G_NSB1T_RS16610" fbc:label="G_NSB1T_RS16610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28255" fbc:name="G_NSB1T_RS28255" fbc:label="G_NSB1T_RS28255"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17550" fbc:name="G_NSB1T_RS17550" fbc:label="G_NSB1T_RS17550"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27260" fbc:name="G_NSB1T_RS27260" fbc:label="G_NSB1T_RS27260"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28190" fbc:name="G_NSB1T_RS28190" fbc:label="G_NSB1T_RS28190"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20690" fbc:name="G_NSB1T_RS20690" fbc:label="G_NSB1T_RS20690"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS25115" fbc:name="G_NSB1T_RS25115" fbc:label="G_NSB1T_RS25115"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23650" fbc:name="G_NSB1T_RS23650" fbc:label="G_NSB1T_RS23650"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS25115" fbc:name="G_NSB1T_RS25115" fbc:label="G_NSB1T_RS25115"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15390" fbc:name="G_NSB1T_RS15390" fbc:label="G_NSB1T_RS15390"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16645" fbc:name="G_NSB1T_RS16645" fbc:label="G_NSB1T_RS16645"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27040" fbc:name="G_NSB1T_RS27040" fbc:label="G_NSB1T_RS27040"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16185" fbc:name="G_NSB1T_RS16185" fbc:label="G_NSB1T_RS16185"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27040" fbc:name="G_NSB1T_RS27040" fbc:label="G_NSB1T_RS27040"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27030" fbc:name="G_NSB1T_RS27030" fbc:label="G_NSB1T_RS27030"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20610" fbc:name="G_NSB1T_RS20610" fbc:label="G_NSB1T_RS20610"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27685" fbc:name="G_NSB1T_RS27685" fbc:label="G_NSB1T_RS27685"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25645" fbc:name="G_NSB1T_RS25645" fbc:label="G_NSB1T_RS25645"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18840" fbc:name="G_NSB1T_RS18840" fbc:label="G_NSB1T_RS18840"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27685" fbc:name="G_NSB1T_RS27685" fbc:label="G_NSB1T_RS27685"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23070" fbc:name="G_NSB1T_RS23070" fbc:label="G_NSB1T_RS23070"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18840" fbc:name="G_NSB1T_RS18840" fbc:label="G_NSB1T_RS18840"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28455" fbc:name="G_NSB1T_RS28455" fbc:label="G_NSB1T_RS28455"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19490" fbc:name="G_NSB1T_RS19490" fbc:label="G_NSB1T_RS19490"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16625" fbc:name="G_NSB1T_RS16625" fbc:label="G_NSB1T_RS16625"/>
@@ -57862,15 +57857,15 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS19730" fbc:name="G_NSB1T_RS19730" fbc:label="G_NSB1T_RS19730"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28060" fbc:name="G_NSB1T_RS28060" fbc:label="G_NSB1T_RS28060"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17390" fbc:name="G_NSB1T_RS17390" fbc:label="G_NSB1T_RS17390"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18080" fbc:name="G_NSB1T_RS18080" fbc:label="G_NSB1T_RS18080"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18855" fbc:name="G_NSB1T_RS18855" fbc:label="G_NSB1T_RS18855"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18080" fbc:name="G_NSB1T_RS18080" fbc:label="G_NSB1T_RS18080"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18835" fbc:name="G_NSB1T_RS18835" fbc:label="G_NSB1T_RS18835"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23040" fbc:name="G_NSB1T_RS23040" fbc:label="G_NSB1T_RS23040"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17965" fbc:name="G_NSB1T_RS17965" fbc:label="G_NSB1T_RS17965"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18085" fbc:name="G_NSB1T_RS18085" fbc:label="G_NSB1T_RS18085"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22260" fbc:name="G_NSB1T_RS22260" fbc:label="G_NSB1T_RS22260"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23310" fbc:name="G_NSB1T_RS23310" fbc:label="G_NSB1T_RS23310"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19920" fbc:name="G_NSB1T_RS19920" fbc:label="G_NSB1T_RS19920"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23310" fbc:name="G_NSB1T_RS23310" fbc:label="G_NSB1T_RS23310"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24545" fbc:name="G_NSB1T_RS24545" fbc:label="G_NSB1T_RS24545"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21440" fbc:name="G_NSB1T_RS21440" fbc:label="G_NSB1T_RS21440"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26665" fbc:name="G_NSB1T_RS26665" fbc:label="G_NSB1T_RS26665"/>
@@ -57891,8 +57886,8 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS20090" fbc:name="G_NSB1T_RS20090" fbc:label="G_NSB1T_RS20090"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18140" fbc:name="G_NSB1T_RS18140" fbc:label="G_NSB1T_RS18140"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25460" fbc:name="G_NSB1T_RS25460" fbc:label="G_NSB1T_RS25460"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26970" fbc:name="G_NSB1T_RS26970" fbc:label="G_NSB1T_RS26970"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26390" fbc:name="G_NSB1T_RS26390" fbc:label="G_NSB1T_RS26390"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26970" fbc:name="G_NSB1T_RS26970" fbc:label="G_NSB1T_RS26970"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20995" fbc:name="G_NSB1T_RS20995" fbc:label="G_NSB1T_RS20995"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19275" fbc:name="G_NSB1T_RS19275" fbc:label="G_NSB1T_RS19275"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16230" fbc:name="G_NSB1T_RS16230" fbc:label="G_NSB1T_RS16230"/>
@@ -57900,11 +57895,11 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS17660" fbc:name="G_NSB1T_RS17660" fbc:label="G_NSB1T_RS17660"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20965" fbc:name="G_NSB1T_RS20965" fbc:label="G_NSB1T_RS20965"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24420" fbc:name="G_NSB1T_RS24420" fbc:label="G_NSB1T_RS24420"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17085" fbc:name="G_NSB1T_RS17085" fbc:label="G_NSB1T_RS17085"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24430" fbc:name="G_NSB1T_RS24430" fbc:label="G_NSB1T_RS24430"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17085" fbc:name="G_NSB1T_RS17085" fbc:label="G_NSB1T_RS17085"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17035" fbc:name="G_NSB1T_RS17035" fbc:label="G_NSB1T_RS17035"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18790" fbc:name="G_NSB1T_RS18790" fbc:label="G_NSB1T_RS18790"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18720" fbc:name="G_NSB1T_RS18720" fbc:label="G_NSB1T_RS18720"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17035" fbc:name="G_NSB1T_RS17035" fbc:label="G_NSB1T_RS17035"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17315" fbc:name="G_NSB1T_RS17315" fbc:label="G_NSB1T_RS17315"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22660" fbc:name="G_NSB1T_RS22660" fbc:label="G_NSB1T_RS22660"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS0114630" fbc:name="G_NSB1T_RS0114630" fbc:label="G_NSB1T_RS0114630"/>
@@ -57912,19 +57907,19 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS21950" fbc:name="G_NSB1T_RS21950" fbc:label="G_NSB1T_RS21950"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24955" fbc:name="G_NSB1T_RS24955" fbc:label="G_NSB1T_RS24955"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21750" fbc:name="G_NSB1T_RS21750" fbc:label="G_NSB1T_RS21750"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS25615" fbc:name="G_NSB1T_RS25615" fbc:label="G_NSB1T_RS25615"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16635" fbc:name="G_NSB1T_RS16635" fbc:label="G_NSB1T_RS16635"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS25615" fbc:name="G_NSB1T_RS25615" fbc:label="G_NSB1T_RS25615"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22770" fbc:name="G_NSB1T_RS22770" fbc:label="G_NSB1T_RS22770"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19990" fbc:name="G_NSB1T_RS19990" fbc:label="G_NSB1T_RS19990"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24280" fbc:name="G_NSB1T_RS24280" fbc:label="G_NSB1T_RS24280"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19985" fbc:name="G_NSB1T_RS19985" fbc:label="G_NSB1T_RS19985"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19450" fbc:name="G_NSB1T_RS19450" fbc:label="G_NSB1T_RS19450"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS22980" fbc:name="G_NSB1T_RS22980" fbc:label="G_NSB1T_RS22980"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25895" fbc:name="G_NSB1T_RS25895" fbc:label="G_NSB1T_RS25895"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS22980" fbc:name="G_NSB1T_RS22980" fbc:label="G_NSB1T_RS22980"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22975" fbc:name="G_NSB1T_RS22975" fbc:label="G_NSB1T_RS22975"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17295" fbc:name="G_NSB1T_RS17295" fbc:label="G_NSB1T_RS17295"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16615" fbc:name="G_NSB1T_RS16615" fbc:label="G_NSB1T_RS16615"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15635" fbc:name="G_NSB1T_RS15635" fbc:label="G_NSB1T_RS15635"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16615" fbc:name="G_NSB1T_RS16615" fbc:label="G_NSB1T_RS16615"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28155" fbc:name="G_NSB1T_RS28155" fbc:label="G_NSB1T_RS28155"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28265" fbc:name="G_NSB1T_RS28265" fbc:label="G_NSB1T_RS28265"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20555" fbc:name="G_NSB1T_RS20555" fbc:label="G_NSB1T_RS20555"/>
@@ -57934,12 +57929,12 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS16235" fbc:name="G_NSB1T_RS16235" fbc:label="G_NSB1T_RS16235"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16465" fbc:name="G_NSB1T_RS16465" fbc:label="G_NSB1T_RS16465"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16900" fbc:name="G_NSB1T_RS16900" fbc:label="G_NSB1T_RS16900"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18820" fbc:name="G_NSB1T_RS18820" fbc:label="G_NSB1T_RS18820"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21890" fbc:name="G_NSB1T_RS21890" fbc:label="G_NSB1T_RS21890"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18820" fbc:name="G_NSB1T_RS18820" fbc:label="G_NSB1T_RS18820"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22140" fbc:name="G_NSB1T_RS22140" fbc:label="G_NSB1T_RS22140"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21420" fbc:name="G_NSB1T_RS21420" fbc:label="G_NSB1T_RS21420"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19055" fbc:name="G_NSB1T_RS19055" fbc:label="G_NSB1T_RS19055"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23260" fbc:name="G_NSB1T_RS23260" fbc:label="G_NSB1T_RS23260"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19055" fbc:name="G_NSB1T_RS19055" fbc:label="G_NSB1T_RS19055"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20065" fbc:name="G_NSB1T_RS20065" fbc:label="G_NSB1T_RS20065"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17495" fbc:name="G_NSB1T_RS17495" fbc:label="G_NSB1T_RS17495"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27115" fbc:name="G_NSB1T_RS27115" fbc:label="G_NSB1T_RS27115"/>
@@ -57948,38 +57943,38 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS17685" fbc:name="G_NSB1T_RS17685" fbc:label="G_NSB1T_RS17685"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25685" fbc:name="G_NSB1T_RS25685" fbc:label="G_NSB1T_RS25685"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27110" fbc:name="G_NSB1T_RS27110" fbc:label="G_NSB1T_RS27110"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26155" fbc:name="G_NSB1T_RS26155" fbc:label="G_NSB1T_RS26155"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26150" fbc:name="G_NSB1T_RS26150" fbc:label="G_NSB1T_RS26150"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26155" fbc:name="G_NSB1T_RS26155" fbc:label="G_NSB1T_RS26155"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19520" fbc:name="G_NSB1T_RS19520" fbc:label="G_NSB1T_RS19520"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19510" fbc:name="G_NSB1T_RS19510" fbc:label="G_NSB1T_RS19510"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19110" fbc:name="G_NSB1T_RS19110" fbc:label="G_NSB1T_RS19110"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23845" fbc:name="G_NSB1T_RS23845" fbc:label="G_NSB1T_RS23845"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24140" fbc:name="G_NSB1T_RS24140" fbc:label="G_NSB1T_RS24140"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21475" fbc:name="G_NSB1T_RS21475" fbc:label="G_NSB1T_RS21475"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21470" fbc:name="G_NSB1T_RS21470" fbc:label="G_NSB1T_RS21470"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21475" fbc:name="G_NSB1T_RS21475" fbc:label="G_NSB1T_RS21475"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27240" fbc:name="G_NSB1T_RS27240" fbc:label="G_NSB1T_RS27240"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15345" fbc:name="G_NSB1T_RS15345" fbc:label="G_NSB1T_RS15345"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21355" fbc:name="G_NSB1T_RS21355" fbc:label="G_NSB1T_RS21355"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27980" fbc:name="G_NSB1T_RS27980" fbc:label="G_NSB1T_RS27980"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16670" fbc:name="G_NSB1T_RS16670" fbc:label="G_NSB1T_RS16670"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17105" fbc:name="G_NSB1T_RS17105" fbc:label="G_NSB1T_RS17105"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23210" fbc:name="G_NSB1T_RS23210" fbc:label="G_NSB1T_RS23210"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS15460" fbc:name="G_NSB1T_RS15460" fbc:label="G_NSB1T_RS15460"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18780" fbc:name="G_NSB1T_RS18780" fbc:label="G_NSB1T_RS18780"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18750" fbc:name="G_NSB1T_RS18750" fbc:label="G_NSB1T_RS18750"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27530" fbc:name="G_NSB1T_RS27530" fbc:label="G_NSB1T_RS27530"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18735" fbc:name="G_NSB1T_RS18735" fbc:label="G_NSB1T_RS18735"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18755" fbc:name="G_NSB1T_RS18755" fbc:label="G_NSB1T_RS18755"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20255" fbc:name="G_NSB1T_RS20255" fbc:label="G_NSB1T_RS20255"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS22100" fbc:name="G_NSB1T_RS22100" fbc:label="G_NSB1T_RS22100"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS22295" fbc:name="G_NSB1T_RS22295" fbc:label="G_NSB1T_RS22295"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24990" fbc:name="G_NSB1T_RS24990" fbc:label="G_NSB1T_RS24990"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26770" fbc:name="G_NSB1T_RS26770" fbc:label="G_NSB1T_RS26770"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22300" fbc:name="G_NSB1T_RS22300" fbc:label="G_NSB1T_RS22300"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS15715" fbc:name="G_NSB1T_RS15715" fbc:label="G_NSB1T_RS15715"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS22100" fbc:name="G_NSB1T_RS22100" fbc:label="G_NSB1T_RS22100"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26110" fbc:name="G_NSB1T_RS26110" fbc:label="G_NSB1T_RS26110"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23225" fbc:name="G_NSB1T_RS23225" fbc:label="G_NSB1T_RS23225"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18750" fbc:name="G_NSB1T_RS18750" fbc:label="G_NSB1T_RS18750"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24990" fbc:name="G_NSB1T_RS24990" fbc:label="G_NSB1T_RS24990"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16670" fbc:name="G_NSB1T_RS16670" fbc:label="G_NSB1T_RS16670"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS22295" fbc:name="G_NSB1T_RS22295" fbc:label="G_NSB1T_RS22295"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17105" fbc:name="G_NSB1T_RS17105" fbc:label="G_NSB1T_RS17105"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18745" fbc:name="G_NSB1T_RS18745" fbc:label="G_NSB1T_RS18745"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS15715" fbc:name="G_NSB1T_RS15715" fbc:label="G_NSB1T_RS15715"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27980" fbc:name="G_NSB1T_RS27980" fbc:label="G_NSB1T_RS27980"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS15460" fbc:name="G_NSB1T_RS15460" fbc:label="G_NSB1T_RS15460"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23210" fbc:name="G_NSB1T_RS23210" fbc:label="G_NSB1T_RS23210"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26770" fbc:name="G_NSB1T_RS26770" fbc:label="G_NSB1T_RS26770"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18780" fbc:name="G_NSB1T_RS18780" fbc:label="G_NSB1T_RS18780"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18735" fbc:name="G_NSB1T_RS18735" fbc:label="G_NSB1T_RS18735"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19270" fbc:name="G_NSB1T_RS19270" fbc:label="G_NSB1T_RS19270"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20625" fbc:name="G_NSB1T_RS20625" fbc:label="G_NSB1T_RS20625"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15410" fbc:name="G_NSB1T_RS15410" fbc:label="G_NSB1T_RS15410"/>
@@ -57987,15 +57982,15 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS24965" fbc:name="G_NSB1T_RS24965" fbc:label="G_NSB1T_RS24965"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19285" fbc:name="G_NSB1T_RS19285" fbc:label="G_NSB1T_RS19285"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19620" fbc:name="G_NSB1T_RS19620" fbc:label="G_NSB1T_RS19620"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28490" fbc:name="G_NSB1T_RS28490" fbc:label="G_NSB1T_RS28490"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16170" fbc:name="G_NSB1T_RS16170" fbc:label="G_NSB1T_RS16170"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17275" fbc:name="G_NSB1T_RS17275" fbc:label="G_NSB1T_RS17275"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28490" fbc:name="G_NSB1T_RS28490" fbc:label="G_NSB1T_RS28490"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21965" fbc:name="G_NSB1T_RS21965" fbc:label="G_NSB1T_RS21965"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17275" fbc:name="G_NSB1T_RS17275" fbc:label="G_NSB1T_RS17275"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23255" fbc:name="G_NSB1T_RS23255" fbc:label="G_NSB1T_RS23255"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26875" fbc:name="G_NSB1T_RS26875" fbc:label="G_NSB1T_RS26875"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25230" fbc:name="G_NSB1T_RS25230" fbc:label="G_NSB1T_RS25230"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21605" fbc:name="G_NSB1T_RS21605" fbc:label="G_NSB1T_RS21605"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28045" fbc:name="G_NSB1T_RS28045" fbc:label="G_NSB1T_RS28045"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21605" fbc:name="G_NSB1T_RS21605" fbc:label="G_NSB1T_RS21605"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19485" fbc:name="G_NSB1T_RS19485" fbc:label="G_NSB1T_RS19485"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27645" fbc:name="G_NSB1T_RS27645" fbc:label="G_NSB1T_RS27645"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28025" fbc:name="G_NSB1T_RS28025" fbc:label="G_NSB1T_RS28025"/>
@@ -58006,9 +58001,9 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS27250" fbc:name="G_NSB1T_RS27250" fbc:label="G_NSB1T_RS27250"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26550" fbc:name="G_NSB1T_RS26550" fbc:label="G_NSB1T_RS26550"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28445" fbc:name="G_NSB1T_RS28445" fbc:label="G_NSB1T_RS28445"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20260" fbc:name="G_NSB1T_RS20260" fbc:label="G_NSB1T_RS20260"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23465" fbc:name="G_NSB1T_RS23465" fbc:label="G_NSB1T_RS23465"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23450" fbc:name="G_NSB1T_RS23450" fbc:label="G_NSB1T_RS23450"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23465" fbc:name="G_NSB1T_RS23465" fbc:label="G_NSB1T_RS23465"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20260" fbc:name="G_NSB1T_RS20260" fbc:label="G_NSB1T_RS20260"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23470" fbc:name="G_NSB1T_RS23470" fbc:label="G_NSB1T_RS23470"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24210" fbc:name="G_NSB1T_RS24210" fbc:label="G_NSB1T_RS24210"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25235" fbc:name="G_NSB1T_RS25235" fbc:label="G_NSB1T_RS25235"/>
@@ -58026,12 +58021,12 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS19280" fbc:name="G_NSB1T_RS19280" fbc:label="G_NSB1T_RS19280"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21205" fbc:name="G_NSB1T_RS21205" fbc:label="G_NSB1T_RS21205"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26510" fbc:name="G_NSB1T_RS26510" fbc:label="G_NSB1T_RS26510"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17450" fbc:name="G_NSB1T_RS17450" fbc:label="G_NSB1T_RS17450"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21620" fbc:name="G_NSB1T_RS21620" fbc:label="G_NSB1T_RS21620"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21625" fbc:name="G_NSB1T_RS21625" fbc:label="G_NSB1T_RS21625"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17455" fbc:name="G_NSB1T_RS17455" fbc:label="G_NSB1T_RS17455"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21630" fbc:name="G_NSB1T_RS21630" fbc:label="G_NSB1T_RS21630"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17450" fbc:name="G_NSB1T_RS17450" fbc:label="G_NSB1T_RS17450"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21620" fbc:name="G_NSB1T_RS21620" fbc:label="G_NSB1T_RS21620"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21615" fbc:name="G_NSB1T_RS21615" fbc:label="G_NSB1T_RS21615"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21630" fbc:name="G_NSB1T_RS21630" fbc:label="G_NSB1T_RS21630"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28100" fbc:name="G_NSB1T_RS28100" fbc:label="G_NSB1T_RS28100"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24625" fbc:name="G_NSB1T_RS24625" fbc:label="G_NSB1T_RS24625"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16580" fbc:name="G_NSB1T_RS16580" fbc:label="G_NSB1T_RS16580"/>
@@ -58048,9 +58043,9 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS16225" fbc:name="G_NSB1T_RS16225" fbc:label="G_NSB1T_RS16225"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21280" fbc:name="G_NSB1T_RS21280" fbc:label="G_NSB1T_RS21280"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25220" fbc:name="G_NSB1T_RS25220" fbc:label="G_NSB1T_RS25220"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19425" fbc:name="G_NSB1T_RS19425" fbc:label="G_NSB1T_RS19425"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18055" fbc:name="G_NSB1T_RS18055" fbc:label="G_NSB1T_RS18055"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27785" fbc:name="G_NSB1T_RS27785" fbc:label="G_NSB1T_RS27785"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19425" fbc:name="G_NSB1T_RS19425" fbc:label="G_NSB1T_RS19425"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23180" fbc:name="G_NSB1T_RS23180" fbc:label="G_NSB1T_RS23180"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28065" fbc:name="G_NSB1T_RS28065" fbc:label="G_NSB1T_RS28065"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26555" fbc:name="G_NSB1T_RS26555" fbc:label="G_NSB1T_RS26555"/>
@@ -58072,8 +58067,8 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS24245" fbc:name="G_NSB1T_RS24245" fbc:label="G_NSB1T_RS24245"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15630" fbc:name="G_NSB1T_RS15630" fbc:label="G_NSB1T_RS15630"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19515" fbc:name="G_NSB1T_RS19515" fbc:label="G_NSB1T_RS19515"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18610" fbc:name="G_NSB1T_RS18610" fbc:label="G_NSB1T_RS18610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21685" fbc:name="G_NSB1T_RS21685" fbc:label="G_NSB1T_RS21685"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18610" fbc:name="G_NSB1T_RS18610" fbc:label="G_NSB1T_RS18610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25665" fbc:name="G_NSB1T_RS25665" fbc:label="G_NSB1T_RS25665"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS22195" fbc:name="G_NSB1T_RS22195" fbc:label="G_NSB1T_RS22195"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27145" fbc:name="G_NSB1T_RS27145" fbc:label="G_NSB1T_RS27145"/>
@@ -58089,8 +58084,8 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS17760" fbc:name="G_NSB1T_RS17760" fbc:label="G_NSB1T_RS17760"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19605" fbc:name="G_NSB1T_RS19605" fbc:label="G_NSB1T_RS19605"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23780" fbc:name="G_NSB1T_RS23780" fbc:label="G_NSB1T_RS23780"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26260" fbc:name="G_NSB1T_RS26260" fbc:label="G_NSB1T_RS26260"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26265" fbc:name="G_NSB1T_RS26265" fbc:label="G_NSB1T_RS26265"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26260" fbc:name="G_NSB1T_RS26260" fbc:label="G_NSB1T_RS26260"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24775" fbc:name="G_NSB1T_RS24775" fbc:label="G_NSB1T_RS24775"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17610" fbc:name="G_NSB1T_RS17610" fbc:label="G_NSB1T_RS17610"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25975" fbc:name="G_NSB1T_RS25975" fbc:label="G_NSB1T_RS25975"/>
@@ -58104,19 +58099,19 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS26395" fbc:name="G_NSB1T_RS26395" fbc:label="G_NSB1T_RS26395"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16385" fbc:name="G_NSB1T_RS16385" fbc:label="G_NSB1T_RS16385"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26400" fbc:name="G_NSB1T_RS26400" fbc:label="G_NSB1T_RS26400"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS15400" fbc:name="G_NSB1T_RS15400" fbc:label="G_NSB1T_RS15400"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26405" fbc:name="G_NSB1T_RS26405" fbc:label="G_NSB1T_RS26405"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS15400" fbc:name="G_NSB1T_RS15400" fbc:label="G_NSB1T_RS15400"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26965" fbc:name="G_NSB1T_RS26965" fbc:label="G_NSB1T_RS26965"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23315" fbc:name="G_NSB1T_RS23315" fbc:label="G_NSB1T_RS23315"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27805" fbc:name="G_NSB1T_RS27805" fbc:label="G_NSB1T_RS27805"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20275" fbc:name="G_NSB1T_RS20275" fbc:label="G_NSB1T_RS20275"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS0115115" fbc:name="G_NSB1T_RS0115115" fbc:label="G_NSB1T_RS0115115"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21570" fbc:name="G_NSB1T_RS21570" fbc:label="G_NSB1T_RS21570"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19310" fbc:name="G_NSB1T_RS19310" fbc:label="G_NSB1T_RS19310"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23375" fbc:name="G_NSB1T_RS23375" fbc:label="G_NSB1T_RS23375"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19310" fbc:name="G_NSB1T_RS19310" fbc:label="G_NSB1T_RS19310"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS0115115" fbc:name="G_NSB1T_RS0115115" fbc:label="G_NSB1T_RS0115115"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25900" fbc:name="G_NSB1T_RS25900" fbc:label="G_NSB1T_RS25900"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21155" fbc:name="G_NSB1T_RS21155" fbc:label="G_NSB1T_RS21155"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21135" fbc:name="G_NSB1T_RS21135" fbc:label="G_NSB1T_RS21135"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21155" fbc:name="G_NSB1T_RS21155" fbc:label="G_NSB1T_RS21155"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24390" fbc:name="G_NSB1T_RS24390" fbc:label="G_NSB1T_RS24390"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27605" fbc:name="G_NSB1T_RS27605" fbc:label="G_NSB1T_RS27605"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18625" fbc:name="G_NSB1T_RS18625" fbc:label="G_NSB1T_RS18625"/>
@@ -58128,14 +58123,14 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS23850" fbc:name="G_NSB1T_RS23850" fbc:label="G_NSB1T_RS23850"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS26640" fbc:name="G_NSB1T_RS26640" fbc:label="G_NSB1T_RS26640"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24720" fbc:name="G_NSB1T_RS24720" fbc:label="G_NSB1T_RS24720"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19090" fbc:name="G_NSB1T_RS19090" fbc:label="G_NSB1T_RS19090"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19120" fbc:name="G_NSB1T_RS19120" fbc:label="G_NSB1T_RS19120"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19090" fbc:name="G_NSB1T_RS19090" fbc:label="G_NSB1T_RS19090"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16495" fbc:name="G_NSB1T_RS16495" fbc:label="G_NSB1T_RS16495"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27855" fbc:name="G_NSB1T_RS27855" fbc:label="G_NSB1T_RS27855"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23820" fbc:name="G_NSB1T_RS23820" fbc:label="G_NSB1T_RS23820"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17540" fbc:name="G_NSB1T_RS17540" fbc:label="G_NSB1T_RS17540"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS25325" fbc:name="G_NSB1T_RS25325" fbc:label="G_NSB1T_RS25325"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23820" fbc:name="G_NSB1T_RS23820" fbc:label="G_NSB1T_RS23820"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS16485" fbc:name="G_NSB1T_RS16485" fbc:label="G_NSB1T_RS16485"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS25325" fbc:name="G_NSB1T_RS25325" fbc:label="G_NSB1T_RS25325"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15950" fbc:name="G_NSB1T_RS15950" fbc:label="G_NSB1T_RS15950"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27840" fbc:name="G_NSB1T_RS27840" fbc:label="G_NSB1T_RS27840"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS27845" fbc:name="G_NSB1T_RS27845" fbc:label="G_NSB1T_RS27845"/>
@@ -58147,108 +58142,108 @@
       <fbc:geneProduct fbc:id="G_NSB1T_RS26190" fbc:name="G_NSB1T_RS26190" fbc:label="G_NSB1T_RS26190"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21525" fbc:name="G_NSB1T_RS21525" fbc:label="G_NSB1T_RS21525"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21530" fbc:name="G_NSB1T_RS21530" fbc:label="G_NSB1T_RS21530"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20340" fbc:name="G_NSB1T_RS20340" fbc:label="G_NSB1T_RS20340"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21005" fbc:name="G_NSB1T_RS21005" fbc:label="G_NSB1T_RS21005"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19890" fbc:name="G_NSB1T_RS19890" fbc:label="G_NSB1T_RS19890"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS17695" fbc:name="G_NSB1T_RS17695" fbc:label="G_NSB1T_RS17695"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24195" fbc:name="G_NSB1T_RS24195" fbc:label="G_NSB1T_RS24195"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18265" fbc:name="G_NSB1T_RS18265" fbc:label="G_NSB1T_RS18265"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17910" fbc:name="G_NSB1T_RS17910" fbc:label="G_NSB1T_RS17910"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26620" fbc:name="G_NSB1T_RS26620" fbc:label="G_NSB1T_RS26620"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18245" fbc:name="G_NSB1T_RS18245" fbc:label="G_NSB1T_RS18245"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26850" fbc:name="G_NSB1T_RS26850" fbc:label="G_NSB1T_RS26850"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19695" fbc:name="G_NSB1T_RS19695" fbc:label="G_NSB1T_RS19695"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20340" fbc:name="G_NSB1T_RS20340" fbc:label="G_NSB1T_RS20340"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21005" fbc:name="G_NSB1T_RS21005" fbc:label="G_NSB1T_RS21005"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS25995" fbc:name="G_NSB1T_RS25995" fbc:label="G_NSB1T_RS25995"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16215" fbc:name="G_NSB1T_RS16215" fbc:label="G_NSB1T_RS16215"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19315" fbc:name="G_NSB1T_RS19315" fbc:label="G_NSB1T_RS19315"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS0114530" fbc:name="G_NSB1T_RS0114530" fbc:label="G_NSB1T_RS0114530"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19315" fbc:name="G_NSB1T_RS19315" fbc:label="G_NSB1T_RS19315"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18245" fbc:name="G_NSB1T_RS18245" fbc:label="G_NSB1T_RS18245"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17910" fbc:name="G_NSB1T_RS17910" fbc:label="G_NSB1T_RS17910"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17010" fbc:name="G_NSB1T_RS17010" fbc:label="G_NSB1T_RS17010"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26620" fbc:name="G_NSB1T_RS26620" fbc:label="G_NSB1T_RS26620"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16215" fbc:name="G_NSB1T_RS16215" fbc:label="G_NSB1T_RS16215"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20615" fbc:name="G_NSB1T_RS20615" fbc:label="G_NSB1T_RS20615"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24195" fbc:name="G_NSB1T_RS24195" fbc:label="G_NSB1T_RS24195"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19695" fbc:name="G_NSB1T_RS19695" fbc:label="G_NSB1T_RS19695"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS21085" fbc:name="G_NSB1T_RS21085" fbc:label="G_NSB1T_RS21085"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS28050" fbc:name="G_NSB1T_RS28050" fbc:label="G_NSB1T_RS28050"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18265" fbc:name="G_NSB1T_RS18265" fbc:label="G_NSB1T_RS18265"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26850" fbc:name="G_NSB1T_RS26850" fbc:label="G_NSB1T_RS26850"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS24630" fbc:name="G_NSB1T_RS24630" fbc:label="G_NSB1T_RS24630"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17010" fbc:name="G_NSB1T_RS17010" fbc:label="G_NSB1T_RS17010"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21860" fbc:name="G_NSB1T_RS21860" fbc:label="G_NSB1T_RS21860"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17985" fbc:name="G_NSB1T_RS17985" fbc:label="G_NSB1T_RS17985"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24015" fbc:name="G_NSB1T_RS24015" fbc:label="G_NSB1T_RS24015"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23890" fbc:name="G_NSB1T_RS23890" fbc:label="G_NSB1T_RS23890"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23945" fbc:name="G_NSB1T_RS23945" fbc:label="G_NSB1T_RS23945"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23895" fbc:name="G_NSB1T_RS23895" fbc:label="G_NSB1T_RS23895"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18420" fbc:name="G_NSB1T_RS18420" fbc:label="G_NSB1T_RS18420"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20990" fbc:name="G_NSB1T_RS20990" fbc:label="G_NSB1T_RS20990"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24900" fbc:name="G_NSB1T_RS24900" fbc:label="G_NSB1T_RS24900"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23950" fbc:name="G_NSB1T_RS23950" fbc:label="G_NSB1T_RS23950"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24005" fbc:name="G_NSB1T_RS24005" fbc:label="G_NSB1T_RS24005"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24030" fbc:name="G_NSB1T_RS24030" fbc:label="G_NSB1T_RS24030"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28380" fbc:name="G_NSB1T_RS28380" fbc:label="G_NSB1T_RS28380"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19405" fbc:name="G_NSB1T_RS19405" fbc:label="G_NSB1T_RS19405"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19410" fbc:name="G_NSB1T_RS19410" fbc:label="G_NSB1T_RS19410"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23935" fbc:name="G_NSB1T_RS23935" fbc:label="G_NSB1T_RS23935"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21010" fbc:name="G_NSB1T_RS21010" fbc:label="G_NSB1T_RS21010"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24010" fbc:name="G_NSB1T_RS24010" fbc:label="G_NSB1T_RS24010"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28390" fbc:name="G_NSB1T_RS28390" fbc:label="G_NSB1T_RS28390"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21865" fbc:name="G_NSB1T_RS21865" fbc:label="G_NSB1T_RS21865"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24035" fbc:name="G_NSB1T_RS24035" fbc:label="G_NSB1T_RS24035"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27780" fbc:name="G_NSB1T_RS27780" fbc:label="G_NSB1T_RS27780"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18235" fbc:name="G_NSB1T_RS18235" fbc:label="G_NSB1T_RS18235"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28435" fbc:name="G_NSB1T_RS28435" fbc:label="G_NSB1T_RS28435"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19130" fbc:name="G_NSB1T_RS19130" fbc:label="G_NSB1T_RS19130"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18360" fbc:name="G_NSB1T_RS18360" fbc:label="G_NSB1T_RS18360"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21780" fbc:name="G_NSB1T_RS21780" fbc:label="G_NSB1T_RS21780"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23960" fbc:name="G_NSB1T_RS23960" fbc:label="G_NSB1T_RS23960"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23990" fbc:name="G_NSB1T_RS23990" fbc:label="G_NSB1T_RS23990"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23985" fbc:name="G_NSB1T_RS23985" fbc:label="G_NSB1T_RS23985"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24020" fbc:name="G_NSB1T_RS24020" fbc:label="G_NSB1T_RS24020"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23970" fbc:name="G_NSB1T_RS23970" fbc:label="G_NSB1T_RS23970"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28330" fbc:name="G_NSB1T_RS28330" fbc:label="G_NSB1T_RS28330"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23925" fbc:name="G_NSB1T_RS23925" fbc:label="G_NSB1T_RS23925"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23080" fbc:name="G_NSB1T_RS23080" fbc:label="G_NSB1T_RS23080"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18450" fbc:name="G_NSB1T_RS18450" fbc:label="G_NSB1T_RS18450"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23900" fbc:name="G_NSB1T_RS23900" fbc:label="G_NSB1T_RS23900"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS29115" fbc:name="G_NSB1T_RS29115" fbc:label="G_NSB1T_RS29115"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28285" fbc:name="G_NSB1T_RS28285" fbc:label="G_NSB1T_RS28285"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18425" fbc:name="G_NSB1T_RS18425" fbc:label="G_NSB1T_RS18425"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23965" fbc:name="G_NSB1T_RS23965" fbc:label="G_NSB1T_RS23965"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23955" fbc:name="G_NSB1T_RS23955" fbc:label="G_NSB1T_RS23955"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23930" fbc:name="G_NSB1T_RS23930" fbc:label="G_NSB1T_RS23930"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28385" fbc:name="G_NSB1T_RS28385" fbc:label="G_NSB1T_RS28385"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24000" fbc:name="G_NSB1T_RS24000" fbc:label="G_NSB1T_RS24000"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17575" fbc:name="G_NSB1T_RS17575" fbc:label="G_NSB1T_RS17575"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS27155" fbc:name="G_NSB1T_RS27155" fbc:label="G_NSB1T_RS27155"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26470" fbc:name="G_NSB1T_RS26470" fbc:label="G_NSB1T_RS26470"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21935" fbc:name="G_NSB1T_RS21935" fbc:label="G_NSB1T_RS21935"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20970" fbc:name="G_NSB1T_RS20970" fbc:label="G_NSB1T_RS20970"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS20975" fbc:name="G_NSB1T_RS20975" fbc:label="G_NSB1T_RS20975"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23090" fbc:name="G_NSB1T_RS23090" fbc:label="G_NSB1T_RS23090"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17875" fbc:name="G_NSB1T_RS17875" fbc:label="G_NSB1T_RS17875"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS0115050" fbc:name="G_NSB1T_RS0115050" fbc:label="G_NSB1T_RS0115050"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21855" fbc:name="G_NSB1T_RS21855" fbc:label="G_NSB1T_RS21855"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19930" fbc:name="G_NSB1T_RS19930" fbc:label="G_NSB1T_RS19930"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23940" fbc:name="G_NSB1T_RS23940" fbc:label="G_NSB1T_RS23940"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24795" fbc:name="G_NSB1T_RS24795" fbc:label="G_NSB1T_RS24795"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23975" fbc:name="G_NSB1T_RS23975" fbc:label="G_NSB1T_RS23975"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23920" fbc:name="G_NSB1T_RS23920" fbc:label="G_NSB1T_RS23920"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS23995" fbc:name="G_NSB1T_RS23995" fbc:label="G_NSB1T_RS23995"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23095" fbc:name="G_NSB1T_RS23095" fbc:label="G_NSB1T_RS23095"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26335" fbc:name="G_NSB1T_RS26335" fbc:label="G_NSB1T_RS26335"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS24800" fbc:name="G_NSB1T_RS24800" fbc:label="G_NSB1T_RS24800"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23090" fbc:name="G_NSB1T_RS23090" fbc:label="G_NSB1T_RS23090"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24015" fbc:name="G_NSB1T_RS24015" fbc:label="G_NSB1T_RS24015"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24030" fbc:name="G_NSB1T_RS24030" fbc:label="G_NSB1T_RS24030"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21855" fbc:name="G_NSB1T_RS21855" fbc:label="G_NSB1T_RS21855"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21780" fbc:name="G_NSB1T_RS21780" fbc:label="G_NSB1T_RS21780"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18450" fbc:name="G_NSB1T_RS18450" fbc:label="G_NSB1T_RS18450"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18425" fbc:name="G_NSB1T_RS18425" fbc:label="G_NSB1T_RS18425"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23945" fbc:name="G_NSB1T_RS23945" fbc:label="G_NSB1T_RS23945"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21010" fbc:name="G_NSB1T_RS21010" fbc:label="G_NSB1T_RS21010"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23960" fbc:name="G_NSB1T_RS23960" fbc:label="G_NSB1T_RS23960"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20990" fbc:name="G_NSB1T_RS20990" fbc:label="G_NSB1T_RS20990"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28330" fbc:name="G_NSB1T_RS28330" fbc:label="G_NSB1T_RS28330"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23900" fbc:name="G_NSB1T_RS23900" fbc:label="G_NSB1T_RS23900"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS18300" fbc:name="G_NSB1T_RS18300" fbc:label="G_NSB1T_RS18300"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS26595" fbc:name="G_NSB1T_RS26595" fbc:label="G_NSB1T_RS26595"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS19755" fbc:name="G_NSB1T_RS19755" fbc:label="G_NSB1T_RS19755"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18430" fbc:name="G_NSB1T_RS18430" fbc:label="G_NSB1T_RS18430"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27780" fbc:name="G_NSB1T_RS27780" fbc:label="G_NSB1T_RS27780"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23995" fbc:name="G_NSB1T_RS23995" fbc:label="G_NSB1T_RS23995"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24035" fbc:name="G_NSB1T_RS24035" fbc:label="G_NSB1T_RS24035"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23890" fbc:name="G_NSB1T_RS23890" fbc:label="G_NSB1T_RS23890"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23980" fbc:name="G_NSB1T_RS23980" fbc:label="G_NSB1T_RS23980"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28285" fbc:name="G_NSB1T_RS28285" fbc:label="G_NSB1T_RS28285"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17875" fbc:name="G_NSB1T_RS17875" fbc:label="G_NSB1T_RS17875"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19405" fbc:name="G_NSB1T_RS19405" fbc:label="G_NSB1T_RS19405"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23975" fbc:name="G_NSB1T_RS23975" fbc:label="G_NSB1T_RS23975"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23080" fbc:name="G_NSB1T_RS23080" fbc:label="G_NSB1T_RS23080"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23950" fbc:name="G_NSB1T_RS23950" fbc:label="G_NSB1T_RS23950"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18430" fbc:name="G_NSB1T_RS18430" fbc:label="G_NSB1T_RS18430"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28385" fbc:name="G_NSB1T_RS28385" fbc:label="G_NSB1T_RS28385"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18360" fbc:name="G_NSB1T_RS18360" fbc:label="G_NSB1T_RS18360"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24800" fbc:name="G_NSB1T_RS24800" fbc:label="G_NSB1T_RS24800"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23985" fbc:name="G_NSB1T_RS23985" fbc:label="G_NSB1T_RS23985"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS0115050" fbc:name="G_NSB1T_RS0115050" fbc:label="G_NSB1T_RS0115050"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23965" fbc:name="G_NSB1T_RS23965" fbc:label="G_NSB1T_RS23965"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28390" fbc:name="G_NSB1T_RS28390" fbc:label="G_NSB1T_RS28390"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23930" fbc:name="G_NSB1T_RS23930" fbc:label="G_NSB1T_RS23930"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21860" fbc:name="G_NSB1T_RS21860" fbc:label="G_NSB1T_RS21860"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23990" fbc:name="G_NSB1T_RS23990" fbc:label="G_NSB1T_RS23990"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24010" fbc:name="G_NSB1T_RS24010" fbc:label="G_NSB1T_RS24010"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21935" fbc:name="G_NSB1T_RS21935" fbc:label="G_NSB1T_RS21935"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28380" fbc:name="G_NSB1T_RS28380" fbc:label="G_NSB1T_RS28380"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19930" fbc:name="G_NSB1T_RS19930" fbc:label="G_NSB1T_RS19930"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24795" fbc:name="G_NSB1T_RS24795" fbc:label="G_NSB1T_RS24795"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23955" fbc:name="G_NSB1T_RS23955" fbc:label="G_NSB1T_RS23955"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26470" fbc:name="G_NSB1T_RS26470" fbc:label="G_NSB1T_RS26470"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23925" fbc:name="G_NSB1T_RS23925" fbc:label="G_NSB1T_RS23925"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19755" fbc:name="G_NSB1T_RS19755" fbc:label="G_NSB1T_RS19755"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18420" fbc:name="G_NSB1T_RS18420" fbc:label="G_NSB1T_RS18420"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18235" fbc:name="G_NSB1T_RS18235" fbc:label="G_NSB1T_RS18235"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19130" fbc:name="G_NSB1T_RS19130" fbc:label="G_NSB1T_RS19130"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24000" fbc:name="G_NSB1T_RS24000" fbc:label="G_NSB1T_RS24000"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24020" fbc:name="G_NSB1T_RS24020" fbc:label="G_NSB1T_RS24020"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23895" fbc:name="G_NSB1T_RS23895" fbc:label="G_NSB1T_RS23895"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23970" fbc:name="G_NSB1T_RS23970" fbc:label="G_NSB1T_RS23970"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26335" fbc:name="G_NSB1T_RS26335" fbc:label="G_NSB1T_RS26335"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20975" fbc:name="G_NSB1T_RS20975" fbc:label="G_NSB1T_RS20975"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21865" fbc:name="G_NSB1T_RS21865" fbc:label="G_NSB1T_RS21865"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23940" fbc:name="G_NSB1T_RS23940" fbc:label="G_NSB1T_RS23940"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28435" fbc:name="G_NSB1T_RS28435" fbc:label="G_NSB1T_RS28435"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23935" fbc:name="G_NSB1T_RS23935" fbc:label="G_NSB1T_RS23935"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17575" fbc:name="G_NSB1T_RS17575" fbc:label="G_NSB1T_RS17575"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24900" fbc:name="G_NSB1T_RS24900" fbc:label="G_NSB1T_RS24900"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS19410" fbc:name="G_NSB1T_RS19410" fbc:label="G_NSB1T_RS19410"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS20970" fbc:name="G_NSB1T_RS20970" fbc:label="G_NSB1T_RS20970"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS27155" fbc:name="G_NSB1T_RS27155" fbc:label="G_NSB1T_RS27155"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS23920" fbc:name="G_NSB1T_RS23920" fbc:label="G_NSB1T_RS23920"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS24005" fbc:name="G_NSB1T_RS24005" fbc:label="G_NSB1T_RS24005"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17985" fbc:name="G_NSB1T_RS17985" fbc:label="G_NSB1T_RS17985"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS29115" fbc:name="G_NSB1T_RS29115" fbc:label="G_NSB1T_RS29115"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS26595" fbc:name="G_NSB1T_RS26595" fbc:label="G_NSB1T_RS26595"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23795" fbc:name="G_NSB1T_RS23795" fbc:label="G_NSB1T_RS23795"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23165" fbc:name="G_NSB1T_RS23165" fbc:label="G_NSB1T_RS23165"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS15935" fbc:name="G_NSB1T_RS15935" fbc:label="G_NSB1T_RS15935"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS19085" fbc:name="G_NSB1T_RS19085" fbc:label="G_NSB1T_RS19085"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS16220" fbc:name="G_NSB1T_RS16220" fbc:label="G_NSB1T_RS16220"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS21490" fbc:name="G_NSB1T_RS21490" fbc:label="G_NSB1T_RS21490"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS17330" fbc:name="G_NSB1T_RS17330" fbc:label="G_NSB1T_RS17330"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS18000" fbc:name="G_NSB1T_RS18000" fbc:label="G_NSB1T_RS18000"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28400" fbc:name="G_NSB1T_RS28400" fbc:label="G_NSB1T_RS28400"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20745" fbc:name="G_NSB1T_RS20745" fbc:label="G_NSB1T_RS20745"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS20825" fbc:name="G_NSB1T_RS20825" fbc:label="G_NSB1T_RS20825"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28395" fbc:name="G_NSB1T_RS28395" fbc:label="G_NSB1T_RS28395"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS21490" fbc:name="G_NSB1T_RS21490" fbc:label="G_NSB1T_RS21490"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS17330" fbc:name="G_NSB1T_RS17330" fbc:label="G_NSB1T_RS17330"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS16220" fbc:name="G_NSB1T_RS16220" fbc:label="G_NSB1T_RS16220"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS18000" fbc:name="G_NSB1T_RS18000" fbc:label="G_NSB1T_RS18000"/>
       <fbc:geneProduct fbc:id="G_NSB1T_RS23885" fbc:name="G_NSB1T_RS23885" fbc:label="G_NSB1T_RS23885"/>
-      <fbc:geneProduct fbc:id="G_NSB1T_RS28400" fbc:name="G_NSB1T_RS28400" fbc:label="G_NSB1T_RS28400"/>
+      <fbc:geneProduct fbc:id="G_NSB1T_RS28395" fbc:name="G_NSB1T_RS28395" fbc:label="G_NSB1T_RS28395"/>
     </fbc:listOfGeneProducts>
   </model>
 </sbml>
