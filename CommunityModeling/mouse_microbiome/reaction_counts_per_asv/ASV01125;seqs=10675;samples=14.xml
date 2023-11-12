@@ -10,10 +10,6 @@
         </listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
-    <listOfCompartments>
-      <compartment id="e" constant="true"/>
-      <compartment id="c" constant="true"/>
-    </listOfCompartments>
     <listOfSpecies>
       <species metaid="meta_M_12dgr180__91__e__93__" sboTerm="SBO:0000247" id="M_12dgr180__91__e__93__" name="1,2-Diacyl-sn-glycerol (dioctadecanoyl, n-C18:0)" compartment="e" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="0" fbc:chemicalFormula="C39H76O5">
         <notes>
@@ -53957,19 +53953,19 @@
       <fbc:objective fbc:id="obj" fbc:type="maximize"/>
     </fbc:listOfObjectives>
     <fbc:listOfGeneProducts>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03760" fbc:name="G_CKV72_RS03760" fbc:label="G_CKV72_RS03760"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03765" fbc:name="G_CKV72_RS03765" fbc:label="G_CKV72_RS03765"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03760" fbc:name="G_CKV72_RS03760" fbc:label="G_CKV72_RS03760"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03755" fbc:name="G_CKV72_RS03755" fbc:label="G_CKV72_RS03755"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11815" fbc:name="G_CKV72_RS11815" fbc:label="G_CKV72_RS11815"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11810" fbc:name="G_CKV72_RS11810" fbc:label="G_CKV72_RS11810"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03130" fbc:name="G_CKV72_RS03130" fbc:label="G_CKV72_RS03130"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11810" fbc:name="G_CKV72_RS11810" fbc:label="G_CKV72_RS11810"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11830" fbc:name="G_CKV72_RS11830" fbc:label="G_CKV72_RS11830"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11805" fbc:name="G_CKV72_RS11805" fbc:label="G_CKV72_RS11805"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09800" fbc:name="G_CKV72_RS09800" fbc:label="G_CKV72_RS09800"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02230" fbc:name="G_CKV72_RS02230" fbc:label="G_CKV72_RS02230"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02585" fbc:name="G_CKV72_RS02585" fbc:label="G_CKV72_RS02585"/>
-      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08325" fbc:name="G_CKV72_RS08325" fbc:label="G_CKV72_RS08325"/>
+      <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01905" fbc:name="G_CKV72_RS01905" fbc:label="G_CKV72_RS01905"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00810" fbc:name="G_CKV72_RS00810" fbc:label="G_CKV72_RS00810"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03815" fbc:name="G_CKV72_RS03815" fbc:label="G_CKV72_RS03815"/>
@@ -53983,9 +53979,9 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS07215" fbc:name="G_CKV72_RS07215" fbc:label="G_CKV72_RS07215"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02135" fbc:name="G_CKV72_RS02135" fbc:label="G_CKV72_RS02135"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01045" fbc:name="G_CKV72_RS01045" fbc:label="G_CKV72_RS01045"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06010" fbc:name="G_CKV72_RS06010" fbc:label="G_CKV72_RS06010"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08935" fbc:name="G_CKV72_RS08935" fbc:label="G_CKV72_RS08935"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08920" fbc:name="G_CKV72_RS08920" fbc:label="G_CKV72_RS08920"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08935" fbc:name="G_CKV72_RS08935" fbc:label="G_CKV72_RS08935"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06010" fbc:name="G_CKV72_RS06010" fbc:label="G_CKV72_RS06010"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10320" fbc:name="G_CKV72_RS10320" fbc:label="G_CKV72_RS10320"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10745" fbc:name="G_CKV72_RS10745" fbc:label="G_CKV72_RS10745"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02890" fbc:name="G_CKV72_RS02890" fbc:label="G_CKV72_RS02890"/>
@@ -53995,14 +53991,14 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS00965" fbc:name="G_CKV72_RS00965" fbc:label="G_CKV72_RS00965"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02290" fbc:name="G_CKV72_RS02290" fbc:label="G_CKV72_RS02290"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02880" fbc:name="G_CKV72_RS02880" fbc:label="G_CKV72_RS02880"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS02465" fbc:name="G_CKV72_RS02465" fbc:label="G_CKV72_RS02465"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03070" fbc:name="G_CKV72_RS03070" fbc:label="G_CKV72_RS03070"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03075" fbc:name="G_CKV72_RS03075" fbc:label="G_CKV72_RS03075"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03080" fbc:name="G_CKV72_RS03080" fbc:label="G_CKV72_RS03080"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04690" fbc:name="G_CKV72_RS04690" fbc:label="G_CKV72_RS04690"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS02470" fbc:name="G_CKV72_RS02470" fbc:label="G_CKV72_RS02470"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05850" fbc:name="G_CKV72_RS05850" fbc:label="G_CKV72_RS05850"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02475" fbc:name="G_CKV72_RS02475" fbc:label="G_CKV72_RS02475"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS02470" fbc:name="G_CKV72_RS02470" fbc:label="G_CKV72_RS02470"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03075" fbc:name="G_CKV72_RS03075" fbc:label="G_CKV72_RS03075"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04690" fbc:name="G_CKV72_RS04690" fbc:label="G_CKV72_RS04690"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS02465" fbc:name="G_CKV72_RS02465" fbc:label="G_CKV72_RS02465"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03080" fbc:name="G_CKV72_RS03080" fbc:label="G_CKV72_RS03080"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03070" fbc:name="G_CKV72_RS03070" fbc:label="G_CKV72_RS03070"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04105" fbc:name="G_CKV72_RS04105" fbc:label="G_CKV72_RS04105"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09115" fbc:name="G_CKV72_RS09115" fbc:label="G_CKV72_RS09115"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06690" fbc:name="G_CKV72_RS06690" fbc:label="G_CKV72_RS06690"/>
@@ -54011,13 +54007,13 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS08305" fbc:name="G_CKV72_RS08305" fbc:label="G_CKV72_RS08305"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00700" fbc:name="G_CKV72_RS00700" fbc:label="G_CKV72_RS00700"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11045" fbc:name="G_CKV72_RS11045" fbc:label="G_CKV72_RS11045"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06580" fbc:name="G_CKV72_RS06580" fbc:label="G_CKV72_RS06580"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09605" fbc:name="G_CKV72_RS09605" fbc:label="G_CKV72_RS09605"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06580" fbc:name="G_CKV72_RS06580" fbc:label="G_CKV72_RS06580"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01150" fbc:name="G_CKV72_RS01150" fbc:label="G_CKV72_RS01150"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10730" fbc:name="G_CKV72_RS10730" fbc:label="G_CKV72_RS10730"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01270" fbc:name="G_CKV72_RS01270" fbc:label="G_CKV72_RS01270"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS02660" fbc:name="G_CKV72_RS02660" fbc:label="G_CKV72_RS02660"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02655" fbc:name="G_CKV72_RS02655" fbc:label="G_CKV72_RS02655"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS02660" fbc:name="G_CKV72_RS02660" fbc:label="G_CKV72_RS02660"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08045" fbc:name="G_CKV72_RS08045" fbc:label="G_CKV72_RS08045"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02685" fbc:name="G_CKV72_RS02685" fbc:label="G_CKV72_RS02685"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09375" fbc:name="G_CKV72_RS09375" fbc:label="G_CKV72_RS09375"/>
@@ -54025,39 +54021,39 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS02190" fbc:name="G_CKV72_RS02190" fbc:label="G_CKV72_RS02190"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02185" fbc:name="G_CKV72_RS02185" fbc:label="G_CKV72_RS02185"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09725" fbc:name="G_CKV72_RS09725" fbc:label="G_CKV72_RS09725"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09715" fbc:name="G_CKV72_RS09715" fbc:label="G_CKV72_RS09715"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09720" fbc:name="G_CKV72_RS09720" fbc:label="G_CKV72_RS09720"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09715" fbc:name="G_CKV72_RS09715" fbc:label="G_CKV72_RS09715"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09490" fbc:name="G_CKV72_RS09490" fbc:label="G_CKV72_RS09490"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03060" fbc:name="G_CKV72_RS03060" fbc:label="G_CKV72_RS03060"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09930" fbc:name="G_CKV72_RS09930" fbc:label="G_CKV72_RS09930"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09925" fbc:name="G_CKV72_RS09925" fbc:label="G_CKV72_RS09925"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05285" fbc:name="G_CKV72_RS05285" fbc:label="G_CKV72_RS05285"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09790" fbc:name="G_CKV72_RS09790" fbc:label="G_CKV72_RS09790"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05285" fbc:name="G_CKV72_RS05285" fbc:label="G_CKV72_RS05285"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03245" fbc:name="G_CKV72_RS03245" fbc:label="G_CKV72_RS03245"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05415" fbc:name="G_CKV72_RS05415" fbc:label="G_CKV72_RS05415"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05340" fbc:name="G_CKV72_RS05340" fbc:label="G_CKV72_RS05340"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11800" fbc:name="G_CKV72_RS11800" fbc:label="G_CKV72_RS11800"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03365" fbc:name="G_CKV72_RS03365" fbc:label="G_CKV72_RS03365"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11800" fbc:name="G_CKV72_RS11800" fbc:label="G_CKV72_RS11800"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11790" fbc:name="G_CKV72_RS11790" fbc:label="G_CKV72_RS11790"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08965" fbc:name="G_CKV72_RS08965" fbc:label="G_CKV72_RS08965"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07845" fbc:name="G_CKV72_RS07845" fbc:label="G_CKV72_RS07845"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10855" fbc:name="G_CKV72_RS10855" fbc:label="G_CKV72_RS10855"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03010" fbc:name="G_CKV72_RS03010" fbc:label="G_CKV72_RS03010"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03020" fbc:name="G_CKV72_RS03020" fbc:label="G_CKV72_RS03020"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03010" fbc:name="G_CKV72_RS03010" fbc:label="G_CKV72_RS03010"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10780" fbc:name="G_CKV72_RS10780" fbc:label="G_CKV72_RS10780"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03470" fbc:name="G_CKV72_RS03470" fbc:label="G_CKV72_RS03470"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00670" fbc:name="G_CKV72_RS00670" fbc:label="G_CKV72_RS00670"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05445" fbc:name="G_CKV72_RS05445" fbc:label="G_CKV72_RS05445"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09025" fbc:name="G_CKV72_RS09025" fbc:label="G_CKV72_RS09025"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10545" fbc:name="G_CKV72_RS10545" fbc:label="G_CKV72_RS10545"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10550" fbc:name="G_CKV72_RS10550" fbc:label="G_CKV72_RS10550"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10920" fbc:name="G_CKV72_RS10920" fbc:label="G_CKV72_RS10920"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10925" fbc:name="G_CKV72_RS10925" fbc:label="G_CKV72_RS10925"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10930" fbc:name="G_CKV72_RS10930" fbc:label="G_CKV72_RS10930"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10540" fbc:name="G_CKV72_RS10540" fbc:label="G_CKV72_RS10540"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10545" fbc:name="G_CKV72_RS10545" fbc:label="G_CKV72_RS10545"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10930" fbc:name="G_CKV72_RS10930" fbc:label="G_CKV72_RS10930"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10920" fbc:name="G_CKV72_RS10920" fbc:label="G_CKV72_RS10920"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00275" fbc:name="G_CKV72_RS00275" fbc:label="G_CKV72_RS00275"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06295" fbc:name="G_CKV72_RS06295" fbc:label="G_CKV72_RS06295"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07220" fbc:name="G_CKV72_RS07220" fbc:label="G_CKV72_RS07220"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06295" fbc:name="G_CKV72_RS06295" fbc:label="G_CKV72_RS06295"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02970" fbc:name="G_CKV72_RS02970" fbc:label="G_CKV72_RS02970"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02985" fbc:name="G_CKV72_RS02985" fbc:label="G_CKV72_RS02985"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02975" fbc:name="G_CKV72_RS02975" fbc:label="G_CKV72_RS02975"/>
@@ -54081,8 +54077,8 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS04910" fbc:name="G_CKV72_RS04910" fbc:label="G_CKV72_RS04910"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01755" fbc:name="G_CKV72_RS01755" fbc:label="G_CKV72_RS01755"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07480" fbc:name="G_CKV72_RS07480" fbc:label="G_CKV72_RS07480"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07475" fbc:name="G_CKV72_RS07475" fbc:label="G_CKV72_RS07475"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07485" fbc:name="G_CKV72_RS07485" fbc:label="G_CKV72_RS07485"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07475" fbc:name="G_CKV72_RS07475" fbc:label="G_CKV72_RS07475"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09540" fbc:name="G_CKV72_RS09540" fbc:label="G_CKV72_RS09540"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09910" fbc:name="G_CKV72_RS09910" fbc:label="G_CKV72_RS09910"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09905" fbc:name="G_CKV72_RS09905" fbc:label="G_CKV72_RS09905"/>
@@ -54095,16 +54091,16 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS09015" fbc:name="G_CKV72_RS09015" fbc:label="G_CKV72_RS09015"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09770" fbc:name="G_CKV72_RS09770" fbc:label="G_CKV72_RS09770"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09760" fbc:name="G_CKV72_RS09760" fbc:label="G_CKV72_RS09760"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09755" fbc:name="G_CKV72_RS09755" fbc:label="G_CKV72_RS09755"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09765" fbc:name="G_CKV72_RS09765" fbc:label="G_CKV72_RS09765"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09745" fbc:name="G_CKV72_RS09745" fbc:label="G_CKV72_RS09745"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09755" fbc:name="G_CKV72_RS09755" fbc:label="G_CKV72_RS09755"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08435" fbc:name="G_CKV72_RS08435" fbc:label="G_CKV72_RS08435"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00360" fbc:name="G_CKV72_RS00360" fbc:label="G_CKV72_RS00360"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03215" fbc:name="G_CKV72_RS03215" fbc:label="G_CKV72_RS03215"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00745" fbc:name="G_CKV72_RS00745" fbc:label="G_CKV72_RS00745"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08430" fbc:name="G_CKV72_RS08430" fbc:label="G_CKV72_RS08430"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06015" fbc:name="G_CKV72_RS06015" fbc:label="G_CKV72_RS06015"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06420" fbc:name="G_CKV72_RS06420" fbc:label="G_CKV72_RS06420"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06015" fbc:name="G_CKV72_RS06015" fbc:label="G_CKV72_RS06015"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04880" fbc:name="G_CKV72_RS04880" fbc:label="G_CKV72_RS04880"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05200" fbc:name="G_CKV72_RS05200" fbc:label="G_CKV72_RS05200"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06485" fbc:name="G_CKV72_RS06485" fbc:label="G_CKV72_RS06485"/>
@@ -54115,24 +54111,24 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS03960" fbc:name="G_CKV72_RS03960" fbc:label="G_CKV72_RS03960"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02415" fbc:name="G_CKV72_RS02415" fbc:label="G_CKV72_RS02415"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01430" fbc:name="G_CKV72_RS01430" fbc:label="G_CKV72_RS01430"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03670" fbc:name="G_CKV72_RS03670" fbc:label="G_CKV72_RS03670"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04860" fbc:name="G_CKV72_RS04860" fbc:label="G_CKV72_RS04860"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03670" fbc:name="G_CKV72_RS03670" fbc:label="G_CKV72_RS03670"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05845" fbc:name="G_CKV72_RS05845" fbc:label="G_CKV72_RS05845"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07650" fbc:name="G_CKV72_RS07650" fbc:label="G_CKV72_RS07650"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05260" fbc:name="G_CKV72_RS05260" fbc:label="G_CKV72_RS05260"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09550" fbc:name="G_CKV72_RS09550" fbc:label="G_CKV72_RS09550"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03620" fbc:name="G_CKV72_RS03620" fbc:label="G_CKV72_RS03620"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03190" fbc:name="G_CKV72_RS03190" fbc:label="G_CKV72_RS03190"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06185" fbc:name="G_CKV72_RS06185" fbc:label="G_CKV72_RS06185"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06375" fbc:name="G_CKV72_RS06375" fbc:label="G_CKV72_RS06375"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06370" fbc:name="G_CKV72_RS06370" fbc:label="G_CKV72_RS06370"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07755" fbc:name="G_CKV72_RS07755" fbc:label="G_CKV72_RS07755"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06185" fbc:name="G_CKV72_RS06185" fbc:label="G_CKV72_RS06185"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03190" fbc:name="G_CKV72_RS03190" fbc:label="G_CKV72_RS03190"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06370" fbc:name="G_CKV72_RS06370" fbc:label="G_CKV72_RS06370"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04055" fbc:name="G_CKV72_RS04055" fbc:label="G_CKV72_RS04055"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05185" fbc:name="G_CKV72_RS05185" fbc:label="G_CKV72_RS05185"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03975" fbc:name="G_CKV72_RS03975" fbc:label="G_CKV72_RS03975"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09555" fbc:name="G_CKV72_RS09555" fbc:label="G_CKV72_RS09555"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10935" fbc:name="G_CKV72_RS10935" fbc:label="G_CKV72_RS10935"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10940" fbc:name="G_CKV72_RS10940" fbc:label="G_CKV72_RS10940"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10935" fbc:name="G_CKV72_RS10935" fbc:label="G_CKV72_RS10935"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11565" fbc:name="G_CKV72_RS11565" fbc:label="G_CKV72_RS11565"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02940" fbc:name="G_CKV72_RS02940" fbc:label="G_CKV72_RS02940"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05055" fbc:name="G_CKV72_RS05055" fbc:label="G_CKV72_RS05055"/>
@@ -54144,8 +54140,8 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS03400" fbc:name="G_CKV72_RS03400" fbc:label="G_CKV72_RS03400"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09365" fbc:name="G_CKV72_RS09365" fbc:label="G_CKV72_RS09365"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03390" fbc:name="G_CKV72_RS03390" fbc:label="G_CKV72_RS03390"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03385" fbc:name="G_CKV72_RS03385" fbc:label="G_CKV72_RS03385"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03380" fbc:name="G_CKV72_RS03380" fbc:label="G_CKV72_RS03380"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03385" fbc:name="G_CKV72_RS03385" fbc:label="G_CKV72_RS03385"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08310" fbc:name="G_CKV72_RS08310" fbc:label="G_CKV72_RS08310"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08745" fbc:name="G_CKV72_RS08745" fbc:label="G_CKV72_RS08745"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10845" fbc:name="G_CKV72_RS10845" fbc:label="G_CKV72_RS10845"/>
@@ -54153,30 +54149,30 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS04140" fbc:name="G_CKV72_RS04140" fbc:label="G_CKV72_RS04140"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05355" fbc:name="G_CKV72_RS05355" fbc:label="G_CKV72_RS05355"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09560" fbc:name="G_CKV72_RS09560" fbc:label="G_CKV72_RS09560"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS02200" fbc:name="G_CKV72_RS02200" fbc:label="G_CKV72_RS02200"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02720" fbc:name="G_CKV72_RS02720" fbc:label="G_CKV72_RS02720"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS02200" fbc:name="G_CKV72_RS02200" fbc:label="G_CKV72_RS02200"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10290" fbc:name="G_CKV72_RS10290" fbc:label="G_CKV72_RS10290"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08320" fbc:name="G_CKV72_RS08320" fbc:label="G_CKV72_RS08320"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00560" fbc:name="G_CKV72_RS00560" fbc:label="G_CKV72_RS00560"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02915" fbc:name="G_CKV72_RS02915" fbc:label="G_CKV72_RS02915"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03725" fbc:name="G_CKV72_RS03725" fbc:label="G_CKV72_RS03725"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09570" fbc:name="G_CKV72_RS09570" fbc:label="G_CKV72_RS09570"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06345" fbc:name="G_CKV72_RS06345" fbc:label="G_CKV72_RS06345"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS02385" fbc:name="G_CKV72_RS02385" fbc:label="G_CKV72_RS02385"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09570" fbc:name="G_CKV72_RS09570" fbc:label="G_CKV72_RS09570"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03235" fbc:name="G_CKV72_RS03235" fbc:label="G_CKV72_RS03235"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS02385" fbc:name="G_CKV72_RS02385" fbc:label="G_CKV72_RS02385"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01140" fbc:name="G_CKV72_RS01140" fbc:label="G_CKV72_RS01140"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09325" fbc:name="G_CKV72_RS09325" fbc:label="G_CKV72_RS09325"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03720" fbc:name="G_CKV72_RS03720" fbc:label="G_CKV72_RS03720"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08465" fbc:name="G_CKV72_RS08465" fbc:label="G_CKV72_RS08465"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10510" fbc:name="G_CKV72_RS10510" fbc:label="G_CKV72_RS10510"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07465" fbc:name="G_CKV72_RS07465" fbc:label="G_CKV72_RS07465"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10510" fbc:name="G_CKV72_RS10510" fbc:label="G_CKV72_RS10510"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09100" fbc:name="G_CKV72_RS09100" fbc:label="G_CKV72_RS09100"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10245" fbc:name="G_CKV72_RS10245" fbc:label="G_CKV72_RS10245"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04800" fbc:name="G_CKV72_RS04800" fbc:label="G_CKV72_RS04800"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09110" fbc:name="G_CKV72_RS09110" fbc:label="G_CKV72_RS09110"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00950" fbc:name="G_CKV72_RS00950" fbc:label="G_CKV72_RS00950"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11445" fbc:name="G_CKV72_RS11445" fbc:label="G_CKV72_RS11445"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09110" fbc:name="G_CKV72_RS09110" fbc:label="G_CKV72_RS09110"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09230" fbc:name="G_CKV72_RS09230" fbc:label="G_CKV72_RS09230"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11445" fbc:name="G_CKV72_RS11445" fbc:label="G_CKV72_RS11445"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07425" fbc:name="G_CKV72_RS07425" fbc:label="G_CKV72_RS07425"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09610" fbc:name="G_CKV72_RS09610" fbc:label="G_CKV72_RS09610"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09575" fbc:name="G_CKV72_RS09575" fbc:label="G_CKV72_RS09575"/>
@@ -54189,23 +54185,23 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS05555" fbc:name="G_CKV72_RS05555" fbc:label="G_CKV72_RS05555"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08350" fbc:name="G_CKV72_RS08350" fbc:label="G_CKV72_RS08350"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07375" fbc:name="G_CKV72_RS07375" fbc:label="G_CKV72_RS07375"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07605" fbc:name="G_CKV72_RS07605" fbc:label="G_CKV72_RS07605"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07610" fbc:name="G_CKV72_RS07610" fbc:label="G_CKV72_RS07610"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07600" fbc:name="G_CKV72_RS07600" fbc:label="G_CKV72_RS07600"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07595" fbc:name="G_CKV72_RS07595" fbc:label="G_CKV72_RS07595"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07610" fbc:name="G_CKV72_RS07610" fbc:label="G_CKV72_RS07610"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07615" fbc:name="G_CKV72_RS07615" fbc:label="G_CKV72_RS07615"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07595" fbc:name="G_CKV72_RS07595" fbc:label="G_CKV72_RS07595"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07605" fbc:name="G_CKV72_RS07605" fbc:label="G_CKV72_RS07605"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07815" fbc:name="G_CKV72_RS07815" fbc:label="G_CKV72_RS07815"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03090" fbc:name="G_CKV72_RS03090" fbc:label="G_CKV72_RS03090"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09080" fbc:name="G_CKV72_RS09080" fbc:label="G_CKV72_RS09080"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08955" fbc:name="G_CKV72_RS08955" fbc:label="G_CKV72_RS08955"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09080" fbc:name="G_CKV72_RS09080" fbc:label="G_CKV72_RS09080"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10250" fbc:name="G_CKV72_RS10250" fbc:label="G_CKV72_RS10250"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01020" fbc:name="G_CKV72_RS01020" fbc:label="G_CKV72_RS01020"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09345" fbc:name="G_CKV72_RS09345" fbc:label="G_CKV72_RS09345"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09620" fbc:name="G_CKV72_RS09620" fbc:label="G_CKV72_RS09620"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00450" fbc:name="G_CKV72_RS00450" fbc:label="G_CKV72_RS00450"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09420" fbc:name="G_CKV72_RS09420" fbc:label="G_CKV72_RS09420"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09415" fbc:name="G_CKV72_RS09415" fbc:label="G_CKV72_RS09415"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00455" fbc:name="G_CKV72_RS00455" fbc:label="G_CKV72_RS00455"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09420" fbc:name="G_CKV72_RS09420" fbc:label="G_CKV72_RS09420"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00450" fbc:name="G_CKV72_RS00450" fbc:label="G_CKV72_RS00450"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08475" fbc:name="G_CKV72_RS08475" fbc:label="G_CKV72_RS08475"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03195" fbc:name="G_CKV72_RS03195" fbc:label="G_CKV72_RS03195"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03555" fbc:name="G_CKV72_RS03555" fbc:label="G_CKV72_RS03555"/>
@@ -54213,20 +54209,20 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS00590" fbc:name="G_CKV72_RS00590" fbc:label="G_CKV72_RS00590"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00980" fbc:name="G_CKV72_RS00980" fbc:label="G_CKV72_RS00980"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01230" fbc:name="G_CKV72_RS01230" fbc:label="G_CKV72_RS01230"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10525" fbc:name="G_CKV72_RS10525" fbc:label="G_CKV72_RS10525"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01055" fbc:name="G_CKV72_RS01055" fbc:label="G_CKV72_RS01055"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10525" fbc:name="G_CKV72_RS10525" fbc:label="G_CKV72_RS10525"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05210" fbc:name="G_CKV72_RS05210" fbc:label="G_CKV72_RS05210"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00430" fbc:name="G_CKV72_RS00430" fbc:label="G_CKV72_RS00430"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00875" fbc:name="G_CKV72_RS00875" fbc:label="G_CKV72_RS00875"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05650" fbc:name="G_CKV72_RS05650" fbc:label="G_CKV72_RS05650"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05645" fbc:name="G_CKV72_RS05645" fbc:label="G_CKV72_RS05645"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07620" fbc:name="G_CKV72_RS07620" fbc:label="G_CKV72_RS07620"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05650" fbc:name="G_CKV72_RS05650" fbc:label="G_CKV72_RS05650"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07625" fbc:name="G_CKV72_RS07625" fbc:label="G_CKV72_RS07625"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07620" fbc:name="G_CKV72_RS07620" fbc:label="G_CKV72_RS07620"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08845" fbc:name="G_CKV72_RS08845" fbc:label="G_CKV72_RS08845"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03810" fbc:name="G_CKV72_RS03810" fbc:label="G_CKV72_RS03810"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06515" fbc:name="G_CKV72_RS06515" fbc:label="G_CKV72_RS06515"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05565" fbc:name="G_CKV72_RS05565" fbc:label="G_CKV72_RS05565"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05560" fbc:name="G_CKV72_RS05560" fbc:label="G_CKV72_RS05560"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05565" fbc:name="G_CKV72_RS05565" fbc:label="G_CKV72_RS05565"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06475" fbc:name="G_CKV72_RS06475" fbc:label="G_CKV72_RS06475"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03840" fbc:name="G_CKV72_RS03840" fbc:label="G_CKV72_RS03840"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02205" fbc:name="G_CKV72_RS02205" fbc:label="G_CKV72_RS02205"/>
@@ -54251,26 +54247,26 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS10515" fbc:name="G_CKV72_RS10515" fbc:label="G_CKV72_RS10515"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01450" fbc:name="G_CKV72_RS01450" fbc:label="G_CKV72_RS01450"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10850" fbc:name="G_CKV72_RS10850" fbc:label="G_CKV72_RS10850"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03320" fbc:name="G_CKV72_RS03320" fbc:label="G_CKV72_RS03320"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02805" fbc:name="G_CKV72_RS02805" fbc:label="G_CKV72_RS02805"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03320" fbc:name="G_CKV72_RS03320" fbc:label="G_CKV72_RS03320"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01170" fbc:name="G_CKV72_RS01170" fbc:label="G_CKV72_RS01170"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01180" fbc:name="G_CKV72_RS01180" fbc:label="G_CKV72_RS01180"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09305" fbc:name="G_CKV72_RS09305" fbc:label="G_CKV72_RS09305"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11930" fbc:name="G_CKV72_RS11930" fbc:label="G_CKV72_RS11930"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05305" fbc:name="G_CKV72_RS05305" fbc:label="G_CKV72_RS05305"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10305" fbc:name="G_CKV72_RS10305" fbc:label="G_CKV72_RS10305"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04360" fbc:name="G_CKV72_RS04360" fbc:label="G_CKV72_RS04360"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04370" fbc:name="G_CKV72_RS04370" fbc:label="G_CKV72_RS04370"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04360" fbc:name="G_CKV72_RS04360" fbc:label="G_CKV72_RS04360"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04375" fbc:name="G_CKV72_RS04375" fbc:label="G_CKV72_RS04375"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04365" fbc:name="G_CKV72_RS04365" fbc:label="G_CKV72_RS04365"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03480" fbc:name="G_CKV72_RS03480" fbc:label="G_CKV72_RS03480"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11435" fbc:name="G_CKV72_RS11435" fbc:label="G_CKV72_RS11435"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07390" fbc:name="G_CKV72_RS07390" fbc:label="G_CKV72_RS07390"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10790" fbc:name="G_CKV72_RS10790" fbc:label="G_CKV72_RS10790"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10800" fbc:name="G_CKV72_RS10800" fbc:label="G_CKV72_RS10800"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10795" fbc:name="G_CKV72_RS10795" fbc:label="G_CKV72_RS10795"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07390" fbc:name="G_CKV72_RS07390" fbc:label="G_CKV72_RS07390"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10805" fbc:name="G_CKV72_RS10805" fbc:label="G_CKV72_RS10805"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10790" fbc:name="G_CKV72_RS10790" fbc:label="G_CKV72_RS10790"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04550" fbc:name="G_CKV72_RS04550" fbc:label="G_CKV72_RS04550"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10795" fbc:name="G_CKV72_RS10795" fbc:label="G_CKV72_RS10795"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06830" fbc:name="G_CKV72_RS06830" fbc:label="G_CKV72_RS06830"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02935" fbc:name="G_CKV72_RS02935" fbc:label="G_CKV72_RS02935"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04920" fbc:name="G_CKV72_RS04920" fbc:label="G_CKV72_RS04920"/>
@@ -54283,10 +54279,10 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS11560" fbc:name="G_CKV72_RS11560" fbc:label="G_CKV72_RS11560"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05990" fbc:name="G_CKV72_RS05990" fbc:label="G_CKV72_RS05990"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00130" fbc:name="G_CKV72_RS00130" fbc:label="G_CKV72_RS00130"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07380" fbc:name="G_CKV72_RS07380" fbc:label="G_CKV72_RS07380"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03685" fbc:name="G_CKV72_RS03685" fbc:label="G_CKV72_RS03685"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05660" fbc:name="G_CKV72_RS05660" fbc:label="G_CKV72_RS05660"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07380" fbc:name="G_CKV72_RS07380" fbc:label="G_CKV72_RS07380"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01015" fbc:name="G_CKV72_RS01015" fbc:label="G_CKV72_RS01015"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05660" fbc:name="G_CKV72_RS05660" fbc:label="G_CKV72_RS05660"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05035" fbc:name="G_CKV72_RS05035" fbc:label="G_CKV72_RS05035"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05010" fbc:name="G_CKV72_RS05010" fbc:label="G_CKV72_RS05010"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01865" fbc:name="G_CKV72_RS01865" fbc:label="G_CKV72_RS01865"/>
@@ -54312,14 +54308,14 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS04115" fbc:name="G_CKV72_RS04115" fbc:label="G_CKV72_RS04115"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11275" fbc:name="G_CKV72_RS11275" fbc:label="G_CKV72_RS11275"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02895" fbc:name="G_CKV72_RS02895" fbc:label="G_CKV72_RS02895"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04170" fbc:name="G_CKV72_RS04170" fbc:label="G_CKV72_RS04170"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05675" fbc:name="G_CKV72_RS05675" fbc:label="G_CKV72_RS05675"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04170" fbc:name="G_CKV72_RS04170" fbc:label="G_CKV72_RS04170"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05530" fbc:name="G_CKV72_RS05530" fbc:label="G_CKV72_RS05530"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04975" fbc:name="G_CKV72_RS04975" fbc:label="G_CKV72_RS04975"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07420" fbc:name="G_CKV72_RS07420" fbc:label="G_CKV72_RS07420"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS01175" fbc:name="G_CKV72_RS01175" fbc:label="G_CKV72_RS01175"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03305" fbc:name="G_CKV72_RS03305" fbc:label="G_CKV72_RS03305"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10890" fbc:name="G_CKV72_RS10890" fbc:label="G_CKV72_RS10890"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03305" fbc:name="G_CKV72_RS03305" fbc:label="G_CKV72_RS03305"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03635" fbc:name="G_CKV72_RS03635" fbc:label="G_CKV72_RS03635"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03280" fbc:name="G_CKV72_RS03280" fbc:label="G_CKV72_RS03280"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06760" fbc:name="G_CKV72_RS06760" fbc:label="G_CKV72_RS06760"/>
@@ -54331,8 +54327,8 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS00820" fbc:name="G_CKV72_RS00820" fbc:label="G_CKV72_RS00820"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07400" fbc:name="G_CKV72_RS07400" fbc:label="G_CKV72_RS07400"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11405" fbc:name="G_CKV72_RS11405" fbc:label="G_CKV72_RS11405"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11580" fbc:name="G_CKV72_RS11580" fbc:label="G_CKV72_RS11580"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09510" fbc:name="G_CKV72_RS09510" fbc:label="G_CKV72_RS09510"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11580" fbc:name="G_CKV72_RS11580" fbc:label="G_CKV72_RS11580"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10650" fbc:name="G_CKV72_RS10650" fbc:label="G_CKV72_RS10650"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02080" fbc:name="G_CKV72_RS02080" fbc:label="G_CKV72_RS02080"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06665" fbc:name="G_CKV72_RS06665" fbc:label="G_CKV72_RS06665"/>
@@ -54340,130 +54336,130 @@
       <fbc:geneProduct fbc:id="G_CKV72_RS06660" fbc:name="G_CKV72_RS06660" fbc:label="G_CKV72_RS06660"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09625" fbc:name="G_CKV72_RS09625" fbc:label="G_CKV72_RS09625"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09935" fbc:name="G_CKV72_RS09935" fbc:label="G_CKV72_RS09935"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10115" fbc:name="G_CKV72_RS10115" fbc:label="G_CKV72_RS10115"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08770" fbc:name="G_CKV72_RS08770" fbc:label="G_CKV72_RS08770"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07795" fbc:name="G_CKV72_RS07795" fbc:label="G_CKV72_RS07795"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05255" fbc:name="G_CKV72_RS05255" fbc:label="G_CKV72_RS05255"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05465" fbc:name="G_CKV72_RS05465" fbc:label="G_CKV72_RS05465"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06670" fbc:name="G_CKV72_RS06670" fbc:label="G_CKV72_RS06670"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10985" fbc:name="G_CKV72_RS10985" fbc:label="G_CKV72_RS10985"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03855" fbc:name="G_CKV72_RS03855" fbc:label="G_CKV72_RS03855"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06670" fbc:name="G_CKV72_RS06670" fbc:label="G_CKV72_RS06670"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05255" fbc:name="G_CKV72_RS05255" fbc:label="G_CKV72_RS05255"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08770" fbc:name="G_CKV72_RS08770" fbc:label="G_CKV72_RS08770"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10115" fbc:name="G_CKV72_RS10115" fbc:label="G_CKV72_RS10115"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10985" fbc:name="G_CKV72_RS10985" fbc:label="G_CKV72_RS10985"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05465" fbc:name="G_CKV72_RS05465" fbc:label="G_CKV72_RS05465"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07795" fbc:name="G_CKV72_RS07795" fbc:label="G_CKV72_RS07795"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09820" fbc:name="G_CKV72_RS09820" fbc:label="G_CKV72_RS09820"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09815" fbc:name="G_CKV72_RS09815" fbc:label="G_CKV72_RS09815"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10390" fbc:name="G_CKV72_RS10390" fbc:label="G_CKV72_RS10390"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09825" fbc:name="G_CKV72_RS09825" fbc:label="G_CKV72_RS09825"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00010" fbc:name="G_CKV72_RS00010" fbc:label="G_CKV72_RS00010"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00370" fbc:name="G_CKV72_RS00370" fbc:label="G_CKV72_RS00370"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05080" fbc:name="G_CKV72_RS05080" fbc:label="G_CKV72_RS05080"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS01855" fbc:name="G_CKV72_RS01855" fbc:label="G_CKV72_RS01855"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09815" fbc:name="G_CKV72_RS09815" fbc:label="G_CKV72_RS09815"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06410" fbc:name="G_CKV72_RS06410" fbc:label="G_CKV72_RS06410"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10625" fbc:name="G_CKV72_RS10625" fbc:label="G_CKV72_RS10625"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07505" fbc:name="G_CKV72_RS07505" fbc:label="G_CKV72_RS07505"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS07500" fbc:name="G_CKV72_RS07500" fbc:label="G_CKV72_RS07500"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08580" fbc:name="G_CKV72_RS08580" fbc:label="G_CKV72_RS08580"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS01855" fbc:name="G_CKV72_RS01855" fbc:label="G_CKV72_RS01855"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05080" fbc:name="G_CKV72_RS05080" fbc:label="G_CKV72_RS05080"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04925" fbc:name="G_CKV72_RS04925" fbc:label="G_CKV72_RS04925"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00370" fbc:name="G_CKV72_RS00370" fbc:label="G_CKV72_RS00370"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00005" fbc:name="G_CKV72_RS00005" fbc:label="G_CKV72_RS00005"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00030" fbc:name="G_CKV72_RS00030" fbc:label="G_CKV72_RS00030"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00010" fbc:name="G_CKV72_RS00010" fbc:label="G_CKV72_RS00010"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00035" fbc:name="G_CKV72_RS00035" fbc:label="G_CKV72_RS00035"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05155" fbc:name="G_CKV72_RS05155" fbc:label="G_CKV72_RS05155"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS10100" fbc:name="G_CKV72_RS10100" fbc:label="G_CKV72_RS10100"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00180" fbc:name="G_CKV72_RS00180" fbc:label="G_CKV72_RS00180"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00030" fbc:name="G_CKV72_RS00030" fbc:label="G_CKV72_RS00030"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06405" fbc:name="G_CKV72_RS06405" fbc:label="G_CKV72_RS06405"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06995" fbc:name="G_CKV72_RS06995" fbc:label="G_CKV72_RS06995"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00005" fbc:name="G_CKV72_RS00005" fbc:label="G_CKV72_RS00005"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11510" fbc:name="G_CKV72_RS11510" fbc:label="G_CKV72_RS11510"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08735" fbc:name="G_CKV72_RS08735" fbc:label="G_CKV72_RS08735"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS06410" fbc:name="G_CKV72_RS06410" fbc:label="G_CKV72_RS06410"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10095" fbc:name="G_CKV72_RS10095" fbc:label="G_CKV72_RS10095"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09505" fbc:name="G_CKV72_RS09505" fbc:label="G_CKV72_RS09505"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11985" fbc:name="G_CKV72_RS11985" fbc:label="G_CKV72_RS11985"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05155" fbc:name="G_CKV72_RS05155" fbc:label="G_CKV72_RS05155"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04925" fbc:name="G_CKV72_RS04925" fbc:label="G_CKV72_RS04925"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00035" fbc:name="G_CKV72_RS00035" fbc:label="G_CKV72_RS00035"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08580" fbc:name="G_CKV72_RS08580" fbc:label="G_CKV72_RS08580"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10625" fbc:name="G_CKV72_RS10625" fbc:label="G_CKV72_RS10625"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00485" fbc:name="G_CKV72_RS00485" fbc:label="G_CKV72_RS00485"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10980" fbc:name="G_CKV72_RS10980" fbc:label="G_CKV72_RS10980"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11060" fbc:name="G_CKV72_RS11060" fbc:label="G_CKV72_RS11060"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11015" fbc:name="G_CKV72_RS11015" fbc:label="G_CKV72_RS11015"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09090" fbc:name="G_CKV72_RS09090" fbc:label="G_CKV72_RS09090"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11210" fbc:name="G_CKV72_RS11210" fbc:label="G_CKV72_RS11210"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11095" fbc:name="G_CKV72_RS11095" fbc:label="G_CKV72_RS11095"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS12070" fbc:name="G_CKV72_RS12070" fbc:label="G_CKV72_RS12070"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11125" fbc:name="G_CKV72_RS11125" fbc:label="G_CKV72_RS11125"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11755" fbc:name="G_CKV72_RS11755" fbc:label="G_CKV72_RS11755"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11420" fbc:name="G_CKV72_RS11420" fbc:label="G_CKV72_RS11420"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10080" fbc:name="G_CKV72_RS10080" fbc:label="G_CKV72_RS10080"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00095" fbc:name="G_CKV72_RS00095" fbc:label="G_CKV72_RS00095"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11090" fbc:name="G_CKV72_RS11090" fbc:label="G_CKV72_RS11090"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09425" fbc:name="G_CKV72_RS09425" fbc:label="G_CKV72_RS09425"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11140" fbc:name="G_CKV72_RS11140" fbc:label="G_CKV72_RS11140"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10460" fbc:name="G_CKV72_RS10460" fbc:label="G_CKV72_RS10460"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS06405" fbc:name="G_CKV72_RS06405" fbc:label="G_CKV72_RS06405"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09505" fbc:name="G_CKV72_RS09505" fbc:label="G_CKV72_RS09505"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08735" fbc:name="G_CKV72_RS08735" fbc:label="G_CKV72_RS08735"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11510" fbc:name="G_CKV72_RS11510" fbc:label="G_CKV72_RS11510"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS07500" fbc:name="G_CKV72_RS07500" fbc:label="G_CKV72_RS07500"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10095" fbc:name="G_CKV72_RS10095" fbc:label="G_CKV72_RS10095"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08655" fbc:name="G_CKV72_RS08655" fbc:label="G_CKV72_RS08655"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11025" fbc:name="G_CKV72_RS11025" fbc:label="G_CKV72_RS11025"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11005" fbc:name="G_CKV72_RS11005" fbc:label="G_CKV72_RS11005"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05050" fbc:name="G_CKV72_RS05050" fbc:label="G_CKV72_RS05050"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11120" fbc:name="G_CKV72_RS11120" fbc:label="G_CKV72_RS11120"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11105" fbc:name="G_CKV72_RS11105" fbc:label="G_CKV72_RS11105"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05165" fbc:name="G_CKV72_RS05165" fbc:label="G_CKV72_RS05165"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11070" fbc:name="G_CKV72_RS11070" fbc:label="G_CKV72_RS11070"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00740" fbc:name="G_CKV72_RS00740" fbc:label="G_CKV72_RS00740"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08295" fbc:name="G_CKV72_RS08295" fbc:label="G_CKV72_RS08295"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11110" fbc:name="G_CKV72_RS11110" fbc:label="G_CKV72_RS11110"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11065" fbc:name="G_CKV72_RS11065" fbc:label="G_CKV72_RS11065"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11180" fbc:name="G_CKV72_RS11180" fbc:label="G_CKV72_RS11180"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10975" fbc:name="G_CKV72_RS10975" fbc:label="G_CKV72_RS10975"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08815" fbc:name="G_CKV72_RS08815" fbc:label="G_CKV72_RS08815"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11115" fbc:name="G_CKV72_RS11115" fbc:label="G_CKV72_RS11115"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05100" fbc:name="G_CKV72_RS05100" fbc:label="G_CKV72_RS05100"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11020" fbc:name="G_CKV72_RS11020" fbc:label="G_CKV72_RS11020"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11145" fbc:name="G_CKV72_RS11145" fbc:label="G_CKV72_RS11145"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05120" fbc:name="G_CKV72_RS05120" fbc:label="G_CKV72_RS05120"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS03655" fbc:name="G_CKV72_RS03655" fbc:label="G_CKV72_RS03655"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11130" fbc:name="G_CKV72_RS11130" fbc:label="G_CKV72_RS11130"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10075" fbc:name="G_CKV72_RS10075" fbc:label="G_CKV72_RS10075"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09405" fbc:name="G_CKV72_RS09405" fbc:label="G_CKV72_RS09405"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11200" fbc:name="G_CKV72_RS11200" fbc:label="G_CKV72_RS11200"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11085" fbc:name="G_CKV72_RS11085" fbc:label="G_CKV72_RS11085"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11450" fbc:name="G_CKV72_RS11450" fbc:label="G_CKV72_RS11450"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04985" fbc:name="G_CKV72_RS04985" fbc:label="G_CKV72_RS04985"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10085" fbc:name="G_CKV72_RS10085" fbc:label="G_CKV72_RS10085"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11960" fbc:name="G_CKV72_RS11960" fbc:label="G_CKV72_RS11960"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00955" fbc:name="G_CKV72_RS00955" fbc:label="G_CKV72_RS00955"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11080" fbc:name="G_CKV72_RS11080" fbc:label="G_CKV72_RS11080"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS10415" fbc:name="G_CKV72_RS10415" fbc:label="G_CKV72_RS10415"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09400" fbc:name="G_CKV72_RS09400" fbc:label="G_CKV72_RS09400"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11205" fbc:name="G_CKV72_RS11205" fbc:label="G_CKV72_RS11205"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11160" fbc:name="G_CKV72_RS11160" fbc:label="G_CKV72_RS11160"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS00575" fbc:name="G_CKV72_RS00575" fbc:label="G_CKV72_RS00575"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11270" fbc:name="G_CKV72_RS11270" fbc:label="G_CKV72_RS11270"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04935" fbc:name="G_CKV72_RS04935" fbc:label="G_CKV72_RS04935"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11230" fbc:name="G_CKV72_RS11230" fbc:label="G_CKV72_RS11230"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05265" fbc:name="G_CKV72_RS05265" fbc:label="G_CKV72_RS05265"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11155" fbc:name="G_CKV72_RS11155" fbc:label="G_CKV72_RS11155"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09430" fbc:name="G_CKV72_RS09430" fbc:label="G_CKV72_RS09430"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11075" fbc:name="G_CKV72_RS11075" fbc:label="G_CKV72_RS11075"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11980" fbc:name="G_CKV72_RS11980" fbc:label="G_CKV72_RS11980"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11030" fbc:name="G_CKV72_RS11030" fbc:label="G_CKV72_RS11030"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09545" fbc:name="G_CKV72_RS09545" fbc:label="G_CKV72_RS09545"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11150" fbc:name="G_CKV72_RS11150" fbc:label="G_CKV72_RS11150"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11135" fbc:name="G_CKV72_RS11135" fbc:label="G_CKV72_RS11135"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11100" fbc:name="G_CKV72_RS11100" fbc:label="G_CKV72_RS11100"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS04195" fbc:name="G_CKV72_RS04195" fbc:label="G_CKV72_RS04195"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08805" fbc:name="G_CKV72_RS08805" fbc:label="G_CKV72_RS08805"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11990" fbc:name="G_CKV72_RS11990" fbc:label="G_CKV72_RS11990"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08730" fbc:name="G_CKV72_RS08730" fbc:label="G_CKV72_RS08730"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00740" fbc:name="G_CKV72_RS00740" fbc:label="G_CKV72_RS00740"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05165" fbc:name="G_CKV72_RS05165" fbc:label="G_CKV72_RS05165"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11105" fbc:name="G_CKV72_RS11105" fbc:label="G_CKV72_RS11105"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11075" fbc:name="G_CKV72_RS11075" fbc:label="G_CKV72_RS11075"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11110" fbc:name="G_CKV72_RS11110" fbc:label="G_CKV72_RS11110"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11180" fbc:name="G_CKV72_RS11180" fbc:label="G_CKV72_RS11180"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10415" fbc:name="G_CKV72_RS10415" fbc:label="G_CKV72_RS10415"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11015" fbc:name="G_CKV72_RS11015" fbc:label="G_CKV72_RS11015"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08815" fbc:name="G_CKV72_RS08815" fbc:label="G_CKV72_RS08815"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11030" fbc:name="G_CKV72_RS11030" fbc:label="G_CKV72_RS11030"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11070" fbc:name="G_CKV72_RS11070" fbc:label="G_CKV72_RS11070"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00485" fbc:name="G_CKV72_RS00485" fbc:label="G_CKV72_RS00485"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11145" fbc:name="G_CKV72_RS11145" fbc:label="G_CKV72_RS11145"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11210" fbc:name="G_CKV72_RS11210" fbc:label="G_CKV72_RS11210"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00095" fbc:name="G_CKV72_RS00095" fbc:label="G_CKV72_RS00095"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11080" fbc:name="G_CKV72_RS11080" fbc:label="G_CKV72_RS11080"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11115" fbc:name="G_CKV72_RS11115" fbc:label="G_CKV72_RS11115"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11005" fbc:name="G_CKV72_RS11005" fbc:label="G_CKV72_RS11005"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11090" fbc:name="G_CKV72_RS11090" fbc:label="G_CKV72_RS11090"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11205" fbc:name="G_CKV72_RS11205" fbc:label="G_CKV72_RS11205"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08295" fbc:name="G_CKV72_RS08295" fbc:label="G_CKV72_RS08295"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00955" fbc:name="G_CKV72_RS00955" fbc:label="G_CKV72_RS00955"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09430" fbc:name="G_CKV72_RS09430" fbc:label="G_CKV72_RS09430"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11085" fbc:name="G_CKV72_RS11085" fbc:label="G_CKV72_RS11085"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05265" fbc:name="G_CKV72_RS05265" fbc:label="G_CKV72_RS05265"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10080" fbc:name="G_CKV72_RS10080" fbc:label="G_CKV72_RS10080"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11230" fbc:name="G_CKV72_RS11230" fbc:label="G_CKV72_RS11230"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11060" fbc:name="G_CKV72_RS11060" fbc:label="G_CKV72_RS11060"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS12070" fbc:name="G_CKV72_RS12070" fbc:label="G_CKV72_RS12070"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11755" fbc:name="G_CKV72_RS11755" fbc:label="G_CKV72_RS11755"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11155" fbc:name="G_CKV72_RS11155" fbc:label="G_CKV72_RS11155"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08805" fbc:name="G_CKV72_RS08805" fbc:label="G_CKV72_RS08805"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11960" fbc:name="G_CKV72_RS11960" fbc:label="G_CKV72_RS11960"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS09440" fbc:name="G_CKV72_RS09440" fbc:label="G_CKV72_RS09440"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04195" fbc:name="G_CKV72_RS04195" fbc:label="G_CKV72_RS04195"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11095" fbc:name="G_CKV72_RS11095" fbc:label="G_CKV72_RS11095"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11135" fbc:name="G_CKV72_RS11135" fbc:label="G_CKV72_RS11135"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11450" fbc:name="G_CKV72_RS11450" fbc:label="G_CKV72_RS11450"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10075" fbc:name="G_CKV72_RS10075" fbc:label="G_CKV72_RS10075"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05050" fbc:name="G_CKV72_RS05050" fbc:label="G_CKV72_RS05050"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS00575" fbc:name="G_CKV72_RS00575" fbc:label="G_CKV72_RS00575"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04985" fbc:name="G_CKV72_RS04985" fbc:label="G_CKV72_RS04985"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11130" fbc:name="G_CKV72_RS11130" fbc:label="G_CKV72_RS11130"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10975" fbc:name="G_CKV72_RS10975" fbc:label="G_CKV72_RS10975"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10980" fbc:name="G_CKV72_RS10980" fbc:label="G_CKV72_RS10980"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05100" fbc:name="G_CKV72_RS05100" fbc:label="G_CKV72_RS05100"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09545" fbc:name="G_CKV72_RS09545" fbc:label="G_CKV72_RS09545"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11175" fbc:name="G_CKV72_RS11175" fbc:label="G_CKV72_RS11175"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08415" fbc:name="G_CKV72_RS08415" fbc:label="G_CKV72_RS08415"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10460" fbc:name="G_CKV72_RS10460" fbc:label="G_CKV72_RS10460"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS04935" fbc:name="G_CKV72_RS04935" fbc:label="G_CKV72_RS04935"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11020" fbc:name="G_CKV72_RS11020" fbc:label="G_CKV72_RS11020"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11100" fbc:name="G_CKV72_RS11100" fbc:label="G_CKV72_RS11100"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09090" fbc:name="G_CKV72_RS09090" fbc:label="G_CKV72_RS09090"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11980" fbc:name="G_CKV72_RS11980" fbc:label="G_CKV72_RS11980"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11420" fbc:name="G_CKV72_RS11420" fbc:label="G_CKV72_RS11420"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09400" fbc:name="G_CKV72_RS09400" fbc:label="G_CKV72_RS09400"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09405" fbc:name="G_CKV72_RS09405" fbc:label="G_CKV72_RS09405"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11065" fbc:name="G_CKV72_RS11065" fbc:label="G_CKV72_RS11065"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09425" fbc:name="G_CKV72_RS09425" fbc:label="G_CKV72_RS09425"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11025" fbc:name="G_CKV72_RS11025" fbc:label="G_CKV72_RS11025"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11125" fbc:name="G_CKV72_RS11125" fbc:label="G_CKV72_RS11125"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS10085" fbc:name="G_CKV72_RS10085" fbc:label="G_CKV72_RS10085"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11140" fbc:name="G_CKV72_RS11140" fbc:label="G_CKV72_RS11140"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11150" fbc:name="G_CKV72_RS11150" fbc:label="G_CKV72_RS11150"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08730" fbc:name="G_CKV72_RS08730" fbc:label="G_CKV72_RS08730"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05120" fbc:name="G_CKV72_RS05120" fbc:label="G_CKV72_RS05120"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11200" fbc:name="G_CKV72_RS11200" fbc:label="G_CKV72_RS11200"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11270" fbc:name="G_CKV72_RS11270" fbc:label="G_CKV72_RS11270"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11120" fbc:name="G_CKV72_RS11120" fbc:label="G_CKV72_RS11120"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS08420" fbc:name="G_CKV72_RS08420" fbc:label="G_CKV72_RS08420"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08415" fbc:name="G_CKV72_RS08415" fbc:label="G_CKV72_RS08415"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS02835" fbc:name="G_CKV72_RS02835" fbc:label="G_CKV72_RS02835"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS07135" fbc:name="G_CKV72_RS07135" fbc:label="G_CKV72_RS07135"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS06205" fbc:name="G_CKV72_RS06205" fbc:label="G_CKV72_RS06205"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05065" fbc:name="G_CKV72_RS05065" fbc:label="G_CKV72_RS05065"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS03420" fbc:name="G_CKV72_RS03420" fbc:label="G_CKV72_RS03420"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS09895" fbc:name="G_CKV72_RS09895" fbc:label="G_CKV72_RS09895"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11010" fbc:name="G_CKV72_RS11010" fbc:label="G_CKV72_RS11010"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS04840" fbc:name="G_CKV72_RS04840" fbc:label="G_CKV72_RS04840"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS03420" fbc:name="G_CKV72_RS03420" fbc:label="G_CKV72_RS03420"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11010" fbc:name="G_CKV72_RS11010" fbc:label="G_CKV72_RS11010"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS09895" fbc:name="G_CKV72_RS09895" fbc:label="G_CKV72_RS09895"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS05225" fbc:name="G_CKV72_RS05225" fbc:label="G_CKV72_RS05225"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS08575" fbc:name="G_CKV72_RS08575" fbc:label="G_CKV72_RS08575"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS05115" fbc:name="G_CKV72_RS05115" fbc:label="G_CKV72_RS05115"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS12065" fbc:name="G_CKV72_RS12065" fbc:label="G_CKV72_RS12065"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS05225" fbc:name="G_CKV72_RS05225" fbc:label="G_CKV72_RS05225"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS11190" fbc:name="G_CKV72_RS11190" fbc:label="G_CKV72_RS11190"/>
-      <fbc:geneProduct fbc:id="G_CKV72_RS08575" fbc:name="G_CKV72_RS08575" fbc:label="G_CKV72_RS08575"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS11195" fbc:name="G_CKV72_RS11195" fbc:label="G_CKV72_RS11195"/>
+      <fbc:geneProduct fbc:id="G_CKV72_RS11190" fbc:name="G_CKV72_RS11190" fbc:label="G_CKV72_RS11190"/>
       <fbc:geneProduct fbc:id="G_CKV72_RS00715" fbc:name="G_CKV72_RS00715" fbc:label="G_CKV72_RS00715"/>
     </fbc:listOfGeneProducts>
   </model>

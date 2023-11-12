@@ -140,3 +140,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# raw paragraph files
+reaction_paragraphs.txt
+compound_paragraphs.txt

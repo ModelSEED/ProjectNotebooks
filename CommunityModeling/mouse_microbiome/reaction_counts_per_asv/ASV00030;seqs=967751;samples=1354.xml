@@ -10,10 +10,6 @@
         </listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
-    <listOfCompartments>
-      <compartment id="c" constant="true"/>
-      <compartment id="e" constant="true"/>
-    </listOfCompartments>
     <listOfSpecies>
       <species metaid="meta_M_23dhmp__91__c__93__" sboTerm="SBO:0000247" id="M_23dhmp__91__c__93__" name="(R)-2,3-Dihydroxy-3-methylpentanoate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="-1" fbc:chemicalFormula="C6H11O4">
         <notes>
@@ -55206,8 +55202,8 @@
     <fbc:listOfGeneProducts>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1125" fbc:name="G_g__46__239965__46__CDS__46__1125" fbc:label="G_g__46__239965__46__CDS__46__1125"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__37" fbc:name="G_g__46__239965__46__CDS__46__37" fbc:label="G_g__46__239965__46__CDS__46__37"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1318" fbc:name="G_g__46__239965__46__CDS__46__1318" fbc:label="G_g__46__239965__46__CDS__46__1318"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__414" fbc:name="G_g__46__239965__46__CDS__46__414" fbc:label="G_g__46__239965__46__CDS__46__414"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1318" fbc:name="G_g__46__239965__46__CDS__46__1318" fbc:label="G_g__46__239965__46__CDS__46__1318"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__888" fbc:name="G_g__46__239965__46__CDS__46__888" fbc:label="G_g__46__239965__46__CDS__46__888"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__797" fbc:name="G_g__46__239965__46__CDS__46__797" fbc:label="G_g__46__239965__46__CDS__46__797"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1027" fbc:name="G_g__46__239965__46__CDS__46__1027" fbc:label="G_g__46__239965__46__CDS__46__1027"/>
@@ -55217,23 +55213,23 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__613" fbc:name="G_g__46__239965__46__CDS__46__613" fbc:label="G_g__46__239965__46__CDS__46__613"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__148" fbc:name="G_g__46__239965__46__CDS__46__148" fbc:label="G_g__46__239965__46__CDS__46__148"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__400" fbc:name="G_g__46__239965__46__CDS__46__400" fbc:label="G_g__46__239965__46__CDS__46__400"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__482" fbc:name="G_g__46__239965__46__CDS__46__482" fbc:label="G_g__46__239965__46__CDS__46__482"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__401" fbc:name="G_g__46__239965__46__CDS__46__401" fbc:label="G_g__46__239965__46__CDS__46__401"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__441" fbc:name="G_g__46__239965__46__CDS__46__441" fbc:label="G_g__46__239965__46__CDS__46__441"/>
       <fbc:geneProduct fbc:id="G_Unknown" fbc:name="G_Unknown" fbc:label="G_Unknown"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1154" fbc:name="G_g__46__239965__46__CDS__46__1154" fbc:label="G_g__46__239965__46__CDS__46__1154"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__482" fbc:name="G_g__46__239965__46__CDS__46__482" fbc:label="G_g__46__239965__46__CDS__46__482"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__900" fbc:name="G_g__46__239965__46__CDS__46__900" fbc:label="G_g__46__239965__46__CDS__46__900"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1397" fbc:name="G_g__46__239965__46__CDS__46__1397" fbc:label="G_g__46__239965__46__CDS__46__1397"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1193" fbc:name="G_g__46__239965__46__CDS__46__1193" fbc:label="G_g__46__239965__46__CDS__46__1193"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__643" fbc:name="G_g__46__239965__46__CDS__46__643" fbc:label="G_g__46__239965__46__CDS__46__643"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1126" fbc:name="G_g__46__239965__46__CDS__46__1126" fbc:label="G_g__46__239965__46__CDS__46__1126"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1229" fbc:name="G_g__46__239965__46__CDS__46__1229" fbc:label="G_g__46__239965__46__CDS__46__1229"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1126" fbc:name="G_g__46__239965__46__CDS__46__1126" fbc:label="G_g__46__239965__46__CDS__46__1126"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__773" fbc:name="G_g__46__239965__46__CDS__46__773" fbc:label="G_g__46__239965__46__CDS__46__773"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1066" fbc:name="G_g__46__239965__46__CDS__46__1066" fbc:label="G_g__46__239965__46__CDS__46__1066"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1495" fbc:name="G_g__46__239965__46__CDS__46__1495" fbc:label="G_g__46__239965__46__CDS__46__1495"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1066" fbc:name="G_g__46__239965__46__CDS__46__1066" fbc:label="G_g__46__239965__46__CDS__46__1066"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__722" fbc:name="G_g__46__239965__46__CDS__46__722" fbc:label="G_g__46__239965__46__CDS__46__722"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1422" fbc:name="G_g__46__239965__46__CDS__46__1422" fbc:label="G_g__46__239965__46__CDS__46__1422"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__173" fbc:name="G_g__46__239965__46__CDS__46__173" fbc:label="G_g__46__239965__46__CDS__46__173"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1422" fbc:name="G_g__46__239965__46__CDS__46__1422" fbc:label="G_g__46__239965__46__CDS__46__1422"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__71" fbc:name="G_g__46__239965__46__CDS__46__71" fbc:label="G_g__46__239965__46__CDS__46__71"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__9" fbc:name="G_g__46__239965__46__CDS__46__9" fbc:label="G_g__46__239965__46__CDS__46__9"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__188" fbc:name="G_g__46__239965__46__CDS__46__188" fbc:label="G_g__46__239965__46__CDS__46__188"/>
@@ -55245,12 +55241,12 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1040" fbc:name="G_g__46__239965__46__CDS__46__1040" fbc:label="G_g__46__239965__46__CDS__46__1040"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__791" fbc:name="G_g__46__239965__46__CDS__46__791" fbc:label="G_g__46__239965__46__CDS__46__791"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__663" fbc:name="G_g__46__239965__46__CDS__46__663" fbc:label="G_g__46__239965__46__CDS__46__663"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__60" fbc:name="G_g__46__239965__46__CDS__46__60" fbc:label="G_g__46__239965__46__CDS__46__60"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1343" fbc:name="G_g__46__239965__46__CDS__46__1343" fbc:label="G_g__46__239965__46__CDS__46__1343"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__60" fbc:name="G_g__46__239965__46__CDS__46__60" fbc:label="G_g__46__239965__46__CDS__46__60"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1296" fbc:name="G_g__46__239965__46__CDS__46__1296" fbc:label="G_g__46__239965__46__CDS__46__1296"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__468" fbc:name="G_g__46__239965__46__CDS__46__468" fbc:label="G_g__46__239965__46__CDS__46__468"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__251" fbc:name="G_g__46__239965__46__CDS__46__251" fbc:label="G_g__46__239965__46__CDS__46__251"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1387" fbc:name="G_g__46__239965__46__CDS__46__1387" fbc:label="G_g__46__239965__46__CDS__46__1387"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__251" fbc:name="G_g__46__239965__46__CDS__46__251" fbc:label="G_g__46__239965__46__CDS__46__251"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__579" fbc:name="G_g__46__239965__46__CDS__46__579" fbc:label="G_g__46__239965__46__CDS__46__579"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__276" fbc:name="G_g__46__239965__46__CDS__46__276" fbc:label="G_g__46__239965__46__CDS__46__276"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1165" fbc:name="G_g__46__239965__46__CDS__46__1165" fbc:label="G_g__46__239965__46__CDS__46__1165"/>
@@ -55258,60 +55254,60 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__539" fbc:name="G_g__46__239965__46__CDS__46__539" fbc:label="G_g__46__239965__46__CDS__46__539"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__269" fbc:name="G_g__46__239965__46__CDS__46__269" fbc:label="G_g__46__239965__46__CDS__46__269"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__216" fbc:name="G_g__46__239965__46__CDS__46__216" fbc:label="G_g__46__239965__46__CDS__46__216"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__625" fbc:name="G_g__46__239965__46__CDS__46__625" fbc:label="G_g__46__239965__46__CDS__46__625"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__408" fbc:name="G_g__46__239965__46__CDS__46__408" fbc:label="G_g__46__239965__46__CDS__46__408"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__282" fbc:name="G_g__46__239965__46__CDS__46__282" fbc:label="G_g__46__239965__46__CDS__46__282"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__625" fbc:name="G_g__46__239965__46__CDS__46__625" fbc:label="G_g__46__239965__46__CDS__46__625"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__607" fbc:name="G_g__46__239965__46__CDS__46__607" fbc:label="G_g__46__239965__46__CDS__46__607"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__489" fbc:name="G_g__46__239965__46__CDS__46__489" fbc:label="G_g__46__239965__46__CDS__46__489"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1244" fbc:name="G_g__46__239965__46__CDS__46__1244" fbc:label="G_g__46__239965__46__CDS__46__1244"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__623" fbc:name="G_g__46__239965__46__CDS__46__623" fbc:label="G_g__46__239965__46__CDS__46__623"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__489" fbc:name="G_g__46__239965__46__CDS__46__489" fbc:label="G_g__46__239965__46__CDS__46__489"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1434" fbc:name="G_g__46__239965__46__CDS__46__1434" fbc:label="G_g__46__239965__46__CDS__46__1434"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__823" fbc:name="G_g__46__239965__46__CDS__46__823" fbc:label="G_g__46__239965__46__CDS__46__823"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1207" fbc:name="G_g__46__239965__46__CDS__46__1207" fbc:label="G_g__46__239965__46__CDS__46__1207"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1434" fbc:name="G_g__46__239965__46__CDS__46__1434" fbc:label="G_g__46__239965__46__CDS__46__1434"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__623" fbc:name="G_g__46__239965__46__CDS__46__623" fbc:label="G_g__46__239965__46__CDS__46__623"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__936" fbc:name="G_g__46__239965__46__CDS__46__936" fbc:label="G_g__46__239965__46__CDS__46__936"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1581" fbc:name="G_g__46__239965__46__CDS__46__1581" fbc:label="G_g__46__239965__46__CDS__46__1581"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__928" fbc:name="G_g__46__239965__46__CDS__46__928" fbc:label="G_g__46__239965__46__CDS__46__928"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1581" fbc:name="G_g__46__239965__46__CDS__46__1581" fbc:label="G_g__46__239965__46__CDS__46__1581"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__778" fbc:name="G_g__46__239965__46__CDS__46__778" fbc:label="G_g__46__239965__46__CDS__46__778"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__879" fbc:name="G_g__46__239965__46__CDS__46__879" fbc:label="G_g__46__239965__46__CDS__46__879"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__914" fbc:name="G_g__46__239965__46__CDS__46__914" fbc:label="G_g__46__239965__46__CDS__46__914"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1247" fbc:name="G_g__46__239965__46__CDS__46__1247" fbc:label="G_g__46__239965__46__CDS__46__1247"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1118" fbc:name="G_g__46__239965__46__CDS__46__1118" fbc:label="G_g__46__239965__46__CDS__46__1118"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__150" fbc:name="G_g__46__239965__46__CDS__46__150" fbc:label="G_g__46__239965__46__CDS__46__150"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1118" fbc:name="G_g__46__239965__46__CDS__46__1118" fbc:label="G_g__46__239965__46__CDS__46__1118"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__128" fbc:name="G_g__46__239965__46__CDS__46__128" fbc:label="G_g__46__239965__46__CDS__46__128"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1277" fbc:name="G_g__46__239965__46__CDS__46__1277" fbc:label="G_g__46__239965__46__CDS__46__1277"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1299" fbc:name="G_g__46__239965__46__CDS__46__1299" fbc:label="G_g__46__239965__46__CDS__46__1299"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1450" fbc:name="G_g__46__239965__46__CDS__46__1450" fbc:label="G_g__46__239965__46__CDS__46__1450"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1473" fbc:name="G_g__46__239965__46__CDS__46__1473" fbc:label="G_g__46__239965__46__CDS__46__1473"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__953" fbc:name="G_g__46__239965__46__CDS__46__953" fbc:label="G_g__46__239965__46__CDS__46__953"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1028" fbc:name="G_g__46__239965__46__CDS__46__1028" fbc:label="G_g__46__239965__46__CDS__46__1028"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1540" fbc:name="G_g__46__239965__46__CDS__46__1540" fbc:label="G_g__46__239965__46__CDS__46__1540"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1277" fbc:name="G_g__46__239965__46__CDS__46__1277" fbc:label="G_g__46__239965__46__CDS__46__1277"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__953" fbc:name="G_g__46__239965__46__CDS__46__953" fbc:label="G_g__46__239965__46__CDS__46__953"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1456" fbc:name="G_g__46__239965__46__CDS__46__1456" fbc:label="G_g__46__239965__46__CDS__46__1456"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1473" fbc:name="G_g__46__239965__46__CDS__46__1473" fbc:label="G_g__46__239965__46__CDS__46__1473"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1028" fbc:name="G_g__46__239965__46__CDS__46__1028" fbc:label="G_g__46__239965__46__CDS__46__1028"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1299" fbc:name="G_g__46__239965__46__CDS__46__1299" fbc:label="G_g__46__239965__46__CDS__46__1299"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__384" fbc:name="G_g__46__239965__46__CDS__46__384" fbc:label="G_g__46__239965__46__CDS__46__384"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__256" fbc:name="G_g__46__239965__46__CDS__46__256" fbc:label="G_g__46__239965__46__CDS__46__256"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__811" fbc:name="G_g__46__239965__46__CDS__46__811" fbc:label="G_g__46__239965__46__CDS__46__811"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__395" fbc:name="G_g__46__239965__46__CDS__46__395" fbc:label="G_g__46__239965__46__CDS__46__395"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__811" fbc:name="G_g__46__239965__46__CDS__46__811" fbc:label="G_g__46__239965__46__CDS__46__811"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__294" fbc:name="G_g__46__239965__46__CDS__46__294" fbc:label="G_g__46__239965__46__CDS__46__294"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1021" fbc:name="G_g__46__239965__46__CDS__46__1021" fbc:label="G_g__46__239965__46__CDS__46__1021"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1481" fbc:name="G_g__46__239965__46__CDS__46__1481" fbc:label="G_g__46__239965__46__CDS__46__1481"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__941" fbc:name="G_g__46__239965__46__CDS__46__941" fbc:label="G_g__46__239965__46__CDS__46__941"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__555" fbc:name="G_g__46__239965__46__CDS__46__555" fbc:label="G_g__46__239965__46__CDS__46__555"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1481" fbc:name="G_g__46__239965__46__CDS__46__1481" fbc:label="G_g__46__239965__46__CDS__46__1481"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__6" fbc:name="G_g__46__239965__46__CDS__46__6" fbc:label="G_g__46__239965__46__CDS__46__6"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__259" fbc:name="G_g__46__239965__46__CDS__46__259" fbc:label="G_g__46__239965__46__CDS__46__259"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1021" fbc:name="G_g__46__239965__46__CDS__46__1021" fbc:label="G_g__46__239965__46__CDS__46__1021"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__805" fbc:name="G_g__46__239965__46__CDS__46__805" fbc:label="G_g__46__239965__46__CDS__46__805"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1080" fbc:name="G_g__46__239965__46__CDS__46__1080" fbc:label="G_g__46__239965__46__CDS__46__1080"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1406" fbc:name="G_g__46__239965__46__CDS__46__1406" fbc:label="G_g__46__239965__46__CDS__46__1406"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1348" fbc:name="G_g__46__239965__46__CDS__46__1348" fbc:label="G_g__46__239965__46__CDS__46__1348"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1002" fbc:name="G_g__46__239965__46__CDS__46__1002" fbc:label="G_g__46__239965__46__CDS__46__1002"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1080" fbc:name="G_g__46__239965__46__CDS__46__1080" fbc:label="G_g__46__239965__46__CDS__46__1080"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1294" fbc:name="G_g__46__239965__46__CDS__46__1294" fbc:label="G_g__46__239965__46__CDS__46__1294"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1406" fbc:name="G_g__46__239965__46__CDS__46__1406" fbc:label="G_g__46__239965__46__CDS__46__1406"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1327" fbc:name="G_g__46__239965__46__CDS__46__1327" fbc:label="G_g__46__239965__46__CDS__46__1327"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1077" fbc:name="G_g__46__239965__46__CDS__46__1077" fbc:label="G_g__46__239965__46__CDS__46__1077"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1393" fbc:name="G_g__46__239965__46__CDS__46__1393" fbc:label="G_g__46__239965__46__CDS__46__1393"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1167" fbc:name="G_g__46__239965__46__CDS__46__1167" fbc:label="G_g__46__239965__46__CDS__46__1167"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1381" fbc:name="G_g__46__239965__46__CDS__46__1381" fbc:label="G_g__46__239965__46__CDS__46__1381"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__7" fbc:name="G_g__46__239965__46__CDS__46__7" fbc:label="G_g__46__239965__46__CDS__46__7"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1302" fbc:name="G_g__46__239965__46__CDS__46__1302" fbc:label="G_g__46__239965__46__CDS__46__1302"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__145" fbc:name="G_g__46__239965__46__CDS__46__145" fbc:label="G_g__46__239965__46__CDS__46__145"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1326" fbc:name="G_g__46__239965__46__CDS__46__1326" fbc:label="G_g__46__239965__46__CDS__46__1326"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__145" fbc:name="G_g__46__239965__46__CDS__46__145" fbc:label="G_g__46__239965__46__CDS__46__145"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1302" fbc:name="G_g__46__239965__46__CDS__46__1302" fbc:label="G_g__46__239965__46__CDS__46__1302"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__288" fbc:name="G_g__46__239965__46__CDS__46__288" fbc:label="G_g__46__239965__46__CDS__46__288"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__235" fbc:name="G_g__46__239965__46__CDS__46__235" fbc:label="G_g__46__239965__46__CDS__46__235"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1186" fbc:name="G_g__46__239965__46__CDS__46__1186" fbc:label="G_g__46__239965__46__CDS__46__1186"/>
@@ -55319,11 +55315,11 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__514" fbc:name="G_g__46__239965__46__CDS__46__514" fbc:label="G_g__46__239965__46__CDS__46__514"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1195" fbc:name="G_g__46__239965__46__CDS__46__1195" fbc:label="G_g__46__239965__46__CDS__46__1195"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__157" fbc:name="G_g__46__239965__46__CDS__46__157" fbc:label="G_g__46__239965__46__CDS__46__157"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__104" fbc:name="G_g__46__239965__46__CDS__46__104" fbc:label="G_g__46__239965__46__CDS__46__104"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__28" fbc:name="G_g__46__239965__46__CDS__46__28" fbc:label="G_g__46__239965__46__CDS__46__28"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__104" fbc:name="G_g__46__239965__46__CDS__46__104" fbc:label="G_g__46__239965__46__CDS__46__104"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__521" fbc:name="G_g__46__239965__46__CDS__46__521" fbc:label="G_g__46__239965__46__CDS__46__521"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__533" fbc:name="G_g__46__239965__46__CDS__46__533" fbc:label="G_g__46__239965__46__CDS__46__533"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__624" fbc:name="G_g__46__239965__46__CDS__46__624" fbc:label="G_g__46__239965__46__CDS__46__624"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__533" fbc:name="G_g__46__239965__46__CDS__46__533" fbc:label="G_g__46__239965__46__CDS__46__533"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__342" fbc:name="G_g__46__239965__46__CDS__46__342" fbc:label="G_g__46__239965__46__CDS__46__342"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__307" fbc:name="G_g__46__239965__46__CDS__46__307" fbc:label="G_g__46__239965__46__CDS__46__307"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__565" fbc:name="G_g__46__239965__46__CDS__46__565" fbc:label="G_g__46__239965__46__CDS__46__565"/>
@@ -55339,8 +55335,8 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__758" fbc:name="G_g__46__239965__46__CDS__46__758" fbc:label="G_g__46__239965__46__CDS__46__758"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__808" fbc:name="G_g__46__239965__46__CDS__46__808" fbc:label="G_g__46__239965__46__CDS__46__808"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__252" fbc:name="G_g__46__239965__46__CDS__46__252" fbc:label="G_g__46__239965__46__CDS__46__252"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__827" fbc:name="G_g__46__239965__46__CDS__46__827" fbc:label="G_g__46__239965__46__CDS__46__827"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1103" fbc:name="G_g__46__239965__46__CDS__46__1103" fbc:label="G_g__46__239965__46__CDS__46__1103"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__827" fbc:name="G_g__46__239965__46__CDS__46__827" fbc:label="G_g__46__239965__46__CDS__46__827"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__402" fbc:name="G_g__46__239965__46__CDS__46__402" fbc:label="G_g__46__239965__46__CDS__46__402"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__537" fbc:name="G_g__46__239965__46__CDS__46__537" fbc:label="G_g__46__239965__46__CDS__46__537"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__615" fbc:name="G_g__46__239965__46__CDS__46__615" fbc:label="G_g__46__239965__46__CDS__46__615"/>
@@ -55362,8 +55358,8 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__870" fbc:name="G_g__46__239965__46__CDS__46__870" fbc:label="G_g__46__239965__46__CDS__46__870"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__101" fbc:name="G_g__46__239965__46__CDS__46__101" fbc:label="G_g__46__239965__46__CDS__46__101"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__535" fbc:name="G_g__46__239965__46__CDS__46__535" fbc:label="G_g__46__239965__46__CDS__46__535"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__23" fbc:name="G_g__46__239965__46__CDS__46__23" fbc:label="G_g__46__239965__46__CDS__46__23"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__295" fbc:name="G_g__46__239965__46__CDS__46__295" fbc:label="G_g__46__239965__46__CDS__46__295"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__23" fbc:name="G_g__46__239965__46__CDS__46__23" fbc:label="G_g__46__239965__46__CDS__46__23"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1220" fbc:name="G_g__46__239965__46__CDS__46__1220" fbc:label="G_g__46__239965__46__CDS__46__1220"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1449" fbc:name="G_g__46__239965__46__CDS__46__1449" fbc:label="G_g__46__239965__46__CDS__46__1449"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__448" fbc:name="G_g__46__239965__46__CDS__46__448" fbc:label="G_g__46__239965__46__CDS__46__448"/>
@@ -55387,26 +55383,26 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__392" fbc:name="G_g__46__239965__46__CDS__46__392" fbc:label="G_g__46__239965__46__CDS__46__392"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1521" fbc:name="G_g__46__239965__46__CDS__46__1521" fbc:label="G_g__46__239965__46__CDS__46__1521"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1374" fbc:name="G_g__46__239965__46__CDS__46__1374" fbc:label="G_g__46__239965__46__CDS__46__1374"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__315" fbc:name="G_g__46__239965__46__CDS__46__315" fbc:label="G_g__46__239965__46__CDS__46__315"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__435" fbc:name="G_g__46__239965__46__CDS__46__435" fbc:label="G_g__46__239965__46__CDS__46__435"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__315" fbc:name="G_g__46__239965__46__CDS__46__315" fbc:label="G_g__46__239965__46__CDS__46__315"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1255" fbc:name="G_g__46__239965__46__CDS__46__1255" fbc:label="G_g__46__239965__46__CDS__46__1255"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1314" fbc:name="G_g__46__239965__46__CDS__46__1314" fbc:label="G_g__46__239965__46__CDS__46__1314"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__762" fbc:name="G_g__46__239965__46__CDS__46__762" fbc:label="G_g__46__239965__46__CDS__46__762"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__443" fbc:name="G_g__46__239965__46__CDS__46__443" fbc:label="G_g__46__239965__46__CDS__46__443"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__723" fbc:name="G_g__46__239965__46__CDS__46__723" fbc:label="G_g__46__239965__46__CDS__46__723"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__849" fbc:name="G_g__46__239965__46__CDS__46__849" fbc:label="G_g__46__239965__46__CDS__46__849"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__723" fbc:name="G_g__46__239965__46__CDS__46__723" fbc:label="G_g__46__239965__46__CDS__46__723"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__13" fbc:name="G_g__46__239965__46__CDS__46__13" fbc:label="G_g__46__239965__46__CDS__46__13"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__891" fbc:name="G_g__46__239965__46__CDS__46__891" fbc:label="G_g__46__239965__46__CDS__46__891"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1344" fbc:name="G_g__46__239965__46__CDS__46__1344" fbc:label="G_g__46__239965__46__CDS__46__1344"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__771" fbc:name="G_g__46__239965__46__CDS__46__771" fbc:label="G_g__46__239965__46__CDS__46__771"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__809" fbc:name="G_g__46__239965__46__CDS__46__809" fbc:label="G_g__46__239965__46__CDS__46__809"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1144" fbc:name="G_g__46__239965__46__CDS__46__1144" fbc:label="G_g__46__239965__46__CDS__46__1144"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__859" fbc:name="G_g__46__239965__46__CDS__46__859" fbc:label="G_g__46__239965__46__CDS__46__859"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1574" fbc:name="G_g__46__239965__46__CDS__46__1574" fbc:label="G_g__46__239965__46__CDS__46__1574"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__859" fbc:name="G_g__46__239965__46__CDS__46__859" fbc:label="G_g__46__239965__46__CDS__46__859"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__768" fbc:name="G_g__46__239965__46__CDS__46__768" fbc:label="G_g__46__239965__46__CDS__46__768"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1039" fbc:name="G_g__46__239965__46__CDS__46__1039" fbc:label="G_g__46__239965__46__CDS__46__1039"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__746" fbc:name="G_g__46__239965__46__CDS__46__746" fbc:label="G_g__46__239965__46__CDS__46__746"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__452" fbc:name="G_g__46__239965__46__CDS__46__452" fbc:label="G_g__46__239965__46__CDS__46__452"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__746" fbc:name="G_g__46__239965__46__CDS__46__746" fbc:label="G_g__46__239965__46__CDS__46__746"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__293" fbc:name="G_g__46__239965__46__CDS__46__293" fbc:label="G_g__46__239965__46__CDS__46__293"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1018" fbc:name="G_g__46__239965__46__CDS__46__1018" fbc:label="G_g__46__239965__46__CDS__46__1018"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__312" fbc:name="G_g__46__239965__46__CDS__46__312" fbc:label="G_g__46__239965__46__CDS__46__312"/>
@@ -55420,14 +55416,14 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1143" fbc:name="G_g__46__239965__46__CDS__46__1143" fbc:label="G_g__46__239965__46__CDS__46__1143"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__472" fbc:name="G_g__46__239965__46__CDS__46__472" fbc:label="G_g__46__239965__46__CDS__46__472"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__504" fbc:name="G_g__46__239965__46__CDS__46__504" fbc:label="G_g__46__239965__46__CDS__46__504"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__93" fbc:name="G_g__46__239965__46__CDS__46__93" fbc:label="G_g__46__239965__46__CDS__46__93"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__652" fbc:name="G_g__46__239965__46__CDS__46__652" fbc:label="G_g__46__239965__46__CDS__46__652"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__93" fbc:name="G_g__46__239965__46__CDS__46__93" fbc:label="G_g__46__239965__46__CDS__46__93"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__621" fbc:name="G_g__46__239965__46__CDS__46__621" fbc:label="G_g__46__239965__46__CDS__46__621"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__171" fbc:name="G_g__46__239965__46__CDS__46__171" fbc:label="G_g__46__239965__46__CDS__46__171"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__903" fbc:name="G_g__46__239965__46__CDS__46__903" fbc:label="G_g__46__239965__46__CDS__46__903"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__368" fbc:name="G_g__46__239965__46__CDS__46__368" fbc:label="G_g__46__239965__46__CDS__46__368"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__310" fbc:name="G_g__46__239965__46__CDS__46__310" fbc:label="G_g__46__239965__46__CDS__46__310"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__548" fbc:name="G_g__46__239965__46__CDS__46__548" fbc:label="G_g__46__239965__46__CDS__46__548"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__310" fbc:name="G_g__46__239965__46__CDS__46__310" fbc:label="G_g__46__239965__46__CDS__46__310"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1474" fbc:name="G_g__46__239965__46__CDS__46__1474" fbc:label="G_g__46__239965__46__CDS__46__1474"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1063" fbc:name="G_g__46__239965__46__CDS__46__1063" fbc:label="G_g__46__239965__46__CDS__46__1063"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__942" fbc:name="G_g__46__239965__46__CDS__46__942" fbc:label="G_g__46__239965__46__CDS__46__942"/>
@@ -55441,20 +55437,20 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__84" fbc:name="G_g__46__239965__46__CDS__46__84" fbc:label="G_g__46__239965__46__CDS__46__84"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__736" fbc:name="G_g__46__239965__46__CDS__46__736" fbc:label="G_g__46__239965__46__CDS__46__736"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__946" fbc:name="G_g__46__239965__46__CDS__46__946" fbc:label="G_g__46__239965__46__CDS__46__946"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1236" fbc:name="G_g__46__239965__46__CDS__46__1236" fbc:label="G_g__46__239965__46__CDS__46__1236"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1373" fbc:name="G_g__46__239965__46__CDS__46__1373" fbc:label="G_g__46__239965__46__CDS__46__1373"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1236" fbc:name="G_g__46__239965__46__CDS__46__1236" fbc:label="G_g__46__239965__46__CDS__46__1236"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__168" fbc:name="G_g__46__239965__46__CDS__46__168" fbc:label="G_g__46__239965__46__CDS__46__168"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1218" fbc:name="G_g__46__239965__46__CDS__46__1218" fbc:label="G_g__46__239965__46__CDS__46__1218"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__600" fbc:name="G_g__46__239965__46__CDS__46__600" fbc:label="G_g__46__239965__46__CDS__46__600"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__981" fbc:name="G_g__46__239965__46__CDS__46__981" fbc:label="G_g__46__239965__46__CDS__46__981"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1218" fbc:name="G_g__46__239965__46__CDS__46__1218" fbc:label="G_g__46__239965__46__CDS__46__1218"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__168" fbc:name="G_g__46__239965__46__CDS__46__168" fbc:label="G_g__46__239965__46__CDS__46__168"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1536" fbc:name="G_g__46__239965__46__CDS__46__1536" fbc:label="G_g__46__239965__46__CDS__46__1536"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__95" fbc:name="G_g__46__239965__46__CDS__46__95" fbc:label="G_g__46__239965__46__CDS__46__95"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__436" fbc:name="G_g__46__239965__46__CDS__46__436" fbc:label="G_g__46__239965__46__CDS__46__436"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1316" fbc:name="G_g__46__239965__46__CDS__46__1316" fbc:label="G_g__46__239965__46__CDS__46__1316"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__234" fbc:name="G_g__46__239965__46__CDS__46__234" fbc:label="G_g__46__239965__46__CDS__46__234"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__924" fbc:name="G_g__46__239965__46__CDS__46__924" fbc:label="G_g__46__239965__46__CDS__46__924"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__648" fbc:name="G_g__46__239965__46__CDS__46__648" fbc:label="G_g__46__239965__46__CDS__46__648"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__732" fbc:name="G_g__46__239965__46__CDS__46__732" fbc:label="G_g__46__239965__46__CDS__46__732"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__924" fbc:name="G_g__46__239965__46__CDS__46__924" fbc:label="G_g__46__239965__46__CDS__46__924"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__221" fbc:name="G_g__46__239965__46__CDS__46__221" fbc:label="G_g__46__239965__46__CDS__46__221"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__931" fbc:name="G_g__46__239965__46__CDS__46__931" fbc:label="G_g__46__239965__46__CDS__46__931"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__454" fbc:name="G_g__46__239965__46__CDS__46__454" fbc:label="G_g__46__239965__46__CDS__46__454"/>
@@ -55465,8 +55461,8 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__356" fbc:name="G_g__46__239965__46__CDS__46__356" fbc:label="G_g__46__239965__46__CDS__46__356"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__247" fbc:name="G_g__46__239965__46__CDS__46__247" fbc:label="G_g__46__239965__46__CDS__46__247"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1084" fbc:name="G_g__46__239965__46__CDS__46__1084" fbc:label="G_g__46__239965__46__CDS__46__1084"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__516" fbc:name="G_g__46__239965__46__CDS__46__516" fbc:label="G_g__46__239965__46__CDS__46__516"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__944" fbc:name="G_g__46__239965__46__CDS__46__944" fbc:label="G_g__46__239965__46__CDS__46__944"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__516" fbc:name="G_g__46__239965__46__CDS__46__516" fbc:label="G_g__46__239965__46__CDS__46__516"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__522" fbc:name="G_g__46__239965__46__CDS__46__522" fbc:label="G_g__46__239965__46__CDS__46__522"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__106" fbc:name="G_g__46__239965__46__CDS__46__106" fbc:label="G_g__46__239965__46__CDS__46__106"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1491" fbc:name="G_g__46__239965__46__CDS__46__1491" fbc:label="G_g__46__239965__46__CDS__46__1491"/>
@@ -55475,12 +55471,12 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__461" fbc:name="G_g__46__239965__46__CDS__46__461" fbc:label="G_g__46__239965__46__CDS__46__461"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__490" fbc:name="G_g__46__239965__46__CDS__46__490" fbc:label="G_g__46__239965__46__CDS__46__490"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__40" fbc:name="G_g__46__239965__46__CDS__46__40" fbc:label="G_g__46__239965__46__CDS__46__40"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__278" fbc:name="G_g__46__239965__46__CDS__46__278" fbc:label="G_g__46__239965__46__CDS__46__278"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__909" fbc:name="G_g__46__239965__46__CDS__46__909" fbc:label="G_g__46__239965__46__CDS__46__909"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__278" fbc:name="G_g__46__239965__46__CDS__46__278" fbc:label="G_g__46__239965__46__CDS__46__278"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__46" fbc:name="G_g__46__239965__46__CDS__46__46" fbc:label="G_g__46__239965__46__CDS__46__46"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__616" fbc:name="G_g__46__239965__46__CDS__46__616" fbc:label="G_g__46__239965__46__CDS__46__616"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1399" fbc:name="G_g__46__239965__46__CDS__46__1399" fbc:label="G_g__46__239965__46__CDS__46__1399"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1305" fbc:name="G_g__46__239965__46__CDS__46__1305" fbc:label="G_g__46__239965__46__CDS__46__1305"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1399" fbc:name="G_g__46__239965__46__CDS__46__1399" fbc:label="G_g__46__239965__46__CDS__46__1399"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__833" fbc:name="G_g__46__239965__46__CDS__46__833" fbc:label="G_g__46__239965__46__CDS__46__833"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1048" fbc:name="G_g__46__239965__46__CDS__46__1048" fbc:label="G_g__46__239965__46__CDS__46__1048"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__680" fbc:name="G_g__46__239965__46__CDS__46__680" fbc:label="G_g__46__239965__46__CDS__46__680"/>
@@ -55490,15 +55486,15 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__872" fbc:name="G_g__46__239965__46__CDS__46__872" fbc:label="G_g__46__239965__46__CDS__46__872"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__747" fbc:name="G_g__46__239965__46__CDS__46__747" fbc:label="G_g__46__239965__46__CDS__46__747"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__696" fbc:name="G_g__46__239965__46__CDS__46__696" fbc:label="G_g__46__239965__46__CDS__46__696"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__120" fbc:name="G_g__46__239965__46__CDS__46__120" fbc:label="G_g__46__239965__46__CDS__46__120"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__348" fbc:name="G_g__46__239965__46__CDS__46__348" fbc:label="G_g__46__239965__46__CDS__46__348"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__120" fbc:name="G_g__46__239965__46__CDS__46__120" fbc:label="G_g__46__239965__46__CDS__46__120"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1122" fbc:name="G_g__46__239965__46__CDS__46__1122" fbc:label="G_g__46__239965__46__CDS__46__1122"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__713" fbc:name="G_g__46__239965__46__CDS__46__713" fbc:label="G_g__46__239965__46__CDS__46__713"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__858" fbc:name="G_g__46__239965__46__CDS__46__858" fbc:label="G_g__46__239965__46__CDS__46__858"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__483" fbc:name="G_g__46__239965__46__CDS__46__483" fbc:label="G_g__46__239965__46__CDS__46__483"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__181" fbc:name="G_g__46__239965__46__CDS__46__181" fbc:label="G_g__46__239965__46__CDS__46__181"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__713" fbc:name="G_g__46__239965__46__CDS__46__713" fbc:label="G_g__46__239965__46__CDS__46__713"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__949" fbc:name="G_g__46__239965__46__CDS__46__949" fbc:label="G_g__46__239965__46__CDS__46__949"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1037" fbc:name="G_g__46__239965__46__CDS__46__1037" fbc:label="G_g__46__239965__46__CDS__46__1037"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__949" fbc:name="G_g__46__239965__46__CDS__46__949" fbc:label="G_g__46__239965__46__CDS__46__949"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__415" fbc:name="G_g__46__239965__46__CDS__46__415" fbc:label="G_g__46__239965__46__CDS__46__415"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1169" fbc:name="G_g__46__239965__46__CDS__46__1169" fbc:label="G_g__46__239965__46__CDS__46__1169"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__479" fbc:name="G_g__46__239965__46__CDS__46__479" fbc:label="G_g__46__239965__46__CDS__46__479"/>
@@ -55509,8 +55505,8 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__554" fbc:name="G_g__46__239965__46__CDS__46__554" fbc:label="G_g__46__239965__46__CDS__46__554"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__926" fbc:name="G_g__46__239965__46__CDS__46__926" fbc:label="G_g__46__239965__46__CDS__46__926"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__389" fbc:name="G_g__46__239965__46__CDS__46__389" fbc:label="G_g__46__239965__46__CDS__46__389"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1429" fbc:name="G_g__46__239965__46__CDS__46__1429" fbc:label="G_g__46__239965__46__CDS__46__1429"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__298" fbc:name="G_g__46__239965__46__CDS__46__298" fbc:label="G_g__46__239965__46__CDS__46__298"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1429" fbc:name="G_g__46__239965__46__CDS__46__1429" fbc:label="G_g__46__239965__46__CDS__46__1429"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__552" fbc:name="G_g__46__239965__46__CDS__46__552" fbc:label="G_g__46__239965__46__CDS__46__552"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__886" fbc:name="G_g__46__239965__46__CDS__46__886" fbc:label="G_g__46__239965__46__CDS__46__886"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__253" fbc:name="G_g__46__239965__46__CDS__46__253" fbc:label="G_g__46__239965__46__CDS__46__253"/>
@@ -55521,8 +55517,8 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__612" fbc:name="G_g__46__239965__46__CDS__46__612" fbc:label="G_g__46__239965__46__CDS__46__612"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__547" fbc:name="G_g__46__239965__46__CDS__46__547" fbc:label="G_g__46__239965__46__CDS__46__547"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1377" fbc:name="G_g__46__239965__46__CDS__46__1377" fbc:label="G_g__46__239965__46__CDS__46__1377"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1030" fbc:name="G_g__46__239965__46__CDS__46__1030" fbc:label="G_g__46__239965__46__CDS__46__1030"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__950" fbc:name="G_g__46__239965__46__CDS__46__950" fbc:label="G_g__46__239965__46__CDS__46__950"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1030" fbc:name="G_g__46__239965__46__CDS__46__1030" fbc:label="G_g__46__239965__46__CDS__46__1030"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1292" fbc:name="G_g__46__239965__46__CDS__46__1292" fbc:label="G_g__46__239965__46__CDS__46__1292"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1510" fbc:name="G_g__46__239965__46__CDS__46__1510" fbc:label="G_g__46__239965__46__CDS__46__1510"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__609" fbc:name="G_g__46__239965__46__CDS__46__609" fbc:label="G_g__46__239965__46__CDS__46__609"/>
@@ -55535,9 +55531,9 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__215" fbc:name="G_g__46__239965__46__CDS__46__215" fbc:label="G_g__46__239965__46__CDS__46__215"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__203" fbc:name="G_g__46__239965__46__CDS__46__203" fbc:label="G_g__46__239965__46__CDS__46__203"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__417" fbc:name="G_g__46__239965__46__CDS__46__417" fbc:label="G_g__46__239965__46__CDS__46__417"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__845" fbc:name="G_g__46__239965__46__CDS__46__845" fbc:label="G_g__46__239965__46__CDS__46__845"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__698" fbc:name="G_g__46__239965__46__CDS__46__698" fbc:label="G_g__46__239965__46__CDS__46__698"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__556" fbc:name="G_g__46__239965__46__CDS__46__556" fbc:label="G_g__46__239965__46__CDS__46__556"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__845" fbc:name="G_g__46__239965__46__CDS__46__845" fbc:label="G_g__46__239965__46__CDS__46__845"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__838" fbc:name="G_g__46__239965__46__CDS__46__838" fbc:label="G_g__46__239965__46__CDS__46__838"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__672" fbc:name="G_g__46__239965__46__CDS__46__672" fbc:label="G_g__46__239965__46__CDS__46__672"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__15" fbc:name="G_g__46__239965__46__CDS__46__15" fbc:label="G_g__46__239965__46__CDS__46__15"/>
@@ -55562,114 +55558,114 @@
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1173" fbc:name="G_g__46__239965__46__CDS__46__1173" fbc:label="G_g__46__239965__46__CDS__46__1173"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__297" fbc:name="G_g__46__239965__46__CDS__46__297" fbc:label="G_g__46__239965__46__CDS__46__297"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__915" fbc:name="G_g__46__239965__46__CDS__46__915" fbc:label="G_g__46__239965__46__CDS__46__915"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__499" fbc:name="G_g__46__239965__46__CDS__46__499" fbc:label="G_g__46__239965__46__CDS__46__499"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__492" fbc:name="G_g__46__239965__46__CDS__46__492" fbc:label="G_g__46__239965__46__CDS__46__492"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__433" fbc:name="G_g__46__239965__46__CDS__46__433" fbc:label="G_g__46__239965__46__CDS__46__433"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__499" fbc:name="G_g__46__239965__46__CDS__46__499" fbc:label="G_g__46__239965__46__CDS__46__499"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__114" fbc:name="G_g__46__239965__46__CDS__46__114" fbc:label="G_g__46__239965__46__CDS__46__114"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__492" fbc:name="G_g__46__239965__46__CDS__46__492" fbc:label="G_g__46__239965__46__CDS__46__492"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__463" fbc:name="G_g__46__239965__46__CDS__46__463" fbc:label="G_g__46__239965__46__CDS__46__463"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__296" fbc:name="G_g__46__239965__46__CDS__46__296" fbc:label="G_g__46__239965__46__CDS__46__296"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__178" fbc:name="G_g__46__239965__46__CDS__46__178" fbc:label="G_g__46__239965__46__CDS__46__178"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__801" fbc:name="G_g__46__239965__46__CDS__46__801" fbc:label="G_g__46__239965__46__CDS__46__801"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__426" fbc:name="G_g__46__239965__46__CDS__46__426" fbc:label="G_g__46__239965__46__CDS__46__426"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__178" fbc:name="G_g__46__239965__46__CDS__46__178" fbc:label="G_g__46__239965__46__CDS__46__178"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__296" fbc:name="G_g__46__239965__46__CDS__46__296" fbc:label="G_g__46__239965__46__CDS__46__296"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1352" fbc:name="G_g__46__239965__46__CDS__46__1352" fbc:label="G_g__46__239965__46__CDS__46__1352"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__316" fbc:name="G_g__46__239965__46__CDS__46__316" fbc:label="G_g__46__239965__46__CDS__46__316"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__583" fbc:name="G_g__46__239965__46__CDS__46__583" fbc:label="G_g__46__239965__46__CDS__46__583"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__860" fbc:name="G_g__46__239965__46__CDS__46__860" fbc:label="G_g__46__239965__46__CDS__46__860"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__721" fbc:name="G_g__46__239965__46__CDS__46__721" fbc:label="G_g__46__239965__46__CDS__46__721"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__853" fbc:name="G_g__46__239965__46__CDS__46__853" fbc:label="G_g__46__239965__46__CDS__46__853"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1323" fbc:name="G_g__46__239965__46__CDS__46__1323" fbc:label="G_g__46__239965__46__CDS__46__1323"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__576" fbc:name="G_g__46__239965__46__CDS__46__576" fbc:label="G_g__46__239965__46__CDS__46__576"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1352" fbc:name="G_g__46__239965__46__CDS__46__1352" fbc:label="G_g__46__239965__46__CDS__46__1352"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1333" fbc:name="G_g__46__239965__46__CDS__46__1333" fbc:label="G_g__46__239965__46__CDS__46__1333"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__715" fbc:name="G_g__46__239965__46__CDS__46__715" fbc:label="G_g__46__239965__46__CDS__46__715"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1064" fbc:name="G_g__46__239965__46__CDS__46__1064" fbc:label="G_g__46__239965__46__CDS__46__1064"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__574" fbc:name="G_g__46__239965__46__CDS__46__574" fbc:label="G_g__46__239965__46__CDS__46__574"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__316" fbc:name="G_g__46__239965__46__CDS__46__316" fbc:label="G_g__46__239965__46__CDS__46__316"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1050" fbc:name="G_g__46__239965__46__CDS__46__1050" fbc:label="G_g__46__239965__46__CDS__46__1050"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1051" fbc:name="G_g__46__239965__46__CDS__46__1051" fbc:label="G_g__46__239965__46__CDS__46__1051"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1333" fbc:name="G_g__46__239965__46__CDS__46__1333" fbc:label="G_g__46__239965__46__CDS__46__1333"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1064" fbc:name="G_g__46__239965__46__CDS__46__1064" fbc:label="G_g__46__239965__46__CDS__46__1064"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1583" fbc:name="G_g__46__239965__46__CDS__46__1583" fbc:label="G_g__46__239965__46__CDS__46__1583"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__956" fbc:name="G_g__46__239965__46__CDS__46__956" fbc:label="G_g__46__239965__46__CDS__46__956"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1323" fbc:name="G_g__46__239965__46__CDS__46__1323" fbc:label="G_g__46__239965__46__CDS__46__1323"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__853" fbc:name="G_g__46__239965__46__CDS__46__853" fbc:label="G_g__46__239965__46__CDS__46__853"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__218" fbc:name="G_g__46__239965__46__CDS__46__218" fbc:label="G_g__46__239965__46__CDS__46__218"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__721" fbc:name="G_g__46__239965__46__CDS__46__721" fbc:label="G_g__46__239965__46__CDS__46__721"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__574" fbc:name="G_g__46__239965__46__CDS__46__574" fbc:label="G_g__46__239965__46__CDS__46__574"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__860" fbc:name="G_g__46__239965__46__CDS__46__860" fbc:label="G_g__46__239965__46__CDS__46__860"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__576" fbc:name="G_g__46__239965__46__CDS__46__576" fbc:label="G_g__46__239965__46__CDS__46__576"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__450" fbc:name="G_g__46__239965__46__CDS__46__450" fbc:label="G_g__46__239965__46__CDS__46__450"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__285" fbc:name="G_g__46__239965__46__CDS__46__285" fbc:label="G_g__46__239965__46__CDS__46__285"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__328" fbc:name="G_g__46__239965__46__CDS__46__328" fbc:label="G_g__46__239965__46__CDS__46__328"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__123" fbc:name="G_g__46__239965__46__CDS__46__123" fbc:label="G_g__46__239965__46__CDS__46__123"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__407" fbc:name="G_g__46__239965__46__CDS__46__407" fbc:label="G_g__46__239965__46__CDS__46__407"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__544" fbc:name="G_g__46__239965__46__CDS__46__544" fbc:label="G_g__46__239965__46__CDS__46__544"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1497" fbc:name="G_g__46__239965__46__CDS__46__1497" fbc:label="G_g__46__239965__46__CDS__46__1497"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__694" fbc:name="G_g__46__239965__46__CDS__46__694" fbc:label="G_g__46__239965__46__CDS__46__694"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__344" fbc:name="G_g__46__239965__46__CDS__46__344" fbc:label="G_g__46__239965__46__CDS__46__344"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__873" fbc:name="G_g__46__239965__46__CDS__46__873" fbc:label="G_g__46__239965__46__CDS__46__873"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1402" fbc:name="G_g__46__239965__46__CDS__46__1402" fbc:label="G_g__46__239965__46__CDS__46__1402"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1119" fbc:name="G_g__46__239965__46__CDS__46__1119" fbc:label="G_g__46__239965__46__CDS__46__1119"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__563" fbc:name="G_g__46__239965__46__CDS__46__563" fbc:label="G_g__46__239965__46__CDS__46__563"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__509" fbc:name="G_g__46__239965__46__CDS__46__509" fbc:label="G_g__46__239965__46__CDS__46__509"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__682" fbc:name="G_g__46__239965__46__CDS__46__682" fbc:label="G_g__46__239965__46__CDS__46__682"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__796" fbc:name="G_g__46__239965__46__CDS__46__796" fbc:label="G_g__46__239965__46__CDS__46__796"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__340" fbc:name="G_g__46__239965__46__CDS__46__340" fbc:label="G_g__46__239965__46__CDS__46__340"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__633" fbc:name="G_g__46__239965__46__CDS__46__633" fbc:label="G_g__46__239965__46__CDS__46__633"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__198" fbc:name="G_g__46__239965__46__CDS__46__198" fbc:label="G_g__46__239965__46__CDS__46__198"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1386" fbc:name="G_g__46__239965__46__CDS__46__1386" fbc:label="G_g__46__239965__46__CDS__46__1386"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1147" fbc:name="G_g__46__239965__46__CDS__46__1147" fbc:label="G_g__46__239965__46__CDS__46__1147"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1531" fbc:name="G_g__46__239965__46__CDS__46__1531" fbc:label="G_g__46__239965__46__CDS__46__1531"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__270" fbc:name="G_g__46__239965__46__CDS__46__270" fbc:label="G_g__46__239965__46__CDS__46__270"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1010" fbc:name="G_g__46__239965__46__CDS__46__1010" fbc:label="G_g__46__239965__46__CDS__46__1010"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__416" fbc:name="G_g__46__239965__46__CDS__46__416" fbc:label="G_g__46__239965__46__CDS__46__416"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__124" fbc:name="G_g__46__239965__46__CDS__46__124" fbc:label="G_g__46__239965__46__CDS__46__124"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__45" fbc:name="G_g__46__239965__46__CDS__46__45" fbc:label="G_g__46__239965__46__CDS__46__45"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__578" fbc:name="G_g__46__239965__46__CDS__46__578" fbc:label="G_g__46__239965__46__CDS__46__578"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1408" fbc:name="G_g__46__239965__46__CDS__46__1408" fbc:label="G_g__46__239965__46__CDS__46__1408"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__828" fbc:name="G_g__46__239965__46__CDS__46__828" fbc:label="G_g__46__239965__46__CDS__46__828"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1477" fbc:name="G_g__46__239965__46__CDS__46__1477" fbc:label="G_g__46__239965__46__CDS__46__1477"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__890" fbc:name="G_g__46__239965__46__CDS__46__890" fbc:label="G_g__46__239965__46__CDS__46__890"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1311" fbc:name="G_g__46__239965__46__CDS__46__1311" fbc:label="G_g__46__239965__46__CDS__46__1311"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1525" fbc:name="G_g__46__239965__46__CDS__46__1525" fbc:label="G_g__46__239965__46__CDS__46__1525"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__308" fbc:name="G_g__46__239965__46__CDS__46__308" fbc:label="G_g__46__239965__46__CDS__46__308"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__451" fbc:name="G_g__46__239965__46__CDS__46__451" fbc:label="G_g__46__239965__46__CDS__46__451"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1509" fbc:name="G_g__46__239965__46__CDS__46__1509" fbc:label="G_g__46__239965__46__CDS__46__1509"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__299" fbc:name="G_g__46__239965__46__CDS__46__299" fbc:label="G_g__46__239965__46__CDS__46__299"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1461" fbc:name="G_g__46__239965__46__CDS__46__1461" fbc:label="G_g__46__239965__46__CDS__46__1461"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1379" fbc:name="G_g__46__239965__46__CDS__46__1379" fbc:label="G_g__46__239965__46__CDS__46__1379"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__922" fbc:name="G_g__46__239965__46__CDS__46__922" fbc:label="G_g__46__239965__46__CDS__46__922"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__184" fbc:name="G_g__46__239965__46__CDS__46__184" fbc:label="G_g__46__239965__46__CDS__46__184"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1183" fbc:name="G_g__46__239965__46__CDS__46__1183" fbc:label="G_g__46__239965__46__CDS__46__1183"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__177" fbc:name="G_g__46__239965__46__CDS__46__177" fbc:label="G_g__46__239965__46__CDS__46__177"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1523" fbc:name="G_g__46__239965__46__CDS__46__1523" fbc:label="G_g__46__239965__46__CDS__46__1523"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__498" fbc:name="G_g__46__239965__46__CDS__46__498" fbc:label="G_g__46__239965__46__CDS__46__498"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__842" fbc:name="G_g__46__239965__46__CDS__46__842" fbc:label="G_g__46__239965__46__CDS__46__842"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__729" fbc:name="G_g__46__239965__46__CDS__46__729" fbc:label="G_g__46__239965__46__CDS__46__729"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1224" fbc:name="G_g__46__239965__46__CDS__46__1224" fbc:label="G_g__46__239965__46__CDS__46__1224"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__496" fbc:name="G_g__46__239965__46__CDS__46__496" fbc:label="G_g__46__239965__46__CDS__46__496"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__706" fbc:name="G_g__46__239965__46__CDS__46__706" fbc:label="G_g__46__239965__46__CDS__46__706"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1378" fbc:name="G_g__46__239965__46__CDS__46__1378" fbc:label="G_g__46__239965__46__CDS__46__1378"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__205" fbc:name="G_g__46__239965__46__CDS__46__205" fbc:label="G_g__46__239965__46__CDS__46__205"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__432" fbc:name="G_g__46__239965__46__CDS__46__432" fbc:label="G_g__46__239965__46__CDS__46__432"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__92" fbc:name="G_g__46__239965__46__CDS__46__92" fbc:label="G_g__46__239965__46__CDS__46__92"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__305" fbc:name="G_g__46__239965__46__CDS__46__305" fbc:label="G_g__46__239965__46__CDS__46__305"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1435" fbc:name="G_g__46__239965__46__CDS__46__1435" fbc:label="G_g__46__239965__46__CDS__46__1435"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__427" fbc:name="G_g__46__239965__46__CDS__46__427" fbc:label="G_g__46__239965__46__CDS__46__427"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__317" fbc:name="G_g__46__239965__46__CDS__46__317" fbc:label="G_g__46__239965__46__CDS__46__317"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__814" fbc:name="G_g__46__239965__46__CDS__46__814" fbc:label="G_g__46__239965__46__CDS__46__814"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1216" fbc:name="G_g__46__239965__46__CDS__46__1216" fbc:label="G_g__46__239965__46__CDS__46__1216"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__318" fbc:name="G_g__46__239965__46__CDS__46__318" fbc:label="G_g__46__239965__46__CDS__46__318"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__421" fbc:name="G_g__46__239965__46__CDS__46__421" fbc:label="G_g__46__239965__46__CDS__46__421"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__792" fbc:name="G_g__46__239965__46__CDS__46__792" fbc:label="G_g__46__239965__46__CDS__46__792"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__843" fbc:name="G_g__46__239965__46__CDS__46__843" fbc:label="G_g__46__239965__46__CDS__46__843"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1386" fbc:name="G_g__46__239965__46__CDS__46__1386" fbc:label="G_g__46__239965__46__CDS__46__1386"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1010" fbc:name="G_g__46__239965__46__CDS__46__1010" fbc:label="G_g__46__239965__46__CDS__46__1010"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__25" fbc:name="G_g__46__239965__46__CDS__46__25" fbc:label="G_g__46__239965__46__CDS__46__25"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__206" fbc:name="G_g__46__239965__46__CDS__46__206" fbc:label="G_g__46__239965__46__CDS__46__206"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__45" fbc:name="G_g__46__239965__46__CDS__46__45" fbc:label="G_g__46__239965__46__CDS__46__45"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__92" fbc:name="G_g__46__239965__46__CDS__46__92" fbc:label="G_g__46__239965__46__CDS__46__92"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1435" fbc:name="G_g__46__239965__46__CDS__46__1435" fbc:label="G_g__46__239965__46__CDS__46__1435"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__922" fbc:name="G_g__46__239965__46__CDS__46__922" fbc:label="G_g__46__239965__46__CDS__46__922"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1216" fbc:name="G_g__46__239965__46__CDS__46__1216" fbc:label="G_g__46__239965__46__CDS__46__1216"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__767" fbc:name="G_g__46__239965__46__CDS__46__767" fbc:label="G_g__46__239965__46__CDS__46__767"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__299" fbc:name="G_g__46__239965__46__CDS__46__299" fbc:label="G_g__46__239965__46__CDS__46__299"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__450" fbc:name="G_g__46__239965__46__CDS__46__450" fbc:label="G_g__46__239965__46__CDS__46__450"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__432" fbc:name="G_g__46__239965__46__CDS__46__432" fbc:label="G_g__46__239965__46__CDS__46__432"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__184" fbc:name="G_g__46__239965__46__CDS__46__184" fbc:label="G_g__46__239965__46__CDS__46__184"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1477" fbc:name="G_g__46__239965__46__CDS__46__1477" fbc:label="G_g__46__239965__46__CDS__46__1477"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1525" fbc:name="G_g__46__239965__46__CDS__46__1525" fbc:label="G_g__46__239965__46__CDS__46__1525"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1378" fbc:name="G_g__46__239965__46__CDS__46__1378" fbc:label="G_g__46__239965__46__CDS__46__1378"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__814" fbc:name="G_g__46__239965__46__CDS__46__814" fbc:label="G_g__46__239965__46__CDS__46__814"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__427" fbc:name="G_g__46__239965__46__CDS__46__427" fbc:label="G_g__46__239965__46__CDS__46__427"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__682" fbc:name="G_g__46__239965__46__CDS__46__682" fbc:label="G_g__46__239965__46__CDS__46__682"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1509" fbc:name="G_g__46__239965__46__CDS__46__1509" fbc:label="G_g__46__239965__46__CDS__46__1509"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__796" fbc:name="G_g__46__239965__46__CDS__46__796" fbc:label="G_g__46__239965__46__CDS__46__796"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__749" fbc:name="G_g__46__239965__46__CDS__46__749" fbc:label="G_g__46__239965__46__CDS__46__749"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__285" fbc:name="G_g__46__239965__46__CDS__46__285" fbc:label="G_g__46__239965__46__CDS__46__285"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__563" fbc:name="G_g__46__239965__46__CDS__46__563" fbc:label="G_g__46__239965__46__CDS__46__563"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1379" fbc:name="G_g__46__239965__46__CDS__46__1379" fbc:label="G_g__46__239965__46__CDS__46__1379"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__198" fbc:name="G_g__46__239965__46__CDS__46__198" fbc:label="G_g__46__239965__46__CDS__46__198"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__792" fbc:name="G_g__46__239965__46__CDS__46__792" fbc:label="G_g__46__239965__46__CDS__46__792"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__407" fbc:name="G_g__46__239965__46__CDS__46__407" fbc:label="G_g__46__239965__46__CDS__46__407"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1183" fbc:name="G_g__46__239965__46__CDS__46__1183" fbc:label="G_g__46__239965__46__CDS__46__1183"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__544" fbc:name="G_g__46__239965__46__CDS__46__544" fbc:label="G_g__46__239965__46__CDS__46__544"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__308" fbc:name="G_g__46__239965__46__CDS__46__308" fbc:label="G_g__46__239965__46__CDS__46__308"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__890" fbc:name="G_g__46__239965__46__CDS__46__890" fbc:label="G_g__46__239965__46__CDS__46__890"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__123" fbc:name="G_g__46__239965__46__CDS__46__123" fbc:label="G_g__46__239965__46__CDS__46__123"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1147" fbc:name="G_g__46__239965__46__CDS__46__1147" fbc:label="G_g__46__239965__46__CDS__46__1147"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__828" fbc:name="G_g__46__239965__46__CDS__46__828" fbc:label="G_g__46__239965__46__CDS__46__828"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__328" fbc:name="G_g__46__239965__46__CDS__46__328" fbc:label="G_g__46__239965__46__CDS__46__328"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__694" fbc:name="G_g__46__239965__46__CDS__46__694" fbc:label="G_g__46__239965__46__CDS__46__694"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__498" fbc:name="G_g__46__239965__46__CDS__46__498" fbc:label="G_g__46__239965__46__CDS__46__498"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__496" fbc:name="G_g__46__239965__46__CDS__46__496" fbc:label="G_g__46__239965__46__CDS__46__496"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__451" fbc:name="G_g__46__239965__46__CDS__46__451" fbc:label="G_g__46__239965__46__CDS__46__451"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__206" fbc:name="G_g__46__239965__46__CDS__46__206" fbc:label="G_g__46__239965__46__CDS__46__206"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1402" fbc:name="G_g__46__239965__46__CDS__46__1402" fbc:label="G_g__46__239965__46__CDS__46__1402"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__843" fbc:name="G_g__46__239965__46__CDS__46__843" fbc:label="G_g__46__239965__46__CDS__46__843"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__509" fbc:name="G_g__46__239965__46__CDS__46__509" fbc:label="G_g__46__239965__46__CDS__46__509"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__317" fbc:name="G_g__46__239965__46__CDS__46__317" fbc:label="G_g__46__239965__46__CDS__46__317"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1531" fbc:name="G_g__46__239965__46__CDS__46__1531" fbc:label="G_g__46__239965__46__CDS__46__1531"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__421" fbc:name="G_g__46__239965__46__CDS__46__421" fbc:label="G_g__46__239965__46__CDS__46__421"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1408" fbc:name="G_g__46__239965__46__CDS__46__1408" fbc:label="G_g__46__239965__46__CDS__46__1408"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__729" fbc:name="G_g__46__239965__46__CDS__46__729" fbc:label="G_g__46__239965__46__CDS__46__729"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__344" fbc:name="G_g__46__239965__46__CDS__46__344" fbc:label="G_g__46__239965__46__CDS__46__344"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__633" fbc:name="G_g__46__239965__46__CDS__46__633" fbc:label="G_g__46__239965__46__CDS__46__633"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1119" fbc:name="G_g__46__239965__46__CDS__46__1119" fbc:label="G_g__46__239965__46__CDS__46__1119"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__270" fbc:name="G_g__46__239965__46__CDS__46__270" fbc:label="G_g__46__239965__46__CDS__46__270"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__842" fbc:name="G_g__46__239965__46__CDS__46__842" fbc:label="G_g__46__239965__46__CDS__46__842"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__205" fbc:name="G_g__46__239965__46__CDS__46__205" fbc:label="G_g__46__239965__46__CDS__46__205"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__340" fbc:name="G_g__46__239965__46__CDS__46__340" fbc:label="G_g__46__239965__46__CDS__46__340"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1497" fbc:name="G_g__46__239965__46__CDS__46__1497" fbc:label="G_g__46__239965__46__CDS__46__1497"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__416" fbc:name="G_g__46__239965__46__CDS__46__416" fbc:label="G_g__46__239965__46__CDS__46__416"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__318" fbc:name="G_g__46__239965__46__CDS__46__318" fbc:label="G_g__46__239965__46__CDS__46__318"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1224" fbc:name="G_g__46__239965__46__CDS__46__1224" fbc:label="G_g__46__239965__46__CDS__46__1224"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1461" fbc:name="G_g__46__239965__46__CDS__46__1461" fbc:label="G_g__46__239965__46__CDS__46__1461"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1523" fbc:name="G_g__46__239965__46__CDS__46__1523" fbc:label="G_g__46__239965__46__CDS__46__1523"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__873" fbc:name="G_g__46__239965__46__CDS__46__873" fbc:label="G_g__46__239965__46__CDS__46__873"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__578" fbc:name="G_g__46__239965__46__CDS__46__578" fbc:label="G_g__46__239965__46__CDS__46__578"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1311" fbc:name="G_g__46__239965__46__CDS__46__1311" fbc:label="G_g__46__239965__46__CDS__46__1311"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__305" fbc:name="G_g__46__239965__46__CDS__46__305" fbc:label="G_g__46__239965__46__CDS__46__305"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__706" fbc:name="G_g__46__239965__46__CDS__46__706" fbc:label="G_g__46__239965__46__CDS__46__706"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__177" fbc:name="G_g__46__239965__46__CDS__46__177" fbc:label="G_g__46__239965__46__CDS__46__177"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__793" fbc:name="G_g__46__239965__46__CDS__46__793" fbc:label="G_g__46__239965__46__CDS__46__793"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__665" fbc:name="G_g__46__239965__46__CDS__46__665" fbc:label="G_g__46__239965__46__CDS__46__665"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1042" fbc:name="G_g__46__239965__46__CDS__46__1042" fbc:label="G_g__46__239965__46__CDS__46__1042"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__471" fbc:name="G_g__46__239965__46__CDS__46__471" fbc:label="G_g__46__239965__46__CDS__46__471"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1264" fbc:name="G_g__46__239965__46__CDS__46__1264" fbc:label="G_g__46__239965__46__CDS__46__1264"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1392" fbc:name="G_g__46__239965__46__CDS__46__1392" fbc:label="G_g__46__239965__46__CDS__46__1392"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1136" fbc:name="G_g__46__239965__46__CDS__46__1136" fbc:label="G_g__46__239965__46__CDS__46__1136"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__826" fbc:name="G_g__46__239965__46__CDS__46__826" fbc:label="G_g__46__239965__46__CDS__46__826"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__901" fbc:name="G_g__46__239965__46__CDS__46__901" fbc:label="G_g__46__239965__46__CDS__46__901"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1130" fbc:name="G_g__46__239965__46__CDS__46__1130" fbc:label="G_g__46__239965__46__CDS__46__1130"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1264" fbc:name="G_g__46__239965__46__CDS__46__1264" fbc:label="G_g__46__239965__46__CDS__46__1264"/>
+      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1131" fbc:name="G_g__46__239965__46__CDS__46__1131" fbc:label="G_g__46__239965__46__CDS__46__1131"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__289" fbc:name="G_g__46__239965__46__CDS__46__289" fbc:label="G_g__46__239965__46__CDS__46__289"/>
       <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1345" fbc:name="G_g__46__239965__46__CDS__46__1345" fbc:label="G_g__46__239965__46__CDS__46__1345"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1392" fbc:name="G_g__46__239965__46__CDS__46__1392" fbc:label="G_g__46__239965__46__CDS__46__1392"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1130" fbc:name="G_g__46__239965__46__CDS__46__1130" fbc:label="G_g__46__239965__46__CDS__46__1130"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1136" fbc:name="G_g__46__239965__46__CDS__46__1136" fbc:label="G_g__46__239965__46__CDS__46__1136"/>
-      <fbc:geneProduct fbc:id="G_g__46__239965__46__CDS__46__1131" fbc:name="G_g__46__239965__46__CDS__46__1131" fbc:label="G_g__46__239965__46__CDS__46__1131"/>
     </fbc:listOfGeneProducts>
   </model>
 </sbml>
