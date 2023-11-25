@@ -145,3 +145,4 @@ dmypy.json
 # raw paragraph files
 reaction_paragraphs.txt
 compound_paragraphs.txt
+*.gz
