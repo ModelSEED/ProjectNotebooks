@@ -1,0 +1,11 @@
+from cobra.io import read_sbml_model
+from glob import glob
+from cobra.io import write_sbml_model
+
+for sbml in glob("*.xml"):
+     try:
+         mdl = read_sbml_model(sbml)
+         print(sbml, f"{mdl.name.replace(' ', '_')}.xml")
+         write_sbml_model(mdl, f"{mdl.name.replace(' ', '_')}.xml")
+     except:
+        print("broken model", mdl.name)
