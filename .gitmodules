@@ -1,0 +1,3 @@
+[submodule "CommunityModeling/CommFitting/data/becketal-syntheticconsortia"]
+	path = CommunityModeling/CommFitting/data/becketal-syntheticconsortia
+	url = https://github.com/rosspcarlson/becketal-syntheticconsortia

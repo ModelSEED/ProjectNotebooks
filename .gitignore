@@ -101,6 +101,10 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# GROW genomes
+grow/OWC_MAGS/*
+grow/renamed_gffs/*
+
 # Environments
 .env
 .venv
@@ -118,7 +122,16 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
+*DS_Store
+*/*.DS_Store
 /site
+
+# MSCommfitting
+*.zip
+*.lp
+**/mscommfitting.json
+*/C:/*
+CommunityModeling/CommFitting/simple_kinetics_loop/*
 
 # mypy
 .mypy_cache/
@@ -127,3 +140,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# raw paragraph files
+reaction_paragraphs.txt
+compound_paragraphs.txt
+*.gz
